@@ -1,0 +1,109 @@
+Harness
+- get from harness list 
+- harness hours will get from chamber log.
+*only average resistance needed?
+*added a date column to track current location of harness
+
+Laptops
+- laptop list
+*how many 8gbs needed is not included
+*model vs. model number?
+*win10 upgradable?
+*memory upgrade date?
+
+
+DAR
+- Dar list: J:\NATC Test & Prototype Lab\44. Reporting Data\GVV DAR List for Database
+- dont need: non-highlighted
+*will identify channels uniquely
+-move variants to product table
+
+Chambers
+- chamber list + table David sent
+*have a "test" table to know the compatibility of DARs with tests?- yes
+* have working condition for dars too?
+*cooling column meaning?
+
+Products
+- Name
+- platform
+- communication protocol
+- Voltage level
+- Fluid type (to see if grounding is needed for dielectric oil)
+*will list out fluid pairs instead of storing in one column
+
+
+Programs
+- WBS number
+- variants (one program may have mutiple variants)
+- OEM
+
+Fluids
+- Specification (Name)
+- manufacturer
+- storage location
+- OEM (car company)
+*are OEM the companies whose pumps we are using the fluids on? _ match fluids with programs
+
+Cages
+- cage id
+- program
+- number of DUTs it can hold
+- OEM (car company)
+*OEM already comes with program name
+
+Technicians
+- Lab
+ *
+
+DUTs
+- know what tests its assigned to, completion of those tests.
+- storage date
+- storage bin number (long term storage + anything else)
+* do we need to lab table?
+*added timestamp column to know the latest location of DUT
+
+Chamber Logs:
+- Time in timestamp
+- everything in the log sheet,
+except for part number
+*will have a table for circuit logs, and one for the general info
+
+
+Tests:
+- Lab in which test is conducted
+- schedule (complete, current,..)
+- status (setup, stopped, running, data review,..)
+- hours required for test to complete
+*
+
+Need to know how many hours we spend on running, setup, waiting product, not booked,
+repair and maintenance
+
+0- stopped
+1- setup
+2- running
+
+*is accumulated hours only running time?
+*can r&m be not booked? - unbillable
+*set up and running and not booked can be calculated through status of chamber logs.
+*waiting for test center is waiting to be booked? if yes, the waiting for test center hours can be current date
+minus targeted start
+
+running is accumulated hours, set up is difference in timestamps minus running if status is set to setup
+not booked is difference in timestamps minus running if status is stopped
+waiting product, maintenance can be put as a status for calculation.
+or take status from test table that supervisors update.
+
+- calculate set up time before logs begin?
+*
+running: accumulated hours
+set up: setup date to first log, plus in-test setups - if status is set to setup, get difference in timestamps
+minus difference in accumulated hours of the two logs.
+not booked: if status is set to stopped, difference in timestamp and accumulated hours
+
+
+
+- test type for chambers
+- move variants to product table
+- match fluids with programs

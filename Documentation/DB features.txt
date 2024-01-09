@@ -1,0 +1,42 @@
+1. Individual chamber hours and program hours is calculated based on specified time period.
+- Go through chamber hours table, search log timestamps add up the hours based on date specified
+
+2. What DARs, chambers, cages are being used?
+- View active tests and select the equipment assigned
+
+
+3. When assigning DARs/chambers/cage, be able to see information about these items.
+- Add information columns to equipment tables
+
+4. Know what technicians are available, skills of technicians.
+- display list of technicians and their skills (column in technician table), search for active tests they are assigned to.
+
+5. History of DUTs (test ran on it, information about those tests, received time).
+- many-to-many relationship between Tests and DUTs, showing the pairs of Test and DUTs that went with each other.
+
+
+7. View comments on specific dates, remove need to input dates for each comment.
+- Search for timestamps based on condition
+
+8. Let supervisors make comments on each chamber.
+- Create a column in chamber hours table for comments
+
+
+9. Chambers have multiple circuits (6 max), and we need to know the hours of those circuits, and comments for each circuit.
+- First Method: Can add in columns in chamber log table for each one (this can result in a lot of NUll values if not all 
+chambers have circuits. Each unused circuit is 3 unused NULL entries. If only one circuit is used, this method
+will have 15 unused entries compared to second method. This method also fixes the number of circuits we can enter
+data for at 6 circuits, whereas the other method can have as many as we want.)
+
+Second Method: We can put in comment columns, hours and circuit number columns for a single circuit in each log. (This can put 4 extra
+FK data entries for each circuit. If all circuits are used, we have 24 extra entries than other method)
+
+
+10. Need to know which equipment can be used for a certain product (they are intended for certain products only).
+- Add in association table for products and equipment
+
+11. Need to know when equipment are available based on scheduling (target start, end dates; actual start, end dates in test table).
+- Add in targeted start and end dates and schedule based on these dates
+
+12. Need to know the circuits that DUTs have been in for each test.
+- Add in a circuit number that each DUT was in in the Test-DUT association table
