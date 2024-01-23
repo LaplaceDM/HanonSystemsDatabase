@@ -1,9 +1,10 @@
 from django.db import models
+from django.db.models import Model 
 
 # Create your models here.
 
 class Program(models.Model):
-    program_name = models.CharField(max_length = 50, unique = True, null = True)
+    program_name = models.CharField(max_length = 50, verbose_name = "Program", unique = True, null = True)
     status = models.SmallIntegerField(null = True)
     phase = models.SmallIntegerField(null = True)
     enterproj_id = models.IntegerField(null = True)
@@ -29,7 +30,7 @@ class Product(models.Model):
     variant = models.CharField(max_length = 30, null = True)
     
     product_id = models.AutoField(primary_key=True)
-    program_id = models.ForeignKey( "Program", on_delete = models.CASCADE, null = True, db_column="program_id")
+    program_id = models.ForeignKey( "Program", to_field='program_name', on_delete = models.CASCADE, null = True, db_column="program_id")
 
 class TestMap(models.Model):
     test_map_name = models.CharField(max_length = 30, null = True)
