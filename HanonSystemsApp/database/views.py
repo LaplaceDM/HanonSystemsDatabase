@@ -66,31 +66,31 @@ class ProductListView(SingleTableMixin,  CreateView, FilterView):
     
     model = Product
     table_class = ProductTable
-    template_name = 'html/index.html'
+    template_name = 'html/product.html'
     paginate_by = 20
     filterset_class = ProductFilter
     form_class = ProductForm
-    success_url = '/database/'
+    success_url = '/database/product'
 
     def form_invalid(self, form):
         messages.error(self.request, 'sorry error')
-        return HttpResponseRedirect(reverse("index"))
+        return HttpResponseRedirect(reverse("product"))
 
 class UpdateTableViewProduct(SingleTableMixin,  UpdateView):
     
     
     model = Product
-    template_name = 'html/update.html'
+    template_name = 'html/update_prod.html'
     # form_class = ProductForm
     # template_name_suffix = 'html/index.html'
     fields = '__all__'
-    success_url = '/database/'
+    success_url = '/database/product'
 
 
 
 def delete_item_product(request, pk):
 
-    Product.objects.filter(Product_id=pk).delete()
+    Product.objects.filter(product_id=pk).delete()
 
     items = Product.objects.all()
 
@@ -98,7 +98,7 @@ def delete_item_product(request, pk):
     'items': items
     }
 
-    return HttpResponseRedirect(reverse("index"))
+    return HttpResponseRedirect(reverse("product"))
 
 
 

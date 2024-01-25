@@ -2,13 +2,14 @@ import django_tables2 as tables
 from .models import Program
 from .models import Product
 from django_tables2.utils import A
+from django_tables2_column_shifter.tables import ColumnShiftTableBootstrap3
 
-class ProgramTable(tables.Table):
+class ProgramTable(ColumnShiftTableBootstrap3):
     delete = tables.LinkColumn('delete_item',text='delete', args=[A('pk')], attrs={
     'a': {'class': 'btn'}
     }, orderable = False)
 
-    update = tables.LinkColumn('update',text='update', args=[A('pk')], attrs={
+    update = tables.LinkColumn('update',text='edit', args=[A('pk')], attrs={
     'a': {'class': 'btn'}
     }, orderable = False)
 
@@ -17,12 +18,12 @@ class ProgramTable(tables.Table):
         #template_name = "django_tables2/bootstrap5.html"
         exclude = ("program_id", )
 
-class ProductTable(tables.Table):
+class ProductTable(ColumnShiftTableBootstrap3):
     delete = tables.LinkColumn('delete_product',text='delete', args=[A('pk')], attrs={
     'a': {'class': 'btn'}
     }, orderable = False)
 
-    update = tables.LinkColumn('update_product',text='update', args=[A('pk')], attrs={
+    update = tables.LinkColumn('update_product',text='edit', args=[A('pk')], attrs={
     'a': {'class': 'btn'}
     }, orderable = False)
 

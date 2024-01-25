@@ -13,6 +13,8 @@ class Program(models.Model):
     
     program_id = models.SmallAutoField(primary_key=True)
 
+    def __str__(self):
+        return self.program_name
 
 class Lab(models.Model):
     lab_name = models.CharField(max_length = 20, null = True)
@@ -30,7 +32,7 @@ class Product(models.Model):
     variant = models.CharField(max_length = 30, null = True)
     
     product_id = models.AutoField(primary_key=True)
-    program_id = models.ForeignKey( "Program", to_field='program_name', on_delete = models.CASCADE, null = True, db_column="program_id")
+    program_id = models.ForeignKey( "Program", on_delete = models.CASCADE, null = True, db_column="program_id")
 
 class TestMap(models.Model):
     test_map_name = models.CharField(max_length = 30, null = True)
