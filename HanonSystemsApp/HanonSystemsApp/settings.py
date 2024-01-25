@@ -32,6 +32,9 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'bootstrap3',
+    'bootstrap4',
+    'bootstrap5',
+    'django_tables2_column_shifter',
     'django_filters',
     'django_tables2',
     'django.contrib.admin',
@@ -42,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'database',
     'crispy_forms',
+    'jquery',
     "crispy_bootstrap5"
 ]
 
