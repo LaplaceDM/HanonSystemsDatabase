@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 
 class Program(models.Model):
-    program_name = models.CharField(max_length = 50, unique = True, null = True)
+    program_name = models.CharField(max_length = 50, unique = True, null = True, verbose_name = "something")
     status = models.SmallIntegerField(null = True)
     phase = models.SmallIntegerField(null = True)
     enterproj_id = models.IntegerField(null = True)

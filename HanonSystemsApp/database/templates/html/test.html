@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang = "en">
+    <head>
+        <title>
+            Hello!
+        </title>
+       
+        <script>
+            function sortTable() {
+console.log(document.getElementById("myTable").rows[1].cells[2].textContent)
+}
+
+        </script>
+    <body>
+        <table id="myTable">
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Number
+                </th>
+            </tr>  
+            <tr>
+                <td> 
+                    Thang
+                </td>
+                <td>
+                    10
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Pranav
+                </td>
+                <td> 
+                    8
+                </td>
+            <tr>
+                <td>
+                    a
+                </td>
+                <td>
+                    2
+                </td>
+                <td>
+                    2
+                </td>
+            </tr>
+        </table>
+
+        <button onclick = "sortTable()">
+            sort table
+        </button>
+
+    </body>
