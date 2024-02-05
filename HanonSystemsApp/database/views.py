@@ -109,7 +109,6 @@ def delete_item_product(request, pk):
 
 class TestListView(SingleTableMixin, CreateView, FilterView):
     
-    
     model = Test
     table_class = TestTable
     template_name = 'html/test.html'

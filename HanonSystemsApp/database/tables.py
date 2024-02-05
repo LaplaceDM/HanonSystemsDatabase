@@ -7,11 +7,11 @@ from django_tables2_column_shifter.tables import ColumnShiftTableBootstrap3
 
 
 class ProgramTable(ColumnShiftTableBootstrap3):
-    delete = tables.LinkColumn('delete_item',text='delete', args=[A('pk')], attrs={
+    delete = tables.LinkColumn('delete_program',text='delete', args=[A('pk')], attrs={
     'a': {'class': 'btn'}
-    }, orderable = False)
+    },orderable = False)
 
-    update = tables.LinkColumn('update',text='edit', args=[A('pk')], attrs={
+    update = tables.LinkColumn('update_program',text='edit', args=[A('pk')], attrs={
     'a': {'class': 'btn'}
     }, orderable = False)
 
