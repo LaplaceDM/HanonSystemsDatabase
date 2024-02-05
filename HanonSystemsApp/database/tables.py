@@ -1,8 +1,10 @@
 import django_tables2 as tables
 from .models import Program
 from .models import Product
+from .models import Test
 from django_tables2.utils import A
 from django_tables2_column_shifter.tables import ColumnShiftTableBootstrap3
+
 
 class ProgramTable(ColumnShiftTableBootstrap3):
     delete = tables.LinkColumn('delete_item',text='delete', args=[A('pk')], attrs={
@@ -31,3 +33,22 @@ class ProductTable(ColumnShiftTableBootstrap3):
         model = Product
         #template_name = "django_tables2/bootstrap5.html"
         exclude = ("product_id", )
+
+class TestTable(ColumnShiftTableBootstrap3):
+    delete = tables.LinkColumn('delete_test',text='delete', args=[A('pk')], attrs={
+    'a': {'class': 'btn'}
+    }, orderable = False)
+
+    update = tables.LinkColumn('update_test',text='edit', args=[A('pk')], attrs={
+    'a': {'class': 'btn'}
+    }, orderable = False)
+
+    clone = tables.LinkColumn('clone',text='clone', args=[A('pk')], attrs={
+    'a': {'class': 'btn'}
+    }, orderable = False)
+
+
+    class Meta:
+        model = Test
+        #template_name = "django_tables2/bootstrap5.html"
+        exclude = ("test_id", )
