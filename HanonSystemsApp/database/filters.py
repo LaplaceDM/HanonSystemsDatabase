@@ -11,6 +11,7 @@ class ProgramFilter(django_filters.FilterSet):
     class Meta:
         model = Program
         fields = {'program_name' : [ "contains"], 'status' : [ "exact"], 'phase' : [ "exact"], 'enterproj_id' : [ "contains"], 'wbs_number' : [ "contains"], 'oem' : ["contains"]}
+        exclude = ['delete' ,]
 
 class ProductFilter(django_filters.FilterSet):
     class Meta:
@@ -32,4 +33,3 @@ class TestFilter(django_filters.FilterSet):
         model = Test
         form = TestFilterForm
         exclude = ['delete' ,]
-        fields = {'product_family' : [ "contains"], 'platform' : [ "contains"], 'communication_protocol' : [ "contains"], 'voltage' : [ "contains"], 'variant' : [ "contains"]}
