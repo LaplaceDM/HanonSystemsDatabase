@@ -16,8 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-
+from database.views import ProgramListView
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('database/', include("database.urls"))
+     # path('', include ('database.urls')),
+    path('database/', include ('database.urls'))
 ]

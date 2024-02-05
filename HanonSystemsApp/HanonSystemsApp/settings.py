@@ -31,6 +31,12 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'bootstrap3',
+    'bootstrap4',
+    'bootstrap5',
+    'django_tables2_column_shifter',
+    'django_filters',
+    'django_tables2',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,8 +44,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'database',
-    'django_tables2'
+    'crispy_forms',
+    'jquery',
+    "crispy_bootstrap5"
 ]
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -82,7 +94,7 @@ DATABASES = {
         'NAME': 'hanonsystems_database',
         "USER": "abc",
         "PASSWORD": "abc",
-        "HOST": "localhost\MSSQLSERVER02",
+        "HOST": "CADLD8FQLL3.ad.hanonsystems",
         "PORT": "1433",
         "OPTIONS": {"driver": "ODBC Driver 17 for SQL Server", 
         "setencoding": [

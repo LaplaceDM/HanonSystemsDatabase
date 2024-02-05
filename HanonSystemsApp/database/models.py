@@ -1,9 +1,10 @@
 from django.db import models
+from django.db.models import Model 
 
 # Create your models here.
 
 class Program(models.Model):
-    program_name = models.CharField(max_length = 50, unique = True, null = True, verbose_name = "something")
+    program_name = models.CharField(max_length = 50, verbose_name = "Program", unique = True, null = True)
     status = models.SmallIntegerField(null = True)
     phase = models.SmallIntegerField(null = True)
     enterproj_id = models.IntegerField(null = True)
@@ -12,6 +13,8 @@ class Program(models.Model):
     
     program_id = models.SmallAutoField(primary_key=True)
 
+    def __str__(self):
+        return self.program_name
 
 class Lab(models.Model):
     lab_name = models.CharField(max_length = 20, null = True)
