@@ -45,7 +45,7 @@ class TestMap(models.Model):
 
     program_id = models.ForeignKey( "Program", on_delete = models.CASCADE, null = True, db_column="program_id")
     def __str__(self):
-        return self.test_map_name + ("   ::   ")  +str(self.program_id)
+        return self.tr + (" - ")  +str(self.program_id)
 
 class Technician (models.Model):
     technician_name = models.CharField(max_length = 30)
@@ -110,8 +110,8 @@ class Harness(models.Model):
 
 class Test(models.Model):
     test_id = models.AutoField(primary_key=True)
-    scheduling = models.SmallIntegerField(null =True)
-    status = models.SmallIntegerField(null =True)
+    scheduling = models.CharField(max_length = 15, null =True)
+    status = models.CharField(max_length = 15, null =True)
     targeted_start = models.DateField(null =True)
     targeted_end = models.DateField(null =True)
     supervisor_comments = models.CharField(max_length = 4000, null =True)
@@ -123,12 +123,15 @@ class Test(models.Model):
     test_type_id = models.ForeignKey("TestType", on_delete = models.CASCADE, db_column = "test_type_id", verbose_name = "Test")
     test_map_id = models.ForeignKey("TestMap", on_delete = models.CASCADE, db_column = "test_map_id", verbose_name = "Leg")
     technician_id = models.ForeignKey("Technician", on_delete = models.CASCADE, db_column = "technician_id", verbose_name = "technician")
-    channel_id = models.ForeignKey("DARChannel", on_delete = models.CASCADE, db_column = "channel_id", verbose_name = "DAR")
+    dar_id = models.ForeignKey("DAR", on_delete = models.CASCADE, db_column = "dar_id", verbose_name = "DAR")
     chamber_id = models.ForeignKey("Chamber", on_delete = models.CASCADE, db_column = "chamber_id", verbose_name = "chamber")
     cage_id = models.ForeignKey("Cage", on_delete = models.CASCADE, db_column = "cage_id", verbose_name = "cage")
     lab_id = models.ForeignKey("Lab", on_delete = models.CASCADE, db_column = "lab_id", verbose_name = "Lab")
     program_id = models.ForeignKey( "Program", on_delete = models.CASCADE, null = True, db_column="program_id")
     product_id = models.ForeignKey("Product", on_delete = models.SET_NULL, null = True, db_column = "product_id")
+
+    def __str__(self):
+        return f"{self.chamber_id} {self.targeted_start}";
 
 
 class ChamberLog(models.Model):
@@ -187,6 +190,8 @@ class DAR (models.Model):
     working_condition = models.SmallIntegerField()
 
     lab_id = models.ForeignKey("Lab", on_delete = models.SET_NULL, null=True, db_column = "lab_id")
+    def __str__(self):
+        return self.dar_name
 
 class Chamber(models.Model):
     chamber_id = models.SmallAutoField(primary_key=True)

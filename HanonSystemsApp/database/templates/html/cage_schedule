@@ -1,0 +1,4 @@
+{
+"booking0": {"targeted_start" : "2024-01-08", "targeted_end" : "2024-01-29","test_map_id" : "21212", "test_type_id" : "Endurance Test", "program_id" : "audi", "scheduling" : "current"},
+"booking1": {"targeted_start" : "2024-01-12", "targeted_end" : "2024-01-17","test_map_id" : "21212", "test_type_id" : "Pump Asembly", "program_id" : "22", "scheduling" : "current"}
+}

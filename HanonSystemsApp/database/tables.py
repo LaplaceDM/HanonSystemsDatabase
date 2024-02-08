@@ -17,8 +17,6 @@ class ProgramTable(ColumnShiftTableBootstrap3):
 
     class Meta:
         model = Program
-        #template_name = "django_tables2/bootstrap5.html"
-        exclude = ("program_id", )
 
 class ProductTable(ColumnShiftTableBootstrap3):
     delete = tables.LinkColumn('delete_product',text='delete', args=[A('pk')], attrs={
@@ -31,8 +29,6 @@ class ProductTable(ColumnShiftTableBootstrap3):
 
     class Meta:
         model = Product
-        #template_name = "django_tables2/bootstrap5.html"
-        exclude = ("product_id", )
 
 class TestTable(ColumnShiftTableBootstrap3):
     delete = tables.LinkColumn('delete_test',text='delete', args=[A('pk')], attrs={
