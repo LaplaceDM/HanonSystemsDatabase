@@ -46,5 +46,4 @@ class TestTable(ColumnShiftTableBootstrap3):
 
     class Meta:
         model = Test
-        #template_name = "django_tables2/bootstrap5.html"
         exclude = ("test_id", )

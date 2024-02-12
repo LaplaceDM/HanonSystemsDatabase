@@ -4,7 +4,6 @@ from .models import Program
 from .models import Product
 from .models import Test
 from django import forms
-from .forms import TestFilterForm
 
 
 class ProgramFilter(django_filters.FilterSet):

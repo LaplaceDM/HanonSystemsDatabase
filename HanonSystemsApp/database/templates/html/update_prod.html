@@ -13,24 +13,13 @@
        
 
         {% load crispy_forms_tags %}
-        
-            <!--Django Model Form-->
             <h2 class="my-4">Update an existing product</h2>
             <form action="" method="post">
               {% csrf_token %}
                   {{form}}
                   <button class="btn btn-primary my-4"  onclick="clicked(event)" type="submit">Submit</button>
             </form>
-
             {% render_table table  "django_tables2/bootstrap.html"%} 
-
-        
-
-
-        
-            <!--Django Model-->
-
-       
         <script>
             function clicked(e)
             {
@@ -40,12 +29,9 @@
             }
             var table, rows
             table = document.getElementsByTagName("table").item(0);
-            //console.log(table);
-            //table.className = "table-hover";
             rows = table.rows;
             for (let i = 1; i < rows.length ; i++){
                 x = rows[i].getElementsByTagName("td")[1];
-                //console.log(rows[0].getElementsByTagName("td")[1]);
                 if (x.innerHTML == 1){
                     x.innerHTML = "not working";
                 }

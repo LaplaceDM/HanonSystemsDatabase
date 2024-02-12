@@ -28,15 +28,3 @@ class TestForm(ModelForm):
         exclude = ('created', )
 
 
-class TestFilterForm(forms.Form):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        # Assuming model name as "model", if it really is that you might want to change it
-        self.fields['test_map_id'].queryset = Test.objects.none()
-        if 'program_id' in self.data:
-            try:
-                program_id = int(self.data.get('program_id'))
-                self.fields['test_map_id'].queryset = Test.objects.filter(program_id=program_id)
-            except (ValueError, TypeError):
-                pass
-

@@ -127,24 +127,17 @@
 
 
 
-            {#{% for table in tables %}#}
             {% render_table table  "django_tables2/bootstrap.html"%} 
-         {#{% endfor %}#}
-
-        
-            <!--Django Model-->
 
             
 
        
         <script>
             table3 = document.getElementsByTagName("table").item(3);
-            console.log(table3)
             rows3 = table3.rows;
 
             function hide(e, l){
                 let dec = document.getElementById(e);
-                console.log(dec.checked);
                 if (dec.checked){
                     for (let i = 0; i < rows3.length ; i++){
                         if (i == 0){
@@ -178,14 +171,12 @@
             
 
             table = document.getElementsByTagName("table").item(3);
-            console.log(table)
             rows = table.rows;
             
             
             for (let i = 1; i < rows.length ; i++){
                 x = rows[i].getElementsByTagName("td")[19];
                 y = x.getElementsByClassName("btn")[0];
-                console.log(y);
                 y.onclick = function clicked(e)
                 {
                     if(!confirm('Are you sure?')) {
@@ -212,10 +203,8 @@
             }
 
             function highlight(){
-                //console.log(4);
                 var csrftoken = getCookie('csrftoken');
                 var test_type_id = document.getElementsByName("test_type_id")[1].value;
-                //console.log(test_type_id);
                 fetch("http://127.0.0.1:8000/database/children", {method: "POST", body: test_type_id, headers:{"X-CSRFToken": csrftoken}})
                 .then((response)=>
                 fetch("http://127.0.0.1:8000/database/getchildren")
@@ -230,7 +219,6 @@
                         values[j].setAttribute("style","background-color: #ffffff");
                     }
                     for (let i = 0; i<keys.length;i++){
-                        //console.log(eval(`result.${keys[i]}.chamber_id`))
                         for (let j = 0; j<values.length;j++){
                             if (eval(`result.${keys[i]}.chamber_id`) === values[j].value){
                                 values[j].setAttribute("style","background-color: #90EE90");
@@ -255,10 +243,8 @@
                 })
             }
             function highlight2(){
-                //console.log(4);
                 var csrftoken = getCookie('csrftoken');
                 var program_id = document.getElementsByName("program_id")[1].value;
-                //console.log(program_id);
                 fetch("http://127.0.0.1:8000/database/darchildren", {method: "POST", body: program_id, headers:{"X-CSRFToken": csrftoken}})
                 .then((response)=>
                 fetch("http://127.0.0.1:8000/database/getdarchildren")
@@ -279,8 +265,6 @@
                         values2[j].setAttribute("style","background-color: #ffffff");
                     }
                     for (let i = 0; i<keys.length;i++){
-                        console.log(eval(`result.${keys[i]}.dar_id`))
-                        console.log(eval(`result.${keys[i]}.cage_id`))
                         if (eval(`result.${keys[i]}.dar_id`) != null){
                             for (let j = 0; j<values.length;j++){
                                 if (eval(`result.${keys[i]}.dar_id`) === values[j].value){

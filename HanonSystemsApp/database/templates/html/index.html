@@ -38,14 +38,10 @@
 
             
 
-
-            {#{% for table in tables %}#}
             {% render_table table  "django_tables2/bootstrap.html"%} 
-         {#{% endfor %}#}
 
         
         
-            <!--Django Model-->
 
        
         <script>
@@ -57,12 +53,9 @@
                 }
             var table, rows
             table = document.getElementsByTagName("table").item(0);
-            //console.log(table);
-            //table.className = "table-hover";
             rows = table.rows;
             for (let i = 1; i < rows.length ; i++){
                 x = rows[i].getElementsByTagName("td")[1];
-                //console.log(rows[0].getElementsByTagName("td")[1]);
                 if (x.innerHTML == 1){
                     x.innerHTML = "not working";
                 }
@@ -77,23 +70,12 @@
             for (let i = 1; i < rows.length ; i++){
                 x = rows[i].getElementsByTagName("td")[6];
                 y = x.getElementsByClassName("btn")[0];
-                console.log(y);
                 y.onclick = function clicked(e)
                 {
                     if(!confirm('Are you sure?')) {
                         e.preventDefault();
                     }
                 };
-                //console.log(rows[0].getElementsByTagName("td")[1]);
-                /*if (x.innerHTML == 1){
-                    x.innerHTML = "not working";
-                }
-                else if (x.innerHTML == 2){
-                    x.innerHTML = "working";
-                }
-                else {
-                    x.innerHTML = "crashed";
-                }*/
             }
             
             
