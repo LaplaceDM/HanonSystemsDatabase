@@ -12,7 +12,7 @@
     <head>
         <title>Tests </title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet"  href="{% static 'database/styles.css' %}">
+        <link rel="stylesheet"  href="{% static 'database/test.css' %}">
     </head>
     
     <body>
@@ -38,6 +38,8 @@
             </form>
 
             
+            
+
             <input type="checkbox" id="checkcreated" onclick="hide('checkcreated', 0)">
             <label for="checkcreated"> created</label>
             <input type="checkbox" id="checkScheduling" onclick="hide('checkScheduling', 1)">
@@ -84,11 +86,51 @@
             <input type="checkbox" id="checkclone" onclick="hide('checkclone', 21)">
             <label for="checkProduct id"> Clone</label>
 
+            <table id ="chamberschedule">
+                <caption id = "chamberschedulecaption">Selected Chamber's Test Schedule</caption>
+                <tr>
+                    <th>Program</th>
+                    <th>Product</th>
+                    <th>TR</th>
+                    <th>Test</th>
+                    <th>Scheduling</th>
+                    <th>Booked Time</th>
+                </tr>
+                
+            </table>
+
+            <table id ="darschedule">
+                <caption id = "darschedulecaption">Selected DAR's Test Schedule</caption>
+                <tr>
+                    <th>Program</th>
+                    <th>Product</th>
+                    <th>TR</th>
+                    <th>Test</th>
+                    <th>Scheduling</th>
+                    <th>Booked Time</th>
+                </tr>
+                
+            </table>
+
+            <table id ="cageschedule">
+                <caption id = "cageschedulecaption">Selected Cage's Test Schedule</caption>
+                <tr>
+                    <th>Program</th>
+                    <th>Product</th>
+                    <th>TR</th>
+                    <th>Test</th>
+                    <th>Scheduling</th>
+                    <th>Booked Time</th>
+                </tr>
+                
+            </table>
+
+
+
             {#{% for table in tables %}#}
             {% render_table table  "django_tables2/bootstrap.html"%} 
          {#{% endfor %}#}
 
-        
         
             <!--Django Model-->
 
@@ -96,30 +138,31 @@
 
        
         <script>
-            table = document.getElementsByTagName("table").item(0);
-            rows = table.rows;
+            table3 = document.getElementsByTagName("table").item(3);
+            console.log(table3)
+            rows3 = table3.rows;
 
             function hide(e, l){
                 let dec = document.getElementById(e);
                 console.log(dec.checked);
                 if (dec.checked){
-                    for (let i = 0; i < rows.length ; i++){
+                    for (let i = 0; i < rows3.length ; i++){
                         if (i == 0){
-                            x = rows[i].getElementsByTagName("th")[l];
+                            x = rows3[i].getElementsByTagName("th")[l];
                             x.hidden = true;
                             continue;
                         }
-                        x = rows[i].getElementsByTagName("td")[l];
+                        x = rows3[i].getElementsByTagName("td")[l];
                         x.hidden = true;
                     }
                 }else{
-                    for (let i = 0; i < rows.length ; i++){
+                    for (let i = 0; i < rows3.length ; i++){
                         if (i == 0){
-                            x = rows[i].getElementsByTagName("th")[l];
+                            x = rows3[i].getElementsByTagName("th")[l];
                             x.hidden = false;
                             continue;
                         }
-                        x = rows[i].getElementsByTagName("td")[l];
+                        x = rows3[i].getElementsByTagName("td")[l];
                         x.hidden = false;
                     }
                 }
@@ -132,9 +175,11 @@
                     }
                 }
             var table, rows
-            //console.log(table);
-            //table.className = "table-hover";
             
+
+            table = document.getElementsByTagName("table").item(3);
+            console.log(table)
+            rows = table.rows;
             
             
             for (let i = 1; i < rows.length ; i++){
@@ -147,17 +192,8 @@
                         e.preventDefault();
                     }
                 };
-                //console.log(rows[0].getElementsByTagName("td")[1]);
-                /*if (x.innerHTML == 1){
-                    x.innerHTML = "not working";
-                }
-                else if (x.innerHTML == 2){
-                    x.innerHTML = "working";
-                }
-                else {
-                    x.innerHTML = "crashed";
-                }*/
             }
+
 
            
             function getCookie(name) {
@@ -294,6 +330,208 @@
             
             
 
+
+
+            
+
+            function getChamberSchedule(){
+                var chamber_id = document.getElementsByName("chamber_id")[1].value;
+                var csrftoken = getCookie('csrftoken');
+                
+                fetch("http://127.0.0.1:8000/database/chamberschedule", {method: "POST", body: chamber_id, headers:{"X-CSRFToken": csrftoken}})
+                .then((response)=>
+                fetch("http://127.0.0.1:8000/database/getchamberschedule")
+                )
+                .then(result=> result.json())
+                .then(result=>{
+                    var innerHTML, row, program, product, tr, test, booking_period, status;
+                    var keys = Object.keys(result);
+                    const schedule = document.getElementById("chamberschedule");
+                    schedule.innerHTML = `
+                    <caption id = "chamberschedulecaption">Selected Chamber's Test Schedule</caption>
+                    <tr>
+                        <th>Program</th>
+                        <th>Product</th>
+                        <th>TR</th>
+                        <th>Test</th>
+                        <th>Scheduling</th>
+                        <th>Booked Time</th>
+                    </tr>`;
+                    for (var i = 0; i<keys.length;i++){
+                        row = document.createElement("tr");
+                        row.id = `chamber booking ${i+1}`;
+                        program = document.createElement("td");
+                        product = document.createElement("td");
+                        tr = document.createElement("td");
+                        test = document.createElement("td");
+                        scheduling = document.createElement("td");
+                        booking_period = document.createElement("td");
+                        
+                        program.innerHTML = eval(`result.${keys[i]}.program_id`);
+                        product.innerHTML = eval(`result.${keys[i]}.product_id`);
+                        tr.innerHTML = eval(`result.${keys[i]}.test_map_id`);
+                        test.innerHTML = eval(`result.${keys[i]}.test_type_id`);
+                        scheduling.innerHTML = eval(`result.${keys[i]}.scheduling`);
+                        booking_period.innerHTML = eval(`result.${keys[i]}.targeted_start`) + " until " + eval(`result.${keys[i]}.targeted_end`);
+
+                        row.appendChild(program);
+                        row.appendChild(product);
+                        row.appendChild(tr);
+                        row.appendChild(test);
+                        row.appendChild(scheduling);
+                        row.appendChild(booking_period);
+                        schedule.appendChild(row);
+                    }
+                })
+                .catch(()=>{
+                const schedule = document.getElementById("chamberschedule");
+                schedule.innerHTML = `
+                <caption id = "chamberschedulecaption">Selected Chamber's Test Schedule</caption>
+                <tr>
+                    <th>Program</th>
+                    <th>Product</th>
+                    <th>TR</th>
+                    <th>Test</th>
+                    <th>Scheduling</th>
+                    <th>Booked Time</th>
+                </tr>
+                <tr> No chamber selected </tr>
+                `;})
+            }
+
+            function getDARSchedule(){
+                var dar_id = document.getElementsByName("dar_id")[1].value;
+                var csrftoken = getCookie('csrftoken');
+                
+                fetch("http://127.0.0.1:8000/database/darschedule", {method: "POST", body: dar_id, headers:{"X-CSRFToken": csrftoken}})
+                .then((response)=>
+                fetch("http://127.0.0.1:8000/database/getdarschedule")
+                )
+                .then(result=> result.json())
+                .then(result=>{
+                    var innerHTML, row, program, product, tr, test, booking_period, status;
+                    var keys = Object.keys(result);
+                    const schedule = document.getElementById("darschedule");
+                    schedule.innerHTML = `
+                    <caption id = "darschedulecaption">Selected DAR's Test Schedule</caption>
+                    <tr>
+                        <th>Program</th>
+                        <th>Product</th>
+                        <th>TR</th>
+                        <th>Test</th>
+                        <th>Scheduling</th>
+                        <th>Booked Time</th>
+                    </tr>`;
+                    for (var i = 0; i<keys.length;i++){
+                        row = document.createElement("tr");
+                        row.id = `DAR booking ${i+1}`;
+                        program = document.createElement("td");
+                        product = document.createElement("td");
+                        tr = document.createElement("td");
+                        test = document.createElement("td");
+                        scheduling = document.createElement("td");
+                        booking_period = document.createElement("td");
+                        
+                        program.innerHTML = eval(`result.${keys[i]}.program_id`);
+                        product.innerHTML = eval(`result.${keys[i]}.product_id`);
+                        tr.innerHTML = eval(`result.${keys[i]}.test_map_id`);
+                        test.innerHTML = eval(`result.${keys[i]}.test_type_id`);
+                        scheduling.innerHTML = eval(`result.${keys[i]}.scheduling`);
+                        booking_period.innerHTML = eval(`result.${keys[i]}.targeted_start`) + " until " + eval(`result.${keys[i]}.targeted_end`);
+
+                        row.appendChild(program);
+                        row.appendChild(product);
+                        row.appendChild(tr);
+                        row.appendChild(test);
+                        row.appendChild(scheduling);
+                        row.appendChild(booking_period);
+                        schedule.appendChild(row);
+                    }
+                })
+                .catch(()=>{
+                const schedule = document.getElementById("darschedule");
+                schedule.innerHTML = `
+                <caption id = "darschedulecaption">Selected DAR's Test Schedule</caption>
+                <tr>
+                    <th>Program</th>
+                    <th>Product</th>
+                    <th>TR</th>
+                    <th>Test</th>
+                    <th>Scheduling</th>
+                    <th>Booked Time</th>
+                </tr>
+                <tr> No DAR selected </tr>
+                `;})
+            }
+
+            function getCageSchedule(){
+                var cage_id = document.getElementsByName("cage_id")[1].value;
+                var csrftoken = getCookie('csrftoken');
+                
+                fetch("http://127.0.0.1:8000/database/cageschedule", {method: "POST", body: cage_id, headers:{"X-CSRFToken": csrftoken}})
+                .then((response)=>
+                fetch("http://127.0.0.1:8000/database/getcageschedule")
+                )
+                .then(result=> result.json())
+                .then(result=>{
+                    var innerHTML, row, program, product, tr, test, booking_period, status;
+                    var keys = Object.keys(result);
+                    const schedule = document.getElementById("cageschedule");
+                    schedule.innerHTML = `
+                    <caption id = "cageschedulecaption">Selected Cage's Test Schedule</caption>
+                    <tr>
+                        <th>Program</th>
+                        <th>Product</th>
+                        <th>TR</th>
+                        <th>Test</th>
+                        <th>Scheduling</th>
+                        <th>Booked Time</th>
+                    </tr>`;
+                    for (var i = 0; i<keys.length;i++){
+                        row = document.createElement("tr");
+                        row.id = `cage booking ${i+1}`;
+                        program = document.createElement("td");
+                        product = document.createElement("td");
+                        tr = document.createElement("td");
+                        test = document.createElement("td");
+                        scheduling = document.createElement("td");
+                        booking_period = document.createElement("td");
+                        
+                        program.innerHTML = eval(`result.${keys[i]}.program_id`);
+                        product.innerHTML = eval(`result.${keys[i]}.product_id`);
+                        tr.innerHTML = eval(`result.${keys[i]}.test_map_id`);
+                        test.innerHTML = eval(`result.${keys[i]}.test_type_id`);
+                        scheduling.innerHTML = eval(`result.${keys[i]}.scheduling`);
+                        booking_period.innerHTML = eval(`result.${keys[i]}.targeted_start`) + " until " + eval(`result.${keys[i]}.targeted_end`);
+
+                        row.appendChild(program);
+                        row.appendChild(product);
+                        row.appendChild(tr);
+                        row.appendChild(test);
+                        row.appendChild(scheduling);
+                        row.appendChild(booking_period);
+                        schedule.appendChild(row);
+                    }
+                })
+                .catch(()=>{
+                const schedule = document.getElementById("cageschedule");
+                schedule.innerHTML = `
+                <caption id = "cageschedulecaption">Selected Cage's Test Schedule</caption>
+                <tr>
+                    <th>Program</th>
+                    <th>Product</th>
+                    <th>TR</th>
+                    <th>Test</th>
+                    <th>Scheduling</th>
+                    <th>Booked Time</th>
+                </tr>
+                <tr> No cage selected </tr>
+                `;})
+            }
+
+            document.getElementsByName("chamber_id")[1].addEventListener("input", getChamberSchedule);
+            document.getElementsByName("dar_id")[1].addEventListener("input", getDARSchedule);
+            document.getElementsByName("cage_id")[1].addEventListener("input", getCageSchedule);
 
         </script>
     </body>

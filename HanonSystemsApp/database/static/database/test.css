@@ -1,0 +1,24 @@
+#chamberschedule th, #chamberschedule td, #darschedule th, #darschedule td, #cageschedule th, #cageschedule td{
+    padding: 7px;
+}
+
+#chamberschedulecaption, #darschedulecaption, #cageschedulecaption, #chamberschedule, #chamberschedule td, #chamberschedule th, #darschedule, #darschedule td, #darschedule th, #cageschedule, #cageschedule td, #cageschedule th{
+    border-collapse: collapse;
+    border: 1px solid;
+}
+
+#chamberschedule th, #darschedule th, #cageschedule th{
+    text-align:center;
+}
+
+#chamberschedulecaption, #darschedulecaption, #cageschedulecaption{
+    text-align:center;
+    font-weight: bold;
+}
+
+#chamberschedule, #darschedule,#cageschedule {
+    display: inline-block;
+    margin-left: 20px;
+    margin-top: 15px;
+    vertical-align: top;
+}

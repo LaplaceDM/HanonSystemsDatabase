@@ -47,7 +47,7 @@ class TestMap(models.Model):
 
     program_id = models.ForeignKey( "Program", on_delete = models.CASCADE, null = True, db_column="program_id")
     def __str__(self):
-        return self.test_map_name + ("   ::   ")  +str(self.program_id)
+        return self.tr + (" - ")  +str(self.program_id)
 
 class Technician (models.Model):
     technician_name = models.CharField(max_length = 30)
@@ -113,8 +113,8 @@ class Harness(models.Model):
 class Test(models.Model):
     created = models.DateTimeField(default=timezone.now)
     test_id = models.AutoField(primary_key=True)
-    scheduling = models.SmallIntegerField(null =True)
-    status = models.SmallIntegerField(null =True)
+    scheduling = models.CharField(max_length = 15, null =True)
+    status = models.CharField(max_length = 15, null =True)
     targeted_start = models.DateField(null =True)
     targeted_end = models.DateField(null =True)
     supervisor_comments = models.CharField(max_length = 4000, null =True)
@@ -132,6 +132,9 @@ class Test(models.Model):
     lab_id = models.ForeignKey("Lab", on_delete = models.CASCADE, db_column = "lab_id", verbose_name = "Lab")
     program_id = models.ForeignKey( "Program", on_delete = models.CASCADE, null = True, db_column="program_id")
     product_id = models.ForeignKey("Product", on_delete = models.SET_NULL, null = True, db_column = "product_id")
+
+    def __str__(self):
+        return f"{self.chamber_id} {self.targeted_start}";
 
 
 class ChamberLog(models.Model):
