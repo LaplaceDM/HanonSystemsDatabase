@@ -22,11 +22,10 @@ class TestForm(ModelForm):
     targeted_end = forms.DateField(
         widget = forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}))
     setup_date = forms.DateField(
-        widget = forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}))
-        
+        widget = forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}))        
     class Meta:
         model = Test
-        fields = '__all__' 
+        exclude = ('created', )
 
 
 class TestFilterForm(forms.Form):

@@ -38,7 +38,51 @@
             </form>
 
             
-
+            <input type="checkbox" id="checkcreated" onclick="hide('checkcreated', 0)">
+            <label for="checkcreated"> created</label>
+            <input type="checkbox" id="checkScheduling" onclick="hide('checkScheduling', 1)">
+            <label for="checkScheduling"> Scheduling</label>
+            <input type="checkbox" id="checkStatus" onclick="hide('checkStatus', 2)">
+            <label for="checkStatus"> Status</label>
+            <input type="checkbox" id="checkTargeted start" onclick="hide('checkTargeted start', 3)">
+            <label for="checkTargeted start"> Targeted Start</label>
+            <input type="checkbox" id="checkTargeted end" onclick="hide('checkTargeted end', 4)">
+            <label for="checkTargeted end"> Targeted end</label>
+            <input type="checkbox" id="checkSupervisor comments" onclick="hide('checkSupervisor comments', 5)">
+            <label for="checkSupervisor comments"> Supervisor comments</label>
+            <input type="checkbox" id="checkHours planned" onclick="hide('checkHours planned', 6)">
+            <label for="checkHours planned"> Hours planned</label>
+            <input type="checkbox" id="checkSetup date" onclick="hide('checkSetup date', 7)">
+            <label for="checkSetup date"> Setup date</label>
+            <input type="checkbox" id="checkPriority" onclick="hide('checkPriority', 8)">
+            <label for="checkPriority"> Priority</label>
+            <input type="checkbox" id="checkStatus log" onclick="hide('checkStatus log', 9)">
+            <label for="checkStatus log"> Status log</label>
+            <input type="checkbox" id="checkTest" onclick="hide('checkTest', 10)">
+            <label for="checkTest"> Test</label>
+            <input type="checkbox" id="checkLeg" onclick="hide('checkLeg', 11)">
+            <label for="checkLeg"> Leg</label>
+            <input type="checkbox" id="checkTechnician" onclick="hide('checkTechnician', 12)">
+            <label for="checkTechnician"> Technician</label>
+            <input type="checkbox" id="checkDAR" onclick="hide('checkDAR', 13)">
+            <label for="checkDAR"> DAR</label>
+            <input type="checkbox" id="checkChamber" onclick="hide('checkChamber', 14)">
+            <label for="checkChamber"> Chamber</label>
+            <input type="checkbox" id="checkCage" onclick="hide('checkCage', 15)">
+            <label for="checkCage"> Cage</label>
+            <input type="checkbox" id="checkLab" onclick="hide('checkLab', 16)">
+            <label for="checkLab"> Lab</label>
+            <input type="checkbox" id="checkProgram id" onclick="hide('checkProgram id', 17)">
+            <label for="checkProgram id"> Program id</label>
+            <input type="checkbox" id="checkProduct id" onclick="hide('checkProduct id', 18)">
+            <label for="checkProduct id"> Product id</label>
+            
+            <input type="checkbox" id="checkdelete" onclick="hide('checkdelete', 19)">
+            <label for="checkLab"> Delete</label>
+            <input type="checkbox" id="checkupdate" onclick="hide('checkupdate', 20)">
+            <label for="checkProgram id"> Update</label>
+            <input type="checkbox" id="checkclone" onclick="hide('checkclone', 21)">
+            <label for="checkProduct id"> Clone</label>
 
             {#{% for table in tables %}#}
             {% render_table table  "django_tables2/bootstrap.html"%} 
@@ -48,8 +92,39 @@
         
             <!--Django Model-->
 
+            
+
        
         <script>
+            table = document.getElementsByTagName("table").item(0);
+            rows = table.rows;
+
+            function hide(e, l){
+                let dec = document.getElementById(e);
+                console.log(dec.checked);
+                if (dec.checked){
+                    for (let i = 0; i < rows.length ; i++){
+                        if (i == 0){
+                            x = rows[i].getElementsByTagName("th")[l];
+                            x.hidden = true;
+                            continue;
+                        }
+                        x = rows[i].getElementsByTagName("td")[l];
+                        x.hidden = true;
+                    }
+                }else{
+                    for (let i = 0; i < rows.length ; i++){
+                        if (i == 0){
+                            x = rows[i].getElementsByTagName("th")[l];
+                            x.hidden = false;
+                            continue;
+                        }
+                        x = rows[i].getElementsByTagName("td")[l];
+                        x.hidden = false;
+                    }
+                }
+            }
+
             function clicked(e)
                 {
                     if(!confirm('Are you sure?')) {
@@ -57,27 +132,13 @@
                     }
                 }
             var table, rows
-            table = document.getElementsByTagName("table").item(0);
             //console.log(table);
             //table.className = "table-hover";
-            rows = table.rows;
-            for (let i = 1; i < rows.length ; i++){
-                x = rows[i].getElementsByTagName("td")[1];
-                //console.log(rows[0].getElementsByTagName("td")[1]);
-                if (x.innerHTML == 1){
-                    x.innerHTML = "not working";
-                }
-                else if (x.innerHTML == 2){
-                    x.innerHTML = "working";
-                }
-                else {
-                    x.innerHTML = "crashed";
-                }
-            }
+            
             
             
             for (let i = 1; i < rows.length ; i++){
-                x = rows[i].getElementsByTagName("td")[18];
+                x = rows[i].getElementsByTagName("td")[19];
                 y = x.getElementsByClassName("btn")[0];
                 console.log(y);
                 y.onclick = function clicked(e)
@@ -97,6 +158,139 @@
                     x.innerHTML = "crashed";
                 }*/
             }
+
+           
+            function getCookie(name) {
+                var cookieValue = null;
+                    if (document.cookie && document.cookie !== '') {
+                        var cookies = document.cookie.split(';');
+                        for (var i = 0; i < cookies.length; i++) {
+                            var cookie = cookies[i].trim();
+                            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                break;
+                            }
+                        }
+                    }
+                return cookieValue;
+            }
+
+            function highlight(){
+                //console.log(4);
+                var csrftoken = getCookie('csrftoken');
+                var test_type_id = document.getElementsByName("test_type_id")[1].value;
+                //console.log(test_type_id);
+                fetch("http://127.0.0.1:8000/database/children", {method: "POST", body: test_type_id, headers:{"X-CSRFToken": csrftoken}})
+                .then((response)=>
+                fetch("http://127.0.0.1:8000/database/getchildren")
+                )
+                .then(result=> result.json())
+                .then(result=>{
+                    var keys = Object.keys(result)
+                    let prod = document.getElementsByName("chamber_id")[1]
+                    let values = prod.getElementsByTagName("option")
+                    let int = 0;
+                    for (let j = 0; j<values.length;j++){
+                        values[j].setAttribute("style","background-color: #ffffff");
+                    }
+                    for (let i = 0; i<keys.length;i++){
+                        //console.log(eval(`result.${keys[i]}.chamber_id`))
+                        for (let j = 0; j<values.length;j++){
+                            if (eval(`result.${keys[i]}.chamber_id`) === values[j].value){
+                                values[j].setAttribute("style","background-color: #90EE90");
+                                int++;
+                            }
+                        }
+                    }
+                    if (int === 0){
+                        for (let j = 0; j<values.length;j++){
+                        values[j].setAttribute("style","background-color: #ffffff");
+                    }
+                    }
+                }
+                )
+                .catch(()=>{
+                    let prod = document.getElementsByName("chamber_id")[1]
+                    let values = prod.getElementsByTagName("option")
+                    for (let j = 0; j<values.length;j++){
+                        values[j].setAttribute("style","background-color: #ffffff");
+                    }
+
+                })
+            }
+            function highlight2(){
+                //console.log(4);
+                var csrftoken = getCookie('csrftoken');
+                var program_id = document.getElementsByName("program_id")[1].value;
+                //console.log(program_id);
+                fetch("http://127.0.0.1:8000/database/darchildren", {method: "POST", body: program_id, headers:{"X-CSRFToken": csrftoken}})
+                .then((response)=>
+                fetch("http://127.0.0.1:8000/database/getdarchildren")
+                )
+                .then(result=> result.json())
+                .then(result=>{
+                    var keys = Object.keys(result)
+                    let prod = document.getElementsByName("dar_id")[1]
+                    let values = prod.getElementsByTagName("option")
+                    let prod2 = document.getElementsByName("cage_id")[1]
+                    let values2 = prod2.getElementsByTagName("option")
+                    let int = 0;
+                    let int2 = 0;
+                    for (let j = 0; j<values.length;j++){
+                        values[j].setAttribute("style","background-color: #ffffff");
+                    }
+                    for (let j = 0; j<values2.length;j++){
+                        values2[j].setAttribute("style","background-color: #ffffff");
+                    }
+                    for (let i = 0; i<keys.length;i++){
+                        console.log(eval(`result.${keys[i]}.dar_id`))
+                        console.log(eval(`result.${keys[i]}.cage_id`))
+                        if (eval(`result.${keys[i]}.dar_id`) != null){
+                            for (let j = 0; j<values.length;j++){
+                                if (eval(`result.${keys[i]}.dar_id`) === values[j].value){
+                                    values[j].setAttribute("style","background-color: #90EE90");
+                                    int++;
+                                }
+                            }
+                        }
+                        if (eval(`result.${keys[i]}.cage_id`) != null){
+                            for (let j = 0; j<values2.length;j++){
+                                if (eval(`result.${keys[i]}.cage_id`) === values2[j].value){
+                                    values2[j].setAttribute("style","background-color: #90EE90");
+                                    int2++;
+                                }
+                            }
+                        }
+                    }
+                    if (int === 0){
+                        for (let j = 0; j<values.length;j++){
+                        values[j].setAttribute("style","background-color: #ffffff");
+                    }
+                    }
+                    if (int2 === 0){
+                        for (let j = 0; j<values2.length;j++){
+                        values2[j].setAttribute("style","background-color: #ffffff");
+                    }
+                    }
+                }
+                )
+                .catch(()=>{
+                    let prod = document.getElementsByName("dar_id")[1]
+                    let values = prod.getElementsByTagName("option")
+                    let prod2 = document.getElementsByName("cage_id")[1]
+                    let values2 = prod2.getElementsByTagName("option")
+                    for (let j = 0; j<values.length;j++){
+                        values[j].setAttribute("style","background-color: #ffffff");
+                    }
+                    for (let j = 0; j<values2.length;j++){
+                        values2[j].setAttribute("style","background-color: #ffffff");
+                    }
+
+                })
+            }
+            document.getElementsByName("test_type_id")[1].addEventListener("input", highlight)
+            document.getElementsByName("program_id")[1].addEventListener("input", highlight2)
+            
             
             
 

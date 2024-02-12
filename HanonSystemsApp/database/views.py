@@ -2,6 +2,9 @@ from django.views.generic import ListView
 from .models import Program
 from .models import Product
 from .models import Test
+from .models import Test_Chamber
+from .models import Program_DAR
+from .models import Program_Cage
 from django.shortcuts import render
 from django_filters.views import FilterView
 from .filters import ProgramFilter
@@ -25,7 +28,8 @@ from django.views.generic.edit import DeleteView
 from django.views.generic.edit import UpdateView
 from django_tables2 import MultiTableMixin
 from django.views.generic.base import TemplateView
-
+from django.utils import timezone
+from django.http import HttpResponse
 
 class ProgramListView(SingleTableMixin,  CreateView, FilterView):
     
@@ -130,6 +134,7 @@ class UpdateTableViewTest(SingleTableMixin,  UpdateView):
     
     
     model = Test
+    table_class = TestTable
     template_name = 'html/update_prod.html'
     form_class = TestForm
     # template_name_suffix = 'html/index.html'
@@ -154,10 +159,75 @@ def clone_item(request, pk):
 
     obj = Test.objects.get(test_id = pk)
     obj.pk = None
+    obj.created = timezone.now()
     obj.save()
 
     return HttpResponseRedirect(reverse("test"))
 
+
+
+def children(request):
+    test_type_id = request.body
+    try:
+        test_type_id = int(test_type_id)
+    except:
+        a = open("database/templates/html/children", "w")
+        a.write("{\n")
+        a.close()
+        return HttpResponse()
+    else:
+        test_cham = Test_Chamber.objects.filter(test_type_id = test_type_id) #.order_by("targeted_start");
+        a = open("database/templates/html/children", "w")
+        a.write("{\n")
+        a.close()
+        a = open("database/templates/html/children", "a")
+        for i in range(len(test_cham)):
+            a.write(f'\"id{i}\": {{\"chamber_id\" : \"{test_cham[i].chamber_id.chamber_id}\"}}')
+            if i != (len(test_cham)-1):
+                a.write(",\n")
+        a.write("\n}")
+        a.close()
+        return HttpResponse("product highligth compiled")
+    
+def getchildren(request):
+    return render(request, "html/children")
+
+
+def darchildren(request):
+    program_id = request.body
+    try:
+        program_id = int(program_id)
+    except:
+        a = open("database/templates/html/children", "w")
+        a.write("{\n")
+        a.close()
+        return HttpResponse()
+    else:
+        prog_dar = Program_DAR.objects.filter(program_id = program_id) #.order_by("targeted_start");
+        prog_cage = Program_Cage.objects.filter(program_id = program_id)
+        a = open("database/templates/html/children", "w")
+        a.write("{\n")
+        a.close()
+        a = open("database/templates/html/children", "a")
+        b = 0
+        for i in range(len(prog_dar)):
+            b = b+1
+            a.write(f'\"id{i}\": {{\"dar_id\" : \"{prog_dar[i].dar_id.dar_id}\"}}')
+            if i != (len(prog_dar)-1):
+                a.write(",\n")
+        if (len(prog_dar) > 0 and len(prog_cage) > 0):
+            a.write(",\n")
+        for i in range(len(prog_cage)):
+            a.write(f'\"id{b}\": {{\"cage_id\" : \"{prog_cage[i].cage_id.cage_id}\"}}')
+            b = b + 1
+            if i != (len(prog_cage)-1):
+                a.write(",\n")
+        a.write("\n}")
+        a.close()
+        return HttpResponse("product highligth compiled")
+    
+def getdarchildren(request):
+    return render(request, "html/children")
 """
 class TestTablesView(MultiTableMixin, TemplateView):
     items = Test.objects.all()
