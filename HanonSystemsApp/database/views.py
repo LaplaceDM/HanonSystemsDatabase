@@ -1,7 +1,5 @@
 from django.views.generic import ListView 
-from .models import Program
-from .models import Product
-from .models import Test
+from .models import *
 from django.shortcuts import render
 from django_filters.views import FilterView
 from .filters import ProgramFilter
@@ -157,6 +155,7 @@ class TestTablesView(MultiTableMixin, TemplateView):
 def chamber_schedule(request):
     chamber_id = request.body;
     try:
+        
         chamber_id = int(chamber_id);
     except:
         a = open("database/templates/html/chamber_schedule", "w");
@@ -173,10 +172,10 @@ def chamber_schedule(request):
         for i in range(len(chamber_tests)):
             a.write(f'\"booking{i}\": {{\"targeted_start\" : \"{chamber_tests[i].targeted_start}\", \"targeted_end\" : \"{chamber_tests[i].targeted_end}\",' 
                     + f'\"test_map_id\" : \"{chamber_tests[i].test_map_id.tr}\", \"test_type_id\" : \"{chamber_tests[i].test_type_id}\", \"program_id\" : '
-                    + f'\"{chamber_tests[i].program_id}\", \"scheduling\" : \"{chamber_tests[i].scheduling}\"}}');
-            if i != (len(chamber_tests)-1):
-                a.write(",\n")
-        a.write("\n}");
+                    + f'\"{chamber_tests[i].program_id}\", \"scheduling\" : \"{chamber_tests[i].scheduling}\"}},\n');
+
+        chamber = Chamber.objects.get(pk = chamber_id);
+        a.write(f'\"chamber\": \"{chamber.chamber_name}\"\n}}');
         a.close();
         return HttpResponse("Chamber schedule compiled");
 
@@ -202,10 +201,10 @@ def dar_schedule(request):
         for i in range(len(dar_tests)):
             a.write(f'\"booking{i}\": {{\"targeted_start\" : \"{dar_tests[i].targeted_start}\", \"targeted_end\" : \"{dar_tests[i].targeted_end}\",' 
                     + f'\"test_map_id\" : \"{dar_tests[i].test_map_id.tr}\", \"test_type_id\" : \"{dar_tests[i].test_type_id}\", \"program_id\" : '
-                    + f'\"{dar_tests[i].program_id}\", \"scheduling\" : \"{dar_tests[i].scheduling}\"}}');
-            if i != (len(dar_tests)-1):
-                a.write(",\n")
-        a.write("\n}");
+                    + f'\"{dar_tests[i].program_id}\", \"scheduling\" : \"{dar_tests[i].scheduling}\"}},\n');
+        
+        dar = DAR.objects.get(pk = dar_id);
+        a.write(f'\"dar\": \"{dar.dar_name}\"\n}}');
         a.close();
         return HttpResponse("DAR schedule compiled");
 
@@ -231,10 +230,10 @@ def cage_schedule(request):
         for i in range(len(cage_tests)):
             a.write(f'\"booking{i}\": {{\"targeted_start\" : \"{cage_tests[i].targeted_start}\", \"targeted_end\" : \"{cage_tests[i].targeted_end}\",' 
                     + f'\"test_map_id\" : \"{cage_tests[i].test_map_id.tr}\", \"test_type_id\" : \"{cage_tests[i].test_type_id}\", \"program_id\" : '
-                    + f'\"{cage_tests[i].program_id}\", \"scheduling\" : \"{cage_tests[i].scheduling}\"}}');
-            if i != (len(cage_tests)-1):
-                a.write(",\n")
-        a.write("\n}");
+                    + f'\"{cage_tests[i].program_id}\", \"scheduling\" : \"{cage_tests[i].scheduling}\"}},\n');
+        
+        cage = Cage.objects.get(pk = cage_id);
+        a.write(f'\"cage\": \"{cage.cage_name}\"\n}}');
         a.close();
         return HttpResponse("Cage schedule compiled");
 

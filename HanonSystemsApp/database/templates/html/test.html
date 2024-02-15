@@ -34,7 +34,7 @@
             <form action="" method="post">
               {% csrf_token %}
                   {{form}}
-                  <button class="btn btn-primary my-4" onclick="clicked(event)" type="submit">Submit</button>
+                  <button type="submit">Submit</button>
             </form>
 
             <table id ="chamberschedule">
@@ -45,7 +45,8 @@
                     <th>TR</th>
                     <th>Test</th>
                     <th>Scheduling</th>
-                    <th>Booked Time</th>
+                    <th>Targeted start</th>
+                    <th>Targeted end</th>
                 </tr>
                 
             </table>
@@ -58,7 +59,8 @@
                     <th>TR</th>
                     <th>Test</th>
                     <th>Scheduling</th>
-                    <th>Booked Time</th>
+                    <th>Targeted start</th>
+                    <th>Targeted end</th>
                 </tr>
                 
             </table>
@@ -71,11 +73,12 @@
                     <th>TR</th>
                     <th>Test</th>
                     <th>Scheduling</th>
-                    <th>Booked Time</th>
+                    <th>Targeted start</th>
+                    <th>Targeted end</th>
                 </tr>
                 
             </table>
-
+            <button type = "button", id = "conflicts"> Check for scheduling conflicts</button>
 
             {#{% for table in tables %}#}
             {% render_table table  "django_tables2/bootstrap.html"%} 
@@ -93,21 +96,14 @@
                     }
                 }
             var table, rows
-            table = document.getElementsByTagName("table").item(1);
-            rows = table.rows;
-
+            table = document.getElementsByTagName("table").item(3);
             
+            rows = table.rows;
             
             for (let i = 1; i < rows.length ; i++){
                 x = rows[i].getElementsByTagName("td")[18];
                 y = x.getElementsByClassName("btn")[0];
-                console.log(y);
-                y.onclick = function clicked(e)
-                {
-                    if(!confirm('Are you sure?')) {
-                        e.preventDefault();
-                    }
-                };
+                y.addEventListener("click", clicked);
             }
 
             function getCookie(name) {
@@ -135,20 +131,28 @@
                 )
                 .then(result=> result.json())
                 .then(result=>{
-                    var innerHTML, row, program, product, tr, test, booking_period, status;
+                    var innerHTML, row, program, product, tr, test, targeted_start, targeted_end, status;
                     var keys = Object.keys(result);
                     const schedule = document.getElementById("chamberschedule");
                     schedule.innerHTML = `
-                    <caption id = "chamberschedulecaption">Selected Chamber's Test Schedule</caption>
+                    <caption id = "chamberschedulecaption">${result.chamber}'s Test Schedule</caption>
                     <tr>
                         <th>Program</th>
                         <th>Product</th>
                         <th>TR</th>
                         <th>Test</th>
                         <th>Scheduling</th>
-                        <th>Booked Time</th>
+                        <th>Targeted start</th>
+                        <th>Targeted end</th>
                     </tr>`;
-                    for (var i = 0; i<keys.length;i++){
+
+                    if (keys.length ==1){
+                        row = document.createElement("tr");
+                        row.innerHTML = "No test scheduled";
+                        schedule.appendChild(row);
+                    }
+
+                    for (var i = 0; i<keys.length-1;i++){
                         row = document.createElement("tr");
                         row.id = `chamber booking ${i+1}`;
                         program = document.createElement("td");
@@ -156,21 +160,24 @@
                         tr = document.createElement("td");
                         test = document.createElement("td");
                         scheduling = document.createElement("td");
-                        booking_period = document.createElement("td");
+                        targeted_start = document.createElement("td");
+                        targeted_end = document.createElement("td");
                         
                         program.innerHTML = eval(`result.${keys[i]}.program_id`);
                         product.innerHTML = eval(`result.${keys[i]}.product_id`);
                         tr.innerHTML = eval(`result.${keys[i]}.test_map_id`);
                         test.innerHTML = eval(`result.${keys[i]}.test_type_id`);
                         scheduling.innerHTML = eval(`result.${keys[i]}.scheduling`);
-                        booking_period.innerHTML = eval(`result.${keys[i]}.targeted_start`) + " until " + eval(`result.${keys[i]}.targeted_end`);
+                        targeted_start.innerHTML = eval(`result.${keys[i]}.targeted_start`);
+                        targeted_end.innerHTML = eval(`result.${keys[i]}.targeted_end`);
 
                         row.appendChild(program);
                         row.appendChild(product);
                         row.appendChild(tr);
                         row.appendChild(test);
                         row.appendChild(scheduling);
-                        row.appendChild(booking_period);
+                        row.appendChild(targeted_start);
+                        row.appendChild(targeted_end);
                         schedule.appendChild(row);
                     }
                 })
@@ -184,9 +191,9 @@
                     <th>TR</th>
                     <th>Test</th>
                     <th>Scheduling</th>
-                    <th>Booked Time</th>
+                    <th>Targeted start</th>
+                    <th>Targeted end</th>
                 </tr>
-                <tr> No chamber selected </tr>
                 `;})
             }
 
@@ -200,20 +207,28 @@
                 )
                 .then(result=> result.json())
                 .then(result=>{
-                    var innerHTML, row, program, product, tr, test, booking_period, status;
+                    var innerHTML, row, program, product, tr, test, targeted_start, targeted_end, status;
                     var keys = Object.keys(result);
                     const schedule = document.getElementById("darschedule");
                     schedule.innerHTML = `
-                    <caption id = "darschedulecaption">Selected DAR's Test Schedule</caption>
+                    <caption id = "darschedulecaption">${result.dar}'s Test Schedule</caption>
                     <tr>
                         <th>Program</th>
                         <th>Product</th>
                         <th>TR</th>
                         <th>Test</th>
                         <th>Scheduling</th>
-                        <th>Booked Time</th>
+                        <th>Targeted start</th>
+                        <th>Targeted end</th>
                     </tr>`;
-                    for (var i = 0; i<keys.length;i++){
+
+                    if (keys.length ==1){
+                        row = document.createElement("tr");
+                        row.innerHTML = "No test scheduled";
+                        schedule.appendChild(row);
+                    }
+
+                    for (var i = 0; i<keys.length-1;i++){
                         row = document.createElement("tr");
                         row.id = `DAR booking ${i+1}`;
                         program = document.createElement("td");
@@ -221,21 +236,24 @@
                         tr = document.createElement("td");
                         test = document.createElement("td");
                         scheduling = document.createElement("td");
-                        booking_period = document.createElement("td");
+                        targeted_start = document.createElement("td");
+                        targeted_end = document.createElement("td");
                         
                         program.innerHTML = eval(`result.${keys[i]}.program_id`);
                         product.innerHTML = eval(`result.${keys[i]}.product_id`);
                         tr.innerHTML = eval(`result.${keys[i]}.test_map_id`);
                         test.innerHTML = eval(`result.${keys[i]}.test_type_id`);
                         scheduling.innerHTML = eval(`result.${keys[i]}.scheduling`);
-                        booking_period.innerHTML = eval(`result.${keys[i]}.targeted_start`) + " until " + eval(`result.${keys[i]}.targeted_end`);
+                        targeted_start.innerHTML = eval(`result.${keys[i]}.targeted_start`);
+                        targeted_end.innerHTML = eval(`result.${keys[i]}.targeted_end`);
 
                         row.appendChild(program);
                         row.appendChild(product);
                         row.appendChild(tr);
                         row.appendChild(test);
                         row.appendChild(scheduling);
-                        row.appendChild(booking_period);
+                        row.appendChild(targeted_start);
+                        row.appendChild(targeted_end);
                         schedule.appendChild(row);
                     }
                 })
@@ -249,9 +267,9 @@
                     <th>TR</th>
                     <th>Test</th>
                     <th>Scheduling</th>
-                    <th>Booked Time</th>
+                    <th>Targeted start</th>
+                    <th>Targeted end</th>
                 </tr>
-                <tr> No DAR selected </tr>
                 `;})
             }
 
@@ -265,20 +283,28 @@
                 )
                 .then(result=> result.json())
                 .then(result=>{
-                    var innerHTML, row, program, product, tr, test, booking_period, status;
+                    var innerHTML, row, program, product, tr, test, targeted_start, targeted_end, status;
                     var keys = Object.keys(result);
                     const schedule = document.getElementById("cageschedule");
                     schedule.innerHTML = `
-                    <caption id = "cageschedulecaption">Selected Cage's Test Schedule</caption>
+                    <caption id = "cageschedulecaption">${result.cage}'s Test Schedule</caption>
                     <tr>
                         <th>Program</th>
                         <th>Product</th>
                         <th>TR</th>
                         <th>Test</th>
                         <th>Scheduling</th>
-                        <th>Booked Time</th>
+                        <th>Targeted start</th>
+                        <th>Targeted end</th>
                     </tr>`;
-                    for (var i = 0; i<keys.length;i++){
+
+                    if (keys.length ==1){
+                        row = document.createElement("tr");
+                        row.innerHTML = "No test scheduled";
+                        schedule.appendChild(row);
+                    }
+
+                    for (var i = 0; i<keys.length-1;i++){
                         row = document.createElement("tr");
                         row.id = `cage booking ${i+1}`;
                         program = document.createElement("td");
@@ -286,21 +312,24 @@
                         tr = document.createElement("td");
                         test = document.createElement("td");
                         scheduling = document.createElement("td");
-                        booking_period = document.createElement("td");
+                        targeted_start = document.createElement("td");
+                        targeted_end = document.createElement("td");
                         
                         program.innerHTML = eval(`result.${keys[i]}.program_id`);
                         product.innerHTML = eval(`result.${keys[i]}.product_id`);
                         tr.innerHTML = eval(`result.${keys[i]}.test_map_id`);
                         test.innerHTML = eval(`result.${keys[i]}.test_type_id`);
                         scheduling.innerHTML = eval(`result.${keys[i]}.scheduling`);
-                        booking_period.innerHTML = eval(`result.${keys[i]}.targeted_start`) + " until " + eval(`result.${keys[i]}.targeted_end`);
+                        targeted_start.innerHTML = eval(`result.${keys[i]}.targeted_start`);
+                        targeted_end.innerHTML = eval(`result.${keys[i]}.targeted_end`);
 
                         row.appendChild(program);
                         row.appendChild(product);
                         row.appendChild(tr);
                         row.appendChild(test);
                         row.appendChild(scheduling);
-                        row.appendChild(booking_period);
+                        row.appendChild(targeted_start);
+                        row.appendChild(targeted_end);
                         schedule.appendChild(row);
                     }
                 })
@@ -314,15 +343,93 @@
                     <th>TR</th>
                     <th>Test</th>
                     <th>Scheduling</th>
-                    <th>Booked Time</th>
+                    <th>Targeted start</th>
+                    <th>Targeted end</th>
                 </tr>
-                <tr> No cage selected </tr>
                 `;})
+            }
+
+            function checkSchedule() {
+                var start, end, conflict, booked_start, booked_end, length, rows;
+                
+                start = new Date(document.getElementsByName("targeted_start")[1].value);
+                end = new Date(document.getElementsByName("targeted_end")[1].value);
+
+                if(isNaN(start)||isNaN(end)){
+                    return alert("Targeted start and/or targeted end date is not entered");
+                }
+
+                conflict = false;
+                length = document.getElementById("chamberschedule").rows.length - 1;
+
+                if(length == 0){
+                    alert("No chamber has been selected");
+                }
+
+                rows = document.getElementById("chamberschedule").rows;
+                for(var i =1; i<= length;i++){
+                    try{
+                        booked_start = new Date(rows[i].cells[5].innerHTML);
+                        booked_end = new Date(rows[i].cells[6].innerHTML);
+                        if((start >= booked_start && start <= booked_end) || (end >= booked_start && end <= booked_end) || (start <= booked_start && end >= booked_end)){
+                            conflict = true;
+                            rows[i].style.backgroundColor = "yellow";
+                        }
+                    }
+                    catch{
+                        break;
+                    }
+                }
+
+                length = document.getElementById("darschedule").rows.length - 1;
+                if(length == 0){
+                    alert("No DAR has been selected");
+                }
+                rows = document.getElementById("darschedule").rows;
+                for(var i =1; i<= length;i++){
+                    try{
+                        booked_start = Date.parse(rows[i].cells[5].innerHTML);
+                        booked_end = Date.parse(rows[i].cells[6].innerHTML);
+                        if((start >= booked_start && start <= booked_end) || (end >= booked_start && end <= booked_end) || (start <= booked_start && end >= booked_end)){
+                            conflict = true;
+                            rows[i].style.backgroundColor = "yellow";
+                        }
+                    }
+                    catch{
+                        break;
+                    }
+                }
+
+                length = document.getElementById("cageschedule").rows.length - 1;
+                if(length == 0){
+                    alert("No cage has been selected");
+                }
+                rows = document.getElementById("cageschedule").rows;
+                for(var i =1; i<= length;i++){
+                    try{
+                        booked_start = Date.parse(rows[i].cells[5].innerHTML);
+                        booked_end = Date.parse(rows[i].cells[6].innerHTML);
+                        if((start >= booked_start && start <= booked_end) || (end >= booked_start && end <= booked_end) || (start <= booked_start && end >= booked_end)){
+                            conflict = true;
+                            rows[i].style.backgroundColor = "yellow";
+                        }
+                    }
+                    catch{
+                        break;
+                    }
+                }
+
+                if (conflict == true){
+                    alert("At least one of the equipment selected is booked for another test for the selected time window and is highlighted. You can still add this test if you wish. ")
+                }
             }
 
             document.getElementsByName("chamber_id")[1].addEventListener("input", getChamberSchedule);
             document.getElementsByName("dar_id")[1].addEventListener("input", getDARSchedule);
             document.getElementsByName("cage_id")[1].addEventListener("input", getCageSchedule);
+            //document.getElementsByClassName("btn btn-primary my-4")[1].addEventListener("click", clicked);
+            document.getElementById("conflicts").addEventListener("click", checkSchedule);
+            
 
         </script>
     </body>
