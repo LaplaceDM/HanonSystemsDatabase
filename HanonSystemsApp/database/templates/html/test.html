@@ -136,13 +136,12 @@
                 </tr>
                 
             </table>
-<<<<<<< HEAD
             
         </center>
 
-=======
+
             <button type = "button", id = "conflicts"> Check for scheduling conflicts</button>
->>>>>>> b01e23ef47067ae0036222fb905ae9e4949aebd0
+
 
             {% render_table table  "django_tables2/bootstrap.html"%} 
 
@@ -197,30 +196,26 @@
                     popup.classList.remove("open-popup");
                 }
             var table, rows
-<<<<<<< HEAD
             
 
             table = document.getElementsByTagName("table").item(3);
             rows = table.rows;
-=======
-            table = document.getElementsByTagName("table").item(3);
->>>>>>> b01e23ef47067ae0036222fb905ae9e4949aebd0
             
             rows = table.rows;
             
             for (let i = 1; i < rows.length ; i++){
                 x = rows[i].getElementsByTagName("td")[19];
                 y = x.getElementsByClassName("btn")[0];
-<<<<<<< HEAD
+
                 y.onclick = function clicked(e)
                 {
                     if(!confirm('Are you sure?')) {
                         e.preventDefault();
                     }
                 };
-=======
-                y.addEventListener("click", clicked);
->>>>>>> b01e23ef47067ae0036222fb905ae9e4949aebd0
+
+                // y.addEventListener("click", clicked);
+
             }
 
 

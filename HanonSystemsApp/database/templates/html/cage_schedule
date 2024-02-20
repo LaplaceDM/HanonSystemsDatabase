@@ -1,8 +1,3 @@
 {
-<<<<<<< HEAD
-"booking0": {"targeted_start" : "2024-03-01", "targeted_end" : "2024-03-10","test_map_id" : "21212", "test_type_id" : "Pump Asembly", "program_id" : "audi", "scheduling" : "current"},
-"booking1": {"targeted_start" : "2024-03-01", "targeted_end" : "2024-03-10","test_map_id" : "21212", "test_type_id" : "Pump Asembly", "program_id" : "audi", "scheduling" : "current"}
-=======
-"cage": "PCIR03"
->>>>>>> b01e23ef47067ae0036222fb905ae9e4949aebd0
+
 }

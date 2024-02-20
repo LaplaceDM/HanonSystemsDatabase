@@ -1,7 +1,6 @@
 from typing import Any
 from django.db.models.query import QuerySet
 from django.views.generic import ListView 
-<<<<<<< HEAD
 from .models import Program
 from .models import Product
 from .models import ChamberLogInfo
@@ -10,9 +9,6 @@ from .models import Test_Chamber
 from .models import ChamberLog
 from .models import Program_DAR
 from .models import Program_Cage
-=======
-from .models import *
->>>>>>> b01e23ef47067ae0036222fb905ae9e4949aebd0
 from django.shortcuts import render
 from django_filters.views import FilterView
 from .filters import ProgramFilter
