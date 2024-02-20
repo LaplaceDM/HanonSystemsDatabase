@@ -6,7 +6,8 @@ from django.utils import timezone
 # Create your models here.
 
 class Program(models.Model):
-    program_name = models.CharField(max_length = 50, verbose_name = "Program", unique = True, null = True)
+    created = models.DateTimeField(default=timezone.now)
+    program_name = models.CharField(max_length = 50, verbose_name = "Program",  null = True) 
     status = models.SmallIntegerField(null = True)
     phase = models.SmallIntegerField(null = True)
     enterproj_id = models.IntegerField(null = True)
@@ -29,6 +30,7 @@ class Lab(models.Model):
         return self.lab_name
 
 class Product(models.Model):
+    created = models.DateTimeField(default=timezone.now)
     product_family = models.CharField(max_length = 10, null = True)
     platform = models.CharField(max_length = 15, null = True)
     communication_protocol = models.CharField(max_length = 15, null = True)
@@ -112,30 +114,38 @@ class Harness(models.Model):
 
 class Test(models.Model):
     created = models.DateTimeField(default=timezone.now)
-    test_id = models.AutoField(primary_key=True)
+    product_id = models.ForeignKey("Product", on_delete = models.SET_NULL, null = True, db_column = "product_id")
+    program_id = models.ForeignKey( "Program", on_delete = models.CASCADE, null = True, db_column="program_id")
+    test_map_id = models.ForeignKey("TestMap", on_delete = models.CASCADE, db_column = "test_map_id", verbose_name = "Leg")
+    priority = models.SmallIntegerField(null = True)
     scheduling = models.CharField(max_length = 15, null =True)
     status = models.CharField(max_length = 15, null =True)
+    test_type_id = models.ForeignKey("TestType", on_delete = models.CASCADE, db_column = "test_type_id", verbose_name = "Test")
+    test_id = models.AutoField(primary_key=True)
+    technician_id = models.ForeignKey("Technician", on_delete = models.CASCADE, db_column = "technician_id", verbose_name = "technician")
+    chamber_id = models.ForeignKey("Chamber", on_delete = models.CASCADE, db_column = "chamber_id", verbose_name = "chamber")
+    dar_id = models.ForeignKey("DAR", on_delete = models.CASCADE, db_column = "dar_id", verbose_name = "DAR")
+    cage_id = models.ForeignKey("Cage", on_delete = models.CASCADE, db_column = "cage_id", verbose_name = "cage")
+    lab_id = models.ForeignKey("Lab", on_delete = models.CASCADE, db_column = "lab_id", verbose_name = "Lab")
+
     targeted_start = models.DateField(null =True)
     targeted_end = models.DateField(null =True)
     supervisor_comments = models.CharField(max_length = 4000, null =True)
     hours_planned = models.SmallIntegerField(null =True)
     setup_date = models.DateField(null =True)
-    priority = models.SmallIntegerField(null = True)
+    
     status_log = models.CharField(max_length = 4000, null = True)
 
-    test_type_id = models.ForeignKey("TestType", on_delete = models.CASCADE, db_column = "test_type_id", verbose_name = "Test")
-    test_map_id = models.ForeignKey("TestMap", on_delete = models.CASCADE, db_column = "test_map_id", verbose_name = "Leg")
-    technician_id = models.ForeignKey("Technician", on_delete = models.CASCADE, db_column = "technician_id", verbose_name = "technician")
-    dar_id = models.ForeignKey("DAR", on_delete = models.CASCADE, db_column = "dar_id", verbose_name = "DAR")
-    chamber_id = models.ForeignKey("Chamber", on_delete = models.CASCADE, db_column = "chamber_id", verbose_name = "chamber")
-    cage_id = models.ForeignKey("Cage", on_delete = models.CASCADE, db_column = "cage_id", verbose_name = "cage")
-    lab_id = models.ForeignKey("Lab", on_delete = models.CASCADE, db_column = "lab_id", verbose_name = "Lab")
-    program_id = models.ForeignKey( "Program", on_delete = models.CASCADE, null = True, db_column="program_id")
-    product_id = models.ForeignKey("Product", on_delete = models.SET_NULL, null = True, db_column = "product_id")
+    
+    
+    
+    
+    
+    
+   
 
     def __str__(self):
-        return f"{self.chamber_id} {self.targeted_start}";
-
+        return f"{self.chamber_id} {self.targeted_start}"
 
 class ChamberLog(models.Model):
     id = models.BigAutoField(primary_key=True)
@@ -152,9 +162,10 @@ class ChamberLog(models.Model):
     head = models.FloatField(null = True)
     comments = models.CharField(max_length = 300)
 
-    test_id = models.ForeignKey("Test", on_delete = models.CASCADE, db_column = "test_id")
+    log_id = models.ForeignKey("ChamberLogInfo", on_delete = models.CASCADE, db_column = "log_id")
 
 class ChamberLogInfo(models.Model):
+    created = models.DateTimeField(default=timezone.now)
     id = models.AutoField(primary_key=True)
     pretest_inspection_and_photo = models.BooleanField(null = True)
     setup_photo = models.FloatField(null = True)

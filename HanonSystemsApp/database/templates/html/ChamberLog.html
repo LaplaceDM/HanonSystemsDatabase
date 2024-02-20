@@ -15,7 +15,24 @@
     </head>
     
     <body>
-       
+        <h2> {% for record in ChamberLogInfo %}
+            {{record.pretest_inspection_and_photo}}
+            {{record.setup_photo}} 
+            {{record.humidity}}
+            {{record.system_pressure}}
+            {{record.voltage}}
+            {{record.system_restriction_target}}
+            {{record.system_restriction_record}}
+            {{record.trial_run_record_and_process}} 
+            {{record.special_requirements}}
+            {{record.test_id}}
+            {{record.chamber_id}}
+            {{record.program_id}}
+            {{record.technician_id}}
+
+            {%endfor%}
+        </h2>
+
         {% if filter %}
             <form action="" method="get" class="form-inline">
                 {% bootstrap_form filter.form layout='inline'%}
@@ -23,10 +40,12 @@
             </form>
         {% endif %}
 
-        {% load crispy_forms_tags %}
+
+       
         
-            <!--Django Model Form-->
-            <h2 class="my-4">Add a new program</h2>
+        {% load crispy_forms_tags %}
+
+        <h2 class="my-4">Add a new log</h2>
 
             
 
@@ -35,40 +54,28 @@
                   {{form}}
                   <button class="btn btn-primary my-4" onclick="clicked(event)" type="submit">Submit</button>
             </form>
-
-            
+        
+            <!--Django Model Form-->
 
             {% render_table table  "django_tables2/bootstrap.html"%} 
-
+        <ol>
+            {% for status in page_obj %}
+                <li>{{ status }}</li>
+            {% endfor %}
+        </ol>
         
         
 
        
-        <script>
-            function clicked(e)
-                {
-                    if(!confirm('Are you sure?')) {
-                        e.preventDefault();
-                    }
-                }
-            var table, rows
-            table = document.getElementsByTagName("table").item(0);
-            rows = table.rows;
-            
-            for (let i = 1; i < rows.length ; i++){
-                x = rows[i].getElementsByTagName("td")[6];
-                y = x.getElementsByClassName("btn")[0];
-                y.onclick = function clicked(e)
-                {
-                    if(!confirm('Are you sure?')) {
-                        e.preventDefault();
-                    }
-                };
-            }
-            
-            
-
-
-        </script>
+        
     </body>
+    <script>
+        function clicked(e)
+                {
+                    if(!confirm('Are you sure?')) {
+                        e.preventDefault();
+                    }
+                    popup.classList.remove("open-popup");
+                }
+    </script>
 </html>

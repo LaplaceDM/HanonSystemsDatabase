@@ -2,6 +2,8 @@ from django.forms import ModelForm
 from .models import Program
 from .models import Product
 from .models import Test
+from .models import ChamberLogInfo
+from .models import ChamberLog
 from django import forms
 
 
@@ -9,12 +11,12 @@ from django import forms
 class ProgramForm(ModelForm):
     class Meta:
         model = Program
-        fields = '__all__'
+        exclude = ('created', )
 
 class ProductForm(ModelForm):
     class Meta:
         model = Product
-        fields = '__all__'
+        exclude = ('created', )
 
 class TestForm(ModelForm):
     targeted_start = forms.DateField(
@@ -26,5 +28,17 @@ class TestForm(ModelForm):
     class Meta:
         model = Test
         exclude = ('created', )
+
+class ChamberLogInfoForm(ModelForm):
+    class Meta:
+        model = ChamberLogInfo
+        exclude = ('created', )
+
+class ChamberLogForm(ModelForm):
+    timestamp = forms.DateField(input_formats = ['%Y-%m-%dT%H:%M'],
+        widget = forms.DateTimeInput(attrs={'class': 'form-control', 'type': 'datetime-local'}, format='%Y-%m-%dT%H:%M'))
+    class Meta:
+        model = ChamberLog
+        fields = '__all__'
 
 
