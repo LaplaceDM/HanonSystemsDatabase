@@ -36,7 +36,7 @@ class Product(models.Model):
     product_id = models.AutoField(primary_key=True)
     program_id = models.ForeignKey( "Program", on_delete = models.CASCADE, null = True, db_column="program_id")
     def __str__(self):
-        return self.product_family + ("   ::   ")  +str(self.program_id)
+        return self.product_family
 
 class TestMap(models.Model):
     test_map_name = models.CharField(max_length = 30, null = True)
