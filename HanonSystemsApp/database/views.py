@@ -414,7 +414,7 @@ class ChamberLogView(SingleTableMixin, CreateView, FilterView):
     table_class = ChamberLogTable
     form_class = ChamberLogForm
     filterset_class = ChamberLogFilter
-
+    
     def get_queryset(self, *args, **kwargs):
         return ChamberLog.objects.filter(log_id = self.kwargs.get('pk'))
     

@@ -12,26 +12,56 @@
     <head>
         <title>Programs </title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet"  href="{% static 'database/ch.css' %}">
     </head>
     
     <body>
-        <h2> {% for record in ChamberLogInfo %}
-            {{record.pretest_inspection_and_photo}}
-            {{record.setup_photo}} 
-            {{record.humidity}}
-            {{record.system_pressure}}
-            {{record.voltage}}
-            {{record.system_restriction_target}}
-            {{record.system_restriction_record}}
-            {{record.trial_run_record_and_process}} 
-            {{record.special_requirements}}
+        <h3> {% for record in ChamberLogInfo %}
+            <label> test_id:</label>
             {{record.test_id}}
+            <br>
+            <label> chamber_id:</label>
             {{record.chamber_id}}
+            <br>
+            <label> program_id:</label>
             {{record.program_id}}
+            <br>
+            <label> pretest_inspection_and_photo:</label>
+            {{record.pretest_inspection_and_photo}}
+            <br>
+            <label> setup_photo:</label>
+            {{record.setup_photo}} 
+            <br>
+            <label> humidity:</label>
+            {{record.humidity}}
+            <br>
+            <label> system_pressure:</label>
+            {{record.system_pressure}}
+        </h3>
+        <h4>
+            
+            
+            <label> voltage:</label>
+            {{record.voltage}}
+            <br>
+            <label> system_restriction_target:</label>
+            {{record.system_restriction_target}}
+            <br> 
+            <label> system_restriction_record:</label>
+            {{record.system_restriction_record}}
+            <br>
+            <label> trial_run_record_and_process:</label>
+            {{record.trial_run_record_and_process}} 
+            <br>
+            <label> special_requirements:</label>
+            {{record.special_requirements}}
+            <br>
+            <label> technician_id:</label>
             {{record.technician_id}}
+            <br>
 
             {%endfor%}
-        </h2>
+        </h4>
 
         {% if filter %}
             <form action="" method="get" class="form-inline">
@@ -45,15 +75,23 @@
         
         {% load crispy_forms_tags %}
 
-        <h2 class="my-4">Add a new log</h2>
+        <button id="add_button" type="submit" class="btn" onclick="openPopup()"> Add new Log </button>
+            <div class="container">
+                <br>
+            <div class="popup" id="popup">
+                <br>
+            <form class="form" action="" method="post">
+              {% csrf_token %}
+                  {{form}}
+                  <button type="submit">Submit</button>
+            </form>
+            <br>
+            </div>
+        </div>
 
             
 
-            <form action="" method="post">
-              {% csrf_token %}
-                  {{form}}
-                  <button class="btn btn-primary my-4" onclick="clicked(event)" type="submit">Submit</button>
-            </form>
+
         
             <!--Django Model Form-->
 
@@ -70,6 +108,16 @@
         
     </body>
     <script>
+        let popup = document.getElementById("popup");
+            popup.hidden = true;    
+            function openPopup(){
+                if (popup.hidden){
+                    popup.hidden = false;
+                }
+                else{
+                    popup.hidden = true;
+                }
+            }
         function clicked(e)
                 {
                     if(!confirm('Are you sure?')) {

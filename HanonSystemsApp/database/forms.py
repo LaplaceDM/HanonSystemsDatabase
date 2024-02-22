@@ -35,8 +35,8 @@ class ChamberLogInfoForm(ModelForm):
         exclude = ('created', )
 
 class ChamberLogForm(ModelForm):
-    timestamp = forms.DateField(input_formats = ['%Y-%m-%dT%H:%M'],
-        widget = forms.DateTimeInput(attrs={'class': 'form-control', 'type': 'datetime-local'}, format='%Y-%m-%dT%H:%M'))
+    timestamp = forms.DateTimeField(input_formats = ['%Y-%m-%dT%H:%M'],
+        widget = forms.DateTimeInput(attrs={'class': 'form-control', 'type': 'datetime-local'}))
     class Meta:
         model = ChamberLog
         fields = '__all__'
