@@ -1,12 +1,15 @@
 from django.db import models
 from django.db.models import Model 
+from django.utils import timezone
+
 
 # Create your models here.
 
 class Program(models.Model):
-    program_name = models.CharField(max_length = 50, verbose_name = "Program", unique = True, null = True)
-    status = models.SmallIntegerField(null = True)
-    phase = models.SmallIntegerField(null = True)
+    created = models.DateTimeField(default=timezone.now)
+    program_name = models.CharField(max_length = 50, verbose_name = "Program",  null = True) 
+    status = models.CharField(max_length = 20, verbose_name = "Status",  null = True)
+    phase = models.CharField(max_length = 20, verbose_name = "Phase",  null = True)
     enterproj_id = models.IntegerField(null = True)
     wbs_number = models.CharField(max_length = 30, null = True)
     oem = models.CharField(max_length = 20, null = True)
@@ -27,6 +30,7 @@ class Lab(models.Model):
         return self.lab_name
 
 class Product(models.Model):
+    created = models.DateTimeField(default=timezone.now)
     product_family = models.CharField(max_length = 10, null = True)
     platform = models.CharField(max_length = 15, null = True)
     communication_protocol = models.CharField(max_length = 15, null = True)
@@ -100,46 +104,47 @@ class Harness(models.Model):
     harness_id = models.BigAutoField(primary_key=True)
     harness_name = models.CharField(max_length = 50, unique= True)
     storage_location = models.CharField(max_length = 20, null = True)
-    test_screening_resutl = models.BooleanField(null = True)
-    harness_connector_condition = models.BooleanField(null = True)
-    insulation_condition = models.BooleanField(null = True)
-    rtv_condition = models.BooleanField(null = True)
-    dunk_testing = models.BooleanField(null = True)
+    test_screening_resutl = models.CharField(max_length = 10, verbose_name = "Test Screening Result",  null = True)
+    harness_connector_condition = models.CharField(max_length = 10, verbose_name = "Harness Connector Condition",  null = True)
+    insulation_condition = models.CharField(max_length = 10, verbose_name = "Insulation Condition",  null = True)
+    rtv_condition = models.CharField(max_length = 10, verbose_name = "RTV Condition",  null = True)
+    dunk_testing = models.CharField(max_length = 10, verbose_name = "Dunk Testing",  null = True)
     average_resistance = models.FloatField(null = True)
     comments = models.CharField(max_length = 50)
 
 class Test(models.Model):
-    test_id = models.AutoField(primary_key=True)
+    created = models.DateTimeField(default=timezone.now)
+    product_id = models.ForeignKey("Product", on_delete = models.SET_NULL, null = True, db_column = "product_id")
+    program_id = models.ForeignKey( "Program", on_delete = models.CASCADE, null = True, db_column="program_id")
+    test_map_id = models.ForeignKey("TestMap", on_delete = models.CASCADE, db_column = "test_map_id", verbose_name = "Leg")
+    priority = models.SmallIntegerField(null = True)
     scheduling = models.CharField(max_length = 15, null =True)
     status = models.CharField(max_length = 15, null =True)
+    test_type_id = models.ForeignKey("TestType", on_delete = models.CASCADE, db_column = "test_type_id", verbose_name = "Test")
+    test_id = models.AutoField(primary_key=True)
+    technician_id = models.ForeignKey("Technician", on_delete = models.CASCADE, db_column = "technician_id", verbose_name = "technician")
+    chamber_id = models.ForeignKey("Chamber", on_delete = models.CASCADE, db_column = "chamber_id", verbose_name = "chamber")
+    dar_id = models.ForeignKey("DAR", on_delete = models.CASCADE, db_column = "dar_id", verbose_name = "DAR")
+    cage_id = models.ForeignKey("Cage", on_delete = models.CASCADE, db_column = "cage_id", verbose_name = "cage")
+    lab_id = models.ForeignKey("Lab", on_delete = models.CASCADE, db_column = "lab_id", verbose_name = "Lab")
+    total_hours = models.SmallIntegerField(null = True)
+
     targeted_start = models.DateField(null =True)
     targeted_end = models.DateField(null =True)
     supervisor_comments = models.CharField(max_length = 4000, null =True)
     hours_planned = models.SmallIntegerField(null =True)
     setup_date = models.DateField(null =True)
-    priority = models.SmallIntegerField(null = True)
+    
     status_log = models.CharField(max_length = 4000, null = True)
-
-    test_type_id = models.ForeignKey("TestType", on_delete = models.CASCADE, db_column = "test_type_id", verbose_name = "Test")
-    test_map_id = models.ForeignKey("TestMap", on_delete = models.CASCADE, db_column = "test_map_id", verbose_name = "Leg")
-    technician_id = models.ForeignKey("Technician", on_delete = models.CASCADE, db_column = "technician_id", verbose_name = "technician")
-    dar_id = models.ForeignKey("DAR", on_delete = models.CASCADE, db_column = "dar_id", verbose_name = "DAR")
-    chamber_id = models.ForeignKey("Chamber", on_delete = models.CASCADE, db_column = "chamber_id", verbose_name = "chamber")
-    cage_id = models.ForeignKey("Cage", on_delete = models.CASCADE, db_column = "cage_id", verbose_name = "cage")
-    lab_id = models.ForeignKey("Lab", on_delete = models.CASCADE, db_column = "lab_id", verbose_name = "Lab")
-    program_id = models.ForeignKey( "Program", on_delete = models.CASCADE, null = True, db_column="program_id")
-    product_id = models.ForeignKey("Product", on_delete = models.SET_NULL, null = True, db_column = "product_id")
-
     def __str__(self):
-        return f"{self.chamber_id} {self.targeted_start}";
-
+        return f"{self.chamber_id} {self.targeted_start}"
 
 class ChamberLog(models.Model):
     id = models.BigAutoField(primary_key=True)
     timestamp = models.DateTimeField()
     circuit_number = models.SmallIntegerField()
     total_hours = models.SmallIntegerField()
-    status = models.SmallIntegerField()
+    status = models.CharField(max_length = 20, verbose_name = "Status",  null = True)
     fluid_temp = models.FloatField(null = True)
     ambient_temp = models.FloatField(null = True)
     system_pressure = models.FloatField(null = True)
@@ -149,18 +154,19 @@ class ChamberLog(models.Model):
     head = models.FloatField(null = True)
     comments = models.CharField(max_length = 300)
 
-    test_id = models.ForeignKey("Test", on_delete = models.CASCADE, db_column = "test_id")
+    log_id = models.ForeignKey("ChamberLogInfo", on_delete = models.CASCADE, db_column = "log_id")
 
 class ChamberLogInfo(models.Model):
+    created = models.DateTimeField(default=timezone.now)
     id = models.AutoField(primary_key=True)
-    pretest_inspection_and_photo = models.BooleanField(null = True)
+    pretest_inspection_and_photo = models.CharField(max_length = 10, verbose_name = "Pretest Inspection and Photo",  null = True)
     setup_photo = models.FloatField(null = True)
     humidity = models.FloatField(null = True)
     system_pressure = models.FloatField(null = True)
     voltage = models.FloatField(null = True)
     system_restriction_target = models.CharField(max_length = 50,null = True)
-    system_restriction_record = models.BooleanField(null = True)
-    trial_run_record_and_process = models.BooleanField(null = True)
+    system_restriction_record = models.CharField(max_length = 10, verbose_name = "System Restriction Record",  null = True)
+    trial_run_record_and_process = models.CharField(max_length = 10, verbose_name = "Trial Run Record And Process",  null = True)
     special_requirements = models.CharField(max_length = 300,null = True)
 
     test_id = models.ForeignKey("Test", on_delete = models.CASCADE, db_column = "test_id")
@@ -187,7 +193,7 @@ class DAR (models.Model):
     ac_input_voltage = models.SmallIntegerField(null = True)
     ac_input_phase = models.CharField(max_length = 20, null = True)
     operation_team = models.CharField(max_length = 20, null = True)
-    working_condition = models.SmallIntegerField()
+    working_condition = models.CharField(max_length = 50, verbose_name = "Working Condition",  null = True)
 
     lab_id = models.ForeignKey("Lab", on_delete = models.SET_NULL, null=True, db_column = "lab_id")
     def __str__(self):
@@ -198,9 +204,9 @@ class Chamber(models.Model):
     chamber_name = models.CharField(max_length = 20, unique= True)
     cooling_type = models.CharField(max_length = 20, null=True)
     power = models.SmallIntegerField(null=True)
-    humidity = models.BooleanField(null=True)
+    humidity = models.CharField(max_length = 10, verbose_name = "Humidity",  null = True)
     operation_team = models.CharField(max_length = 20, null=True)
-    working_condition = models.SmallIntegerField(null=True)
+    working_condition = models.CharField(max_length = 50, verbose_name = "Working Condition",  null = True)
     rate = models.FloatField(null=True)
     currency = models.CharField(max_length = 20, null=True)
     heating_power = models.SmallIntegerField()
@@ -228,7 +234,7 @@ class Laptop(models.Model):
     model_number = models.CharField(max_length = 30, null=True)
     serial_number = models.CharField(max_length =30, null=True)
     operating_system = models.CharField(max_length = 20, null =True)
-    keyboard_cover = models.BooleanField(null =True)
+    keyboard_cover = models.CharField(max_length = 10, verbose_name = "Keyboard Cover",  null = True)
     comments = models.CharField(max_length= 300, null =True)
 
 class Test_Chamber (models.Model):
@@ -250,9 +256,9 @@ class DARChannel(models.Model):
     power_supply_type = models.CharField(max_length = 20, null =True)
     power_supply_voltage = models.SmallIntegerField(null =True)
     max_current = models.SmallIntegerField(null =True)
-    lin = models.BooleanField(null =True)
-    pwn = models.BooleanField(null =True)
-    can = models.BooleanField(null =True)
+    lin = models.CharField(max_length = 50, verbose_name = "LIN",  null = True)
+    pwn = models.CharField(max_length = 50, verbose_name = "PWN",  null = True)
+    can = models.CharField(max_length = 50, verbose_name = "CAN",  null = True)
 
     dar_id = models.ForeignKey("DAR", on_delete = models.CASCADE, null =True, db_column = "dar_id")
     def __str__(self):

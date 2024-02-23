@@ -27,16 +27,74 @@
         {% load crispy_forms_tags %}
         
             <!--Django Model Form-->
-            <h2 class="my-4">Add a new Test</h2>
 
             
-
-            <form action="" method="post">
+        <br>
+        
+            <button id="add_button" type="submit" class="btn" onclick="openPopup()"> add new test </button>
+            <div class="container">
+                <br>
+            <div class="popup" id="popup">
+                <br>
+            <form class="form" action="" method="post">
               {% csrf_token %}
                   {{form}}
-                  <button type="submit">Submit</button>
+                  <button type="submit" onclick="submitCheck(event)">Submit</button>
             </form>
+            <br>
+            </div>
+        </div>
+        
+            
+            <center>
+            <input type="checkbox" id="checkcreated" onclick="hide('checkcreated', 0)">
+            <label for="checkcreated"> Created</label>
+            <input type="checkbox" id="checkScheduling" onclick="hide('checkScheduling', 5)">
+            <label for="checkScheduling"> Scheduling</label>
+            <input type="checkbox" id="checkStatus" onclick="hide('checkStatus', 6)">
+            <label for="checkStatus"> Status</label>
+            <input type="checkbox" id="checkTargeted start" onclick="hide('checkTargeted start', 13)">
+            <label for="checkTargeted start"> Targeted Start</label>
+            <input type="checkbox" id="checkTargeted end" onclick="hide('checkTargeted end', 14)">
+            <label for="checkTargeted end"> Targeted end</label>
+            <input type="checkbox" id="checkSupervisor comments" onclick="hide('checkSupervisor comments', 15)">
+            <label for="checkSupervisor comments"> Supervisor comments</label>
+            <input type="checkbox" id="checkHours planned" onclick="hide('checkHours planned', 16)">
+            <label for="checkHours planned"> Hours planned</label>
+            <input type="checkbox" id="checkSetup date" onclick="hide('checkSetup date', 17)">
+            <label for="checkSetup date"> Setup date</label>
+            <input type="checkbox" id="checkPriority" onclick="hide('checkPriority', 4)">
+            <label for="checkPriority"> Priority</label>
+            <input type="checkbox" id="checkStatus log" onclick="hide('checkStatus log', 18)">
+            <label for="checkStatus log"> Status log</label>
+            <input type="checkbox" id="checkTest" onclick="hide('checkTest', 7)">
+            <label for="checkTest"> Test</label>
+            <input type="checkbox" id="checkLeg" onclick="hide('checkLeg', 3)">
+            <label for="checkLeg"> Leg</label>
+            <input type="checkbox" id="checkTechnician" onclick="hide('checkTechnician', 8)">
+            <label for="checkTechnician"> Technician</label>
+            <input type="checkbox" id="checkDAR" onclick="hide('checkDAR', 10)">
+            <label for="checkDAR"> DAR</label>
+            <input type="checkbox" id="checkChamber" onclick="hide('checkChamber', 9)">
+            <label for="checkChamber"> Chamber</label>
+            <input type="checkbox" id="checkCage" onclick="hide('checkCage', 11)">
+            <label for="checkCage"> Cage</label>
+            <input type="checkbox" id="checkLab" onclick="hide('checkLab', 12)">
+            <label for="checkLab"> Lab</label>
+            <input type="checkbox" id="checkProgram id" onclick="hide('checkProgram id', 2)">
+            <label for="checkProgram id"> Program id</label>
+            <input type="checkbox" id="checkProduct id" onclick="hide('checkProduct id', 1)">
+            <label for="checkProduct id"> Product id</label>
+            
+            <input type="checkbox" id="checkdelete" onclick="hide('checkdelete', 19)">
+            <label for="checkLab"> Delete</label>
+            <input type="checkbox" id="checkupdate" onclick="hide('checkupdate', 20)">
+            <label for="checkProgram id"> Update</label>
+            <input type="checkbox" id="checkclone" onclick="hide('checkclone', 21)">
+            <label for="checkProduct id"> Clone</label> <br>
+            </center>
 
+        <center>
             <table id ="chamberschedule">
                 <caption id = "chamberschedulecaption">Selected Chamber's Test Schedule</caption>
                 <tr>
@@ -50,7 +108,7 @@
                 </tr>
                 
             </table>
-            
+
             <table id ="darschedule">
                 <caption id = "darschedulecaption">Selected DAR's Test Schedule</caption>
                 <tr>
@@ -78,48 +136,209 @@
                 </tr>
                 
             </table>
-            <button type = "button", id = "conflicts"> Check for scheduling conflicts</button>
+            
+        </center>
 
-            {#{% for table in tables %}#}
+
+
             {% render_table table  "django_tables2/bootstrap.html"%} 
-         {#{% endfor %}#}
 
-        
-            <!--Django Model-->
+            
 
        
         <script>
-            function clicked(e)
-                {
-                    if(!confirm('Are you sure?')) {
-                        e.preventDefault();
+            table3 = document.getElementsByTagName("table").item(3);
+            rows3 = table3.rows;
+
+            function hide(e, l){
+                let dec = document.getElementById(e);
+                if (dec.checked){
+                    for (let i = 0; i < rows3.length ; i++){
+                        if (i == 0){
+                            x = rows3[i].getElementsByTagName("th")[l];
+                            x.hidden = true;
+                            continue;
+                        }
+                        x = rows3[i].getElementsByTagName("td")[l];
+                        x.hidden = true;
+                    }
+                }else{
+                    for (let i = 0; i < rows3.length ; i++){
+                        if (i == 0){
+                            x = rows3[i].getElementsByTagName("th")[l];
+                            x.hidden = false;
+                            continue;
+                        }
+                        x = rows3[i].getElementsByTagName("td")[l];
+                        x.hidden = false;
                     }
                 }
+            }
+
+            let popup = document.getElementById("popup");
+            popup.hidden = true;    
+            function openPopup(){
+                if (popup.hidden){
+                    popup.hidden = false;
+                }
+                else{
+                    popup.hidden = true;
+                }
+            }
+
+
             var table, rows
+            
+
             table = document.getElementsByTagName("table").item(3);
+            rows = table.rows;
             
             rows = table.rows;
             
             for (let i = 1; i < rows.length ; i++){
-                x = rows[i].getElementsByTagName("td")[18];
+                x = rows[i].getElementsByTagName("td")[19];
                 y = x.getElementsByClassName("btn")[0];
-                y.addEventListener("click", clicked);
-            }
 
+                y.onclick = function clicked(e)
+                {
+                    if(!confirm('Are you sure?')) {
+                        e.preventDefault();
+                    }
+                };
+
+                // y.addEventListener("click", clicked);
+
+            }
+            
+
+
+
+           
             function getCookie(name) {
-            var cookieValue = null;
-                if (document.cookie && document.cookie !== '') {
-                    var cookies = document.cookie.split(';');
-                    for (var i = 0; i < cookies.length; i++) {
-                        var cookie = cookies[i].trim();
-                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                            break;
+                var cookieValue = null;
+                    if (document.cookie && document.cookie !== '') {
+                        var cookies = document.cookie.split(';');
+                        for (var i = 0; i < cookies.length; i++) {
+                            var cookie = cookies[i].trim();
+                            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                break;
+                            }
                         }
                     }
-                }
-            return cookieValue;
+                return cookieValue;
             }
+
+            function highlight(){
+                var csrftoken = getCookie('csrftoken');
+                var test_type_id = document.getElementsByName("test_type_id")[1].value;
+                fetch("http://127.0.0.1:8000/database/children", {method: "POST", body: test_type_id, headers:{"X-CSRFToken": csrftoken}})
+                .then((response)=>
+                fetch("http://127.0.0.1:8000/database/getchildren")
+                )
+                .then(result=> result.json())
+                .then(result=>{
+                    var keys = Object.keys(result)
+                    let prod = document.getElementsByName("chamber_id")[1]
+                    let values = prod.getElementsByTagName("option")
+                    let int = 0;
+                    for (let j = 0; j<values.length;j++){
+                        values[j].setAttribute("style","background-color: #ffffff");
+                    }
+                    for (let i = 0; i<keys.length;i++){
+                        for (let j = 0; j<values.length;j++){
+                            if (eval(`result.${keys[i]}.chamber_id`) === values[j].value){
+                                values[j].setAttribute("style","background-color: #90EE90");
+                                int++;
+                            }
+                        }
+                    }
+                    if (int === 0){
+                        for (let j = 0; j<values.length;j++){
+                        values[j].setAttribute("style","background-color: #ffffff");
+                    }
+                    }
+                }
+                )
+                .catch(()=>{
+                    let prod = document.getElementsByName("chamber_id")[1]
+                    let values = prod.getElementsByTagName("option")
+                    for (let j = 0; j<values.length;j++){
+                        values[j].setAttribute("style","background-color: #ffffff");
+                    }
+
+                })
+            }
+            function highlight2(){
+                var csrftoken = getCookie('csrftoken');
+                var program_id = document.getElementsByName("program_id")[1].value;
+                fetch("http://127.0.0.1:8000/database/darchildren", {method: "POST", body: program_id, headers:{"X-CSRFToken": csrftoken}})
+                .then((response)=>
+                fetch("http://127.0.0.1:8000/database/getdarchildren")
+                )
+                .then(result=> result.json())
+                .then(result=>{
+                    var keys = Object.keys(result)
+                    let prod = document.getElementsByName("dar_id")[1]
+                    let values = prod.getElementsByTagName("option")
+                    let prod2 = document.getElementsByName("cage_id")[1]
+                    let values2 = prod2.getElementsByTagName("option")
+                    let int = 0;
+                    let int2 = 0;
+                    for (let j = 0; j<values.length;j++){
+                        values[j].setAttribute("style","background-color: #ffffff");
+                    }
+                    for (let j = 0; j<values2.length;j++){
+                        values2[j].setAttribute("style","background-color: #ffffff");
+                    }
+                    for (let i = 0; i<keys.length;i++){
+                        if (eval(`result.${keys[i]}.dar_id`) != null){
+                            for (let j = 0; j<values.length;j++){
+                                if (eval(`result.${keys[i]}.dar_id`) === values[j].value){
+                                    values[j].setAttribute("style","background-color: #90EE90");
+                                    int++;
+                                }
+                            }
+                        }
+                        if (eval(`result.${keys[i]}.cage_id`) != null){
+                            for (let j = 0; j<values2.length;j++){
+                                if (eval(`result.${keys[i]}.cage_id`) === values2[j].value){
+                                    values2[j].setAttribute("style","background-color: #90EE90");
+                                    int2++;
+                                }
+                            }
+                        }
+                    }
+                    if (int === 0){
+                        for (let j = 0; j<values.length;j++){
+                        values[j].setAttribute("style","background-color: #ffffff");
+                    }
+                    }
+                    if (int2 === 0){
+                        for (let j = 0; j<values2.length;j++){
+                        values2[j].setAttribute("style","background-color: #ffffff");
+                    }
+                    }
+                }
+                )
+                .catch(()=>{
+                    let prod = document.getElementsByName("dar_id")[1]
+                    let values = prod.getElementsByTagName("option")
+                    let prod2 = document.getElementsByName("cage_id")[1]
+                    let values2 = prod2.getElementsByTagName("option")
+                    for (let j = 0; j<values.length;j++){
+                        values[j].setAttribute("style","background-color: #ffffff");
+                    }
+                    for (let j = 0; j<values2.length;j++){
+                        values2[j].setAttribute("style","background-color: #ffffff");
+                    }
+
+                })
+            }
+            document.getElementsByName("test_type_id")[1].addEventListener("input", highlight)
+            document.getElementsByName("program_id")[1].addEventListener("input", highlight2)
+
+            
 
             function getChamberSchedule(){
                 var chamber_id = document.getElementsByName("chamber_id")[1].value;
@@ -211,7 +430,7 @@
                     var keys = Object.keys(result);
                     const schedule = document.getElementById("darschedule");
                     schedule.innerHTML = `
-                    <caption id = "darschedulecaption">${result.dar}'s Test Schedule</caption>
+                    <caption id = "darschedulecaption">${result.DAR}'s Test Schedule</caption>
                     <tr>
                         <th>Program</th>
                         <th>Product</th>
@@ -287,7 +506,7 @@
                     var keys = Object.keys(result);
                     const schedule = document.getElementById("cageschedule");
                     schedule.innerHTML = `
-                    <caption id = "cageschedulecaption">${result.cage}'s Test Schedule</caption>
+                    <caption id = "cageschedulecaption">${result.Cage}'s Test Schedule</caption>
                     <tr>
                         <th>Program</th>
                         <th>Product</th>
@@ -349,22 +568,20 @@
                 `;})
             }
 
+            var conflict;
             function checkSchedule() {
-                var start, end, conflict, booked_start, booked_end, length, rows;
+                var start, end, booked_start, booked_end, length, rows;
                 
                 start = new Date(document.getElementsByName("targeted_start")[1].value);
                 end = new Date(document.getElementsByName("targeted_end")[1].value);
 
                 if(isNaN(start)||isNaN(end)){
-                    return alert("Targeted start and/or targeted end date is not entered");
+                    return;
                 }
 
                 conflict = false;
                 length = document.getElementById("chamberschedule").rows.length - 1;
 
-                if(length == 0){
-                    alert("No chamber has been selected");
-                }
 
                 rows = document.getElementById("chamberschedule").rows;
                 for(var i =1; i<= length;i++){
@@ -375,6 +592,9 @@
                             conflict = true;
                             rows[i].style.backgroundColor = "yellow";
                         }
+                        else{
+                            rows[i].style.backgroundColor = "white";
+                        }
                     }
                     catch{
                         break;
@@ -382,9 +602,7 @@
                 }
 
                 length = document.getElementById("darschedule").rows.length - 1;
-                if(length == 0){
-                    alert("No DAR has been selected");
-                }
+
                 rows = document.getElementById("darschedule").rows;
                 for(var i =1; i<= length;i++){
                     try{
@@ -394,6 +612,9 @@
                             conflict = true;
                             rows[i].style.backgroundColor = "yellow";
                         }
+                        else{
+                            rows[i].style.backgroundColor = "white";
+                        }
                     }
                     catch{
                         break;
@@ -401,9 +622,7 @@
                 }
 
                 length = document.getElementById("cageschedule").rows.length - 1;
-                if(length == 0){
-                    alert("No cage has been selected");
-                }
+
                 rows = document.getElementById("cageschedule").rows;
                 for(var i =1; i<= length;i++){
                     try{
@@ -413,26 +632,34 @@
                             conflict = true;
                             rows[i].style.backgroundColor = "yellow";
                         }
+                        else{
+                            rows[i].style.backgroundColor = "white";
+                        }
                     }
                     catch{
                         break;
                     }
                 }
-
+            }
+            
+            function submitCheck(e){
+                checkSchedule();
                 if (conflict == true){
                     alert("At least one of the equipment selected is booked for another test for the selected time window and is highlighted. You can still add this test if you wish. ")
                 }
+                if(!confirm('Do you want to add this test?')) {
+                        e.preventDefault();
+                }
+                
             }
 
             document.getElementsByName("chamber_id")[1].addEventListener("input", getChamberSchedule);
             document.getElementsByName("dar_id")[1].addEventListener("input", getDARSchedule);
             document.getElementsByName("cage_id")[1].addEventListener("input", getCageSchedule);
-            //document.getElementsByClassName("btn btn-primary my-4")[1].addEventListener("click", clicked);
-            document.getElementById("conflicts").addEventListener("click", checkSchedule);
-            
-            document.getElementsByClassName
+            document.getElementsByName("targeted_start")[1].addEventListener("input", checkSchedule);
+            document.getElementsByName("targeted_end")[1].addEventListener("input", checkSchedule);
 
-
+            var product_id
 
         </script>
     </body>

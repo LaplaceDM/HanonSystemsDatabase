@@ -1,0 +1,184 @@
+{# tutorial/templates/tutorial/people.html #}
+<!doctype html>
+{% load render_table from django_tables2 %}
+{% load bootstrap3 %}
+{% load django_tables2 %}
+{% bootstrap_css %}
+{% load static %}
+
+
+
+<html>
+    <head>
+        <title>Chamber Log Info </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet"  href="{% static 'database/ChamberLogInfo.css' %}">
+    </head>
+    
+    <body>
+        
+        {% if filter %}
+            <form action="" method="get" class="form-inline">
+                {% bootstrap_form filter.form layout='inline'%}
+                {% bootstrap_button 'filter' %}
+            </form>
+        {% endif %}
+
+        {% load crispy_forms_tags %}
+        
+            <!--Django Model Form-->
+
+            
+        <br>
+        
+            <button id="add_button" type="submit" class="btn" onclick="openPopup()"> add new </button>
+            <div class="container">
+                <br>
+            <div class="popup" id="popup">
+                <br>
+            <form class="form" action="" method="post">
+              {% csrf_token %}
+                  {{form}}
+                  <button class="btn btn-primary my-4" onclick="clicked(event)" type="submit">Submit</button>
+            </form>
+            <br>
+            </div>
+        </div>
+        
+
+
+            {% render_table table  "django_tables2/bootstrap.html"%} 
+
+            
+
+       
+        <script>
+            /*table3 = document.getElementsByTagName("table").item(3);
+            rows3 = table3.rows;
+
+            function hide(e, l){
+                let dec = document.getElementById(e);
+                if (dec.checked){
+                    for (let i = 0; i < rows3.length ; i++){
+                        if (i == 0){
+                            x = rows3[i].getElementsByTagName("th")[l];
+                            x.hidden = true;
+                            continue;
+                        }
+                        x = rows3[i].getElementsByTagName("td")[l];
+                        x.hidden = true;
+                    }
+                }else{
+                    for (let i = 0; i < rows3.length ; i++){
+                        if (i == 0){
+                            x = rows3[i].getElementsByTagName("th")[l];
+                            x.hidden = false;
+                            continue;
+                        }
+                        x = rows3[i].getElementsByTagName("td")[l];
+                        x.hidden = false;
+                    }
+                }
+            }*/
+
+            let popup = document.getElementById("popup");
+            popup.hidden = true;    
+            function openPopup(){
+                if (popup.hidden){
+                    popup.hidden = false;
+                }
+                else{
+                    popup.hidden = true;
+                }
+            }
+
+            function clicked(e)
+                {
+                    if(!confirm('Are you sure?')) {
+                        e.preventDefault();
+                    }
+                    popup.classList.remove("open-popup");
+                }
+            var table, rows
+            
+
+            table = document.getElementsByTagName("table").item(0);
+            rows = table.rows;
+            
+            
+            for (let i = 1; i < rows.length ; i++){
+                x = rows[i].getElementsByTagName("td")[15];
+                y = x.getElementsByClassName("btn")[0];
+                y.onclick = function clicked(e)
+                {
+                    if(!confirm('Are you sure?')) {
+                        e.preventDefault();
+                    }
+                };
+            }
+
+
+
+           
+            function getCookie(name) {
+                var cookieValue = null;
+                    if (document.cookie && document.cookie !== '') {
+                        var cookies = document.cookie.split(';');
+                        for (var i = 0; i < cookies.length; i++) {
+                            var cookie = cookies[i].trim();
+                            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                break;
+                            }
+                        }
+                    }
+                return cookieValue;
+            }
+
+            function highlight(){
+                var csrftoken = getCookie('csrftoken');
+                var test_id = document.getElementsByName("test_id")[1].value;
+                console.log(test_id)
+                fetch("http://127.0.0.1:8000/database/children1", {method: "POST", body: test_id, headers:{"X-CSRFToken": csrftoken}})
+                .then((response)=>
+                fetch("http://127.0.0.1:8000/database/getchildren")
+                )
+                .then(result=> result.json())
+                .then(result=>{
+                    var keys = Object.keys(result)
+                    let prod = document.getElementsByName("chamber_id")[1]
+                    let values = prod.getElementsByTagName("option")
+                    let int = 0;
+                    for (let j = 0; j<values.length;j++){
+                        values[j].setAttribute("style","background-color: #ffffff");
+                    }
+                    for (let i = 0; i<keys.length;i++){
+                        for (let j = 0; j<values.length;j++){
+                            if (eval(`result.${keys[i]}.chamber_id`) === values[j].value){
+                                values[j].setAttribute("style","background-color: #90EE90");
+                                int++;
+                            }
+                        }
+                    }
+                    if (int === 0){
+                        for (let j = 0; j<values.length;j++){
+                        values[j].setAttribute("style","background-color: #ffffff");
+                    }
+                    }
+                }
+                )
+                .catch(()=>{
+                    let prod = document.getElementsByName("chamber_id")[1]
+                    let values = prod.getElementsByTagName("option")
+                    for (let j = 0; j<values.length;j++){
+                        values[j].setAttribute("style","background-color: #ffffff");
+                    }
+
+                })
+            }
+            console.log(document.getElementsByName("test_id"))
+            document.getElementsByName("test_id")[1].addEventListener("input", highlight)
+
+        </script>
+    </body>
+</html>

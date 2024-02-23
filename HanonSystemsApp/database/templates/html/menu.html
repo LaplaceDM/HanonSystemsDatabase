@@ -1,0 +1,21 @@
+{# tutorial/templates/tutorial/people.html #}
+<!doctype html>
+{% load render_table from django_tables2 %}
+{% load bootstrap3 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+<html>
+    <head>
+        <title>Menu</title>
+        
+    </head>
+    <body>
+        <a href="http://127.0.0.1:8000/database/program" target="_blank">Program</a>
+        <br>
+        <a href="http://127.0.0.1:8000/database/product" target="_blank">Product</a>
+        <br>
+        <a href="http://127.0.0.1:8000/database/tests" target="_blank">Test</a>
+        <br>
+        <a href="http://127.0.0.1:8000/database/ChamberLogInfo" target="_blank">Chamber Log Info</a>
+    </body>
+</html>
