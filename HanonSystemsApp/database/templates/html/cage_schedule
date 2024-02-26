@@ -1,3 +1,4 @@
 {
-
+"booking0": {"targeted_start" : "2024-02-02", "targeted_end" : "2024-03-14","test_map_id" : "21212", "test_type_id" : "Endurance Test", "program_id" : "BMW", "scheduling" : "current"},
+"booking1": {"targeted_start" : "2024-02-08", "targeted_end" : "2024-02-16","test_map_id" : "21212", "test_type_id" : "Endurance Test", "program_id" : "BMW", "scheduling" : "current"}
 }

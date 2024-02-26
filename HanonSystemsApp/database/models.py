@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models import Model 
 from django.utils import timezone
+from dbview.models import DbView
 
 
 # Create your models here.
@@ -136,16 +137,8 @@ class Test(models.Model):
     
     status_log = models.CharField(max_length = 4000, null = True)
 
-    
-    
-    
-    
-    
-    
-   
-
     def __str__(self):
-        return f"{self.chamber_id} {self.targeted_start}"
+        return f"{self.test_type_id} {self.chamber_id}"
 
 class ChamberLog(models.Model):
     id = models.BigAutoField(primary_key=True)
@@ -164,7 +157,7 @@ class ChamberLog(models.Model):
 
     log_id = models.ForeignKey("ChamberLogInfo", on_delete = models.CASCADE, db_column = "log_id")
 
-class ChamberLogInfo(models.Model):
+class ChamberLogInfo(DbView):
     created = models.DateTimeField(default=timezone.now)
     id = models.AutoField(primary_key=True)
     pretest_inspection_and_photo = models.BooleanField(null = True)

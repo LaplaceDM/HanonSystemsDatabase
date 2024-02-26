@@ -35,6 +35,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'bootstrap3',
+    'dbview',
     'bootstrap4',
     'bootstrap5',
     'django_tables2_column_shifter',

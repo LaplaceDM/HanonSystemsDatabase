@@ -84,7 +84,7 @@ class ProductListView(SingleTableMixin,  CreateView, FilterView):
     paginate_by = 20
     filterset_class = ProductFilter
     form_class = ProductForm
-    success_url = '/x/product'
+    success_url = '/database/product'
 
     def form_invalid(self, form):
         messages.error(self.request, 'sorry error')
