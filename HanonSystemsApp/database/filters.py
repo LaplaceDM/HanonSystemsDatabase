@@ -29,17 +29,17 @@ class ProductFilter(django_filters.FilterSet):
 class TestFilter(django_filters.FilterSet):
         targeted_start = django_filters.DateFilter(field_name='targeted_start', 
                                             widget= forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
-                                            lookup_expr='gte')
+                                            lookup_expr='gte', label='Targed Start')
         targeted_end = django_filters.DateFilter(field_name='targeted_end',
                                             widget= forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
-                                            lookup_expr='lte', label='Start Date')
+                                            lookup_expr='lte', label='Targed End')
         setup_date = django_filters.DateFilter(field_name='setup_date', 
                                             widget= forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
                                             lookup_expr='iexact', label='Start Date')
-        created = django_filters.DateFilter(field_name='created', 
+        created = django_filters.DateFilter(field_name='Created', 
                                             widget= forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
                                             lookup_expr='date',
-                                            label='created')
+                                            label='Created')
         class Meta:
             model = Test
             exclude = ['delete' ,]
