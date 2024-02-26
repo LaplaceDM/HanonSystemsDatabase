@@ -8,9 +8,17 @@
   display: inline-block;
   font-size: 16px;
 }
-.popup{
-    border: solid;
+.popup, .container, #filter, #filter_field, #add, #add_field {
+    width: 100%;
 }
+
+form {
+    border-style: solid;
+    border-color: black;
+    border-width: 1px;
+    padding: 10px;
+}
+
 #chamberschedule th, #chamberschedule td, #darschedule th, #darschedule td, #cageschedule th, #cageschedule td{
     padding: 7px;
 }
@@ -37,12 +45,3 @@
     margin-top: 15px;
     vertical-align: top;
 }
-
-#conflicts{
-    display: block;
-    margin-left: 10px;
-    margin-top: 15px;
-}
-
-
-

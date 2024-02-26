@@ -49,7 +49,7 @@ class TestMap(models.Model):
 
     program_id = models.ForeignKey( "Program", on_delete = models.CASCADE, null = True, db_column="program_id")
     def __str__(self):
-        return self.tr + (" - ")  +str(self.program_id)
+        return self.tr + (" - ")  +str(self.test_map_name)
 
 class Technician (models.Model):
     technician_name = models.CharField(max_length = 30)

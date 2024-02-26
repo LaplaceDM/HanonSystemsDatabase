@@ -49,42 +49,60 @@
             <center>
             <input type="checkbox" id="checkcreated" onclick="hide('checkcreated', 0)">
             <label for="checkcreated"> Created</label>
-            <input type="checkbox" id="checkScheduling" onclick="hide('checkScheduling', 5)">
-            <label for="checkScheduling"> Scheduling</label>
-            <input type="checkbox" id="checkStatus" onclick="hide('checkStatus', 6)">
-            <label for="checkStatus"> Status</label>
-            <input type="checkbox" id="checkTargeted start" onclick="hide('checkTargeted start', 13)">
-            <label for="checkTargeted start"> Targeted Start</label>
-            <input type="checkbox" id="checkTargeted end" onclick="hide('checkTargeted end', 14)">
-            <label for="checkTargeted end"> Targeted end</label>
-            <input type="checkbox" id="checkSupervisor comments" onclick="hide('checkSupervisor comments', 15)">
-            <label for="checkSupervisor comments"> Supervisor comments</label>
-            <input type="checkbox" id="checkHours planned" onclick="hide('checkHours planned', 16)">
-            <label for="checkHours planned"> Hours planned</label>
-            <input type="checkbox" id="checkSetup date" onclick="hide('checkSetup date', 17)">
-            <label for="checkSetup date"> Setup date</label>
-            <input type="checkbox" id="checkPriority" onclick="hide('checkPriority', 4)">
-            <label for="checkPriority"> Priority</label>
-            <input type="checkbox" id="checkStatus log" onclick="hide('checkStatus log', 18)">
-            <label for="checkStatus log"> Status log</label>
-            <input type="checkbox" id="checkTest" onclick="hide('checkTest', 7)">
-            <label for="checkTest"> Test</label>
-            <input type="checkbox" id="checkLeg" onclick="hide('checkLeg', 3)">
-            <label for="checkLeg"> Leg</label>
-            <input type="checkbox" id="checkTechnician" onclick="hide('checkTechnician', 8)">
-            <label for="checkTechnician"> Technician</label>
-            <input type="checkbox" id="checkDAR" onclick="hide('checkDAR', 10)">
-            <label for="checkDAR"> DAR</label>
-            <input type="checkbox" id="checkChamber" onclick="hide('checkChamber', 9)">
-            <label for="checkChamber"> Chamber</label>
-            <input type="checkbox" id="checkCage" onclick="hide('checkCage', 11)">
-            <label for="checkCage"> Cage</label>
-            <input type="checkbox" id="checkLab" onclick="hide('checkLab', 12)">
-            <label for="checkLab"> Lab</label>
-            <input type="checkbox" id="checkProgram id" onclick="hide('checkProgram id', 2)">
-            <label for="checkProgram id"> Program id</label>
+
             <input type="checkbox" id="checkProduct id" onclick="hide('checkProduct id', 1)">
             <label for="checkProduct id"> Product id</label>
+
+            <input type="checkbox" id="checkProgram id" onclick="hide('checkProgram id', 2)">
+            <label for="checkProgram id"> Program id</label>
+
+            <input type="checkbox" id="checkLeg" onclick="hide('checkLeg', 3)">
+            <label for="checkLeg"> Leg</label>
+
+            <input type="checkbox" id="checkPriority" onclick="hide('checkPriority', 4)">
+            <label for="checkPriority"> Priority</label>
+
+            <input type="checkbox" id="checkScheduling" onclick="hide('checkScheduling', 5)">
+            <label for="checkScheduling"> Scheduling</label>
+
+            <input type="checkbox" id="checkStatus" onclick="hide('checkStatus', 6)">
+            <label for="checkStatus"> Status</label>
+
+            <input type="checkbox" id="checkTest" onclick="hide('checkTest', 7)">
+            <label for="checkTest"> Test</label>
+
+            <input type="checkbox" id="checkTechnician" onclick="hide('checkTechnician', 8)">
+            <label for="checkTechnician"> Technician</label>
+
+            <input type="checkbox" id="checkChamber" onclick="hide('checkChamber', 9)">
+            <label for="checkChamber"> Chamber</label>
+
+            <input type="checkbox" id="checkDAR" onclick="hide('checkDAR', 10)">
+            <label for="checkDAR"> DAR</label>
+
+            <input type="checkbox" id="checkCage" onclick="hide('checkCage', 11)">
+            <label for="checkCage"> Cage</label>
+
+            <input type="checkbox" id="checkLab" onclick="hide('checkLab', 12)">
+            <label for="checkLab"> Lab</label>
+
+            <input type="checkbox" id="checkTargeted start" onclick="hide('checkTargeted start', 13)">
+            <label for="checkTargeted start"> Targeted Start</label>
+
+            <input type="checkbox" id="checkTargeted end" onclick="hide('checkTargeted end', 14)">
+            <label for="checkTargeted end"> Targeted end</label>
+
+            <input type="checkbox" id="checkSupervisor comments" onclick="hide('checkSupervisor comments', 15)">
+            <label for="checkSupervisor comments"> Supervisor comments</label>
+
+            <input type="checkbox" id="checkHours planned" onclick="hide('checkHours planned', 16)">
+            <label for="checkHours planned"> Hours planned</label>
+
+            <input type="checkbox" id="checkSetup date" onclick="hide('checkSetup date', 17)">
+            <label for="checkSetup date"> Setup date</label>
+            
+            <input type="checkbox" id="checkStatus log" onclick="hide('checkStatus log', 18)">
+            <label for="checkStatus log"> Status log</label>
             
             <input type="checkbox" id="checkdelete" onclick="hide('checkdelete', 19)">
             <label for="checkLab"> Delete</label>
@@ -188,15 +206,16 @@
 
 
             var table, rows
-            
+
 
             table = document.getElementsByTagName("table").item(3);
+
             rows = table.rows;
             
             rows = table.rows;
             
             for (let i = 1; i < rows.length ; i++){
-                x = rows[i].getElementsByTagName("td")[19];
+                x = rows[i].getElementsByTagName("td")[20];
                 y = x.getElementsByClassName("btn")[0];
 
                 y.onclick = function clicked(e)
@@ -211,7 +230,65 @@
             }
             
 
+            var label, input, formated_label, formated_input, length, formated_fields, current_fields, th, td, button, children;
+            length = 20;
 
+            formated_fields = document.createElement("table");
+            formated_fields.id = "filter";
+
+            current_fields = document.getElementsByTagName("form")[0];
+            current_fields.appendChild(formated_fields);
+            formated_label = document.createElement("tr");
+            formated_input = document.createElement("tr");
+            
+            for (var i =0; i<length; i++){
+                th = document.createElement("th");
+                td = document.createElement("td");
+                label = document.getElementsByClassName("sr-only")[i].innerHTML;
+                input = document.getElementsByClassName("form-control")[i].cloneNode(true);
+                input.id = "filter_field";
+                th.innerHTML=label;
+                td.appendChild(input);
+                formated_label.appendChild(th);
+                formated_input.appendChild(td);
+            }
+            button = document.getElementsByTagName("button")[0]
+            formated_fields.appendChild(formated_label);
+            formated_fields.appendChild(formated_input);
+            current_fields.appendChild(button);
+
+            for (var i =0; i<length; i++){
+                document.getElementsByClassName("form-group")[0].remove();
+            }
+
+            length = 19;
+            formated_fields = document.createElement("table");
+            formated_fields.id = "add";
+            current_fields = document.getElementsByTagName("form")[1];
+            children = current_fields.children;
+            current_fields.appendChild(formated_fields);
+            formated_label = document.createElement("tr");
+            formated_input = document.createElement("tr");
+            
+            for (var i =0; i<length; i++){
+                th = document.createElement("th");
+                td = document.createElement("td");
+                label = children[2*i+1].innerHTML;
+                input = children[2*i+2].cloneNode(true);
+                input.id = "add_field"
+                th.innerHTML = label;
+                td.appendChild(input);
+                formated_label.appendChild(th);
+                formated_input.appendChild(td);
+            }
+            button = document.getElementsByTagName("button")[2]
+            formated_fields.appendChild(formated_label);
+            formated_fields.appendChild(formated_input);
+            current_fields.appendChild(button);
+
+            for (var i =0; i<length*2; i++){
+                children[1].remove();
+            }
 
            
             function getCookie(name) {
@@ -381,14 +458,15 @@
                         scheduling = document.createElement("td");
                         targeted_start = document.createElement("td");
                         targeted_end = document.createElement("td");
-                        
+    
                         program.innerHTML = eval(`result.${keys[i]}.program_id`);
                         product.innerHTML = eval(`result.${keys[i]}.product_id`);
                         tr.innerHTML = eval(`result.${keys[i]}.test_map_id`);
                         test.innerHTML = eval(`result.${keys[i]}.test_type_id`);
-                        scheduling.innerHTML = eval(`result.${keys[i]}.scheduling`);
+                        scheduling.innerHTML = eval(`result.${keys[i]}.scheduling`);    
                         targeted_start.innerHTML = eval(`result.${keys[i]}.targeted_start`);
                         targeted_end.innerHTML = eval(`result.${keys[i]}.targeted_end`);
+                        
 
                         row.appendChild(program);
                         row.appendChild(product);
@@ -397,6 +475,7 @@
                         row.appendChild(scheduling);
                         row.appendChild(targeted_start);
                         row.appendChild(targeted_end);
+
                         schedule.appendChild(row);
                     }
                 })
@@ -659,7 +738,61 @@
             document.getElementsByName("targeted_start")[1].addEventListener("input", checkSchedule);
             document.getElementsByName("targeted_end")[1].addEventListener("input", checkSchedule);
 
-            var product_id
+            var table, rows, cells, length;
+            rows = document.getElementsByTagName("table")[5].rows;
+            length = rows.length;
+
+            function highlight_status(cells){
+                if (cells[6].innerHTML=="stopped"){
+                    cells[6].style.backgroundColor = "red";
+                }
+                else if(cells[6].innerHTML =="setup"){
+                    cells[6].style.backgroundColor = "yellow";
+                }
+                else if(cells[6].innerHTML =="running"){
+                    cells[6].style.backgroundColor = "green";
+                }
+                else if(cells[6].innerHTML =="data review"){
+                    cells[6].style.backgroundColor = "green";
+                }
+                else if(cells[6].innerHTML =="on hold"){
+                    cells[6].style.backgroundColor = "red";
+                }
+                else if(cells[6].innerHTML =="no man power"){
+                    cells[6].style.backgroundColor = "purple";
+                }
+                else if(cells[6].innerHTML =="on track"){
+                    cells[6].style.backgroundColor = "green";
+                }
+            }
+
+            for (var i = 1; i<length; i++){
+                cells = rows[i].cells;
+                if (cells[5].innerText=="complete"||cells[5].innerText=="cancelled"){
+                    for (var y=4; y<cells.length; y++){
+                        cells[y].style.backgroundColor = "rgb(211, 211, 211)";
+                    }
+                }
+                else{
+                    if (cells[4].innerText=="1"){
+                        for (var y=4; y<cells.length; y++){
+                            cells[y].style.backgroundColor = "rgb(255, 165, 0)";
+                        }
+                    }
+                    else if(cells[4].innerText=="2"){
+                        for (var y=4; y<cells.length; y++){
+                            cells[y].style.backgroundColor = "rgb(255, 255, 0)";
+                        }
+                    }
+                    else if(cells[4].innerText=="3"){
+                        for (var y=4; y<cells.length; y++){
+                            cells[y].style.backgroundColor = "rgb(255, 240, 230)";
+                        }
+                    }
+                    highlight_status(cells);
+                }
+            }
+
 
         </script>
     </body>
