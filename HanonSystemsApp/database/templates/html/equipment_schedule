@@ -1,0 +1,6 @@
+{
+"booking0": {"targeted_start" : "2024-02-02", "targeted_end" : "2024-04-17","test_map_id" : "TR.CC23.174700", "test_type_id" : "Endurance Test", "program_id" : "Stellantis LB", "scheduling" : "current"},
+"booking1": {"targeted_start" : "2024-02-03", "targeted_end" : "2024-03-29","test_map_id" : "TR.CC23.174700", "test_type_id" : "Thermal Shock", "program_id" : "Audi MLB-150", "scheduling" : "current"},
+"booking2": {"targeted_start" : "2024-02-03", "targeted_end" : "2024-03-28","test_map_id" : "TR.CC23.174700", "test_type_id" : "Endurance Test", "program_id" : "Audi MLB-150", "scheduling" : "current"},
+"Cage": "PCIR03"
+}

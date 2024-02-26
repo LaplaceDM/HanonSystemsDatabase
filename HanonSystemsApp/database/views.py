@@ -280,7 +280,7 @@ def chamber_schedule(request):
         a = open("database/templates/html/equipment_schedule", "w")
         a.write("{\n")
         a.close()
-        print(chamber_tests)
+       
 
         a = open("database/templates/html/equipment_schedule", "a")
         for i in range(len(chamber_tests)):
