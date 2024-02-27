@@ -127,12 +127,12 @@ class Test(models.Model):
     dar_id = models.ForeignKey("DAR", on_delete = models.CASCADE, db_column = "dar_id", verbose_name = "DAR")
     cage_id = models.ForeignKey("Cage", on_delete = models.CASCADE, db_column = "cage_id", verbose_name = "cage")
     lab_id = models.ForeignKey("Lab", on_delete = models.CASCADE, db_column = "lab_id", verbose_name = "Lab")
-    total_hours = models.SmallIntegerField(null = True)
 
     targeted_start = models.DateField(null =True)
     targeted_end = models.DateField(null =True)
     supervisor_comments = models.CharField(max_length = 4000, null =True)
     hours_planned = models.SmallIntegerField(null =True)
+    total_hours = models.SmallIntegerField(null = True)
     setup_date = models.DateField(null =True)
     
     status_log = models.CharField(max_length = 4000, null = True)
