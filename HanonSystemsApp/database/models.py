@@ -1,7 +1,7 @@
 from django.db import models
 from django.db.models import Model 
 from django.utils import timezone
-from dbview.models import DbView
+
 
 
 # Create your models here.
@@ -157,7 +157,7 @@ class ChamberLog(models.Model):
 
     log_id = models.ForeignKey("ChamberLogInfo", on_delete = models.CASCADE, db_column = "log_id")
 
-class ChamberLogInfo(DbView):
+class ChamberLogInfo(models.Model):
     created = models.DateTimeField(default=timezone.now)
     id = models.AutoField(primary_key=True)
     pretest_inspection_and_photo = models.CharField(max_length = 10, verbose_name = "Pretest Inspection and Photo",  null = True)

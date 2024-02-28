@@ -22,6 +22,7 @@ from .forms import ProductForm
 from .forms import TestForm
 from .forms import ChamberLogInfoForm
 from .forms import ChamberLogForm
+from .forms import TestUpdateForm
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.views.generic.edit import FormView
@@ -115,11 +116,14 @@ class UpdateTableViewTest(SingleTableMixin,  UpdateView):
     model = Test
     table_class = TestTable
     template_name = 'html/update_test.html'
-    form_class = TestForm
+    form_class = TestUpdateForm
     # template_name_suffix = 'html/index.html'
     # fields = '__all__'
     success_url = '/database/tests'
 
+def find(request, pk):
+    p = ChamberLogInfo.objects.get(test_id = pk).pk
+    return HttpResponseRedirect(reverse("ChamberLog", kwargs={'pk': p}))
 
 
 def delete_item_test(request, pk):

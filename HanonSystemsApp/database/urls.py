@@ -40,6 +40,8 @@ urlpatterns = [
     path('ChamberLogInfo/update_ChamberLogInfo/<int:pk>', views.UpdateTableViewChamberLogInfo.as_view(), name="update_ChamberLogInfo"),
     path("ChamberLogInfo/clone/<int:pk>", views.clone_item3, name="clone3"),
 
+     path("find/<int:pk>", views.find, name="find"),
+
     path("ChamberLog/<int:pk>", views.ChamberLogView.as_view(), name="ChamberLog"),
     path('ChamberLog/delete_ChamberLog/<int:pk>', views.delete_item_ChamberLog, name="delete_ChamberLog"),
     # path('ChamberLog/update_ChamberLog/<int:pk>', views.UpdateTableViewChamberLog.as_view(), name="update_ChamberLog"),

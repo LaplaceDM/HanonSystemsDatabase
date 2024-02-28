@@ -55,6 +55,10 @@ class TestTable(ColumnShiftTableBootstrap3):
     'a': {'class': 'btn'}
     }, orderable = False)
 
+    log = tables.LinkColumn('find',text='log', args=[A('pk')], attrs={
+    'a': {'class': 'btn'}
+    }, orderable = False)
+
 
     class Meta:
         model = Test
