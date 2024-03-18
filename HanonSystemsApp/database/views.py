@@ -31,7 +31,7 @@ from django.views.generic.edit import UpdateView
 from django_tables2 import MultiTableMixin
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import SingleObjectMixin
-
+from datetime import datetime
 from django.utils import timezone
 from django.http import HttpResponse
 from django.db.models import Q
@@ -449,3 +449,156 @@ def clone_item4(request, pk):
 
 def menu(request):
     return render(request, "html/menu.html")
+
+def hours_calculations(request):
+    return render(request, "html/hours_calculations.html")
+
+def calculate(request):
+    dates = str(request.body)
+    first = dates.find("'")
+    last = dates.find("'", first +1)
+    dates = dates[first+1: last]
+    dates = dates.split(",")
+    dates[0] = datetime.strptime(dates[0], "%Y-%m-%d")                  #converting date string to date object
+    dates[1] = datetime.strptime(dates[1], "%Y-%m-%d")
+    print(dates)
+    program_hours = {}
+    equipment_hours = {}
+
+    all_logs = ChamberLog.objects.filter(timestamp__gte = dates[0]).filter(timestamp__lte = dates[1])    #getting all logs in the specified time period
+    print(all_logs)
+    chambers = Chamber.objects.all()
+    for chamber in chambers:
+        chamber_name = chamber.chamber_name
+        max_hours = chamber.max_daily_hours  #getting the max hour of the current chamber
+        total_hours = (dates[1]-dates[0]).days*max_hours #getting total time in period
+        chamber_logs = all_logs.filter(log_id__test_id__chamber_id = chamber.chamber_id)        #getting logs of current chamber
+        tests = chamber_logs.distinct("log_id__test_id")        #getting tests that ran in that chamber
+        equipment_hours[chamber_name]["hours assessed"] = total_hours
+        equipment_hours[chamber_name]["running"]=0
+
+        for test in tests:
+            test_logs = chamber_logs.filter(log_id__test_id= test.test_id).order_by("timestamp")       #getting chamber logs that belong to current test
+            program_name = test.program_id.program_name
+            
+            stop = False
+            logs = test_logs.filter(circuit_number = test_logs[0].circuit_number).order_by("timestamp")
+            
+            while stop == False:
+                for log in logs:
+                    if log == logs[0]:  #in case this is the first of a stretch of logs
+                        if ChamberLog.objects.filter(log_id__test_id= log.test_id).filter(log_id__test_id__chamber_id= log.test_id.chamber_id).filter(timestamp__lt = log.timestamp).filter(circuit_number = log.circuit_number).latest("timestamp").status != "stopped":
+                            previous_log = ChamberLog.objects.filter(log_id__test_id= log.test_id).filter(log_id__test_id__chamber_id= log.test_id.chamber_id).filter(timestamp__lt = log.timestamp).filter(circuit_number = log.circuit_number).latest("timestamp")
+                        else:
+                            previous_log= log
+                            continue
+                    
+                    running_hours = log.running_hours - previous_log.running_hours
+                    current_timestamp = datetime.strptime(log.timestamp, "%Y-%m-%d %H:%M:%-S")
+                    previous_timestamp = datetime.strptime(previous_log.timestamp, "%Y-%m-%d %H:%M:%-S")
+                    status_hours = (current_timestamp-previous_timestamp).days*max_hours - running_hours
+                    previous_log = log
+
+                    if program_name not in program_hours.keys():                                #updating program hours
+                        program_hours[program_name]["running"] = running_hours
+                        program_hours[program_name][previous_log.status] = status_hours
+
+                    else:
+                        program_hours[program_name]["running"] = program_hours[program_name]["running"] + running_hours
+                        if previous_log.status not in program_hours[program_name].keys():
+                            program_hours[program_name][previous_log.status] = status_hours
+                        else:
+                            program_hours[program_name][previous_log.status] = program_hours[program_name][previous_log.status] + status_hours                             
+
+                
+                    equipment_hours[chamber_name]["running"]=equipment_hours[chamber_name]["running"] + running_hours           #updating equipment hours
+                    if previous_log.status not in equipment_hours[chamber_name].keys():
+                        equipment_hours[chamber_name][previous_log.status] = status_hours
+                    else:
+                        equipment_hours[chamber_name][previous_log.status] = [chamber_name][previous_log.status] + status_hours
+                    
+                    
+                    if log.status == "stopped"| log == logs[len(logs)-1]:        #when the current log is the last of the circuit logs, or the stretch of logs is stopped.
+                        next_log = ChamberLog.objects.filter(log_id__test_id= log.test_id).filter(log_id__test_id__chamber_id= log.test_id.chamber_id).filter(timestamp__gte = log.timestamp).exclude(status = "stopped").earliest("timestamp")
+                        if next_log:
+                            logs = ChamberLog.objects.filter(log_id__test_id= log.test_id).filter(log_id__test_id__chamber_id= log.test_id.chamber_id).filter(timestamp__gte = log.timestamp).filter(circuit_number = next_log.circuit_number).order_by("timestamp")
+                            break
+                        else:
+                            stop = True
+                            break
+                        
+                        
+    #write csv file for program hours:
+    a = open("database/static/database/programhours.csv", "w")
+    a.write("")
+    a.close()
+    a = open("database/static/database/programhours.csv", "a")
+    a.write("Program;Running;Setup;Waiting for product;Stopped\n")
+    for i in program_hours:
+        a.write(f'{i};')
+        if i["running"]:
+            a.write(f'{i["running"]};')
+        else:
+            a.write("0;")
+        if i["set up"]:
+            a.write(f'{i["set up"]};')
+        else:
+            a.write("0;")
+        if i["waiting for product"]:
+            a.write(f'{i["waiting for product"]};')
+        else:
+            a.write("0;")
+        if i["stopped"]:
+            a.write(f'{i["stopped"]}\n')
+        else:
+            a.write("0\n")
+    a.close()
+    
+    #write csv file for equipment hours:
+    a = open("database/static/database/equipmenthours.csv", "w")
+    a.write("")
+    a.close()
+    a = open("database/static/database/equipmenthours.csv", "a")
+    a.write("Chamber;Total time assessed;Running;Setup;Waiting for product;Stopped\n")
+    for i in program_hours:
+        a.write(f'{i};{i[total_hours]};')
+        if i["running"]:
+            a.write(f'{i["running"]};')
+        else:
+            a.write("0;")
+        if i["set up"]:
+            a.write(f'{i["set up"]};')
+        else:
+            a.write("0;")
+        if i["waiting for product"]:
+            a.write(f'{i["waiting for product"]};')
+        else:
+            a.write("0;")
+        if i["stopped"]:
+            a.write(f'{i["stopped"]}\n')
+        else:
+            a.write("0\n")
+    a.close()
+               
+    return HttpResponse("hours compiled");
+
+def dut_hours(request):
+    dut = int(request.body)
+    test_hours = {}
+    tests = ChamberLog.objects.filter(dut_id = dut).distinct("test_id")
+    for test in tests:
+        total_hours = ChamberLog.objects.filter(log_id__test_id = test.log_id.test_id).filter(dut_id = dut).latest("timestamp").total_hours
+        test_hours[test.log_id.test_id.test_type_id.test_name] = total_hours
+    
+    a = open("database/templates/html/dut_hours", "w")
+    a.write("")
+    a.close()
+    a = open("database/templates/html/dut_hours", "a")
+    a.write("{{")
+    
+    for i in test_hours:
+        a.write( f'\"{i}\": {test_hours[i]},\n')
+    a.write("}}")
+    a.close()
+    
+    return HttpResponse("dut hours compiled")

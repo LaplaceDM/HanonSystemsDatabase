@@ -40,7 +40,7 @@ class Product(models.Model):
     product_id = models.AutoField(primary_key=True)
     program_id = models.ForeignKey( "Program", on_delete = models.CASCADE, null = True, db_column="program_id")
     def __str__(self):
-        return self.product_family
+        return self.product_family+ (" - ")  +str(self.program_id)
 
 class TestMap(models.Model):
     test_map_name = models.CharField(max_length = 30, null = True)
@@ -133,9 +133,7 @@ class Test(models.Model):
     supervisor_comments = models.CharField(max_length = 4000, null =True)
     hours_planned = models.SmallIntegerField(null =True)
     total_hours = models.SmallIntegerField(null = True)
-    setup_date = models.DateField(null =True)
-    
-    status_log = models.CharField(max_length = 4000, null = True)
+
     def __str__(self):
         return f"{self.chamber_id} {self.targeted_start}"
 
@@ -145,16 +143,16 @@ class ChamberLog(models.Model):
     circuit_number = models.SmallIntegerField()
     total_hours = models.SmallIntegerField()
     status = models.CharField(max_length = 20, verbose_name = "Status",  null = True)
-    fluid_temp = models.FloatField(null = True)
-    ambient_temp = models.FloatField(null = True)
-    system_pressure = models.FloatField(null = True)
-    lin_speed = models.FloatField(null = True)
-    voltage = models.FloatField(null = True)
-    current = models.FloatField(null = True)
-    head = models.FloatField(null = True)
-    comments = models.CharField(max_length = 300)
-
+    dut_id = models.IntegerField(null = True)
+    comments = models.CharField(max_length = 300, null = True)
+    technician = models.CharField(max_length = 100, null = True)
+    shaker_direction = models.CharField(max_length = 100, null = True)
+    chamber_id = models.SmallIntegerField(null = True)
+    dar_id = models.SmallIntegerField(null = True)
+    cage_id = models.SmallIntegerField(null = True)
+    
     log_id = models.ForeignKey("ChamberLogInfo", on_delete = models.CASCADE, db_column = "log_id")
+    
 
 class ChamberLogInfo(models.Model):
     created = models.DateTimeField(default=timezone.now)
@@ -168,11 +166,16 @@ class ChamberLogInfo(models.Model):
     system_restriction_record = models.CharField(max_length = 10, verbose_name = "System Restriction Record",  null = True)
     trial_run_record_and_process = models.CharField(max_length = 10, verbose_name = "Trial Run Record And Process",  null = True)
     special_requirements = models.CharField(max_length = 300,null = True)
+    coolant = models.CharField(max_length = 100, null = True)
+    temperature = models.FloatField(null = True)
+    test_profile = models.CharField(max_length = 300, null = True)
+    shaker_profile = models.CharField(max_length = 300, null = True)
+    chamber_profile = models.CharField(max_length = 300, null = True)
+    pump_profile = models.CharField(max_length = 300, null = True)
+    
+    
 
     test_id = models.ForeignKey("Test", on_delete = models.CASCADE, db_column = "test_id")
-    chamber_id = models.ForeignKey("Chamber", on_delete = models.CASCADE, db_column = "chamber_id")
-    program_id = models.ForeignKey("Program", on_delete = models.CASCADE, db_column = "program_id")
-    technician_id = models.ForeignKey("Technician", on_delete = models.CASCADE, db_column = "technician_id")
 
 class Cage (models.Model):
     cage_id = models.SmallAutoField(primary_key=True)
@@ -209,9 +212,10 @@ class Chamber(models.Model):
     working_condition = models.CharField(max_length = 50, verbose_name = "Working Condition",  null = True)
     rate = models.FloatField(null=True)
     currency = models.CharField(max_length = 20, null=True)
-    heating_power = models.SmallIntegerField()
-    cooling_power = models.SmallIntegerField()
-    heating_gradient = models.FloatField()
+    heating_power = models.SmallIntegerField(null = True)
+    cooling_power = models.SmallIntegerField(null = True)
+    heating_gradient = models.FloatField(null = True)
+    max_daily_hours = models.SmallIntegerField(null = True)
 
     lab_id = models.ForeignKey("Lab", on_delete = models.SET_NULL, null=True, db_column = "lab_id")
     def __str__(self):
