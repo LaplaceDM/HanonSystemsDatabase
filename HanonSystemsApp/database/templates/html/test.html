@@ -99,20 +99,35 @@
             <input type="checkbox" id="checkHours planned" onclick="hide('checkHours planned', 16)">
             <label for="checkHours planned"> Hours planned</label>
 
-            <input type="checkbox" id="checkSetup date" onclick="hide('checkSetup date', 17)">
+            <input type="checkbox" id="checkHours actual" onclick="hide('checkHours actual', 17)">
+            <label for="checkHours actual"> Hours actual</label>
+
+            <input type="checkbox" id="checkSetup date" onclick="hide('checkSetup date', 18)">
             <label for="checkSetup date"> Setup date</label>
             
-            <input type="checkbox" id="checkStatus log" onclick="hide('checkStatus log', 18)">
+            <input type="checkbox" id="checkStatus log" onclick="hide('checkStatus log', 19)">
             <label for="checkStatus log"> Status log</label>
             
-            <input type="checkbox" id="checkdelete" onclick="hide('checkdelete', 19)">
+            <input type="checkbox" id="checkdelete" onclick="hide('checkdelete', 20)">
             <label for="checkLab"> Delete</label>
-            <input type="checkbox" id="checkupdate" onclick="hide('checkupdate', 20)">
+            <input type="checkbox" id="checkupdate" onclick="hide('checkupdate', 21)">
             <label for="checkProgram id"> Update</label>
-            <input type="checkbox" id="checkclone" onclick="hide('checkclone', 21)">
+            <input type="checkbox" id="checkclone" onclick="hide('checkclone', 22)">
             <label for="checkProduct id"> Clone</label> <br>
             </center>
-
+            <div>
+                <div class = "notation">
+                    When entering fields to add or edit a test, some elements of the page may change color:
+                </div>
+                <div class = "notation">
+                    <div id="green_box"></div>
+                    Green highlighted equipment from the above drop-down lists are the compatible equipment for the test, or program.
+                </div>
+                <div class = "notation">
+                    <div id="yellow_box"></div>
+                    Yellow highlighted tests in the mini tables below show the tests that are using one or more of the selected equipment for the specified time period.
+                </div>
+            </div>
         <center>
             <table id ="chamberschedule">
                 <caption id = "chamberschedulecaption">Selected Chamber's Test Schedule</caption>
@@ -166,6 +181,7 @@
 
        
         <script>
+            //column selector
             table3 = document.getElementsByTagName("table").item(3);
             rows3 = table3.rows;
 
@@ -193,6 +209,7 @@
                     }
                 }
             }
+            //end of column selector
 
             let popup = document.getElementById("popup");
             popup.hidden = true;    
@@ -206,18 +223,16 @@
             }
 
 
+            //adding confirmation for deleting
             var table, rows
-
-
             table = document.getElementsByTagName("table").item(3);
-
-            rows = table.rows;
-            
             rows = table.rows;
             
             for (let i = 1; i < rows.length ; i++){
                 x = rows[i].getElementsByTagName("td")[20];
                 y = x.getElementsByClassName("btn")[0];
+                w = rows[i].getElementsByTagName("td")[22];
+                z = w.getElementsByClassName("btn")[0];
 
                 y.onclick = function clicked(e)
                 {
@@ -226,11 +241,16 @@
                     }
                 };
 
-                // y.addEventListener("click", clicked);
-
+                z.onclick = function clicked(e)
+                {
+                    if(!confirm('Are you sure?')) {
+                        e.preventDefault();
+                    }
+                };
             }
+            //end of delete confirmation
             
-
+            //formating filter and add fields
             var label, input, formated_label, formated_input, length, formated_fields, current_fields, th, td, button, children;
             length = 20;
 
@@ -290,8 +310,9 @@
             for (var i =0; i<length*2; i++){
                 children[1].remove();
             }
-
+            //end of formating filter and add fields
            
+            //checking equipment test bookings
             function getCookie(name) {
                 var cookieValue = null;
                     if (document.cookie && document.cookie !== '') {
@@ -647,7 +668,9 @@
                 </tr>
                 `;})
             }
+            //end of checking equipment test bookings
 
+            //checking booking time conflicts
             var conflict;
             function checkSchedule() {
                 var start, end, booked_start, booked_end, length, rows;
@@ -730,14 +753,14 @@
                 if(!confirm('Do you want to add this test?')) {
                         e.preventDefault();
                 }
-                
             }
+            document.getElementsByName("targeted_start")[1].addEventListener("input", checkSchedule);
+            document.getElementsByName("targeted_end")[1].addEventListener("input", checkSchedule);
+            //end of checking for booking conflicts
 
             document.getElementsByName("chamber_id")[1].addEventListener("input", getChamberSchedule);
             document.getElementsByName("dar_id")[1].addEventListener("input", getDARSchedule);
             document.getElementsByName("cage_id")[1].addEventListener("input", getCageSchedule);
-            document.getElementsByName("targeted_start")[1].addEventListener("input", checkSchedule);
-            document.getElementsByName("targeted_end")[1].addEventListener("input", checkSchedule);
 
             var table, rows, cells, length;
             rows = document.getElementsByTagName("table")[5].rows;
@@ -794,6 +817,11 @@
                 }
             }
 
+            document.getElementsByClassName("btn btn-default")[0].style.margin = "7px 5px 5px 0px";
+            document.getElementsByClassName("btn btn-default")[0].style.backgroundColor = "rgb(237, 237, 237)";
+            document.getElementsByTagName("button")[2].style.backgroundColor = "rgb(237, 237, 237)";
+            document.getElementsByClassName("btn btn-default")[0].style.border = " thin solid";
+            document.getElementsByTagName("button")[2].style.border = "thin solid";
 
         </script>
     </body>

@@ -110,7 +110,7 @@ class TestListView(SingleTableMixin, CreateView, FilterView):
     filterset_class = TestFilter
     form_class = TestForm
 
-class UpdateTableViewTest(SingleTableMixin,  UpdateView):
+class UpdateTableViewTest(SingleTableMixin,  UpdateView, FilterView):
     
     
     model = Test
@@ -119,6 +119,7 @@ class UpdateTableViewTest(SingleTableMixin,  UpdateView):
     form_class = TestUpdateForm
     # template_name_suffix = 'html/index.html'
     # fields = '__all__'
+    filterset_class = TestFilter
     success_url = '/database/tests'
 
 def find(request, pk):
@@ -135,7 +136,6 @@ def delete_item_test(request, pk):
     context = {
     'items': items
     }
-
     return HttpResponseRedirect(reverse("test"))
 
 def clone_item(request, pk):
@@ -144,6 +144,18 @@ def clone_item(request, pk):
     obj.pk = None
     obj.created = timezone.now()
     obj.save()
+    ch = ChamberLogInfo(chamber_id = obj.chamber_id, program_id = obj.program_id, technician_id = obj.technician_id, test_id = Test.objects.get(pk = obj.pk),
+                                pretest_inspection_and_photo=None,
+                                setup_photo=None,
+                                humidity=None,
+                                system_pressure=None,
+                                voltage=None,
+                                system_restriction_target=None,
+                                system_restriction_record=None,
+                                trial_run_record_and_process=None,
+                                special_requirements=None)
+
+    ch.save()
 
     return HttpResponseRedirect(reverse("test"))
 
@@ -164,6 +176,7 @@ def clone_item2(request, pk):
     obj.pk = None
     obj.created = timezone.now()
     obj.save()
+    
 
     return HttpResponseRedirect(reverse("program"))
 
@@ -275,21 +288,21 @@ def chamber_schedule(request):
     try:
         chamber_id = int(chamber_id)
     except:
-        a = open("database/templates/html/equipment_schedule", "w")
+        a = open("database/templates/html/chamber_schedule", "w")
         a.write("")
         a.close()
         return HttpResponse("No chamber selected")
     else:
         chamber_tests = Test.objects.filter(Q(scheduling = "current")|Q(scheduling = "upcoming")).filter(chamber_id = chamber_id).order_by("targeted_start")
-        a = open("database/templates/html/equipment_schedule", "w")
+        a = open("database/templates/html/chamber_schedule", "w")
         a.write("{\n")
         a.close()
        
 
-        a = open("database/templates/html/equipment_schedule", "a")
+        a = open("database/templates/html/chamber_schedule", "a")
         for i in range(len(chamber_tests)):
             a.write(f'\"booking{i}\": {{\"targeted_start\" : \"{chamber_tests[i].targeted_start}\", \"targeted_end\" : \"{chamber_tests[i].targeted_end}\",' 
-                    + f'\"test_map_id\" : \"{chamber_tests[i].test_map_id.tr}\", \"test_type_id\" : \"{chamber_tests[i].test_type_id}\", \"program_id\" : '
+                    + f'\"test_map_id\" : \"{chamber_tests[i].test_map_id.tr}\", \"product_id\" : \"{chamber_tests[i].product_id}\", \"test_type_id\" : \"{chamber_tests[i].test_type_id}\", \"program_id\" : '
                     + f'\"{chamber_tests[i].program_id}\", \"scheduling\" : \"{chamber_tests[i].scheduling}\"}},\n')
         
         a.write(f'\"chamber\": \"{Chamber.objects.get(chamber_id=chamber_id)}\"\n}}')
@@ -297,27 +310,27 @@ def chamber_schedule(request):
         return HttpResponse("Chamber schedule compiled")
 
 def get_chamber_schedule(request):
-    return render(request, "html/equipment_schedule")
+    return render(request, "html/chamber_schedule")
 
 def dar_schedule(request):
     dar_id = request.body
     try:
         dar_id = int(dar_id)
     except:
-        a = open("database/templates/html/equipment_schedule", "w")
+        a = open("database/templates/html/dar_schedule", "w")
         a.write("")
         a.close()
         return HttpResponse("No DAR selected")
     else:
         dar_tests = Test.objects.filter(Q(scheduling = "current")|Q(scheduling = "upcoming")).filter(dar_id = dar_id).order_by("targeted_start")
-        a = open("database/templates/html/equipment_schedule", "w")
+        a = open("database/templates/html/dar_schedule", "w")
         a.write("{\n")
         a.close()
 
-        a = open("database/templates/html/equipment_schedule", "a")
+        a = open("database/templates/html/dar_schedule", "a")
         for i in range(len(dar_tests)):
             a.write(f'\"booking{i}\": {{\"targeted_start\" : \"{dar_tests[i].targeted_start}\", \"targeted_end\" : \"{dar_tests[i].targeted_end}\",' 
-                    + f'\"test_map_id\" : \"{dar_tests[i].test_map_id.tr}\", \"test_type_id\" : \"{dar_tests[i].test_type_id}\", \"program_id\" : '
+                    + f'\"test_map_id\" : \"{dar_tests[i].test_map_id.tr}\", \"product_id\" : \"{dar_tests[i].product_id}\", \"test_type_id\" : \"{dar_tests[i].test_type_id}\", \"program_id\" : '
                     + f'\"{dar_tests[i].program_id}\", \"scheduling\" : \"{dar_tests[i].scheduling}\"}},\n')
         
         a.write(f'\"DAR\": \"{DAR.objects.get(dar_id=dar_id)}\"\n}}')
@@ -325,27 +338,27 @@ def dar_schedule(request):
         return HttpResponse("DAR schedule compiled")
 
 def get_dar_schedule(request):
-    return render(request, "html/equipment_schedule")
+    return render(request, "html/dar_schedule")
 
 def cage_schedule(request):
     cage_id = request.body
     try:
         cage_id = int(cage_id)
     except:
-        a = open("database/templates/html/equipment_schedule", "w")
+        a = open("database/templates/html/cage_schedule", "w")
         a.write("")
         a.close()
         return HttpResponse("No cage selected")
     else:
         cage_tests = Test.objects.filter(Q(scheduling = "current")|Q(scheduling = "upcoming")).filter(cage_id = cage_id).order_by("targeted_start")
-        a = open("database/templates/html/equipment_schedule", "w")
+        a = open("database/templates/html/cage_schedule", "w")
         a.write("{\n")
         a.close()
 
-        a = open("database/templates/html/equipment_schedule", "a")
+        a = open("database/templates/html/cage_schedule", "a")
         for i in range(len(cage_tests)):
             a.write(f'\"booking{i}\": {{\"targeted_start\" : \"{cage_tests[i].targeted_start}\", \"targeted_end\" : \"{cage_tests[i].targeted_end}\",' 
-                    + f'\"test_map_id\" : \"{cage_tests[i].test_map_id.tr}\", \"test_type_id\" : \"{cage_tests[i].test_type_id}\", \"program_id\" : '
+                    + f'\"test_map_id\" : \"{cage_tests[i].test_map_id.tr}\", \"product_id\" : \"{cage_tests[i].product_id}\", \"test_type_id\" : \"{cage_tests[i].test_type_id}\", \"program_id\" : '
                     + f'\"{cage_tests[i].program_id}\", \"scheduling\" : \"{cage_tests[i].scheduling}\"}},\n')
         
         a.write(f'\"Cage\": \"{Cage.objects.get(cage_id=cage_id)}\"\n}}')
@@ -353,7 +366,7 @@ def cage_schedule(request):
         return HttpResponse("Cage schedule compiled")
 
 def get_cage_schedule(request):
-    return render(request, "html/equipment_schedule")
+    return render(request, "html/cage_schedule")
 
 
 

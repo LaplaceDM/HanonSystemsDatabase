@@ -58,14 +58,15 @@ class TestTable(ColumnShiftTableBootstrap3):
     log = tables.LinkColumn('find',text='log', args=[A('pk')], attrs={
     'a': {'class': 'btn'}
     }, orderable = False)
-
+    
 
     class Meta:
         model = Test
         exclude = ("test_id", )
+        order_by = "program_id", "-test_map_id", "created"
 
 class ChamberLogInfoTable(ColumnShiftTableBootstrap3):
-    delete = tables.LinkColumn('delete_ChamberLogInfo',text='delete', args=[A('pk')], attrs={
+    delete = tables.LinkColumn('delete_ChamberLogInfo',text= 'delete', args=[A('pk')], attrs={
     'a': {'class': 'btn'}
     }, orderable = False)
 

@@ -128,12 +128,12 @@ class Test(models.Model):
     dar_id = models.ForeignKey("DAR", on_delete = models.CASCADE, db_column = "dar_id", verbose_name = "DAR")
     cage_id = models.ForeignKey("Cage", on_delete = models.CASCADE, db_column = "cage_id", verbose_name = "cage")
     lab_id = models.ForeignKey("Lab", on_delete = models.CASCADE, db_column = "lab_id", verbose_name = "Lab")
-    total_hours = models.SmallIntegerField(null = True)
 
     targeted_start = models.DateField(null =True)
     targeted_end = models.DateField(null =True)
     supervisor_comments = models.CharField(max_length = 4000, null =True)
     hours_planned = models.SmallIntegerField(null =True)
+    total_hours = models.SmallIntegerField(null = True)
     setup_date = models.DateField(null =True)
     
     status_log = models.CharField(max_length = 4000, null = True)
@@ -153,7 +153,8 @@ class ChamberLog(models.Model):
     voltage = models.FloatField(null = True)
     current = models.FloatField(null = True)
     head = models.FloatField(null = True)
-    comments = models.CharField(max_length = 300)
+    
+
 
     log_id = models.ForeignKey("ChamberLogInfo", on_delete = models.CASCADE, db_column = "log_id")
 
@@ -169,7 +170,8 @@ class ChamberLogInfo(models.Model):
     system_restriction_record = models.CharField(max_length = 10, verbose_name = "System Restriction Record",  null = True)
     trial_run_record_and_process = models.CharField(max_length = 10, verbose_name = "Trial Run Record And Process",  null = True)
     special_requirements = models.CharField(max_length = 300,null = True)
-
+    comments = models.CharField(max_length = 300)
+    
     test_id = models.ForeignKey("Test", on_delete = models.CASCADE, db_column = "test_id")
     chamber_id = models.ForeignKey("Chamber", on_delete = models.CASCADE, db_column = "chamber_id")
     program_id = models.ForeignKey("Program", on_delete = models.CASCADE, db_column = "program_id")

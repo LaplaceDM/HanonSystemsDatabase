@@ -34,7 +34,7 @@ urlpatterns = [
     path("getdarschedule", views.get_dar_schedule, name ='getdarschedule'),
     path("cageschedule", views.cage_schedule, name ='cageschedule'),
     path("getcageschedule", views.get_cage_schedule, name ='getcageschedule'),
-
+    
     path("ChamberLogInfo", views.ChamberLogInfoListView.as_view(), name="ChamberLogInfo"),
     path('ChamberLogInfo/delete_ChamberLogInfo/<int:pk>', views.delete_item_ChamberLogInfo, name="delete_ChamberLogInfo"),
     path('ChamberLogInfo/update_ChamberLogInfo/<int:pk>', views.UpdateTableViewChamberLogInfo.as_view(), name="update_ChamberLogInfo"),

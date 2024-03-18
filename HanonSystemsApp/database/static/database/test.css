@@ -16,7 +16,10 @@ form {
     border-style: solid;
     border-color: black;
     border-width: 1px;
+    display: block;
     padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 10px;
 }
 
 #chamberschedule th, #chamberschedule td, #darschedule th, #darschedule td, #cageschedule th, #cageschedule td{
@@ -44,4 +47,31 @@ form {
     margin-left: 10px;
     margin-top: 15px;
     vertical-align: top;
+}
+
+#back, #back1, #back2{
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    margin-left: 25px;
+}
+
+.notation{
+    margin-top: 7px;
+    margin-bottom: 7px;
+    margin-left: 25px;
+}
+
+#yellow_box{
+    background-color: yellow;
+    display: inline-block;
+    width: 20px;
+    height: 10px;
+}
+
+#green_box{
+    background-color: green;
+    display: inline-block;
+    width: 20px;
+    height: 10px;
 }
