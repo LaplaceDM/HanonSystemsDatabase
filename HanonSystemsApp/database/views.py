@@ -22,6 +22,7 @@ from .forms import ProductForm
 from .forms import TestForm
 from .forms import ChamberLogInfoForm
 from .forms import ChamberLogForm
+from .forms import TestUpdateForm
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.views.generic.edit import FormView
@@ -77,7 +78,7 @@ class ProductListView(SingleTableMixin,  CreateView, FilterView):
     paginate_by = 20
     filterset_class = ProductFilter
     form_class = ProductForm
-    success_url = '/x/product'
+    success_url = '/database/product'
 
     def form_invalid(self, form):
         messages.error(self.request, 'sorry error')
@@ -115,12 +116,15 @@ class UpdateTableViewTest(SingleTableMixin,  UpdateView, FilterView):
     model = Test
     table_class = TestTable
     template_name = 'html/update_test.html'
-    form_class = TestForm
+    form_class = TestUpdateForm
     # template_name_suffix = 'html/index.html'
     # fields = '__all__'
     filterset_class = TestFilter
     success_url = '/database/tests'
 
+def find(request, pk):
+    p = ChamberLogInfo.objects.get(test_id = pk).pk
+    return HttpResponseRedirect(reverse("ChamberLog", kwargs={'pk': p}))
 
 
 def delete_item_test(request, pk):
@@ -132,7 +136,6 @@ def delete_item_test(request, pk):
     context = {
     'items': items
     }
-
     return HttpResponseRedirect(reverse("test"))
 
 def clone_item(request, pk):
@@ -141,6 +144,18 @@ def clone_item(request, pk):
     obj.pk = None
     obj.created = timezone.now()
     obj.save()
+    ch = ChamberLogInfo(chamber_id = obj.chamber_id, program_id = obj.program_id, technician_id = obj.technician_id, test_id = Test.objects.get(pk = obj.pk),
+                                pretest_inspection_and_photo=None,
+                                setup_photo=None,
+                                humidity=None,
+                                system_pressure=None,
+                                voltage=None,
+                                system_restriction_target=None,
+                                system_restriction_record=None,
+                                trial_run_record_and_process=None,
+                                special_requirements=None)
+
+    ch.save()
 
     return HttpResponseRedirect(reverse("test"))
 
@@ -161,6 +176,7 @@ def clone_item2(request, pk):
     obj.pk = None
     obj.created = timezone.now()
     obj.save()
+    
 
     return HttpResponseRedirect(reverse("program"))
 

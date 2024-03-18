@@ -3,6 +3,7 @@ from django.db.models import Model
 from django.utils import timezone
 
 
+
 # Create your models here.
 
 class Program(models.Model):
@@ -135,7 +136,7 @@ class Test(models.Model):
     total_hours = models.SmallIntegerField(null = True)
 
     def __str__(self):
-        return f"{self.chamber_id} {self.targeted_start}"
+        return f"{self.test_type_id} {self.chamber_id}"
 
 class ChamberLog(models.Model):
     id = models.BigAutoField(primary_key=True)
