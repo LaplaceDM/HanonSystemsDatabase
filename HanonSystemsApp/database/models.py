@@ -144,13 +144,13 @@ class ChamberLog(models.Model):
     circuit_number = models.SmallIntegerField()
     total_hours = models.SmallIntegerField()
     status = models.CharField(max_length = 20, verbose_name = "Status",  null = True)
+    chamber_id = models.ForeignKey("Chamber", on_delete = models.CASCADE, db_column = "chamber_id")
     dut_id = models.IntegerField(null = True)
     comments = models.CharField(max_length = 300, null = True)
     technician = models.CharField(max_length = 100, null = True)
     shaker_direction = models.CharField(max_length = 100, null = True)
-    chamber_id = models.SmallIntegerField(null = True)
-    dar_id = models.SmallIntegerField(null = True)
-    cage_id = models.SmallIntegerField(null = True)
+    dar_id = models.ForeignKey("DAR", on_delete = models.CASCADE, db_column = "dar_id", null = True)
+    cage_id = models.ForeignKey("Cage", on_delete = models.CASCADE, db_column = "cage_id", null = True)
     
     log_id = models.ForeignKey("ChamberLogInfo", on_delete = models.CASCADE, db_column = "log_id")
     
@@ -217,6 +217,7 @@ class Chamber(models.Model):
     cooling_power = models.SmallIntegerField(null = True)
     heating_gradient = models.FloatField(null = True)
     max_daily_hours = models.SmallIntegerField(null = True)
+    billing_category = models.CharField(max_length = 30, null = True)
 
     lab_id = models.ForeignKey("Lab", on_delete = models.SET_NULL, null=True, db_column = "lab_id")
     def __str__(self):

@@ -14,14 +14,6 @@
         <input type="date" id="end"/>
 
         <button id="calculate" onclick="calculate()"> Calculate </button>
-        
-        <a id ="equipment_hours" href="{% static 'database/equipmenthours.csv' %}" download hiddens>
-            <button > Download Chamber Utilization Data </button>
-        </a>
-
-        <a id ="program_hours" href="{% static 'database/programhours.csv' %}" download hiddens>
-            <button > Download Program Hours Data </button>
-        </a>
 
 
         <script>
@@ -54,8 +46,7 @@
                 var csrftoken = getCookie('csrftoken');
 
                 fetch("http://127.0.0.1:8000/database/calculate", {method: "POST", body: `${start},${end}`, headers:{"X-CSRFToken": csrftoken}})
-                .then(()=>{document.getElementById("equipment_hours").hidden = false;
-                document.getElementById("program_hours").hidden = false;}
+                .then(()=>window.location.replace("http://127.0.0.1:8000/database/hours_download")
                 )
                 .catch(()=>{alert("An error occurred, please check the values entered")})    
             }

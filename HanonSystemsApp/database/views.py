@@ -33,9 +33,11 @@ from django_tables2 import MultiTableMixin
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import SingleObjectMixin
 from datetime import datetime
+from datetime import timedelta
 from django.utils import timezone
 from django.http import HttpResponse
 from django.db.models import Q
+import math
 
 
 class ProgramListView(SingleTableMixin,  CreateView, FilterView):
@@ -477,126 +479,286 @@ def calculate(request):
     dates = dates.split(",")
     dates[0] = datetime.strptime(dates[0], "%Y-%m-%d")                  #converting date string to date object
     dates[1] = datetime.strptime(dates[1], "%Y-%m-%d")
-    print(dates)
     program_hours = {}
-    equipment_hours = {}
-
+    
     all_logs = ChamberLog.objects.filter(timestamp__gte = dates[0]).filter(timestamp__lte = dates[1])    #getting all logs in the specified time period
-    print(all_logs)
     chambers = Chamber.objects.all()
     for chamber in chambers:
         chamber_name = chamber.chamber_name
         max_hours = chamber.max_daily_hours  #getting the max hour of the current chamber
-        total_hours = (dates[1]-dates[0]).days*max_hours #getting total time in period
-        chamber_logs = all_logs.filter(log_id__test_id__chamber_id = chamber.chamber_id)        #getting logs of current chamber
-        tests = chamber_logs.distinct("log_id__test_id")        #getting tests that ran in that chamber
-        equipment_hours[chamber_name]["hours assessed"] = total_hours
-        equipment_hours[chamber_name]["running"]=0
+        operable_hours = (dates[1]-dates[0]).days*max_hours #getting total time in period
+        chamber_logs = all_logs.filter(chamber_id = chamber.chamber_id)        #getting logs of current chamber
 
-        for test in tests:
-            test_logs = chamber_logs.filter(log_id__test_id= test.test_id).order_by("timestamp")       #getting chamber logs that belong to current test
-            program_name = test.program_id.program_name
+        tests_checked= []       #to skip over tests that have already been accounted
+        used_hours = {}     #to keep track of the operable hours used for a certain day
+        
+        program_hours[chamber_name] = {}
+        
+        for test in chamber_logs:
+            if test.log_id.test_id in tests_checked:            #only assessing distinct tests
+                continue
+            else:
+                tests_checked.append(test.log_id.test_id)
+                
+            test_logs = chamber_logs.filter(log_id__test_id= test.log_id.test_id).order_by("timestamp")       #getting chamber logs that belong to current test
+            program_name = test.log_id.test_id.program_id.program_name
             
             stop = False
             logs = test_logs.filter(circuit_number = test_logs[0].circuit_number).order_by("timestamp")
             
+            try:                #checking for log of test before the selected time period
+                previous_log = ChamberLog.objects.filter(log_id__test_id= logs[0].log_id.test_id).filter(chamber_id= logs[0].chamber_id).filter(timestamp__lt = dates[0]).latest("timestamp")
+            except:
+                previous_log=0
+            
             while stop == False:
                 for log in logs:
-                    if log == logs[0]:  #in case this is the first of a stretch of logs
-                        if ChamberLog.objects.filter(log_id__test_id= log.test_id).filter(log_id__test_id__chamber_id= log.test_id.chamber_id).filter(timestamp__lt = log.timestamp).filter(circuit_number = log.circuit_number).latest("timestamp").status != "stopped":
-                            previous_log = ChamberLog.objects.filter(log_id__test_id= log.test_id).filter(log_id__test_id__chamber_id= log.test_id.chamber_id).filter(timestamp__lt = log.timestamp).filter(circuit_number = log.circuit_number).latest("timestamp")
-                        else:
-                            previous_log= log
-                            continue
+                    if log == logs[0]:  #in case this is the leading log, check if the previous log's present
+                        if previous_log == 0:           #case 1:first log of test
+                            first_log = True
+                            overlap = False
+                        else:    
+                            try:
+                                last_log = ChamberLog.objects.filter(log_id__test_id= log.log_id.test_id).filter(chamber_id= log.chamber_id).filter(circuit_number = log.circuit_number).filter(timestamp__lt = log.timestamp).latest("timestamp")
+                            except:
+                                first_log = True               #case 2:no previous log in circuit, but there is a previous log from another circuit
+                                switch_date = str(previous_log.timestamp.day) + "/" + str(previous_log.timestamp.month) + "/" + str(previous_log.timestamp.year)
+                                try:                #checking used hours on the day of the previous log
+                                    used = used_hours[switch_date]
+                                except:
+                                    used = 0 
+                                time_adjustment = previous_log.timestamp - timedelta(0,(max_hours-used)*60*60)
+                                in_between = (log.timestamp - time_adjustment).days*max_hours + (log.timestamp - time_adjustment).seconds/60/60
+                                
+                                if in_between >= log.total_hours:           #case 2.1: if running hours recorded overlaps the hours up until the previous log
+                                    overlap = False
+                                else:
+                                    overlap = True
+                                    no_overlap = log.timestamp - previous_log.timestamp      
+                            else:                       #case 3: there is a previous log of the circuit, as well as a previous log that could belong to any circuit (these could be the same thing)
+                                first_log = False  
+                                if previous_log.timestamp > last_log.timestamp:     #checking to see if last log is before or after where we switched, if this is the first log of the time period, "try" makes sure that value 0 doesn't cause errors
+                                    overlap = True              #case 3.1: there is overlap between these two logs
+                                    no_overlap = log.timestamp - previous_log.timestamp
+                                    switch_date = str(previous_log.timestamp.day) + "/" + str(previous_log.timestamp.month) + "/" + str(previous_log.timestamp.year)
+                                    try:
+                                        used = used_hours[switch_date]
+                                    except:
+                                        used = 0
+                                else:                           #case 3.2: there is no overlap between these two logs
+                                    overlap = False     
+                                previous_log = last_log                        #make the previous log the one we searched for, indicate that there is a log before current one.
+                                
+                                
                     
-                    running_hours = log.running_hours - previous_log.running_hours
-                    current_timestamp = datetime.strptime(log.timestamp, "%Y-%m-%d %H:%M:%-S")
-                    previous_timestamp = datetime.strptime(previous_log.timestamp, "%Y-%m-%d %H:%M:%-S")
-                    status_hours = (current_timestamp-previous_timestamp).days*max_hours - running_hours
+                    if first_log == True:           #Case 1 and 2's:
+                        date = str(log.timestamp.day) + "/" + str(log.timestamp.month) + "/" + str(log.timestamp.year)
+                        if overlap == False:
+                            running_hours = log.total_hours                         #Step 1: calculating hours
+                            try:
+                                status_hours = math.ceil(in_between - running_hours)
+                            except:
+                                status_hours = 0
+                        else:         #Case 2's:
+                            running_hours = math.ceil(in_between)
+                            status_hours = 0
+                            overlap = False
+                            
+                        if running_hours < max_hours:                           #updating used hours
+                            used_hours[date] = running_hours
+                        else:
+                            used_hours[date] = max_hours        
+
+                        
+                        if program_name not in program_hours[chamber_name].keys():                                #Step 2: updating program hours, for logs that lead a series of logs
+                            program_hours[chamber_name][program_name]={}
+                            program_hours[chamber_name][program_name]["running"] = running_hours 
+                            program_hours[chamber_name][program_name]["stopped"] = status_hours
+                            program_hours[chamber_name][program_name]["operable"] = operable_hours
+                            program_hours[chamber_name][program_name]["billing category"] = chamber.billing_category
+                        else:               #program has been registered
+                            program_hours[chamber_name][program_name]["running"] = program_hours[chamber_name][program_name]["running"] + running_hours
+                            program_hours[chamber_name][program_name]["stopped"] = program_hours[chamber_name][program_name]["stopped"] + status_hours
+                        
+                        first_log= False
+                        previous_log = log
+                        #print("first log in new series:")
+                        #print(program_hours)
+                        
+                        
+                        if log.status == "stopped" or log == logs[len(logs)-1]:        #when the current log is the last of the circuit logs, or the stretch of logs is stopped.
+                            try:
+                                next_log = test_logs.filter(timestamp__gt = log.timestamp).earliest("timestamp")
+                            except:
+                                stop = True
+                                break
+                            else:
+                                logs = test_logs.filter(timestamp__gt = log.timestamp).filter(circuit_number = next_log.circuit_number).order_by("timestamp")
+                                break
+                        continue
+                    
+                    
+                    else:                                                                   #Case 3's:                  
+                        running_hours = log.total_hours - previous_log.total_hours          #Step 1: calculating hours between two subsequent logs
+                        current_timestamp = log.timestamp
+                        previous_timestamp = previous_log.timestamp
+                        date = str(current_timestamp.day) + "/" + str(current_timestamp.month) + "/" + str(current_timestamp.year)
+                        previous_date = str(previous_timestamp.day) + "/" + str(previous_timestamp.month) + "/" + str(previous_timestamp.year) 
+                        
+                        if date == previous_date:                                                       #Case 1: when two subsequent logs are on the same day
+                            in_between = (current_timestamp - previous_timestamp).seconds/60/60     #only time to be accounted for is that between two logs
+                            try:
+                                available = max_hours - used_hours[date]            #checking operable hours available
+                            except:
+                                available = max_hours
+                                
+                            if available > in_between:
+                                status_hours = math.ceil(in_between - running_hours)
+                            else:
+                                status_hours = available - running_hours
+                                
+                            if status_hours < 0:                    #in case the assumption of max daily hours is incorrect, this prevents subtractions from previously summed status hours
+                                status_hours = 0
+                                
+                            if date in used_hours:
+                                if previous_log.status == "running" or previous_log.status == "stopped":
+                                    used_hours[date] = used_hours[date] + running_hours
+                                else:
+                                    used_hours[date] = used_hours[date] + running_hours + status_hours
+                            else:
+                                if previous_log.status == "running" or previous_log.status == "stopped":
+                                    used_hours[date] = running_hours
+                                else:
+                                    used_hours[date] = running_hours + status_hours
+                                    
+                            
+                                  
+                        else:                                                       #Case 2: when two subsequent logs are on different dates
+                            endofday_previous = datetime(previous_timestamp.year, previous_timestamp.month, previous_timestamp.day, 23, 59, 59, 0)
+                            startofday_current = datetime(current_timestamp.year, current_timestamp.month, current_timestamp.day, 0, 0, 0, 0)
+                            beginning_period = (endofday_previous - previous_timestamp).seconds/60/60
+                            in_between = (startofday_current - endofday_previous).days*max_hours
+                            end_period = (current_timestamp - startofday_current).seconds/60/60
+                            try:
+                                available = max_hours - used_hours[previous_date]
+                            except:
+                                available = max_hours
+                                
+                            if available > beginning_period:                #adding duration of first period
+                                occupied_beginning = beginning_period
+                            else:
+                                occupied_beginning = available
+                            
+                            if max_hours > end_period:                      #adding duration of end period
+                                occupied_end = end_period 
+                            else:
+                                occupied_end = max_hours
+                                                                         
+                            status_hours = math.ceil(occupied_beginning + in_between +occupied_end - running_hours)         #adding duration of in between period
+
+                            if status_hours < 0:                    #in case the assumption of max daily hours is incorrect, this prevents subtractions from previously summed status hours
+                                status_hours = 0
+
+                            if occupied_beginning + in_between < running_hours:                                             #updating used hours
+                                if previous_log.status == "running":                                                    #Case 1: chamber run time can stretch from last log into the day of current log
+                                    used_hours[date] = math.ceil(running_hours - occupied_beginning - in_between)
+                                else:
+                                    used_hours[date] = occupied_end
+                            else:                                                                       #Case 2: chamber run time doesn't stretch from last log into the day of current log
+                                if previous_log.status == "running":
+                                    used_hours[date] = 0
+                                elif previous_log.status == "stopped":
+                                    if running_hours < occupied_end:
+                                        used_hours[date] = running_hours
+                                    else:
+                                        used_hours[date] = occupied_end
+                                else:
+                                    used_hours[date] = occupied_end
+                                    
+                            
+                            
+                        if overlap == True:
+                            grey_period = no_overlap.days*max_hours + no_overlap.seconds/60/60 - used
+                            if running_hours >= grey_period:
+                                running_hours = math.ceil(grey_period)
+                                status_hours = 0
+                            else:
+                                status_hours = math.ceil(grey_period-running_hours)
+                            overlap == False
+                                
+
+                    if program_name not in program_hours[chamber_name].keys():                                #Step 2: updating program hours
+                        program_hours[chamber_name][program_name]={}
+                        program_hours[chamber_name][program_name]["running"] = running_hours
+                        program_hours[chamber_name][program_name]["stopped"] = 0
+                        program_hours[chamber_name][program_name]["operable "] = operable_hours
+                        program_hours[chamber_name][program_name]["billing category"] = chamber.billing_category
+                        if previous_log.status == "running":
+                            program_hours[chamber_name][program_name]["stopped"] = program_hours[chamber_name][program_name]["stopped"] + status_hours
+                        else:
+                            program_hours[chamber_name][program_name][previous_log.status] = status_hours 
+
+                    else:                                                                   
+                        program_hours[chamber_name][program_name]["running"] = program_hours[chamber_name][program_name]["running"] + running_hours
+                        if previous_log.status not in program_hours[chamber_name][program_name].keys():
+                            program_hours[chamber_name][program_name][previous_log.status] = status_hours
+                        else:
+                            if previous_log.status == "running":
+                                program_hours[chamber_name][program_name]["stopped"] = program_hours[chamber_name][program_name]["stopped"] + status_hours
+                            else:
+                                program_hours[chamber_name][program_name][previous_log.status] = program_hours[chamber_name][program_name][previous_log.status] + status_hours                             
+                            
                     previous_log = log
-
-                    if program_name not in program_hours.keys():                                #updating program hours
-                        program_hours[program_name]["running"] = running_hours
-                        program_hours[program_name][previous_log.status] = status_hours
-
-                    else:
-                        program_hours[program_name]["running"] = program_hours[program_name]["running"] + running_hours
-                        if previous_log.status not in program_hours[program_name].keys():
-                            program_hours[program_name][previous_log.status] = status_hours
-                        else:
-                            program_hours[program_name][previous_log.status] = program_hours[program_name][previous_log.status] + status_hours                             
-
-                
-                    equipment_hours[chamber_name]["running"]=equipment_hours[chamber_name]["running"] + running_hours           #updating equipment hours
-                    if previous_log.status not in equipment_hours[chamber_name].keys():
-                        equipment_hours[chamber_name][previous_log.status] = status_hours
-                    else:
-                        equipment_hours[chamber_name][previous_log.status] = [chamber_name][previous_log.status] + status_hours
+                    #print(program_hours)
                     
-                    
-                    if log.status == "stopped"| log == logs[len(logs)-1]:        #when the current log is the last of the circuit logs, or the stretch of logs is stopped.
-                        next_log = ChamberLog.objects.filter(log_id__test_id= log.test_id).filter(log_id__test_id__chamber_id= log.test_id.chamber_id).filter(timestamp__gte = log.timestamp).exclude(status = "stopped").earliest("timestamp")
-                        if next_log:
-                            logs = ChamberLog.objects.filter(log_id__test_id= log.test_id).filter(log_id__test_id__chamber_id= log.test_id.chamber_id).filter(timestamp__gte = log.timestamp).filter(circuit_number = next_log.circuit_number).order_by("timestamp")
-                            break
-                        else:
+                    if log.status == "stopped" or log == logs[len(logs)-1]:        #Step 3: Checking switching conditions
+                        try:
+                            next_log = test_logs.filter(timestamp__gt = log.timestamp).earliest("timestamp")
+                        except:
                             stop = True
                             break
-                        
-                        
+                        else:
+                            logs = test_logs.filter(timestamp__gt = log.timestamp).filter(circuit_number = next_log.circuit_number).order_by("timestamp")
+                            break
+    #print(program_hours)              
     #write csv file for program hours:
     a = open("database/static/database/programhours.csv", "w")
     a.write("")
     a.close()
     a = open("database/static/database/programhours.csv", "a")
-    a.write("Program;Running;Setup;Waiting for product;Stopped\n")
+    a.write("Chamber;Program;Running;Setup;Waiting for product;Stopped;Total Operable Hours;Billing Category\n")
     for i in program_hours:
-        a.write(f'{i};')
-        if i["running"]:
-            a.write(f'{i["running"]};')
-        else:
-            a.write("0;")
-        if i["set up"]:
-            a.write(f'{i["set up"]};')
-        else:
-            a.write("0;")
-        if i["waiting for product"]:
-            a.write(f'{i["waiting for product"]};')
-        else:
-            a.write("0;")
-        if i["stopped"]:
-            a.write(f'{i["stopped"]}\n')
-        else:
-            a.write("0\n")
-    a.close()
-    
-    #write csv file for equipment hours:
-    a = open("database/static/database/equipmenthours.csv", "w")
-    a.write("")
-    a.close()
-    a = open("database/static/database/equipmenthours.csv", "a")
-    a.write("Chamber;Total time assessed;Running;Setup;Waiting for product;Stopped\n")
-    for i in program_hours:
-        a.write(f'{i};{i[total_hours]};')
-        if i["running"]:
-            a.write(f'{i["running"]};')
-        else:
-            a.write("0;")
-        if i["set up"]:
-            a.write(f'{i["set up"]};')
-        else:
-            a.write("0;")
-        if i["waiting for product"]:
-            a.write(f'{i["waiting for product"]};')
-        else:
-            a.write("0;")
-        if i["stopped"]:
-            a.write(f'{i["stopped"]}\n')
-        else:
-            a.write("0\n")
-    a.close()
-               
+        for x in program_hours[i]:
+            a.write(f'{i};')
+            a.write(f'{x};')
+            try:
+                a.write(f'{program_hours[i][x]["running"]};')
+            except:
+                a.write("0;")
+            
+            try: 
+                a.write(f'{program_hours[i][x]["setup"]};')
+            except:
+                a.write("0;")
+            
+            try:
+                a.write(f'{program_hours[i][x]["waiting for product"]};')
+            except:
+                a.write("0;")
+            
+            try:
+                a.write(f'{program_hours[i][x]["stopped"]};')
+            except:
+                a.write("0;")
+
+            a.write(f'{program_hours[i][x]["operable"]};')    
+            a.write(f'{program_hours[i][x]["billing category"]}\n')
+
+    a.close()  
     return HttpResponse("hours compiled");
+
+def hours_download(request):
+    return render(request, "html/hours_download.html")
 
 def dut_hours(request):
     dut = int(request.body)
