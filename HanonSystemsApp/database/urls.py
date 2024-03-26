@@ -49,7 +49,10 @@ urlpatterns = [
 
     path("hourscalculations", views.hours_calculations, name= "hours calculations"),
     path("calculate", views.calculate, name = "calculate"),
-    path("hours_download", views.hours_download, name = "hours download")
+    path("hours_download", views.hours_download, name = "hours download"),
+    
+    path("dut<int:id>_history", views.dut_history, name = "dut history"),
+    path("harness<int:id>_history", views.harness_history, name = "harness history")
 ]
 
 

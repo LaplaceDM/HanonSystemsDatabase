@@ -80,7 +80,6 @@ class DUT(models.Model):
     product_id = models.ForeignKey("Product", on_delete = models.SET_NULL, null = True, db_column = "product_id")
 
 class Test_DUT(models.Model):
-    date = models.DateField(null = True)
     circuit_number = models.SmallIntegerField(null = True)
     id = models.BigAutoField(primary_key=True)
 
@@ -88,7 +87,6 @@ class Test_DUT(models.Model):
     dut_id = models.ForeignKey("DUT", on_delete = models.CASCADE, db_column = "dut_id")
 
 class Test_Harness(models.Model):
-    date = models.DateField(null = True)
     circuit_number = models.SmallIntegerField(null = True)
     id = models.BigAutoField(primary_key=True)
 
@@ -145,7 +143,6 @@ class ChamberLog(models.Model):
     total_hours = models.SmallIntegerField()
     status = models.CharField(max_length = 20, verbose_name = "Status",  null = True)
     chamber_id = models.ForeignKey("Chamber", on_delete = models.CASCADE, db_column = "chamber_id")
-    dut_id = models.IntegerField(null = True)
     comments = models.CharField(max_length = 300, null = True)
     technician = models.CharField(max_length = 100, null = True)
     shaker_direction = models.CharField(max_length = 100, null = True)

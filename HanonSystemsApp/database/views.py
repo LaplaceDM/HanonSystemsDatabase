@@ -780,3 +780,37 @@ def dut_hours(request):
     a.close()
     
     return HttpResponse("dut hours compiled")
+
+def dut_history(request, id):
+    test_list = Test_DUT.objects.filter(dut_id = id).order_by("test_id__targeted_start")
+    test_history = {}
+    accumulated_hours = 0
+    for test in test_list:
+        try:
+            latest_duration = ChamberLog.objects.filter(log_id__test_id = test.test_id).filter(circuit_number = test.circuit_number).latest("timestamp").total_hours
+        except:
+            latest_duration = 0
+        accumulated_hours += latest_duration
+        if test.test_id.test_type_id.test_name in test_history:
+            test_history[test.test_id.test_type_id.test_name] = [latest_duration + test_history[test.test_id.test_type_id.test_name][0], accumulated_hours]
+        else:
+            test_history[test.test_id.test_type_id.test_name] = [latest_duration, accumulated_hours]
+    
+    return render(request, "html/dut_history.html", {"test_history": test_history, "dut_name":test_list[0].dut_id.dut_name})
+
+def harness_history(request, id):
+    test_list = Test_Harness.objects.filter(harness_id = id).order_by("test_id__targeted_start")
+    test_history = {}
+    accumulated_hours = 0
+    for test in test_list:
+        try:
+            latest_duration = ChamberLog.objects.filter(log_id__test_id = test.test_id).filter(circuit_number = test.circuit_number).latest("timestamp").total_hours
+        except:
+            latest_duration = 0
+        accumulated_hours += latest_duration
+        if test.test_id.test_type_id.test_name in test_history:
+            test_history[test.test_id.test_type_id.test_name] = [latest_duration + test_history[test.test_id.test_type_id.test_name][0], accumulated_hours]
+        else:
+            test_history[test.test_id.test_type_id.test_name] = [latest_duration, accumulated_hours]
+    
+    return render(request, "html/harness_history.html", {"test_history": test_history, "harness_name":test_list[0].harness_id.harness_name})
