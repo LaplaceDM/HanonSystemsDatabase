@@ -82,14 +82,16 @@ class DUT(models.Model):
 class Test_DUT(models.Model):
     circuit_number = models.SmallIntegerField(null = True)
     id = models.BigAutoField(primary_key=True)
-
+    date_inserted = models.DateTimeField()
+    date_removed = models.DateTimeField(null = True)
     test_id = models.ForeignKey("Test", on_delete = models.CASCADE, db_column = "test_id")
     dut_id = models.ForeignKey("DUT", on_delete = models.CASCADE, db_column = "dut_id")
 
 class Test_Harness(models.Model):
     circuit_number = models.SmallIntegerField(null = True)
     id = models.BigAutoField(primary_key=True)
-
+    date_inserted = models.DateTimeField()
+    date_removed = models.DateTimeField(null = True)
     test_id = models.ForeignKey("Test", on_delete = models.CASCADE, db_column = "test_id")
     harness_id = models.ForeignKey("Harness", on_delete = models.CASCADE, db_column = "harness_id")
 
