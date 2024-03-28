@@ -490,7 +490,6 @@ def calculate(request):
         chamber_logs = all_logs.filter(chamber_id = chamber.chamber_id)        #getting logs of current chamber
 
         tests_checked= []       #to skip over tests that have already been accounted
-        used_hours = {}     #to keep track of the operable hours used for a certain day
         
         program_hours[chamber_name] = {}
         
@@ -499,6 +498,7 @@ def calculate(request):
                 continue
             else:
                 tests_checked.append(test.log_id.test_id)
+                used_hours = {}     #to keep track of the operable hours used for a certain day
                 
             test_logs = chamber_logs.filter(log_id__test_id= test.log_id.test_id).order_by("timestamp")       #getting chamber logs that belong to current test
             program_name = test.log_id.test_id.program_id.program_name
@@ -510,6 +510,7 @@ def calculate(request):
                 previous_log = ChamberLog.objects.filter(log_id__test_id= logs[0].log_id.test_id).filter(chamber_id= logs[0].chamber_id).filter(timestamp__lt = dates[0]).latest("timestamp")
             except:
                 previous_log=0
+            first_of_test = False
             
             while stop == False:
                 for log in logs:
@@ -517,6 +518,7 @@ def calculate(request):
                         if previous_log == 0:           #case 1:first log of test
                             first_log = True
                             overlap = False
+                            first_of_test = True
                         else:    
                             try:
                                 last_log = ChamberLog.objects.filter(log_id__test_id= log.log_id.test_id).filter(chamber_id= log.chamber_id).filter(circuit_number = log.circuit_number).filter(timestamp__lt = log.timestamp).latest("timestamp")
@@ -553,16 +555,21 @@ def calculate(request):
                     
                     if first_log == True:           #Case 1 and 2's:
                         date = str(log.timestamp.day) + "/" + str(log.timestamp.month) + "/" + str(log.timestamp.year)
-                        if overlap == False:
-                            running_hours = log.total_hours                         #Step 1: calculating hours
-                            try:
-                                status_hours = math.ceil(in_between - running_hours)
-                            except:
-                                status_hours = 0
-                        else:         #Case 2's:
-                            running_hours = math.ceil(in_between)
+                        if first_of_test == True:
+                            running_hours = log.total_hours
                             status_hours = 0
-                            overlap = False
+                            first_of_test = False
+                        else:
+                            if overlap == False:
+                                running_hours = log.total_hours                         #Step 1: calculating hours
+                                try:
+                                    status_hours = math.ceil(in_between - running_hours)
+                                except:
+                                    status_hours = 0
+                            else:         #Case 2's:
+                                running_hours = math.ceil(in_between)
+                                status_hours = 0
+                                overlap = False
                             
                         if running_hours < max_hours:                           #updating used hours
                             used_hours[date] = running_hours
@@ -726,32 +733,32 @@ def calculate(request):
     a.write("")
     a.close()
     a = open("database/static/database/programhours.csv", "a")
-    a.write("Chamber;Program;Running;Setup;Waiting for product;Stopped;Total Operable Hours;Billing Category\n")
+    a.write("Chamber,Program,Running,Setup,Waiting for product,Stopped,Total Operable Hours,Billing Category\n")
     for i in program_hours:
         for x in program_hours[i]:
-            a.write(f'{i};')
-            a.write(f'{x};')
+            a.write(f'{i},')
+            a.write(f'{x},')
             try:
-                a.write(f'{program_hours[i][x]["running"]};')
+                a.write(f'{program_hours[i][x]["running"]},')
             except:
-                a.write("0;")
+                a.write("0,")
             
             try: 
-                a.write(f'{program_hours[i][x]["setup"]};')
+                a.write(f'{program_hours[i][x]["setup"]},')
             except:
-                a.write("0;")
+                a.write("0,")
             
             try:
-                a.write(f'{program_hours[i][x]["waiting for product"]};')
+                a.write(f'{program_hours[i][x]["waiting for product"]},')
             except:
-                a.write("0;")
+                a.write("0,")
             
             try:
-                a.write(f'{program_hours[i][x]["stopped"]};')
+                a.write(f'{program_hours[i][x]["stopped"]},')
             except:
-                a.write("0;")
+                a.write("0,")
 
-            a.write(f'{program_hours[i][x]["operable"]};')    
+            a.write(f'{program_hours[i][x]["operable"]},')    
             a.write(f'{program_hours[i][x]["billing category"]}\n')
 
     a.close()  
