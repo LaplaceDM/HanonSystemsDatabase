@@ -5,6 +5,9 @@ from .models import Product
 from .models import Test
 from .models import ChamberLogInfo
 from .models import ChamberLog
+from .models import *
+from .models import DAR
+from .models import Chamber
 from django import forms
 
 
@@ -15,6 +18,107 @@ class ProgramFilter(django_filters.FilterSet):
                                             label='created')
     class Meta:
         model = Program
+        exclude = ['delete' ,]
+
+
+class LaptopFilter(django_filters.FilterSet):
+    class Meta:
+        model = Laptop
+        exclude = ['delete' ,]
+
+class Test_HarnessFilter(django_filters.FilterSet):
+    class Meta:
+        model = Test_Harness
+        exclude = ['delete' ,]
+
+class Technician_SkillFilter(django_filters.FilterSet):
+    class Meta:
+        model = Technician_Skill
+        exclude = ['delete' ,]
+
+
+class TestMapFilter(django_filters.FilterSet):
+    class Meta:
+        model = TestMap
+        exclude = ['delete' ,]
+
+
+class Test_ChamberFilter(django_filters.FilterSet):
+    class Meta:
+        model = Test_Chamber
+        exclude = ['delete' ,]
+
+
+class DAR_LaptopFilter(django_filters.FilterSet):
+    class Meta:
+        model = DAR_Laptop
+        exclude = ['delete' ,]
+
+class Program_CageFilter(django_filters.FilterSet):
+    class Meta:
+        model = Program_Cage
+        exclude = ['delete' ,]
+
+class Program_DARFilter(django_filters.FilterSet):
+    class Meta:
+        model = Program_DAR
+        exclude = ['delete' ,]
+
+class Program_FluidFilter(django_filters.FilterSet):
+    class Meta:
+        model = Program_Fluid
+        exclude = ['delete' ,]
+
+class DARChannelFilter(django_filters.FilterSet):
+    class Meta:
+        model = DARChannel
+        exclude = ['delete' ,]
+
+class HarnessFilter(django_filters.FilterSet):
+    class Meta:
+        model = Harness
+        exclude = ['delete' ,]
+
+class SkillFilter(django_filters.FilterSet):
+    class Meta:
+        model = Skill
+        exclude = ['delete' ,]
+
+class LabFilter(django_filters.FilterSet):
+    class Meta:
+        model = Lab
+        exclude = ['delete' ,]
+
+class TestTypeFilter(django_filters.FilterSet):
+    class Meta:
+        model = TestType
+        exclude = ['delete' ,]
+
+
+class TechnicianFilter(django_filters.FilterSet):
+    class Meta:
+        model = Technician
+        exclude = ['delete' ,]
+
+
+class FluidFilter(django_filters.FilterSet):
+    class Meta:
+        model = Fluid
+        exclude = ['delete' ,]
+
+class CageFilter(django_filters.FilterSet):
+    class Meta:
+        model = Cage
+        exclude = ['delete' ,]
+
+class DarFilter(django_filters.FilterSet):
+    class Meta:
+        model = DAR
+        exclude = ['delete' ,]
+
+class ChamberFilter(django_filters.FilterSet):
+    class Meta:
+        model = Chamber
         exclude = ['delete' ,]
 
 class ProductFilter(django_filters.FilterSet):

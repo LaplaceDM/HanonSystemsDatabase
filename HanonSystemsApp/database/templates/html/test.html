@@ -331,9 +331,9 @@
             function highlight(){
                 var csrftoken = getCookie('csrftoken');
                 var test_type_id = document.getElementsByName("test_type_id")[1].value;
-                fetch("http://127.0.0.1:8000/database/children", {method: "POST", body: test_type_id, headers:{"X-CSRFToken": csrftoken}})
+                fetch("http://10.22.137.40:8000/database/children", {method: "POST", body: test_type_id, headers:{"X-CSRFToken": csrftoken}})
                 .then((response)=>
-                fetch("http://127.0.0.1:8000/database/getchildren")
+                fetch("http://10.22.137.40:8000/database/getchildren")
                 )
                 .then(result=> result.json())
                 .then(result=>{
@@ -368,12 +368,86 @@
 
                 })
             }
+
+
+            function shortlist(){
+                
+                var csrftoken = getCookie('csrftoken');
+                var program_id = document.getElementsByName("program_id")[1].value;
+                fetch("http://10.22.137.40:8000/database/short", {method: "POST", body: program_id, headers:{"X-CSRFToken": csrftoken}})
+                .then((response)=>
+                fetch("http://10.22.137.40:8000/database/getshort")
+                )
+                .then(result=> result.json())
+                .then(result=>{
+                    var keys = Object.keys(result)
+                    let prod = document.getElementsByName("product_id")[1]
+                    let values = prod.getElementsByTagName("option")
+                    let prod2 = document.getElementsByName("test_map_id")[1]
+                    let values2 = prod2.getElementsByTagName("option")
+                    let int = 0;
+                    let int2 = 0;
+                    for (let j = 0; j<values.length;j++){
+                        values[j].hidden = true;
+                    }
+                    for (let j = 0; j<values2.length;j++){
+                        values2[j].hidden = true;
+                    }
+                    
+                    for (let i = 0; i<keys.length;i++){
+                        if (eval(`result.${keys[i]}.product_id`) != null){
+                            for (let j = 0; j<values.length;j++){
+                                if (eval(`result.${keys[i]}.product_id`) === values[j].value){
+                                    values[j].hidden = false;
+                                    int++;
+                                }
+                            }
+                        }
+                        if (eval(`result.${keys[i]}.test_map_id`) != null){
+                            for (let j = 0; j<values2.length;j++){
+                                if (eval(`result.${keys[i]}.test_map_id`) === values2[j].value){
+                                    values2[j].hidden = false;
+                                    int2++;
+                                }
+                            }
+                        }
+                    }
+                    
+                    if (int === 0){
+                        for (let j = 0; j<values.length;j++){
+                        values[j].setAttribute("style","background-color: #ffffff");
+                    }
+                    }
+                    if (int2 === 0){
+                        for (let j = 0; j<values2.length;j++){
+                        values2[j].setAttribute("style","background-color: #ffffff");
+                    }
+                    }
+                }
+                )
+                .catch(()=>{
+                    let prod = document.getElementsByName("product_id")[1]
+                    let values = prod.getElementsByTagName("option")
+                    let prod2 = document.getElementsByName("test_map_id")[1]
+                    let values2 = prod2.getElementsByTagName("option")
+                    for (let j = 0; j<values.length;j++){
+                        values[j].setAttribute("style","background-color: #ffffff");
+                    }
+                    for (let j = 0; j<values2.length;j++){
+                        values2[j].setAttribute("style","background-color: #ffffff");
+                    }
+
+                })
+            }
+
+
+
             function highlight2(){
                 var csrftoken = getCookie('csrftoken');
                 var program_id = document.getElementsByName("program_id")[1].value;
-                fetch("http://127.0.0.1:8000/database/darchildren", {method: "POST", body: program_id, headers:{"X-CSRFToken": csrftoken}})
+                fetch("http://10.22.137.40:8000/database/darchildren", {method: "POST", body: program_id, headers:{"X-CSRFToken": csrftoken}})
                 .then((response)=>
-                fetch("http://127.0.0.1:8000/database/getdarchildren")
+                fetch("http://10.22.137.40:8000/database/getdarchildren")
                 )
                 .then(result=> result.json())
                 .then(result=>{
@@ -436,6 +510,7 @@
             }
             document.getElementsByName("test_type_id")[1].addEventListener("input", highlight)
             document.getElementsByName("program_id")[1].addEventListener("input", highlight2)
+            document.getElementsByName("program_id")[1].addEventListener("input", shortlist)
 
             
 
@@ -443,9 +518,9 @@
                 var chamber_id = document.getElementsByName("chamber_id")[1].value;
                 var csrftoken = getCookie('csrftoken');
                 
-                fetch("http://127.0.0.1:8000/database/chamberschedule", {method: "POST", body: chamber_id, headers:{"X-CSRFToken": csrftoken}})
+                fetch("http://10.22.137.40:8000/database/chamberschedule", {method: "POST", body: chamber_id, headers:{"X-CSRFToken": csrftoken}})
                 .then((response)=>
-                fetch("http://127.0.0.1:8000/database/getchamberschedule")
+                fetch("http://10.22.137.40:8000/database/getchamberschedule")
                 )
                 .then(result=> result.json())
                 .then(result=>{
@@ -521,9 +596,9 @@
                 var dar_id = document.getElementsByName("dar_id")[1].value;
                 var csrftoken = getCookie('csrftoken');
                 
-                fetch("http://127.0.0.1:8000/database/darschedule", {method: "POST", body: dar_id, headers:{"X-CSRFToken": csrftoken}})
+                fetch("http://10.22.137.40:8000/database/darschedule", {method: "POST", body: dar_id, headers:{"X-CSRFToken": csrftoken}})
                 .then((response)=>
-                fetch("http://127.0.0.1:8000/database/getdarschedule")
+                fetch("http://10.22.137.40:8000/database/getdarschedule")
                 )
                 .then(result=> result.json())
                 .then(result=>{
@@ -597,9 +672,9 @@
                 var cage_id = document.getElementsByName("cage_id")[1].value;
                 var csrftoken = getCookie('csrftoken');
                 
-                fetch("http://127.0.0.1:8000/database/cageschedule", {method: "POST", body: cage_id, headers:{"X-CSRFToken": csrftoken}})
+                fetch("http://10.22.137.40:8000/database/cageschedule", {method: "POST", body: cage_id, headers:{"X-CSRFToken": csrftoken}})
                 .then((response)=>
-                fetch("http://127.0.0.1:8000/database/getcageschedule")
+                fetch("http://10.22.137.40:8000/database/getcageschedule")
                 )
                 .then(result=> result.json())
                 .then(result=>{
@@ -669,7 +744,7 @@
                 `;})
             }
             //end of checking equipment test bookings
-
+            
             //checking booking time conflicts
             var conflict;
             function checkSchedule() {

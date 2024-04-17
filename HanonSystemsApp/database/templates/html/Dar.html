@@ -10,7 +10,7 @@
 
 <html>
     <head>
-        <title>Programs </title>
+        <title>DAR </title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     
@@ -24,22 +24,9 @@
         {% endif %}
 
         {% load crispy_forms_tags %}
-
-        {%if user.is_authenticated%}
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'Logout' %}">Logout</a>
-          </li>
-        {%else%}
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'register_user' %}">Register</a>
-          </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'Login' %}">Login</a>
-          </li>
-        {%endif%}
         
             <!--Django Model Form-->
-            <h2 class="my-4">Add a new program</h2>
+            <h2 class="my-4">Add a new DAR</h2>
 
             
 
@@ -64,13 +51,14 @@
                         e.preventDefault();
                     }
                 }
-            var table, rows 
+            var table, rows
             table = document.getElementsByTagName("table").item(0);
             rows = table.rows;
-             
+            
             for (let i = 1; i < rows.length ; i++){
                 x = rows[i].getElementsByTagName("td")[6];
                 y = x.getElementsByClassName("btn")[0];
+                console.log(y)
                 y.onclick = function clicked(e)
                 {
                     if(!confirm('Are you sure?')) {
