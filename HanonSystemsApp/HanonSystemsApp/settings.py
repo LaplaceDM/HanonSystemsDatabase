@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django_tables2_column_shifter',
     'django_filters',
     'django_tables2',
+    'dal',
+    'dal_select2',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

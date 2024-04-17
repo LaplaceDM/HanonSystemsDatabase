@@ -1,0 +1,33 @@
+{# tutorial/templates/tutorial/people.html #}
+<!doctype html>
+{% load bootstrap3 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+<html>
+    <head>
+        <title>Edit Subcomponent</title>
+        
+    </head>
+    <body>
+       
+
+        {% load crispy_forms_tags %}
+            <h2 class="my-4">Update an existing Subcomponent</h2>
+            <form action="" method="post">
+              {% csrf_token %}
+                  {{form}}
+                  <button class="btn btn-primary my-4"  onclick="clicked(event)" type="submit">Submit</button>
+            </form>
+        <script>
+            function clicked(e)
+            {
+                if(!confirm('Are you sure?')) {
+                    e.preventDefault();
+                }
+            }
+            var table, rows
+            table = document.getElementsByTagName("table").item(0);
+            rows = table.rows;
+        </script>
+    </body>
+</html>

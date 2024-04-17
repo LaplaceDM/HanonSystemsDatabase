@@ -1,21 +1,88 @@
-{# tutorial/templates/tutorial/people.html #}
 <!doctype html>
-{% load render_table from django_tables2 %}
-{% load bootstrap3 %}
-{% bootstrap_css %}
-{% bootstrap_javascript %}
 <html>
     <head>
         <title>Menu</title>
-        
+        <style>
+            .menu{
+                display: block;
+                position: fixed;
+                width: 100%;
+                top: 0;
+            }
+            .dropdown{
+                display: inline-block;
+                width: 20%;
+                vertical-align: top;
+            }
+            .dropdown-label{
+                background-color: gray;
+                color: white;
+                padding: 5px;
+                font-family: sans-serif;
+                text-align: center;
+            }
+            .dropdown-content a{
+                display: block;
+                color: black;
+                padding: 5px;
+                text-decoration: none;
+                font-family: sans-serif;
+                background-color: white;
+            }
+            .dropdown-content{
+                display: none;
+            }
+            .dropdown-content a:hover{
+                background-color: #ddd;
+            }
+
+            .dropdown:hover .dropdown-content {display: block;}
+            .menu-space{height: 25px;}
+        </style>
     </head>
     <body>
-        <a href="http://127.0.0.1:8000/database/program" target="_blank">Program</a>
-        <br>
-        <a href="http://127.0.0.1:8000/database/product" target="_blank">Product</a>
-        <br>
-        <a href="http://127.0.0.1:8000/database/tests" target="_blank">Test</a>
-        <br>
-        <a href="http://127.0.0.1:8000/database/ChamberLogInfo" target="_blank">Chamber Log Info</a>
+        <div class = "menu-space"></div>
+        <div class = "menu">
+            <div class="dropdown">
+                <div class="dropdown-label">Daily Operations</div>
+                <div class="dropdown-content">
+                    <a href="{% url 'test' %}">Tests</a>
+                    <a href="{% url 'menu' %}">DUTs</a>
+                    <a href="{% url 'menu' %}">Harnesses</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <div class="dropdown-label">Program Information</div>
+                <div class="dropdown-content">
+                    <a href="{% url 'product' %}">Products</a>
+                    <a href="{% url 'program' %}">Programs</a>
+                    <a href="{% url 'menu' %}">Test Maps</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <div class="dropdown-label">Equipment Information</div>
+                <div class="dropdown-content">
+                    <a href="{% url 'menu' %}">Chambers</a>
+                    <a href="{% url 'menu' %}">Cages</a>
+                    <a href="{% url 'menu' %}">Laptops</a>
+                    <a href="{% url 'menu' %}">Test Fluids</a>
+
+                    <a href="{% url 'menu' %}">Labs</a>
+                    <a href="{% url 'menu' %}">Technicians</a>
+                    <a href="{% url 'hours calculations' %}">Program Hours Calculator</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <div class="dropdown-label">Other</div>
+                <div class="dropdown-content">
+                    <a href="{% url 'menu' %}">Labs</a>
+                    <a href="{% url 'menu' %}">Technicians</a>
+                    <a href="{% url 'hours calculations' %}">Program Hours Calculator</a>
+                </div>
+            </div>
+            </div>
+            </div>
     </body>
 </html>

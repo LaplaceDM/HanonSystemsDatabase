@@ -1,0 +1,110 @@
+<!doctype html>
+{% load static %}
+{% load render_table from django_tables2 %}
+{% load bootstrap3 %}
+{% load django_tables2 %}
+{% bootstrap_css %}
+<html>
+    <head>
+        <title>DUT {{DUT.dut_name}}</title>
+    </head>
+    
+    <body>
+        <div>
+            <h3>DUT {{DUT.dut_info.0.dut_name}} Information</h3>
+            <table>
+                <tr>
+                    <th>
+                        Received Date
+                    </th>
+                    <th>
+                        Storage Date
+                    </th>
+                    <th>
+                        Storage Bin
+                    </th>
+                    <th>
+                        Product
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        {{DUT.dut_info.0.received_date}}
+                    </td>
+                    <td>
+                        {{DUT.dut_info.0.storage_date}}
+                    </td>
+                    <td>
+                        {{DUT.dut_info.0.storage_bin}}
+                    </td>
+                    <td>
+                        {{DUT.dut_info.0.product_id}}
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <h3 class="my-4">Add a new Subcomponent</h3>
+            <form action="" method="post">
+              {% csrf_token %}
+                  {{form}}
+                  <button class="btn btn-primary my-4" onclick="clicked(event)" type="submit">Submit</button>
+            </form>
+
+            {% render_table table  "django_tables2/bootstrap.html"%} 
+        <h3>
+            History of DUT - {{DUT.dut_info.0.dut_name}}
+        </h3>
+        <table>
+            <tr>
+                <th>
+                    Test
+                </th>
+                <th>
+                    Hours Ran
+                </th>
+                <th>
+                    Start Date
+                </th>
+                <th>
+                    Location
+                </th>
+                <th>
+                    Circuit number
+                </th>
+                <th>
+                    Accumulated Hours
+                </th>
+            </tr>
+            {% for key, value in DUT.test_history.items %}
+            <tr>
+                <td>
+                    {{key}}
+                </td>
+                <td>
+                    {{value.0}}
+                </td>
+                <td>
+                    {{value.2}}
+                </td>
+                <td>
+                    {{value.3}}
+                </td>
+                <td>
+                    {{value.4}}
+                </td>
+                <td>
+                    {{value.1}}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        <script>
+            function clicked(e)
+                {
+                    if(!confirm('Are you sure?')) {
+                        e.preventDefault();
+                    }
+                }
+        </script>
+    </body>
+</html>

@@ -2,27 +2,14 @@ from typing import Any
 from django.db.models.query import QuerySet
 from django.views.generic import ListView 
 from .models import *
+from .tables import *
+from .forms import *
+from .filters import *
 from django.shortcuts import render
 from django_filters.views import FilterView
-from .filters import ProgramFilter
-from .filters import ProductFilter
-from .filters import TestFilter
-from .filters import ChamberLogInfoFilter
-from .filters import ChamberLogFilter
 from django_tables2.views import SingleTableMixin
-from .tables import ProgramTable
-from .tables import ProductTable
-from .tables import TestTable
-from .tables import ChamberLogTable
-from .tables import ChamberLogInfoTable
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from .forms import ProgramForm
-from .forms import ProductForm
-from .forms import TestForm
-from .forms import ChamberLogInfoForm
-from .forms import ChamberLogForm
-from .forms import TestUpdateForm
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.views.generic.edit import FormView
@@ -790,8 +777,13 @@ def dut_hours(request):
 
 def dut_history(request, id):
     test_list = Test_DUT.objects.filter(dut_id = id).order_by("test_id__targeted_start")
+    dut_name = DUT.objects.get(dut_id = id).dut_name
     test_history = {}
     accumulated_hours = 0
+    
+    if test_list.count() == 0:
+        return render(request, "html/dut_history.html", {"test_history": test_history, "dut_name": dut_name})
+    
     for test in test_list:
         if test.date_inserted == None:
             starting_time = 0
@@ -821,12 +813,17 @@ def dut_history(request, id):
         else:
             test_history[test.test_id.test_type_id.test_name] = [total_hours, accumulated_hours, start_date, test.test_id.chamber_id.chamber_name]
     
-    return render(request, "html/dut_history.html", {"test_history": test_history, "dut_name":test_list[0].dut_id.dut_name})
+    return render(request, "html/dut_history.html", {"test_history": test_history, "dut_name":dut_name})
 
 def harness_history(request, id):
     test_list = Test_Harness.objects.filter(harness_id = id).order_by("test_id__targeted_start")
     test_history = {}
     accumulated_hours = 0
+    harness_name = Harness.objects.get(harness_id = id).harness_name
+    
+    if test_list.count() == 0:
+        return render(request, "html/harness_history.html", {"test_history": test_history, "harness_name": harness_name})
+    
     for test in test_list:
         if test.date_inserted == None:
             starting_time = 0
@@ -856,4 +853,102 @@ def harness_history(request, id):
         else:
             test_history[test.test_id.test_type_id.test_name] = [total_hours, accumulated_hours, start_date, test.test_id.chamber_id.chamber_name]
     
-    return render(request, "html/harness_history.html", {"test_history": test_history, "harness_name":test_list[0].harness_id.harness_name})
+    return render(request, "html/harness_history.html", {"test_history": test_history, "harness_name":harness_name})
+
+def menu(request):
+    return render(request, "html/menu.html")
+
+class DUTListView(SingleTableMixin,  CreateView, FilterView):
+    
+    model = DUT
+    table_class = DUTTable
+    template_name = 'html/dut.html'
+    paginate_by = 20
+    filterset_class = DUTFilter
+    form_class = DUTForm
+    success_url = '/database/dut'
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'sorry error')
+        return HttpResponseRedirect(reverse("dut"))
+
+class UpdateTableViewDUT(UpdateView):
+    
+    model = DUT
+    template_name = 'html/update_dut.html'
+    form_class = DUTForm
+    success_url = '/database/dut'
+
+
+def delete_item_dut(request, pk):
+
+    DUT.objects.filter(dut_id=pk).delete()
+
+    return HttpResponseRedirect(reverse("dut"))
+
+class DUTInfo(SingleTableMixin, CreateView):
+    template_name = 'html/dut_info.html'
+    #model = Subcomponent
+    table_class = SubcomponentTable
+    form_class = SubcomponentForm
+    
+    def get_queryset(self, *args, **kwargs):
+        return Subcomponent.objects.filter(dut_id = self.kwargs.get('pk'))
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        id = self.kwargs.get('pk')
+        test_list = Test_DUT.objects.filter(dut_id = id).order_by("test_id__targeted_start")
+        test_history = {}
+        accumulated_hours = 0
+        
+        for test in test_list:
+            if test.date_inserted == None:
+                starting_time = 0
+                start_date = test.test_id.targeted_start
+            else:
+                start_date = test.date_inserted.date
+                try:
+                    starting_time = ChamberLog.objects.filter(log_id__test_id = test.test_id).filter(circuit_number = test.circuit_number).filter(timestamp__gte = test.date_inserted).earliest("timestamp").total_hours
+                except:
+                    starting_time=0
+                    continue
+                
+            if test.date_removed == None:
+                try:
+                    ending_time = ChamberLog.objects.filter(log_id__test_id = test.test_id).filter(circuit_number = test.circuit_number).latest("timestamp").total_hours
+                except:
+                    ending_time=0
+                    continue
+            else:
+                try:
+                    ending_time = ChamberLog.objects.filter(log_id__test_id = test.test_id).filter(circuit_number = test.circuit_number).filter(timestamp__lte = test.date_removed).latest("timestamp").total_hours
+                except:
+                    continue    
+            total_hours = ending_time - starting_time
+            accumulated_hours += total_hours
+            if test.test_id.test_type_id.test_name in test_history:
+                test_history[test.test_id.test_type_id.test_name] = [total_hours + test_history[test.test_id.test_type_id.test_name][0], accumulated_hours, start_date, test.test_id.chamber_id.chamber_name, test.circuit_number]
+            else:
+                test_history[test.test_id.test_type_id.test_name] = [total_hours, accumulated_hours, start_date, test.test_id.chamber_id.chamber_name, test.circuit_number]       
+        context['DUT'] = {"test_history": test_history, "dut_info": DUT.objects.filter(pk = self.kwargs.get('pk'))}
+        return context
+    
+    def get_success_url(self):
+        return reverse('dut_info', kwargs={'pk': self.kwargs.get('pk')})
+    
+
+    
+class UpdateTableViewSubcomponent(UpdateView):
+    
+    model = Subcomponent
+    template_name = 'html/update_subcomponent.html'
+    form_class = SubcomponentForm
+    success_url = '/database/dut_info'
+
+
+def delete_item_subcomponent(request, pk):
+    dut_id = Subcomponent.objects.get(component_id = pk).dut_id.dut_id
+    Subcomponent.objects.filter(component_id=pk).delete()
+    return HttpResponseRedirect(reverse("dut_info", kwargs={'pk': dut_id}))

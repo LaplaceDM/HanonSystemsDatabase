@@ -78,6 +78,9 @@ class DUT(models.Model):
 
     dut_id = models.BigAutoField(primary_key=True)
     product_id = models.ForeignKey("Product", on_delete = models.SET_NULL, null = True, db_column = "product_id")
+    
+    def __str__(self):
+        return self.dut_name
 
 class Test_DUT(models.Model):
     circuit_number = models.SmallIntegerField(null = True)
@@ -86,6 +89,11 @@ class Test_DUT(models.Model):
     date_removed = models.DateTimeField(null = True)
     test_id = models.ForeignKey("Test", on_delete = models.CASCADE, db_column = "test_id")
     dut_id = models.ForeignKey("DUT", on_delete = models.CASCADE, db_column = "dut_id")
+    
+class Subcomponent(models.Model):
+    component_name = models.CharField(max_length = 100)
+    component_id = models.BigAutoField(primary_key=True)
+    dut_id = models.ForeignKey("DUT", on_delete = models.CASCADE, null = True, db_column = "dut_id")
 
 class Test_Harness(models.Model):
     circuit_number = models.SmallIntegerField(null = True)

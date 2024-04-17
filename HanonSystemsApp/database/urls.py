@@ -51,8 +51,17 @@ urlpatterns = [
     path("calculate", views.calculate, name = "calculate"),
     path("hours_download", views.hours_download, name = "hours download"),
     
-    path("dut<int:id>_history", views.dut_history, name = "dut history"),
-    path("harness<int:id>_history", views.harness_history, name = "harness history")
+    path("harness<int:id>", views.harness_history, name = "harness_info"),
+    
+    path("menu", views.menu, name = "menu"),
+    
+    path("dut", views.DUTListView.as_view(), name="dut"),
+    path("dut/delete_dut/<int:pk>", views.delete_item_dut, name="delete_dut"),
+    path("dut/update_dut/<int:pk>", views.UpdateTableViewDUT.as_view(), name="update_dut"),
+    
+    path("dut<int:pk>", views.DUTInfo.as_view(), name = "dut_info"),
+    path("subcomponent/delete_subcomponent/<int:pk>", views.delete_item_subcomponent, name="delete_subcomponent"),
+    path("subcomponent/update_subcomponent/<int:pk>", views.UpdateTableViewSubcomponent.as_view(), name="update_subcomponent"),
 ]
 
 

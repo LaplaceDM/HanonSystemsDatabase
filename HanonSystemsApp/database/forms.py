@@ -1,12 +1,9 @@
 from django.forms import ModelForm
-from .models import Program
-from .models import Product
-from .models import Test
-from .models import ChamberLogInfo
-from .models import ChamberLog
+from .models import *
 from django import forms
 from django.utils import timezone
 from datetime import datetime 
+from dal import autocomplete
 
 
 # Create the form class.
@@ -97,15 +94,15 @@ class TestForm(ModelForm):
                                 special_requirements=None)
         instance.supervisor_comments = c
         instance.save()
-        print(instance.created)
-        print(ch.created)
-        print(ch.chamber_id)
-        print(ch.program_id)
-        print(ch.test_id)
-        print(ch.technician_id)
-        print(ch.voltage)
-        print(ch.pk)
-        print(ch.special_requirements)
+        #print(instance.created)
+        #print(ch.created)
+        #print(ch.chamber_id)
+        #print(ch.program_id)
+        #print(ch.test_id)
+        #print(ch.technician_id)
+        #print(ch.voltage)
+        #print(ch.pk)
+        #print(ch.special_requirements)
 
         ch.save() 
         
@@ -151,4 +148,17 @@ class ChamberLogForm(ModelForm):
         model = ChamberLog
         fields = '__all__'
 
-
+class DUTForm(ModelForm):
+    received_date = forms.DateField(
+        widget = forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}))
+    storage_date = forms.DateField(
+        widget = forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}))
+    class Meta:
+        model = DUT
+        exclude = ('created', )
+        
+class SubcomponentForm(ModelForm):
+    class Meta:
+        model = Subcomponent
+        exclude = ('component_id')
+        

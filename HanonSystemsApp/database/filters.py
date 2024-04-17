@@ -1,10 +1,6 @@
 import django_filters
 
-from .models import Program
-from .models import Product
-from .models import Test
-from .models import ChamberLogInfo
-from .models import ChamberLog
+from .models import *
 from django import forms
 
 
@@ -60,4 +56,17 @@ class ChamberLogFilter(django_filters.FilterSet):
                                             label='timestamp')
     class Meta:
         model = ChamberLog
+        exclude = ['delete' ,]
+        
+class DUTFilter(django_filters.FilterSet):
+    received_date = django_filters.DateFilter(field_name='received_date', 
+                                            widget= forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+                                            lookup_expr='date',
+                                            label='received date')
+    storage_date = django_filters.DateFilter(field_name='storage_date', 
+                                            widget= forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+                                            lookup_expr='date',
+                                            label='storage date')
+    class Meta:
+        model = DUT
         exclude = ['delete' ,]
