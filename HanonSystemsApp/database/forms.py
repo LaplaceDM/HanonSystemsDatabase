@@ -160,5 +160,5 @@ class DUTForm(ModelForm):
 class SubcomponentForm(ModelForm):
     class Meta:
         model = Subcomponent
-        exclude = ('component_id')
+        exclude = ('component_id',)
         

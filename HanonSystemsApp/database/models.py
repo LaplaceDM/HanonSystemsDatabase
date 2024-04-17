@@ -180,8 +180,9 @@ class ChamberLogInfo(models.Model):
     shaker_profile = models.CharField(max_length = 300, null = True)
     chamber_profile = models.CharField(max_length = 300, null = True)
     pump_profile = models.CharField(max_length = 300, null = True)
-    
-    
+    chamber_id = models.ForeignKey("Chamber", on_delete = models.SET_NULL, null=True, db_column = "chamber_id")
+    program_id = models.ForeignKey("Program", on_delete = models.SET_NULL, null=True, db_column = "program_id")
+    technician_id= models.ForeignKey("Technician", on_delete = models.SET_NULL, null=True, db_column = "technician_id")
 
     test_id = models.ForeignKey("Test", on_delete = models.CASCADE, db_column = "test_id")
 
