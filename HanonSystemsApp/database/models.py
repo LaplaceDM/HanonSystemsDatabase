@@ -78,20 +78,28 @@ class DUT(models.Model):
 
     dut_id = models.BigAutoField(primary_key=True)
     product_id = models.ForeignKey("Product", on_delete = models.SET_NULL, null = True, db_column = "product_id")
+    
+    def __str__(self):
+        return self.dut_name
 
 class Test_DUT(models.Model):
-    date = models.DateField(null = True)
     circuit_number = models.SmallIntegerField(null = True)
     id = models.BigAutoField(primary_key=True)
-
+    date_inserted = models.DateTimeField()
+    date_removed = models.DateTimeField(null = True)
     test_id = models.ForeignKey("Test", on_delete = models.CASCADE, db_column = "test_id")
     dut_id = models.ForeignKey("DUT", on_delete = models.CASCADE, db_column = "dut_id")
+    
+class Subcomponent(models.Model):
+    component_name = models.CharField(max_length = 100)
+    component_id = models.BigAutoField(primary_key=True)
+    dut_id = models.ForeignKey("DUT", on_delete = models.CASCADE, null = True, db_column = "dut_id")
 
 class Test_Harness(models.Model):
-    date = models.DateField(null = True)
     circuit_number = models.SmallIntegerField(null = True)
     id = models.BigAutoField(primary_key=True)
-
+    date_inserted = models.DateTimeField()
+    date_removed = models.DateTimeField(null = True)
     test_id = models.ForeignKey("Test", on_delete = models.CASCADE, db_column = "test_id")
     harness_id = models.ForeignKey("Harness", on_delete = models.CASCADE, db_column = "harness_id")
 
@@ -144,13 +152,12 @@ class ChamberLog(models.Model):
     circuit_number = models.SmallIntegerField()
     total_hours = models.SmallIntegerField()
     status = models.CharField(max_length = 20, verbose_name = "Status",  null = True)
-    dut_id = models.IntegerField(null = True)
+    chamber_id = models.ForeignKey("Chamber", on_delete = models.CASCADE, db_column = "chamber_id")
     comments = models.CharField(max_length = 300, null = True)
     technician = models.CharField(max_length = 100, null = True)
     shaker_direction = models.CharField(max_length = 100, null = True)
-    chamber_id = models.SmallIntegerField(null = True)
-    dar_id = models.SmallIntegerField(null = True)
-    cage_id = models.SmallIntegerField(null = True)
+    dar_id = models.ForeignKey("DAR", on_delete = models.CASCADE, db_column = "dar_id", null = True)
+    cage_id = models.ForeignKey("Cage", on_delete = models.CASCADE, db_column = "cage_id", null = True)
     
     log_id = models.ForeignKey("ChamberLogInfo", on_delete = models.CASCADE, db_column = "log_id")
     
@@ -173,8 +180,9 @@ class ChamberLogInfo(models.Model):
     shaker_profile = models.CharField(max_length = 300, null = True)
     chamber_profile = models.CharField(max_length = 300, null = True)
     pump_profile = models.CharField(max_length = 300, null = True)
-    
-    
+    chamber_id = models.ForeignKey("Chamber", on_delete = models.SET_NULL, null=True, db_column = "chamber_id")
+    program_id = models.ForeignKey("Program", on_delete = models.SET_NULL, null=True, db_column = "program_id")
+    technician_id= models.ForeignKey("Technician", on_delete = models.SET_NULL, null=True, db_column = "technician_id")
 
     test_id = models.ForeignKey("Test", on_delete = models.CASCADE, db_column = "test_id")
 
@@ -217,6 +225,7 @@ class Chamber(models.Model):
     cooling_power = models.SmallIntegerField(null = True)
     heating_gradient = models.FloatField(null = True)
     max_daily_hours = models.SmallIntegerField(null = True)
+    billing_category = models.CharField(max_length = 30, null = True)
 
     lab_id = models.ForeignKey("Lab", on_delete = models.SET_NULL, null=True, db_column = "lab_id")
     def __str__(self):

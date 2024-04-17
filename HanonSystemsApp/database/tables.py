@@ -377,3 +377,33 @@ class TestMapTable(ColumnShiftTableBootstrap3):
         model = TestMap
         exclude = ("program_id", )
         
+        
+class DUTTable(ColumnShiftTableBootstrap3):
+    delete = tables.LinkColumn('delete_dut',text='delete', args=[A('pk')], attrs={
+    'a': {'class': 'btn'}
+    }, orderable = False)
+
+    update = tables.LinkColumn('update_dut',text='edit', args=[A('pk')], attrs={
+    'a': {'class': 'btn', 'target': '__blank'}
+    }, orderable = False)
+    
+    dut_name = tables.LinkColumn('dut_info', args=[A('pk')], attrs={
+    'a': {'class': 'btn', 'target': '__blank'}
+    }, orderable = True)
+
+    class Meta:
+        model = DUT
+        exclude = ("dut_id", )
+        
+class SubcomponentTable(ColumnShiftTableBootstrap3):
+    delete = tables.LinkColumn('delete_subcomponent',text='delete', args=[A('pk')], attrs={
+    'a': {'class': 'btn'}
+    }, orderable = False)
+
+    update = tables.LinkColumn('update_subcomponent',text='edit', args=[A('pk')], attrs={
+    'a': {'class': 'btn', 'target': '__blank'}
+    }, orderable = False)
+
+    class Meta:
+        model = Subcomponent
+        exclude = ("component_id","dut_id" )

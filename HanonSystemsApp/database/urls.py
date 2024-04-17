@@ -120,16 +120,28 @@ urlpatterns = [
     path('ChamberLogInfo/update_ChamberLogInfo/<int:pk>', views.UpdateTableViewChamberLogInfo.as_view(), name="update_ChamberLogInfo"),
     path("ChamberLogInfo/clone/<int:pk>", views.clone_item3, name="clone3"),
 
-     path("find/<int:pk>", views.find, name="find"),
+    path("find/<int:pk>", views.find, name="find"),
 
     path("ChamberLog/<int:pk>", views.ChamberLogView.as_view(), name="ChamberLog"),
     path('ChamberLog/delete_ChamberLog/<int:pk>', views.delete_item_ChamberLog, name="delete_ChamberLog"),
     # path('ChamberLog/update_ChamberLog/<int:pk>', views.UpdateTableViewChamberLog.as_view(), name="update_ChamberLog"),
     path("ChamberLog/clone/<int:pk>", views.clone_item4, name="clone4"),
 
-
-    path("program/<int:pk>", views.ProgramInfoView.as_view(), name="Temp4"),
-
+    path("hourscalculations", views.hours_calculations, name= "hours calculations"),
+    path("calculate", views.calculate, name = "calculate"),
+    path("hours_download", views.hours_download, name = "hours download"),
+    
+    path("harness<int:id>", views.harness_history, name = "harness_info"),
+    
+    path("menu", views.menu, name = "menu"),
+    
+    path("dut", views.DUTListView.as_view(), name="dut"),
+    path("dut/delete_dut/<int:pk>", views.delete_item_dut, name="delete_dut"),
+    path("dut/update_dut/<int:pk>", views.UpdateTableViewDUT.as_view(), name="update_dut"),
+    
+    path("dut<int:pk>", views.DUTInfo.as_view(), name = "dut_info"),
+    path("subcomponent/delete_subcomponent/<int:pk>", views.delete_item_subcomponent, name="delete_subcomponent"),
+    path("subcomponent/update_subcomponent/<int:pk>", views.UpdateTableViewSubcomponent.as_view(), name="update_subcomponent"),
 ]
 
 

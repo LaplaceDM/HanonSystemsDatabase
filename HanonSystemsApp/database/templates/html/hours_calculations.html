@@ -1,0 +1,57 @@
+<!doctype html>
+{% load static %}
+<html>
+    <head>
+        <title>Hours Calculation</title>
+        <link rel="stylesheet"  href="{% static 'database/hours_calculations.css' %}"> 
+    </head>
+    
+    <body>
+        <label for="start">Start date:</label>
+        <input type="date" id="start"/>
+
+        <label for="end">End date:</label>
+        <input type="date" id="end"/>
+
+        <button id="calculate" onclick="calculate()"> Calculate </button>
+
+
+        <script>
+            function getCookie(name) {
+                var cookieValue = null;
+                    if (document.cookie && document.cookie !== '') {
+                        var cookies = document.cookie.split(';');
+                        for (var i = 0; i < cookies.length; i++) {
+                            var cookie = cookies[i].trim();
+                            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                break;
+                            }
+                        }
+                    }
+                return cookieValue;
+            }
+            
+            function calculate(){
+                var start, end;
+                start = document.getElementById("start").value;
+                end = document.getElementById("end").value;
+                console.log(start);
+                console.log(end);
+
+                if(start==""||end==""){
+                    alert("Start and/or End date has not been entered.")
+                    return;
+                }
+                var csrftoken = getCookie('csrftoken');
+
+                fetch("http://127.0.0.1:8000/database/calculate", {method: "POST", body: `${start},${end}`, headers:{"X-CSRFToken": csrftoken}})
+                .then(()=>window.location.replace("http://127.0.0.1:8000/database/hours_download")
+                )
+                .catch(()=>{alert("An error occurred, please check the values entered")})    
+            }
+
+            
+        </script>
+    </body>
+</html>
