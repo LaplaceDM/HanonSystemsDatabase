@@ -1476,7 +1476,7 @@ def harness_info(request, id):
     accumulated_hours = 0
     
     if test_list.count() == 0:
-        return render(request, "html/harness_history.html", {"test_history": test_history, "harness_name": harness_name})
+        return render(request, "html/harness_history.html", {"test_history": test_history, "harness_info":Harness.objects.filter(pk = id)})
     
     for test in test_list:
         if test.date_inserted == None:

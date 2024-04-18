@@ -12,8 +12,8 @@ class Program(models.Model):
     status = models.CharField(max_length = 20, verbose_name = "Status",  null = True)
     phase = models.CharField(max_length = 20, verbose_name = "Phase",  null = True)
     enterproj_id = models.IntegerField(null = True)
-    wbs_number = models.CharField(max_length = 30, null = True)
-    oem = models.CharField(max_length = 20, null = True)
+    wbs_number = models.CharField(max_length = 30, null = True, verbose_name = "WBS")
+    oem = models.CharField(max_length = 20, null = True, verbose_name = "OEM")
     
     program_id = models.SmallAutoField(primary_key=True)
 
@@ -26,7 +26,7 @@ class Lab(models.Model):
     country = models.CharField(max_length = 15, null = True)
     supervisor = models.CharField(max_length = 25, null = True)
     
-    lab_id = models.SmallAutoField(primary_key=True)
+    lab_id = models.SmallAutoField(primary_key=True, verbose_name = "Lab")
     def __str__(self):
         return self.lab_name
 
@@ -38,17 +38,17 @@ class Product(models.Model):
     voltage = models.CharField(max_length = 3, null = True)
     variant = models.CharField(max_length = 30, null = True)
     
-    product_id = models.AutoField(primary_key=True)
-    program_id = models.ForeignKey( "Program", on_delete = models.CASCADE, null = True, db_column="program_id")
+    product_id = models.AutoField(primary_key=True, verbose_name = "Product")
+    program_id = models.ForeignKey( "Program", on_delete = models.CASCADE, null = True, db_column="program_id", verbose_name = "Program")
     def __str__(self):
         return self.product_family+ (" - ")  +str(self.program_id)
 
 class TestMap(models.Model):
-    test_map_name = models.CharField(max_length = 30, null = True)
-    tr = models.CharField(max_length = 14, unique= True, null = True)
+    test_map_name = models.CharField(max_length = 30, null = True, verbose_name = "Test Map name")
+    tr = models.CharField(max_length = 14, unique= True, null = True, verbose_name = "TR")
     test_map_id = models.AutoField(primary_key=True)
 
-    program_id = models.ForeignKey( "Program", on_delete = models.CASCADE, null = True, db_column="program_id")
+    program_id = models.ForeignKey( "Program", on_delete = models.CASCADE, null = True, db_column="program_id", verbose_name = "Program")
     def __str__(self):
         return self.tr + (" - ")  +str(self.test_map_name)
 
@@ -56,7 +56,7 @@ class Technician (models.Model):
     technician_name = models.CharField(max_length = 30)
     technician_id = models.SmallAutoField(primary_key=True)
     
-    lab_id = models.ForeignKey( "Lab", on_delete = models.SET_NULL, null = True, db_column = "lab_id")
+    lab_id = models.ForeignKey( "Lab", on_delete = models.SET_NULL, null = True, db_column = "lab_id", verbose_name = "Lab")
     def __str__(self):
         return self.technician_name
 
@@ -67,17 +67,17 @@ class Skill (models.Model):
 class Technician_Skill (models.Model):
     id = models.AutoField(primary_key=True)
 
-    skill_id = models.ForeignKey("Skill", on_delete = models.CASCADE, db_column="skill_id")
-    technician_id = models.ForeignKey("Technician", on_delete = models.CASCADE, db_column="technician_id")
+    skill_id = models.ForeignKey("Skill", on_delete = models.CASCADE, db_column="skill_id", verbose_name = "Skill")
+    technician_id = models.ForeignKey("Technician", on_delete = models.CASCADE, db_column="technician_id", verbose_name = "Technician name")
 
 class DUT(models.Model):
-    dut_name = models.CharField(max_length = 12, unique = True)
+    dut_name = models.CharField(max_length = 12, unique = True, verbose_name = "DUT name")
     received_date = models.DateField(null = True)
     storage_date = models.DateField(null = True)
     storage_bin = models.CharField(max_length = 20, null = True)
 
-    dut_id = models.BigAutoField(primary_key=True)
-    product_id = models.ForeignKey("Product", on_delete = models.SET_NULL, null = True, db_column = "product_id")
+    dut_id = models.BigAutoField(primary_key=True, verbose_name = "DUT name")
+    product_id = models.ForeignKey("Product", on_delete = models.SET_NULL, null = True, db_column = "product_id", verbose_name = "Product name")
     
     def __str__(self):
         return self.dut_name
@@ -87,27 +87,27 @@ class Test_DUT(models.Model):
     id = models.BigAutoField(primary_key=True)
     date_inserted = models.DateTimeField()
     date_removed = models.DateTimeField(null = True)
-    test_id = models.ForeignKey("Test", on_delete = models.CASCADE, db_column = "test_id")
-    dut_id = models.ForeignKey("DUT", on_delete = models.CASCADE, db_column = "dut_id")
+    test_id = models.ForeignKey("Test", on_delete = models.CASCADE, db_column = "test_id", verbose_name = "Test")
+    dut_id = models.ForeignKey("DUT", on_delete = models.CASCADE, db_column = "dut_id", verbose_name = "DUT name")
     
 class Subcomponent(models.Model):
     component_name = models.CharField(max_length = 100)
-    component_id = models.BigAutoField(primary_key=True)
-    dut_id = models.ForeignKey("DUT", on_delete = models.CASCADE, null = True, db_column = "dut_id")
+    component_id = models.BigAutoField(primary_key=True, verbose_name = "Subcomponent")
+    dut_id = models.ForeignKey("DUT", on_delete = models.CASCADE, null = True, db_column = "dut_id", verbose_name = "DUT name")
 
 class Test_Harness(models.Model):
     circuit_number = models.SmallIntegerField(null = True)
     id = models.BigAutoField(primary_key=True)
     date_inserted = models.DateTimeField()
     date_removed = models.DateTimeField(null = True)
-    test_id = models.ForeignKey("Test", on_delete = models.CASCADE, db_column = "test_id")
-    harness_id = models.ForeignKey("Harness", on_delete = models.CASCADE, db_column = "harness_id")
+    test_id = models.ForeignKey("Test", on_delete = models.CASCADE, db_column = "test_id", verbose_name = "Test")
+    harness_id = models.ForeignKey("Harness", on_delete = models.CASCADE, db_column = "harness_id", verbose_name = "Harness name")
 
 class Fluid(models.Model):
     fluid_name = models.CharField(max_length = 30)
     manufacturer = models.CharField(max_length = 20, null = True)
     storage_location = models.CharField(max_length = 20, null = True)
-    fluid_id = models.SmallAutoField(primary_key=True)
+    fluid_id = models.SmallAutoField(primary_key=True, verbose_name = "Fluid name")
 
 class Harness(models.Model):
     harness_id = models.BigAutoField(primary_key=True)
@@ -123,18 +123,18 @@ class Harness(models.Model):
 
 class Test(models.Model):
     created = models.DateTimeField(default=timezone.now)
-    product_id = models.ForeignKey("Product", on_delete = models.SET_NULL, null = True, db_column = "product_id")
-    program_id = models.ForeignKey( "Program", on_delete = models.CASCADE, null = True, db_column="program_id")
+    product_id = models.ForeignKey("Product", on_delete = models.SET_NULL, null = True, db_column = "product_id", verbose_name = "Product")
+    program_id = models.ForeignKey( "Program", on_delete = models.CASCADE, null = True, db_column="program_id", verbose_name = "Program")
     test_map_id = models.ForeignKey("TestMap", on_delete = models.CASCADE, db_column = "test_map_id", verbose_name = "Leg")
     priority = models.SmallIntegerField(null = True)
     scheduling = models.CharField(max_length = 15, null =True)
     status = models.CharField(max_length = 15, null =True)
     test_type_id = models.ForeignKey("TestType", on_delete = models.CASCADE, db_column = "test_type_id", verbose_name = "Test")
     test_id = models.AutoField(primary_key=True)
-    technician_id = models.ForeignKey("Technician", on_delete = models.CASCADE, db_column = "technician_id", verbose_name = "technician")
-    chamber_id = models.ForeignKey("Chamber", on_delete = models.CASCADE, db_column = "chamber_id", verbose_name = "chamber")
+    technician_id = models.ForeignKey("Technician", on_delete = models.CASCADE, db_column = "technician_id", verbose_name = "Technician")
+    chamber_id = models.ForeignKey("Chamber", on_delete = models.CASCADE, db_column = "chamber_id", verbose_name = "Chamber")
     dar_id = models.ForeignKey("DAR", on_delete = models.CASCADE, db_column = "dar_id", verbose_name = "DAR")
-    cage_id = models.ForeignKey("Cage", on_delete = models.CASCADE, db_column = "cage_id", verbose_name = "cage")
+    cage_id = models.ForeignKey("Cage", on_delete = models.CASCADE, db_column = "cage_id", verbose_name = "Cage")
     lab_id = models.ForeignKey("Lab", on_delete = models.CASCADE, db_column = "lab_id", verbose_name = "Lab")
 
     targeted_start = models.DateField(null =True)
@@ -144,7 +144,7 @@ class Test(models.Model):
     total_hours = models.SmallIntegerField(null = True)
 
     def __str__(self):
-        return f"{self.test_type_id} {self.chamber_id}"
+        return f"{self.test_map_id.tr} - {self.test_type_id}"
 
 class ChamberLog(models.Model):
     id = models.BigAutoField(primary_key=True)
@@ -152,14 +152,14 @@ class ChamberLog(models.Model):
     circuit_number = models.SmallIntegerField()
     total_hours = models.SmallIntegerField()
     status = models.CharField(max_length = 20, verbose_name = "Status",  null = True)
-    chamber_id = models.ForeignKey("Chamber", on_delete = models.CASCADE, db_column = "chamber_id")
+    chamber_id = models.ForeignKey("Chamber", on_delete = models.CASCADE, db_column = "chamber_id", verbose_name = "Chamber")
     comments = models.CharField(max_length = 300, null = True)
     technician = models.CharField(max_length = 100, null = True)
     shaker_direction = models.CharField(max_length = 100, null = True)
-    dar_id = models.ForeignKey("DAR", on_delete = models.CASCADE, db_column = "dar_id", null = True)
-    cage_id = models.ForeignKey("Cage", on_delete = models.CASCADE, db_column = "cage_id", null = True)
+    dar_id = models.ForeignKey("DAR", on_delete = models.CASCADE, db_column = "dar_id", null = True, verbose_name = "DAR")
+    cage_id = models.ForeignKey("Cage", on_delete = models.CASCADE, db_column = "cage_id", null = True, verbose_name = "Cage")
     
-    log_id = models.ForeignKey("ChamberLogInfo", on_delete = models.CASCADE, db_column = "log_id")
+    log_id = models.ForeignKey("ChamberLogInfo", on_delete = models.CASCADE, db_column = "log_id", verbose_name = "Log")
     
 
 class ChamberLogInfo(models.Model):
@@ -180,11 +180,12 @@ class ChamberLogInfo(models.Model):
     shaker_profile = models.CharField(max_length = 300, null = True)
     chamber_profile = models.CharField(max_length = 300, null = True)
     pump_profile = models.CharField(max_length = 300, null = True)
-    chamber_id = models.ForeignKey("Chamber", on_delete = models.SET_NULL, null=True, db_column = "chamber_id")
-    program_id = models.ForeignKey("Program", on_delete = models.SET_NULL, null=True, db_column = "program_id")
-    technician_id= models.ForeignKey("Technician", on_delete = models.SET_NULL, null=True, db_column = "technician_id")
+    chamber_id = models.ForeignKey("Chamber", on_delete = models.SET_NULL, null=True, db_column = "chamber_id", verbose_name = "Chamber")
+    program_id = models.ForeignKey("Program", on_delete = models.SET_NULL, null=True, db_column = "program_id", verbose_name = "Program")
+    technician_id= models.ForeignKey("Technician", on_delete = models.SET_NULL, null=True, db_column = "technician_id", verbose_name = "Technician")
+    comments = models.CharField(max_length = 4000, null = True)
 
-    test_id = models.ForeignKey("Test", on_delete = models.CASCADE, db_column = "test_id")
+    test_id = models.ForeignKey("Test", on_delete = models.CASCADE, db_column = "test_id", verbose_name = "Test")
 
 class Cage (models.Model):
     cage_id = models.SmallAutoField(primary_key=True)
@@ -207,7 +208,7 @@ class DAR (models.Model):
     operation_team = models.CharField(max_length = 20, null = True)
     working_condition = models.CharField(max_length = 50, verbose_name = "Working Condition",  null = True)
 
-    lab_id = models.ForeignKey("Lab", on_delete = models.SET_NULL, null=True, db_column = "lab_id")
+    lab_id = models.ForeignKey("Lab", on_delete = models.SET_NULL, null=True, db_column = "lab_id", verbose_name = "Lab")
     def __str__(self):
         return self.dar_name
 
@@ -254,15 +255,15 @@ class Laptop(models.Model):
 class Test_Chamber (models.Model):
     id = models.SmallAutoField(primary_key=True)
     test_type_id = models.SmallIntegerField(null =True)
-    test_type_id = models.ForeignKey("TestType", on_delete = models.CASCADE, null =True, db_column = "test_type_id")
+    test_type_id = models.ForeignKey("TestType", on_delete = models.CASCADE, null =True, db_column = "test_type_id", verbose_name = "Test")
     
-    chamber_id = models.ForeignKey("Chamber", on_delete = models.CASCADE, null =True, db_column = "chamber_id")
+    chamber_id = models.ForeignKey("Chamber", on_delete = models.CASCADE, null =True, db_column = "chamber_id", verbose_name = "Chamber")
 
 class DAR_Laptop(models.Model):
     id = models.SmallAutoField(primary_key=True)
 
-    dar_id = models.ForeignKey("DAR", on_delete = models.CASCADE, null =True, db_column = "dar_id")
-    laptop_id = models.ForeignKey("Laptop", on_delete = models.CASCADE, null =True, db_column = "laptop_id")
+    dar_id = models.ForeignKey("DAR", on_delete = models.CASCADE, null =True, db_column = "dar_id", verbose_name = "DAR")
+    laptop_id = models.ForeignKey("Laptop", on_delete = models.CASCADE, null =True, db_column = "laptop_id", verbose_name = "Laptop")
 
 class DARChannel(models.Model):
     channel_id = models.SmallIntegerField(primary_key=True)
@@ -281,17 +282,17 @@ class DARChannel(models.Model):
 class Program_Fluid(models.Model):
     id = models.AutoField(primary_key=True)
 
-    program_id = models.ForeignKey("Program", on_delete = models.CASCADE, null =True, db_column = "program_id")
-    fluid_id = models.ForeignKey("Fluid", on_delete = models.CASCADE, null =True, db_column = "fluid_id")
+    program_id = models.ForeignKey("Program", on_delete = models.CASCADE, null =True, db_column = "program_id", verbose_name = "Program")
+    fluid_id = models.ForeignKey("Fluid", on_delete = models.CASCADE, null =True, db_column = "fluid_id", verbose_name = "Fluid")
 
 class Program_DAR(models.Model):
     id = models.AutoField(primary_key=True)
 
-    program_id = models.ForeignKey("Program", on_delete = models.CASCADE, null =True, db_column = "program_id")
-    dar_id = models.ForeignKey("DAR", on_delete = models.CASCADE, null =True, db_column = "dar_id")
+    program_id = models.ForeignKey("Program", on_delete = models.CASCADE, null =True, db_column = "program_id", verbose_name = "Program")
+    dar_id = models.ForeignKey("DAR", on_delete = models.CASCADE, null =True, db_column = "dar_id", verbose_name = "DAR")
 
 class Program_Cage(models.Model):
     id = models.AutoField(primary_key=True)
 
-    program_id = models.ForeignKey("Program", on_delete = models.CASCADE, null =True, db_column = "program_id")
-    cage_id = models.ForeignKey("Cage", on_delete = models.CASCADE, null =True, db_column = "cage_id")
+    program_id = models.ForeignKey("Program", on_delete = models.CASCADE, null =True, db_column = "program_id", verbose_name = "Program")
+    cage_id = models.ForeignKey("Cage", on_delete = models.CASCADE, null =True, db_column = "cage_id", verbose_name = "Cage")
