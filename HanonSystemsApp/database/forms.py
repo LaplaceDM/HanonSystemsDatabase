@@ -1,5 +1,12 @@
 from django.forms import ModelForm
+from .models import Program
 from .models import *
+from .models import Test
+from .models import ChamberLogInfo
+from .models import ChamberLog
+from .models import Cage
+from .models import DAR
+from .models import Chamber
 from django import forms
 from django.utils import timezone
 from datetime import datetime 
@@ -12,10 +19,108 @@ class ProgramForm(ModelForm):
         model = Program
         exclude = ('created', )
 
+class LaptopForm(ModelForm):
+    class Meta:
+        model = Laptop
+        exclude = ('created', )
+
+class Test_HarnessForm(ModelForm):
+    class Meta:
+        model = Test_Harness
+        exclude = ('created', )
+
+class Technician_SkillForm(ModelForm):
+    class Meta:
+        model = Technician_Skill
+        exclude = ('created', )
+
+class TestMapForm(ModelForm):
+    class Meta:
+        model = TestMap
+        exclude = ('created', )
+
+class Test_ChamberForm(ModelForm):
+    class Meta:
+        model = Test_Chamber
+        exclude = ('created', )
+
+class DAR_LaptopForm(ModelForm):
+    class Meta:
+        model = DAR_Laptop
+        exclude = ('created', )
+
+
+
+class Program_CageForm(ModelForm):
+    class Meta:
+        model = Program_Cage
+        exclude = ('created', )
+
+class Program_DARForm(ModelForm):
+    class Meta:
+        model = Program_DAR
+        exclude = ('created', )
+
+class Program_FluidForm(ModelForm):
+    class Meta:
+        model = Program_Fluid
+        exclude = ('created', )
+
+class DARChannelForm(ModelForm):
+    class Meta:
+        model = DARChannel
+        exclude = ('created', )
+
+class HarnessForm(ModelForm):
+    class Meta:
+        model = Harness
+        exclude = ('created', )
+
+class SkillForm(ModelForm):
+    class Meta:
+        model = Skill
+        exclude = ('created', )
+
+class LabForm(ModelForm):
+    class Meta:
+        model = Lab
+        exclude = ('created', )
+
+class TestTypeForm(ModelForm):
+    class Meta:
+        model = TestType
+        exclude = ('created', )
+
+class TechnicianForm(ModelForm):
+    class Meta:
+        model = Technician
+        exclude = ('created', )
+
+class FluidForm(ModelForm):
+    class Meta:
+        model = Fluid
+        exclude = ('created', )
+
+
+class CageForm(ModelForm):
+    class Meta:
+        model = Cage
+        exclude = ('created', )
+
+class DarForm(ModelForm):
+    class Meta:
+        model = DAR
+        exclude = ('created', )
+
+class ChamberForm(ModelForm):
+    class Meta:
+        model = Chamber
+        exclude = ('created', )
+
 class ProductForm(ModelForm):
     class Meta:
         model = Product
-        exclude = ('created', )
+        fields = '__all__'
 
 
 class TestUpdateForm(ModelForm):

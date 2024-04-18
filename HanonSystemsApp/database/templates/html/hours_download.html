@@ -3,9 +3,86 @@
 <html>
     <head>
         <title>Hours Calculation Download</title>
+        <style>
+            .menu{
+                display: block;
+                position: fixed;
+                width: 100%;
+                top: 0;
+            }
+            .dropdown{
+                display: inline-block;
+                width: 20%;
+                vertical-align: top;
+            }
+            .dropdown-label{
+                background-color: gray;
+                color: white;
+                padding: 5px;
+                font-family: sans-serif;
+                text-align: center;
+            }
+            .dropdown-content a{
+                display: block;
+                color: black;
+                padding: 5px;
+                text-decoration: none;
+                font-family: sans-serif;
+                background-color: white;
+            }
+            .dropdown-content{
+                display: none;
+            }
+            .dropdown-content a:hover{
+                background-color: #ddd;
+            }
+
+            .dropdown:hover .dropdown-content {display: block;}
+            .menu-space{height: 35px;}
+        </style>
     </head>
-    
     <body>
+        <div class = "menu-space"></div>
+        <div class = "menu">
+            <div class="dropdown">
+                <div class="dropdown-label">Daily Operations</div>
+                <div class="dropdown-content">
+                    <a href="{% url 'test' %}">Tests</a>
+                    <a href="{% url 'dut' %}">DUTs</a>
+                    <a href="{% url 'Harness' %}">Harnesses</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <div class="dropdown-label">Program Information</div>
+                <div class="dropdown-content">
+                    <a href="{% url 'product' %}">Products</a>
+                    <a href="{% url 'program' %}">Programs</a>
+                    <a href="{% url 'TestMap' %}">Test Maps</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <div class="dropdown-label">Equipment Information</div>
+                <div class="dropdown-content">
+                    <a href="{% url 'Chamber' %}">Chambers</a>
+                    <a href="{% url 'Dar' %}">DARs</a>
+                    <a href="{% url 'cage' %}">Cages</a>
+                    <a href="{% url 'Laptop' %}">Laptops</a>
+                    <a href="{% url 'Fluid' %}">Test Fluids</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <div class="dropdown-label">Other</div>
+                <div class="dropdown-content">
+                    <a href="{% url 'Lab' %}">Labs</a>
+                    <a href="{% url 'Technician' %}">Technicians</a>
+                    <a href="{% url 'TestType' %}">Add new test type</a>
+                    <a href="{% url 'hours calculations' %}">Program Hours Calculator</a>
+                </div>
+            </div>
+            </div>
+            </div>
         <a id ="program_hours" href="{% static 'database/programhours.csv' %}" download>
             <button > Download Program Hours Data </button>
         </a>

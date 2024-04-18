@@ -113,7 +113,7 @@ class Harness(models.Model):
     harness_id = models.BigAutoField(primary_key=True)
     harness_name = models.CharField(max_length = 50, unique= True)
     storage_location = models.CharField(max_length = 20, null = True)
-    test_screening_resutl = models.CharField(max_length = 10, verbose_name = "Test Screening Result",  null = True)
+    test_screening_result = models.CharField(max_length = 10, verbose_name = "Test Screening Result",  null = True)
     harness_connector_condition = models.CharField(max_length = 10, verbose_name = "Harness Connector Condition",  null = True)
     insulation_condition = models.CharField(max_length = 10, verbose_name = "Insulation Condition",  null = True)
     rtv_condition = models.CharField(max_length = 10, verbose_name = "RTV Condition",  null = True)

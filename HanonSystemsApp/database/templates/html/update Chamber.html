@@ -1,0 +1,113 @@
+{# tutorial/templates/tutorial/people.html #}
+<!doctype html>
+{% load render_table from django_tables2 %}
+{% load bootstrap3 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+<html>
+    <head>
+        <title>Edit</title>
+        
+        <style>
+            .menu{
+                display: block;
+                position: fixed;
+                width: 100%;
+                top: 0;
+            }
+            .dropdown{
+                display: inline-block;
+                width: 20%;
+                vertical-align: top;
+            }
+            .dropdown-label{
+                background-color: gray;
+                color: white;
+                padding: 5px;
+                font-family: sans-serif;
+                text-align: center;
+            }
+            .dropdown-content a{
+                display: block;
+                color: black;
+                padding: 5px;
+                text-decoration: none;
+                font-family: sans-serif;
+                background-color: white;
+            }
+            .dropdown-content{
+                display: none;
+            }
+            .dropdown-content a:hover{
+                background-color: #ddd;
+            }
+
+            .dropdown:hover .dropdown-content {display: block;}
+            .menu-space{height: 35px;}
+        </style>
+    </head>
+    <body>
+        <div class = "menu-space"></div>
+        <div class = "menu">
+            <div class="dropdown">
+                <div class="dropdown-label">Daily Operations</div>
+                <div class="dropdown-content">
+                    <a href="{% url 'test' %}">Tests</a>
+                    <a href="{% url 'dut' %}">DUTs</a>
+                    <a href="{% url 'Harness' %}">Harnesses</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <div class="dropdown-label">Program Information</div>
+                <div class="dropdown-content">
+                    <a href="{% url 'product' %}">Products</a>
+                    <a href="{% url 'program' %}">Programs</a>
+                    <a href="{% url 'TestMap' %}">Test Maps</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <div class="dropdown-label">Equipment Information</div>
+                <div class="dropdown-content">
+                    <a href="{% url 'Chamber' %}">Chambers</a>
+                    <a href="{% url 'Dar' %}">DARs</a>
+                    <a href="{% url 'cage' %}">Cages</a>
+                    <a href="{% url 'Laptop' %}">Laptops</a>
+                    <a href="{% url 'Fluid' %}">Test Fluids</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <div class="dropdown-label">Other</div>
+                <div class="dropdown-content">
+                    <a href="{% url 'Lab' %}">Labs</a>
+                    <a href="{% url 'Technician' %}">Technicians</a>
+                    <a href="{% url 'TestType' %}">Add new test type</a>
+                    <a href="{% url 'hours calculations' %}">Program Hours Calculator</a>
+                </div>
+            </div>
+            </div>
+            </div>
+       
+
+        {% load crispy_forms_tags %}
+            <h2 class="my-4">Update an existing Chamber</h2>
+            <form action="" method="post">
+              {% csrf_token %}
+                  {{form}}
+                  <button class="btn btn-primary my-4"  onclick="clicked(event)" type="submit">Submit</button>
+            </form>
+            {% render_table table  "django_tables2/bootstrap.html"%} 
+        <script>
+            function clicked(e)
+            {
+                if(!confirm('Are you sure?')) {
+                    e.preventDefault();
+                }
+            }
+            var table, rows
+            table = document.getElementsByTagName("table").item(0);
+            rows = table.rows;
+        </script>
+    </body>
+</html>

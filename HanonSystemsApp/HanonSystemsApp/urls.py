@@ -20,5 +20,8 @@ from database.views import ProgramListView
 urlpatterns = [
     path('admin/', admin.site.urls),
      # path('', include ('database.urls')),
-    path('database/', include ('database.urls'))
+    path('database/', include ('database.urls')),
+    path('members/', include ('django.contrib.auth.urls')),
+    path('members/', include ('members.urls')),
+    
 ]
