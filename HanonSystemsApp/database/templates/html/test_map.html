@@ -9,7 +9,7 @@
 
 <html>
     <head>
-        <title>DUTs </title>
+        <title>Test Maps</title>
         
         <style>
             .menu{
@@ -108,8 +108,7 @@
                 </div>
                 {%endif%}
             </div>
-        </div>
-        <a target="_blank" href="{% url 'Test_DUT' %}">Link a DUT with a test</a>
+        </div>     
         {% if filter %}
             <form action="" method="get" class="form-inline">
                 {% bootstrap_form filter.form layout='inline'%}
@@ -120,7 +119,7 @@
         {% load crispy_forms_tags %}
         
             <!--Django Model Form-->
-            <h2 class="my-4">Add a new DUT</h2>
+            <h2 class="my-4">Add a new Test Map</h2>
 
             
 
@@ -155,7 +154,7 @@
             table = document.getElementsByTagName("table").item(0);
             rows = table.rows;
             for (let i = 1; i < rows.length ; i++){
-                x = rows[i].getElementsByTagName("td")[5];
+                x = rows[i].getElementsByTagName("td")[7];
                 y = x.getElementsByClassName("btn")[0];
                 y.onclick = function clicked(e)
                 {
@@ -163,6 +162,7 @@
                         e.preventDefault();
                     }
                 };
+                
             }
         </script>
     </body>

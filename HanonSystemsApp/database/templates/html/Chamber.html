@@ -21,7 +21,12 @@
             }
             .dropdown{
                 display: inline-block;
-                width: 20%;
+                width: 22%;
+                vertical-align: top;
+            }
+            .account{
+                display: inline-block;
+                width: 10%;
                 vertical-align: top;
             }
             .dropdown-label{
@@ -90,9 +95,22 @@
                     <a href="{% url 'hours calculations' %}">Program Hours Calculator</a>
                 </div>
             </div>
+            <div class = "account">
+                {%if user.is_authenticated%}
+                <div class="nav-item">
+                    <a class="nav-link" href="{% url 'Logout' %}">Logout</a>
+                </div>
+                {%else%}
+                <div class="nav-item">
+                    <a class="nav-link" href="{% url 'register_user' %}">Register</a>
+                </div>
+                <div class="nav-item">
+                    <a class="nav-link" href="{% url 'Login' %}">Login</a>
+                </div>
+                {%endif%}
             </div>
-            </div>
-       
+        </div>
+        <a class="nav-link" href="{% url 'Test_Chamber' %}">Link a Chamber with a Test Type</a>
         {% if filter %}
             <form action="" method="get" class="form-inline">
                 {% bootstrap_form filter.form layout='inline'%}
@@ -103,7 +121,7 @@
         {% load crispy_forms_tags %}
         
             <!--Django Model Form-->
-            <h2 class="my-4">Add a new chamber</h2>
+            <h2 class="my-4">Add a new Chamber</h2>
 
             
 

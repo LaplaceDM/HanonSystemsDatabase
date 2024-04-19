@@ -29,6 +29,10 @@ urlpatterns = [
     path("Test_Harness", views.Test_HarnessListView.as_view(), name="Test_Harness"),
     path('Test_Harness/delete_Test_Harness/<int:pk>', views.delete_Test_Harness, name="delete_Test_Harness"),
     path('Test_Harness/update_Test_Harness/<int:pk>', views.UpdateTableViewTest_Harness.as_view(), name="update_Test_Harness"),
+    
+    path("Test_DUT", views.Test_DUTListView.as_view(), name="Test_DUT"),
+    path('Test_DUT/delete_Test_DUT/<int:pk>', views.delete_Test_DUT, name="delete_Test_DUT"),
+    path('Test_DUT/update_Test_DUT/<int:pk>', views.UpdateTableViewTest_DUT.as_view(), name="update_Test_DUT"),
 
     path("Technician_Skill", views.Technician_SkillListView.as_view(), name="Technician_Skill"),
     path('Technician_Skill/delete_Technician_Skill/<int:pk>', views.delete_Technician_Skill, name="delete_Technician_Skill"),

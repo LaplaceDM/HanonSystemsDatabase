@@ -30,6 +30,10 @@ class Test_HarnessFilter(django_filters.FilterSet):
     class Meta:
         model = Test_Harness
         exclude = ['delete' ,]
+class Test_DUTFilter(django_filters.FilterSet):
+    class Meta:
+        model = Test_DUT
+        exclude = ['delete' ,]
 
 class Technician_SkillFilter(django_filters.FilterSet):
     class Meta:

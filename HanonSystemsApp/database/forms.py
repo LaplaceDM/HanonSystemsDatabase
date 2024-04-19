@@ -29,6 +29,11 @@ class Test_HarnessForm(ModelForm):
         model = Test_Harness
         exclude = ('created', )
 
+class Test_DUTForm(ModelForm):
+    class Meta:
+        model = Test_DUT
+        exclude = ('created', )
+
 class Technician_SkillForm(ModelForm):
     class Meta:
         model = Technician_Skill
