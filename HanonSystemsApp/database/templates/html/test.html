@@ -54,6 +54,78 @@
 
             .dropdown:hover .dropdown-content {display: block;}
             .menu-space{height: 35px;}
+            #product_dropdown{
+                display: inline-block;
+                position: absolute;
+                vertical-align: top;
+                background-color: white;
+
+            }
+            #product_dropdown button{
+                display: block;
+                font-family: sans-serif;
+                width: 100%;
+                color: black;
+                text-align: left;
+            }
+            #product_dropdown button:hover{
+                background-color: #ddd;
+            }
+
+            #program_dropdown{
+                display: inline-block;
+                position: absolute;
+                vertical-align: top;
+                background-color: white;
+
+            }
+            #program_dropdown button{
+                display: block;
+                font-family: sans-serif;
+                width: 100%;
+                color: black;
+                text-align: left;
+            }
+            #program_dropdown button:hover{
+                background-color: #ddd;
+            }
+
+            #product_dropdown_filter{
+                display: inline-block;
+                position: absolute;
+                vertical-align: top;
+                background-color: white;
+
+            }
+            #product_dropdown_filter button{
+                display: block;
+                font-family: sans-serif;
+                width: 100%;
+                color: black;
+                text-align: left;
+            }
+            #product_dropdown_filter button:hover{
+                background-color: #ddd;
+            }
+
+            #program_dropdown_filter{
+                display: inline-block;
+                position: absolute;
+                vertical-align: top;
+                background-color: white;
+
+            }
+            #program_dropdown_filter button{
+                display: block;
+                font-family: sans-serif;
+                width: 100%;
+                color: black;
+                text-align: left;
+            }
+            #program_dropdown_filter button:hover{
+                background-color: #ddd;
+            }
+
         </style>
     </head>
     <body>
@@ -110,16 +182,29 @@
                 </div>
                 {%endif%}
             </div>
-        </div>     
-        {% if filter %}
-            <form action="" method="get" class="form-inline">
-                {% bootstrap_form filter.form layout='inline'%}
-                {% bootstrap_button 'filter' %}
-            </form>
-        {% endif %}
+        </div>    
+        <div class = "filter_space"> 
+            {% if filter %}
+                <form action="" method="get" class="form-inline">
+                    {% bootstrap_form filter.form layout='inline'%}
+                    {% bootstrap_button 'filter' %}
+                </form>
+            {% endif %}
 
-        {% load crispy_forms_tags %}
-        
+            {% load crispy_forms_tags %}
+            <div>
+                <label for="search_product_filter">Search for Product:</label>
+                <input type ="text" id="search_product_filter" onkeyup="search_product_filter()">
+                <div id = "product_dropdown_filter">
+                </div>
+            </div>
+            <div>
+                <label for="search_program_filter">Search for Program:</label>
+                <input type ="text" id="search_program_filter" onkeyup="search_program_filter()">
+                <div id = "program_dropdown_filter">
+                </div>
+            </div>
+        </div>
             <!--Django Model Form-->
 
             
@@ -127,18 +212,30 @@
         
             <button id="add_button" type="submit" class="btn" onclick="openPopup()"> Add a new test </button>
             <div class="container">
-                <br>
-            <div class="popup" id="popup">
-                <br>
-            <form class="form" action="" method="post">
-              {% csrf_token %}
-                  {{form}}
 
-                  <button type="submit" onclick="submitCheck(event)">Submit</button>
-            </form>
-            <br>
+                <div class="popup" id="popup">
+
+                <form class="form" action="" method="post">
+                {% csrf_token %}
+                    {{form}}
+
+                    <button type="submit" onclick="submitCheck(event)">Submit</button>
+                </form>
+                <div>
+                    <label for="search_product">Search for Product:</label>
+                    <input type ="text" id="search_product" onkeyup="search_product()">
+                    <div id = "product_dropdown">
+                    </div>
+                </div>
+                <div>
+                    <label for="search_program">Search for Program:</label>
+                    <input type ="text" id="search_program" onkeyup="search_program()">
+                    <div id = "program_dropdown">
+                    </div>
+                </div>
+
+                </div>
             </div>
-        </div>
         
             
             <center>
@@ -991,6 +1088,114 @@
             document.getElementsByTagName("button")[2].style.backgroundColor = "rgb(237, 237, 237)";
             document.getElementsByClassName("btn btn-default")[0].style.border = " thin solid";
             document.getElementsByTagName("button")[2].style.border = "thin solid";
+
+            function select_product(event){
+                document.getElementsByName("product_id")[1].value=event.target.value
+            }
+
+
+            function search_product(){
+                parent = document.getElementById("product_dropdown")
+                parent.innerHTML=""
+                text = document.getElementById("search_product").value.toLowerCase()
+                
+                if (text==""){
+                    return
+                }
+                list = document.getElementsByName("product_id")[1]
+                options = list.getElementsByTagName("option")
+                for (let i =0; i<options.length;i++){
+                    if (options[i].innerHTML.toLowerCase().includes(text)){
+                        value = options[i].value
+                        newDiv = document.createElement("button")
+                        newDiv.value = value
+                        newDiv.innerHTML = options[i].innerHTML
+                        parent.append(newDiv)
+                        newDiv.addEventListener("click", select_product)
+                    }
+                }
+            }
+
+            function select_program(event){
+                document.getElementsByName("program_id")[1].value=event.target.value
+            }
+
+
+            function search_program(){
+                parent = document.getElementById("program_dropdown")
+                parent.innerHTML=""
+                text = document.getElementById("search_program").value.toLowerCase()
+                
+                if (text==""){
+                    return
+                }
+                list = document.getElementsByName("program_id")[1]
+                console.log(list)
+                options = list.getElementsByTagName("option")
+                for (let i =0; i<options.length;i++){
+                    if (options[i].innerHTML.toLowerCase().includes(text)){
+                        value = options[i].value
+                        newDiv = document.createElement("button")
+                        newDiv.value = value
+                        newDiv.innerHTML = options[i].innerHTML
+                        parent.append(newDiv)
+                        newDiv.addEventListener("click", select_program)
+                    }
+                }
+            }
+            function select_product_filter(event){
+                document.getElementsByName("product_id")[0].value=event.target.value
+            }
+
+            function search_product_filter(){
+                parent = document.getElementById("product_dropdown_filter")
+                parent.innerHTML=""
+                text = document.getElementById("search_product_filter").value.toLowerCase()
+                
+                if (text==""){
+                    return
+                }
+                list = document.getElementsByName("product_id")[0]
+                options = list.getElementsByTagName("option")
+                for (let i =0; i<options.length;i++){
+                    if (options[i].innerHTML.toLowerCase().includes(text)){
+                        value = options[i].value
+                        newDiv = document.createElement("button")
+                        newDiv.value = value
+                        newDiv.innerHTML = options[i].innerHTML
+                        parent.append(newDiv)
+                        newDiv.addEventListener("click", select_product_filter)
+                    }
+                }
+            }
+
+            function select_program_filter(event){
+                document.getElementsByName("program_id")[0].value=event.target.value
+            }
+
+
+            function search_program_filter(){
+                parent = document.getElementById("program_dropdown_filter")
+                parent.innerHTML=""
+                text = document.getElementById("search_program_filter").value.toLowerCase()
+                
+                if (text==""){
+                    return
+                }
+                list = document.getElementsByName("program_id")[0]
+                console.log(list)
+                options = list.getElementsByTagName("option")
+                for (let i =0; i<options.length;i++){
+                    if (options[i].innerHTML.toLowerCase().includes(text)){
+                        value = options[i].value
+                        newDiv = document.createElement("button")
+                        newDiv.value = value
+                        newDiv.innerHTML = options[i].innerHTML
+                        parent.append(newDiv)
+                        newDiv.addEventListener("click", select_program_filter)
+                    }
+                }
+            }
 
         </script>
     </body>

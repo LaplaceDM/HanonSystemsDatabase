@@ -10,7 +10,7 @@
 
 <html>
     <head>
-        <title>Tests-DUTs </title>
+        <title>Tests-Harnesses </title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <style>
             .menu{
@@ -72,21 +72,21 @@
                 background-color: #ddd;
             }
 
-            #dut_dropdown{
+            #harness_dropdown{
                 display: inline-block;
                 position: absolute;
                 vertical-align: top;
                 background-color: white;
 
             }
-            #dut_dropdown button{
+            #harness_dropdown button{
                 display: block;
                 font-family: sans-serif;
                 width: 100%;
                 color: black;
                 text-align: left;
             }
-            #dut_dropdown button:hover{
+            #harness_dropdown button:hover{
                 background-color: #ddd;
             }
 
@@ -110,21 +110,21 @@
                 background-color: #ddd;
             }
 
-            #dut_dropdown_filter{
+            #harness_dropdown_filter{
                 display: inline-block;
                 position: absolute;
                 vertical-align: top;
                 background-color: white;
 
             }
-            #dut_dropdown_filter button{
+            #harness_dropdown_filter button{
                 display: block;
                 font-family: sans-serif;
                 width: 100%;
                 color: black;
                 text-align: left;
             }
-            #dut_dropdown_filter button:hover{
+            #harness_dropdown_filter button:hover{
                 background-color: #ddd;
             }
         </style>
@@ -191,7 +191,6 @@
                 {% bootstrap_button 'filter' %}
             </form>
         {% endif %}
-        
         <div>
             <label for="search_test_filter">Search for Test:</label>
             <input type ="text" id="search_test_filter" onkeyup="search_test_filter()">
@@ -199,9 +198,9 @@
             </div>
         </div>
         <div>
-            <label for="search_dut_filter">Search for DUT:</label>
-            <input type ="text" id="search_dut_filter" onkeyup="search_dut_filter()">
-            <div id = "dut_dropdown_filter">
+            <label for="search_harness_filter">Search for Harness:</label>
+            <input type ="text" id="search_harness_filter" onkeyup="search_harness_filter()">
+            <div id = "harness_dropdown_filter">
             </div>
         </div>
         {% load crispy_forms_tags %}
@@ -222,9 +221,9 @@
                 </div>
             </div>
             <div>
-                <label for="search_dut">Search for DUT:</label>
-                <input type ="text" id="search_dut" onkeyup="search_dut()">
-                <div id = "dut_dropdown">
+                <label for="search_harness">Search for Harness:</label>
+                <input type ="text" id="search_harness" onkeyup="search_harness()">
+                <div id = "harness_dropdown">
                 </div>
             </div>
             {% render_table table  "django_tables2/bootstrap.html"%} 
@@ -283,20 +282,20 @@
                 }
             }
 
-            function select_dut(event){
-                document.getElementsByName("dut_id")[1].value=event.target.value
+            function select_harness(event){
+                document.getElementsByName("harness_id")[1].value=event.target.value
             }
 
 
-            function search_dut(){
-                parent = document.getElementById("dut_dropdown")
+            function search_harness(){
+                parent = document.getElementById("harness_dropdown")
                 parent.innerHTML=""
-                text = document.getElementById("search_dut").value.toLowerCase()
+                text = document.getElementById("search_harness").value.toLowerCase()
                 
                 if (text==""){
                     return
                 }
-                list = document.getElementsByName("dut_id")[1]
+                list = document.getElementsByName("harness_id")[1]
                 options = list.getElementsByTagName("option")
                 for (let i =0; i<options.length;i++){
                     if (options[i].innerHTML.toLowerCase().includes(text)){
@@ -305,17 +304,10 @@
                         newDiv.value = value
                         newDiv.innerHTML = options[i].innerHTML
                         parent.append(newDiv)
-                        newDiv.addEventListener("click", select_dut)
+                        newDiv.addEventListener("click", select_harness)
                     }
                 }
             }
-            
-
-
-
-
-
-
 
 
 
@@ -347,20 +339,20 @@
                 }
             }
 
-            function select_dut_filter(event){
-                document.getElementsByName("dut_id")[0].value=event.target.value
+            function select_harness_filter(event){
+                document.getElementsByName("harness_id")[0].value=event.target.value
             }
 
 
-            function search_dut_filter(){
-                parent = document.getElementById("dut_dropdown_filter")
+            function search_harness_filter(){
+                parent = document.getElementById("harness_dropdown_filter")
                 parent.innerHTML=""
-                text = document.getElementById("search_dut_filter").value.toLowerCase()
+                text = document.getElementById("search_harness_filter").value.toLowerCase()
                 
                 if (text==""){
                     return
                 }
-                list = document.getElementsByName("dut_id")[0]
+                list = document.getElementsByName("harness_id")[0]
                 options = list.getElementsByTagName("option")
                 for (let i =0; i<options.length;i++){
                     if (options[i].innerHTML.toLowerCase().includes(text)){
@@ -369,7 +361,7 @@
                         newDiv.value = value
                         newDiv.innerHTML = options[i].innerHTML
                         parent.append(newDiv)
-                        newDiv.addEventListener("click", select_dut_filter)
+                        newDiv.addEventListener("click", select_harness_filter)
                     }
                 }
             }

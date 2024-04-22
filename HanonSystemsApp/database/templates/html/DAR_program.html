@@ -10,7 +10,7 @@
 
 <html>
     <head>
-        <title>Tests-DUTs </title>
+        <title>DARs-Programs </title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <style>
             .menu{
@@ -54,77 +54,39 @@
             .dropdown:hover .dropdown-content {display: block;}
             .menu-space{height: 35px;}
 
-            #test_dropdown{
+            #program_dropdown{
                 display: inline-block;
                 position: absolute;
                 vertical-align: top;
                 background-color: white;
 
             }
-            #test_dropdown button{
+            #program_dropdown button{
                 display: block;
                 font-family: sans-serif;
                 width: 100%;
                 color: black;
                 text-align: left;
             }
-            #test_dropdown button:hover{
+            #program_dropdown button:hover{
                 background-color: #ddd;
             }
 
-            #dut_dropdown{
+            #program_dropdown_filter{
                 display: inline-block;
                 position: absolute;
                 vertical-align: top;
                 background-color: white;
 
             }
-            #dut_dropdown button{
+            #program_dropdown_filter button{
                 display: block;
                 font-family: sans-serif;
                 width: 100%;
                 color: black;
                 text-align: left;
             }
-            #dut_dropdown button:hover{
-                background-color: #ddd;
-            }
-
-
-
-            #test_dropdown_filter{
-                display: inline-block;
-                position: absolute;
-                vertical-align: top;
-                background-color: white;
-
-            }
-            #test_dropdown_filter button{
-                display: block;
-                font-family: sans-serif;
-                width: 100%;
-                color: black;
-                text-align: left;
-            }
-            #test_dropdown_filter button:hover{
-                background-color: #ddd;
-            }
-
-            #dut_dropdown_filter{
-                display: inline-block;
-                position: absolute;
-                vertical-align: top;
-                background-color: white;
-
-            }
-            #dut_dropdown_filter button{
-                display: block;
-                font-family: sans-serif;
-                width: 100%;
-                color: black;
-                text-align: left;
-            }
-            #dut_dropdown_filter button:hover{
+            #program_dropdown_filter button:hover{
                 background-color: #ddd;
             }
         </style>
@@ -191,17 +153,10 @@
                 {% bootstrap_button 'filter' %}
             </form>
         {% endif %}
-        
         <div>
-            <label for="search_test_filter">Search for Test:</label>
-            <input type ="text" id="search_test_filter" onkeyup="search_test_filter()">
-            <div id = "test_dropdown_filter">
-            </div>
-        </div>
-        <div>
-            <label for="search_dut_filter">Search for DUT:</label>
-            <input type ="text" id="search_dut_filter" onkeyup="search_dut_filter()">
-            <div id = "dut_dropdown_filter">
+            <label for="search_program_filter">Search for Program:</label>
+            <input type ="text" id="search_program_filter" onkeyup="search_program_filter()">
+            <div id = "program_dropdown_filter">
             </div>
         </div>
         {% load crispy_forms_tags %}
@@ -216,15 +171,9 @@
                   <button class="btn btn-primary my-4" onclick="clicked(event)" type="submit">Submit</button>
             </form>
             <div>
-                <label for="search_test">Search for Test:</label>
-                <input type ="text" id="search_test" onkeyup="search_test()">
-                <div id = "test_dropdown">
-                </div>
-            </div>
-            <div>
-                <label for="search_dut">Search for DUT:</label>
-                <input type ="text" id="search_dut" onkeyup="search_dut()">
-                <div id = "dut_dropdown">
+                <label for="search_program">Search for Program:</label>
+                <input type ="text" id="search_program" onkeyup="search_program()">
+                <div id = "program_dropdown">
                 </div>
             </div>
             {% render_table table  "django_tables2/bootstrap.html"%} 
@@ -256,20 +205,21 @@
             }
             
             
-            function select_test(event){
-                document.getElementsByName("test_id")[1].value=event.target.value
+            function select_program(event){
+                document.getElementsByName("program_id")[1].value=event.target.value
             }
 
 
-            function search_test(){
-                parent = document.getElementById("test_dropdown")
+            function search_program(){
+                parent = document.getElementById("program_dropdown")
                 parent.innerHTML=""
-                text = document.getElementById("search_test").value.toLowerCase()
+                text = document.getElementById("search_program").value.toLowerCase()
                 
                 if (text==""){
                     return
                 }
-                list = document.getElementsByName("test_id")[1]
+                list = document.getElementsByName("program_id")[1]
+                console.log(list)
                 options = list.getElementsByTagName("option")
                 for (let i =0; i<options.length;i++){
                     if (options[i].innerHTML.toLowerCase().includes(text)){
@@ -278,25 +228,26 @@
                         newDiv.value = value
                         newDiv.innerHTML = options[i].innerHTML
                         parent.append(newDiv)
-                        newDiv.addEventListener("click", select_test)
+                        newDiv.addEventListener("click", select_program)
                     }
                 }
             }
 
-            function select_dut(event){
-                document.getElementsByName("dut_id")[1].value=event.target.value
+            function select_program_filter(event){
+                document.getElementsByName("program_id")[0].value=event.target.value
             }
 
 
-            function search_dut(){
-                parent = document.getElementById("dut_dropdown")
+            function search_program_filter(){
+                parent = document.getElementById("program_dropdown_filter")
                 parent.innerHTML=""
-                text = document.getElementById("search_dut").value.toLowerCase()
+                text = document.getElementById("search_program_filter").value.toLowerCase()
                 
                 if (text==""){
                     return
                 }
-                list = document.getElementsByName("dut_id")[1]
+                list = document.getElementsByName("program_id")[0]
+                console.log(list)
                 options = list.getElementsByTagName("option")
                 for (let i =0; i<options.length;i++){
                     if (options[i].innerHTML.toLowerCase().includes(text)){
@@ -305,74 +256,11 @@
                         newDiv.value = value
                         newDiv.innerHTML = options[i].innerHTML
                         parent.append(newDiv)
-                        newDiv.addEventListener("click", select_dut)
-                    }
-                }
-            }
-            
-
-
-
-
-
-
-
-
-
-
-            function select_test_filter(event){
-                document.getElementsByName("test_id")[0].value=event.target.value
-            }
-
-
-            function search_test_filter(){
-                parent = document.getElementById("test_dropdown_filter")
-                parent.innerHTML=""
-                text = document.getElementById("search_test_filter").value.toLowerCase()
-                
-                if (text==""){
-                    return
-                }
-                list = document.getElementsByName("test_id")[0]
-                options = list.getElementsByTagName("option")
-                for (let i =0; i<options.length;i++){
-                    if (options[i].innerHTML.toLowerCase().includes(text)){
-                        value = options[i].value
-                        newDiv = document.createElement("button")
-                        newDiv.value = value
-                        newDiv.innerHTML = options[i].innerHTML
-                        parent.append(newDiv)
-                        newDiv.addEventListener("click", select_test_filter)
+                        newDiv.addEventListener("click", select_program_filter)
                     }
                 }
             }
 
-            function select_dut_filter(event){
-                document.getElementsByName("dut_id")[0].value=event.target.value
-            }
-
-
-            function search_dut_filter(){
-                parent = document.getElementById("dut_dropdown_filter")
-                parent.innerHTML=""
-                text = document.getElementById("search_dut_filter").value.toLowerCase()
-                
-                if (text==""){
-                    return
-                }
-                list = document.getElementsByName("dut_id")[0]
-                options = list.getElementsByTagName("option")
-                for (let i =0; i<options.length;i++){
-                    if (options[i].innerHTML.toLowerCase().includes(text)){
-                        value = options[i].value
-                        newDiv = document.createElement("button")
-                        newDiv.value = value
-                        newDiv.innerHTML = options[i].innerHTML
-                        parent.append(newDiv)
-                        newDiv.addEventListener("click", select_dut_filter)
-                    }
-                }
-            }
         </script>
     </body>
 </html>

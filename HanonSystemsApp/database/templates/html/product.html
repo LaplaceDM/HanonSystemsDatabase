@@ -52,6 +52,42 @@
 
             .dropdown:hover .dropdown-content {display: block;}
             .menu-space{height: 35px;}
+            #program_dropdown{
+                display: inline-block;
+                position: absolute;
+                vertical-align: top;
+                background-color: white;
+
+            }
+            #program_dropdown button{
+                display: block;
+                font-family: sans-serif;
+                width: 100%;
+                color: black;
+                text-align: left;
+            }
+            #program_dropdown button:hover{
+                background-color: #ddd;
+            }
+
+
+            #program_dropdown_filter{
+                display: inline-block;
+                position: absolute;
+                vertical-align: top;
+                background-color: white;
+
+            }
+            #program_dropdown_filter button{
+                display: block;
+                font-family: sans-serif;
+                width: 100%;
+                color: black;
+                text-align: left;
+            }
+            #program_dropdown_filter button:hover{
+                background-color: #ddd;
+            }
         </style>
     </head>
     <body>
@@ -115,7 +151,12 @@
                 {% bootstrap_button 'filter' %}
             </form>
         {% endif %}
-
+        <div>
+            <label for="search_program_filter">Search for Program:</label>
+            <input type ="text" id="search_program_filter" onkeyup="search_program_filter()">
+            <div id = "program_dropdown_filter">
+            </div>
+        </div>
         {% load crispy_forms_tags %}
         
             <!--Django Model Form-->
@@ -129,7 +170,12 @@
                   <button class="btn btn-primary my-4" onclick="clicked(event)" type="submit">Submit</button>
             </form>
 
-            
+            <div>
+                <label for="search_program">Search for Program:</label>
+                <input type ="text" id="search_program" onkeyup="search_program()">
+                <div id = "program_dropdown">
+                </div>
+            </div>
 
 
         
@@ -163,6 +209,64 @@
                     }
                 };
                 
+            }
+            function select_program(event){
+                document.getElementsByName("program_id")[1].value=event.target.value
+            }
+
+
+            function search_program(){
+                parent = document.getElementById("program_dropdown")
+                parent.innerHTML=""
+                text = document.getElementById("search_program").value.toLowerCase()
+                
+                if (text==""){
+                    return
+                }
+                list = document.getElementsByName("program_id")[1]
+                console.log(list)
+                options = list.getElementsByTagName("option")
+                for (let i =0; i<options.length;i++){
+                    if (options[i].innerHTML.toLowerCase().includes(text)){
+                        value = options[i].value
+                        newDiv = document.createElement("button")
+                        newDiv.value = value
+                        newDiv.innerHTML = options[i].innerHTML
+                        parent.append(newDiv)
+                        newDiv.addEventListener("click", select_program)
+                    }
+                }
+            }
+
+
+
+
+            function select_program_filter(event){
+                document.getElementsByName("program_id")[0].value=event.target.value
+            }
+
+
+            function search_program_filter(){
+                parent = document.getElementById("program_dropdown_filter")
+                parent.innerHTML=""
+                text = document.getElementById("search_program_filter").value.toLowerCase()
+                
+                if (text==""){
+                    return
+                }
+                list = document.getElementsByName("program_id")[0]
+                console.log(list)
+                options = list.getElementsByTagName("option")
+                for (let i =0; i<options.length;i++){
+                    if (options[i].innerHTML.toLowerCase().includes(text)){
+                        value = options[i].value
+                        newDiv = document.createElement("button")
+                        newDiv.value = value
+                        newDiv.innerHTML = options[i].innerHTML
+                        parent.append(newDiv)
+                        newDiv.addEventListener("click", select_program_filter)
+                    }
+                }
             }
         </script>
     </body>
