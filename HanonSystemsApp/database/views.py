@@ -51,7 +51,7 @@ from django.utils import timezone
 from django.http import HttpResponse
 from django.db.models import Q
 import math
-
+from dal import autocomplete
 
 class LaptopListView(SingleTableMixin,  CreateView, FilterView):
 
@@ -88,7 +88,7 @@ class Test_HarnessListView(SingleTableMixin,  CreateView, FilterView):
 
     model = Test_Harness
     table_class = Test_HarnessTable
-    template_name = 'html/index.html'
+    template_name = 'html/Test_Harness.html'
     paginate_by = 20
     filterset_class = Test_HarnessFilter
     form_class = Test_HarnessForm
@@ -212,7 +212,7 @@ class DAR_LaptopListView(SingleTableMixin,  CreateView, FilterView):
 
     model = DAR_Laptop
     table_class = DAR_LaptopTable
-    template_name = 'html/index.html'
+    template_name = 'html/DAR_laptop.html'
     paginate_by = 20
     filterset_class = DAR_LaptopFilter
     form_class = DAR_LaptopForm
@@ -308,7 +308,7 @@ class Program_DARListView(SingleTableMixin,  CreateView, FilterView):
 
     model = Program_DAR
     table_class = Program_DARTable
-    template_name = 'html/index.html'
+    template_name = 'html/DAR_program.html'
     paginate_by = 20
     filterset_class = Program_DARFilter
     form_class = Program_DARForm
@@ -339,7 +339,7 @@ class Program_FluidListView(SingleTableMixin,  CreateView, FilterView):
 
     model = Program_Fluid
     table_class = Program_FluidTable
-    template_name = 'html/index.html'
+    template_name = 'html/Program_fluid.html'
     paginate_by = 20
     filterset_class = Program_FluidFilter
     form_class = Program_FluidForm
