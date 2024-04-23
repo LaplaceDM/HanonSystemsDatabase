@@ -127,6 +127,12 @@
                 background-color: #ddd;
             }
 
+            .filter, .add{
+                border-style: solid;
+                border-color: black;
+                border-width: 2px;
+            }
+        
         </style>
     </head>
     <body>
@@ -184,7 +190,7 @@
                 {%endif%}
             </div>
         </div>    
-        <div class = "filter_space"> 
+        <div class = "filter"> 
             {% if filter %}
                 <form action="" method="get" class="form-inline">
                     {% bootstrap_form filter.form layout='inline'%}
@@ -210,7 +216,7 @@
 
             
         <br>
-        
+        <div class = "add">
             <button id="add_button" type="submit" class="btn" onclick="openPopup()"> Add a new test </button>
             <div class="container">
 
@@ -237,7 +243,7 @@
 
                 </div>
             </div>
-        
+        </div>
             
             <center>
             <input type="checkbox" id="checkcreated" onclick="hide('checkcreated', 0)">

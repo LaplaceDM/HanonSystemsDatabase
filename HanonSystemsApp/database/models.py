@@ -41,7 +41,7 @@ class Product(models.Model):
     product_id = models.AutoField(primary_key=True, verbose_name = "Product")
     program_id = models.ForeignKey( "Program", on_delete = models.CASCADE, null = True, blank = True, db_column="program_id", verbose_name = "Program")
     def __str__(self):
-        return self.product_family+ (" - ")  +str(self.program_id)
+        return self.product_family+ (" - ")  +str(self.program_id.program_name)
 
 class TestMap(models.Model):
     test_map_name = models.CharField(max_length = 30, null = True, blank = True, verbose_name = "Test Map name")
@@ -63,6 +63,8 @@ class Technician (models.Model):
 class Skill (models.Model):
     skill = models.CharField(max_length = 25, unique=True)
     skill_id = models.SmallAutoField(primary_key=True)
+    def __str__(self):
+        return self.skill
 
 class Technician_Skill (models.Model):
     id = models.AutoField(primary_key=True)
@@ -108,6 +110,8 @@ class Fluid(models.Model):
     manufacturer = models.CharField(max_length = 20, null = True, blank = True)
     storage_location = models.CharField(max_length = 20, null = True, blank = True)
     fluid_id = models.SmallAutoField(primary_key=True, verbose_name = "Fluid name")
+    def __str__(self):
+        return self.manufacturer +" - "+ self.fluid_name
 
 class Harness(models.Model):
     harness_id = models.BigAutoField(primary_key=True)
@@ -120,7 +124,9 @@ class Harness(models.Model):
     dunk_testing = models.CharField(max_length = 10, verbose_name = "Dunk Testing",  null = True, blank = True)
     average_resistance = models.FloatField(null = True, blank = True)
     comments = models.CharField(max_length = 50)
-
+    def __str__(self):
+        return self.harness_name
+    
 class Test(models.Model):
     created = models.DateTimeField(default=timezone.now)
     product_id = models.ForeignKey("Product", on_delete = models.SET_NULL, null = True, blank = True, db_column = "product_id", verbose_name = "Product")
@@ -186,6 +192,9 @@ class ChamberLogInfo(models.Model):
     comments = models.CharField(max_length = 4000, null = True, blank = True)
 
     test_id = models.ForeignKey("Test", on_delete = models.CASCADE, db_column = "test_id", verbose_name = "Test")
+
+    def __str__(self):
+        return self.test_id
 
 class Cage (models.Model):
     cage_id = models.SmallAutoField(primary_key=True)

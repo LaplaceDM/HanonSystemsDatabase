@@ -127,6 +127,12 @@
             #fluid_dropdown_filter button:hover{
                 background-color: #ddd;
             }
+            .filter, .add{
+                border-style: solid;
+                border-color: black;
+                border-width: 2px;
+            }
+        
         </style>
     </head>
     <body>
@@ -184,7 +190,7 @@
                 {%endif%}
             </div>
         </div>
-
+        <div class = 'filter'>
         {% if filter %}
             <form action="" method="get" class="form-inline">
                 {% bootstrap_form filter.form layout='inline'%}
@@ -203,9 +209,10 @@
             <div id = "fluid_dropdown_filter">
             </div>
         </div>
+        </div>
         {% load crispy_forms_tags %}
 
-        
+        <div class  = 'add'>
             <!--Django Model Form-->
             <h2 class="my-4">Add a new item</h2>
 
@@ -226,6 +233,7 @@
                 <div id = "fluid_dropdown">
                 </div>
             </div>
+        </div>
             {% render_table table  "django_tables2/bootstrap.html"%} 
 
         
