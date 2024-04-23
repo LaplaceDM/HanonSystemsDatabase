@@ -99,7 +99,7 @@ DATABASES = {
         'NAME': 'hanonsystems_database',
         "USER": "abc",
         "PASSWORD": "abc",
-        "HOST": "CADLD8FQLL3.ad.hanonsystems",
+        "HOST": "localhost",
         "PORT": "1433",
         "OPTIONS": {"driver": "ODBC Driver 17 for SQL Server", 
         "setencoding": [
