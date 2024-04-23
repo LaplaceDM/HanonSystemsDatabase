@@ -12,15 +12,7 @@
     width: 100%;
 }
 
-form {
-    border-style: solid;
-    border-color: black;
-    border-width: 1px;
-    display: block;
-    padding: 10px;
-    margin-top: 5px;
-    margin-bottom: 10px;
-}
+
 
 #chamberschedule th, #chamberschedule td, #darschedule th, #darschedule td, #cageschedule th, #cageschedule td{
     padding: 7px;

@@ -53,6 +53,12 @@
 
             .dropdown:hover .dropdown-content {display: block;}
             .menu-space{height: 35px;}
+            .filter, .add{
+                border-style: solid;
+                border-color: black;
+                border-width: 2px;
+            }
+        
         </style>
     </head>
     <body>
@@ -111,6 +117,7 @@
             </div>
         </div>
         <a target="_blank" href="{% url 'Test_Harness' %}">Link a Harness with a Test</a>
+        <div class = "filter">
         {% if filter %}
             <form action="" method="get" class="form-inline">
                 {% bootstrap_form filter.form layout='inline'%}
@@ -119,8 +126,9 @@
         {% endif %}
 
         {% load crispy_forms_tags %}
-
+        </div>
         
+        <div class = "add">
             <!--Django Model Form-->
             <h2 class="my-4">Add a new Harness</h2>
 
@@ -132,7 +140,7 @@
                   <button class="btn btn-primary my-4" onclick="clicked(event)" type="submit">Submit</button>
             </form>
 
-            
+        </div>
 
             {% render_table table  "django_tables2/bootstrap.html"%} 
 

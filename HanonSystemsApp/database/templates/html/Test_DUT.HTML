@@ -127,6 +127,12 @@
             #dut_dropdown_filter button:hover{
                 background-color: #ddd;
             }
+            .filter, .add{
+                border-style: solid;
+                border-color: black;
+                border-width: 2px;
+            }
+        
         </style>
     </head>
     <body>
@@ -184,13 +190,14 @@
                 {%endif%}
             </div>
         </div>
-
+        <div class = filter>
         {% if filter %}
             <form action="" method="get" class="form-inline">
                 {% bootstrap_form filter.form layout='inline'%}
                 {% bootstrap_button 'filter' %}
             </form>
         {% endif %}
+        
         
         <div>
             <label for="search_test_filter">Search for Test:</label>
@@ -204,10 +211,11 @@
             <div id = "dut_dropdown_filter">
             </div>
         </div>
+        </div>
         {% load crispy_forms_tags %}
 
-        
-            <!--Django Model Form-->
+        <div class = "add">
+                        <!--Django Model Form-->
             <h2 class="my-4">Add a new item</h2>
 
             <form action="" method="post">
@@ -227,6 +235,8 @@
                 <div id = "dut_dropdown">
                 </div>
             </div>
+
+        </div>
             {% render_table table  "django_tables2/bootstrap.html"%} 
 
         

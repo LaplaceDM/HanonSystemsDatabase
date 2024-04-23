@@ -53,6 +53,12 @@
 
             .dropdown:hover .dropdown-content {display: block;}
             .menu-space{height: 35px;}
+            .filter, .add{
+                border-style: solid;
+                border-color: black;
+                border-width: 2px;
+            }
+        
         </style>
     </head>
     <body>
@@ -111,16 +117,17 @@
             </div>
         </div>          
         <a target="_blank" href="{% url 'Program_Cage' %}">Link a Cage with a Program</a>
-       
+       <div class = 'filter'>
         {% if filter %}
             <form action="" method="get" class="form-inline">
                 {% bootstrap_form filter.form layout='inline'%}
                 {% bootstrap_button 'filter' %}
             </form>
         {% endif %}
+        </div>
 
         {% load crispy_forms_tags %}
-        
+        <div class = 'add'>
             <!--Django Model Form-->
             <h2 class="my-4">Add a new Cage</h2>
 
@@ -132,7 +139,7 @@
                   <button class="btn btn-primary my-4" onclick="clicked(event)" type="submit">Submit</button>
             </form>
 
-            
+        </div>
 
             {% render_table table  "django_tables2/bootstrap.html"%} 
 
