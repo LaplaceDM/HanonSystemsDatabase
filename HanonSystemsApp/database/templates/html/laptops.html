@@ -109,14 +109,11 @@
                 </div>
                 {%else%}
                 <div class="nav-item">
-                    <a class="nav-link" href="{% url 'register_user' %}">Register</a>
-                </div>
-                <div class="nav-item">
                     <a class="nav-link" href="{% url 'Login' %}">Login</a>
                 </div>
                 {%endif%}
             </div>
-        </div>
+        </div>   
         <a target="_blank" href="{% url 'DAR_Laptop' %}">Link a DAR with a Laptop</a>
         <div class = 'filter'>
         {% if filter %}

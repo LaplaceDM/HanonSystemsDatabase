@@ -109,14 +109,11 @@
                 </div>
                 {%else%}
                 <div class="nav-item">
-                    <a class="nav-link" href="{% url 'register_user' %}">Register</a>
-                </div>
-                <div class="nav-item">
                     <a class="nav-link" href="{% url 'Login' %}">Login</a>
                 </div>
                 {%endif%}
             </div>
-        </div>
+        </div>    
         <a class="nav-link" target="_blank" href="{% url 'Test_Chamber' %}">Link a Chamber with a Test Type</a>
         <div class = 'filter'>
         {% if filter %}

@@ -182,14 +182,11 @@
                 </div>
                 {%else%}
                 <div class="nav-item">
-                    <a class="nav-link" href="{% url 'register_user' %}">Register</a>
-                </div>
-                <div class="nav-item">
                     <a class="nav-link" href="{% url 'Login' %}">Login</a>
                 </div>
                 {%endif%}
             </div>
-        </div>
+        </div>   
         <div class = "filter">
         {% if filter %}
             <form action="" method="get" class="form-inline">
