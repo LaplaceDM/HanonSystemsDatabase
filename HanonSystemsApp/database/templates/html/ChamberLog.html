@@ -10,58 +10,142 @@
 
 <html>
     <head>
-        <title>Programs </title>
+        {%if user.is_authenticated%}
+        <title>ChamberLog</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet"  href="{% static 'database/ch.css' %}">
+        <style>
+            .menu{
+                display: block;
+                position: fixed;
+                width: 100%;
+                top: 0;
+            }
+            .dropdown{
+                display: inline-block;
+                width: 20%;
+                vertical-align: top;
+            }
+            .dropdown-label{
+                background-color: gray;
+                color: white;
+                padding: 5px;
+                font-family: sans-serif;
+                text-align: center;
+            }
+            .dropdown-content a{
+                display: block;
+                color: black;
+                padding: 5px;
+                text-decoration: none;
+                font-family: sans-serif;
+                background-color: white;
+            }
+            .dropdown-content{
+                display: none;
+            }
+            .dropdown-content a:hover{
+                background-color: #ddd;
+            }
+
+            .dropdown:hover .dropdown-content {display: block;}
+            .menu-space{height: 35px;}
+        </style>
     </head>
-    
     <body>
+        <div class = "menu-space"></div>
+        <div class = "menu">
+            <div class="dropdown">
+                <div class="dropdown-label">Daily Operations</div>
+                <div class="dropdown-content">
+                    <a href="{% url 'test' %}">Tests</a>
+                    <a href="{% url 'dut' %}">DUTs</a>
+                    <a href="{% url 'Harness' %}">Harnesses</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <div class="dropdown-label">Program Information</div>
+                <div class="dropdown-content">
+                    <a href="{% url 'product' %}">Products</a>
+                    <a href="{% url 'program' %}">Programs</a>
+                    <a href="{% url 'TestMap' %}">Test Maps</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <div class="dropdown-label">Equipment Information</div>
+                <div class="dropdown-content">
+                    <a href="{% url 'Chamber' %}">Chambers</a>
+                    <a href="{% url 'Dar' %}">DARs</a>
+                    <a href="{% url 'cage' %}">Cages</a>
+                    <a href="{% url 'Laptop' %}">Laptops</a>
+                    <a href="{% url 'Fluid' %}">Test Fluids</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <div class="dropdown-label">Other</div>
+                <div class="dropdown-content">
+                    <a href="{% url 'Lab' %}">Labs</a>
+                    <a href="{% url 'Technician' %}">Technicians</a>
+                    <a href="{% url 'TestType' %}">Add new test type</a>
+                    <a href="{% url 'hours calculations' %}">Program Hours Calculator</a>
+                </div>
+            </div>
+            </div>
+            </div>
+            
         <h3> {% for record in ChamberLogInfo %}
-            <label> test_id:</label>
+            <label> Test:</label>
             {{record.test_id}}
             <br>
-            <label> chamber_id:</label>
+            <label> Chamber:</label>
             {{record.chamber_id}}
             <br>
-            <label> program_id:</label>
+            <label> Program:</label>
             {{record.program_id}}
             <br>
-            <label> pretest_inspection_and_photo:</label>
+            <label> Pretest Inspection And Photo:</label>
             {{record.pretest_inspection_and_photo}}
             <br>
-            <label> setup_photo:</label>
+            <label> Setup Photo:</label>
             {{record.setup_photo}} 
             <br>
-            <label> humidity:</label>
+            <label> Humidity:</label>
             {{record.humidity}}
             <br>
-            <label> system_pressure:</label>
+            <label> System Pressure:</label>
             {{record.system_pressure}}
         </h3>
         <h4>
             
             
-            <label> voltage:</label>
+            <label> Voltage:</label>
             {{record.voltage}}
             <br>
-            <label> system_restriction_target:</label>
+            <label> System Restriction Target:</label>
             {{record.system_restriction_target}}
             <br> 
-            <label> system_restriction_record:</label>
+            <label> System Restriction Record:</label>
             {{record.system_restriction_record}}
             <br>
-            <label> trial_run_record_and_process:</label>
+            <label> Trial Run Record And Process:</label>
             {{record.trial_run_record_and_process}} 
             <br>
-            <label> special_requirements:</label>
+            <label> Special Requirements:</label>
             {{record.special_requirements}}
             <br>
-            <label> technician_id:</label>
+            <label> Technician:</label>
             {{record.technician_id}}
             <br>
+            <label> Comments:</label>
+            {{record.comments}}
+            <br>
 
-            {%endfor%}
+            
         </h4>
+        
+        <a href="{% url 'update_ChamberLogInfo' record.pk  %}">EDIT INFO</a>
 
         {% if filter %}
             <form action="" method="get" class="form-inline">
@@ -69,6 +153,7 @@
                 {% bootstrap_button 'filter' %}
             </form>
         {% endif %}
+        {%endfor%}
 
 
        
@@ -89,6 +174,8 @@
             </div>
         </div>
 
+
+
             
 
 
@@ -107,6 +194,14 @@
        
         
     </body>
+    {%else%}
+            <div class="nav-item">
+                <a class="nav-link" href="{% url 'register_user' %}">Register</a>
+            </div>
+            <div class="nav-item">
+                <a class="nav-link" href="{% url 'Login' %}">Login</a>
+            </div>
+        {%endif%}
     <script>
         let popup = document.getElementById("popup");
             popup.hidden = true;    

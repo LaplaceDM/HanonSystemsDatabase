@@ -19,7 +19,7 @@ class LaptopTable(ColumnShiftTableBootstrap3):
     },orderable = False)
 
     update = tables.LinkColumn('update_Laptop',text='edit', args=[A('pk')], attrs={
-    'a': {'class': 'btn'}
+    'a': {'class': 'btn', 'target': '_blank'}
     }, orderable = False)
 
     class Meta:
@@ -32,11 +32,24 @@ class Test_HarnessTable(ColumnShiftTableBootstrap3):
     },orderable = False)
 
     update = tables.LinkColumn('update_Test_Harness',text='edit', args=[A('pk')], attrs={
-    'a': {'class': 'btn'}
+    'a': {'class': 'btn', 'target': '_blank'}
     }, orderable = False)
 
     class Meta:
         model = Test_Harness
+        exclude = ("id", )
+
+class Test_DUTTable(ColumnShiftTableBootstrap3):
+    delete = tables.LinkColumn('delete_Test_DUT',text='delete', args=[A('pk')], attrs={
+    'a': {'class': 'btn'}
+    },orderable = False)
+
+    update = tables.LinkColumn('update_Test_DUT',text='edit', args=[A('pk')], attrs={
+    'a': {'class': 'btn', 'target': '_blank'}
+    }, orderable = False)
+
+    class Meta:
+        model = Test_DUT
         exclude = ("id", )
 
 class Technician_SkillTable(ColumnShiftTableBootstrap3):
@@ -45,7 +58,7 @@ class Technician_SkillTable(ColumnShiftTableBootstrap3):
     },orderable = False)
 
     update = tables.LinkColumn('update_Technician_Skill',text='edit', args=[A('pk')], attrs={
-    'a': {'class': 'btn'}
+    'a': {'class': 'btn', 'target': '_blank'}
     }, orderable = False)
 
     class Meta:
@@ -59,7 +72,7 @@ class TestMapTable(ColumnShiftTableBootstrap3):
     },orderable = False)
 
     update = tables.LinkColumn('update_TestMap',text='edit', args=[A('pk')], attrs={
-    'a': {'class': 'btn'}
+    'a': {'class': 'btn', 'target': '_blank'}
     }, orderable = False)
 
     class Meta:
@@ -74,7 +87,7 @@ class Test_ChamberTable(ColumnShiftTableBootstrap3):
     },orderable = False)
 
     update = tables.LinkColumn('update_Test_Chamber',text='edit', args=[A('pk')], attrs={
-    'a': {'class': 'btn'}
+    'a': {'class': 'btn', 'target': '_blank'}
     }, orderable = False)
 
     class Meta:
@@ -88,7 +101,7 @@ class DAR_LaptopTable(ColumnShiftTableBootstrap3):
     },orderable = False)
 
     update = tables.LinkColumn('update_DAR_Laptop',text='edit', args=[A('pk')], attrs={
-    'a': {'class': 'btn'}
+    'a': {'class': 'btn', 'target': '_blank'}
     }, orderable = False)
 
     class Meta:
@@ -101,7 +114,7 @@ class Program_CageTable(ColumnShiftTableBootstrap3):
     },orderable = False)
 
     update = tables.LinkColumn('update_Program_Cage',text='edit', args=[A('pk')], attrs={
-    'a': {'class': 'btn'}
+    'a': {'class': 'btn', 'target': '_blank'}
     }, orderable = False)
 
     class Meta:
@@ -115,7 +128,7 @@ class Program_DARTable(ColumnShiftTableBootstrap3):
     },orderable = False)
 
     update = tables.LinkColumn('update_Program_DAR',text='edit', args=[A('pk')], attrs={
-    'a': {'class': 'btn'}
+    'a': {'class': 'btn', 'target': '_blank'}
     }, orderable = False)
 
     class Meta:
@@ -128,7 +141,7 @@ class Program_FluidTable(ColumnShiftTableBootstrap3):
     },orderable = False)
 
     update = tables.LinkColumn('update_Program_Fluid',text='edit', args=[A('pk')], attrs={
-    'a': {'class': 'btn'}
+    'a': {'class': 'btn', 'target': '_blank'}
     }, orderable = False)
 
     class Meta:
@@ -141,7 +154,7 @@ class DARChannelTable(ColumnShiftTableBootstrap3):
     },orderable = False)
 
     update = tables.LinkColumn('update_DARChannel',text='edit', args=[A('pk')], attrs={
-    'a': {'class': 'btn'}
+    'a': {'class': 'btn', 'target': '_blank'}
     }, orderable = False)
 
     class Meta:
@@ -154,8 +167,12 @@ class HarnessTable(ColumnShiftTableBootstrap3):
     },orderable = False)
 
     update = tables.LinkColumn('update_Harness',text='edit', args=[A('pk')], attrs={
-    'a': {'class': 'btn'}
+    'a': {'class': 'btn', 'target': '_blank'}
     }, orderable = False)
+    
+    harness_name = tables.LinkColumn('harness_info', args=[A('pk')], attrs={
+    'a': {'class': 'btn', 'target': '_blank'}
+    }, orderable = True)
 
     class Meta:
         model = Harness
@@ -168,7 +185,7 @@ class SkillTable(ColumnShiftTableBootstrap3):
     },orderable = False)
 
     update = tables.LinkColumn('update_Skill',text='edit', args=[A('pk')], attrs={
-    'a': {'class': 'btn'}
+    'a': {'class': 'btn', 'target': '_blank'}
     }, orderable = False)
 
     class Meta:
@@ -182,7 +199,7 @@ class LabTable(ColumnShiftTableBootstrap3):
     },orderable = False)
 
     update = tables.LinkColumn('update_Lab',text='edit', args=[A('pk')], attrs={
-    'a': {'class': 'btn'}
+    'a': {'class': 'btn', 'target': '_blank'}
     }, orderable = False)
 
     class Meta:
@@ -196,7 +213,7 @@ class FluidTable(ColumnShiftTableBootstrap3):
     },orderable = False)
 
     update = tables.LinkColumn('update_Fluid',text='edit', args=[A('pk')], attrs={
-    'a': {'class': 'btn'}
+    'a': {'class': 'btn', 'target': '_blank'}
     }, orderable = False)
 
     class Meta:
@@ -210,7 +227,7 @@ class TechnicianTable(ColumnShiftTableBootstrap3):
     },orderable = False)
 
     update = tables.LinkColumn('update_Technician',text='edit', args=[A('pk')], attrs={
-    'a': {'class': 'btn'}
+    'a': {'class': 'btn', 'target': '_blank'}
     }, orderable = False)
 
     class Meta:
@@ -224,7 +241,7 @@ class TestTypeTable(ColumnShiftTableBootstrap3):
     },orderable = False)
 
     update = tables.LinkColumn('update_TestType',text='edit', args=[A('pk')], attrs={
-    'a': {'class': 'btn'}
+    'a': {'class': 'btn', 'target': '_blank'}
     }, orderable = False)
 
     class Meta:
@@ -238,15 +255,13 @@ class ProgramTable(ColumnShiftTableBootstrap3):
     },orderable = False)
 
     update = tables.LinkColumn('update_program',text='edit', args=[A('pk')], attrs={
-    'a': {'class': 'btn'}
+    'a': {'class': 'btn', 'target': '_blank'}
     }, orderable = False)
 
     clone = tables.LinkColumn('clone2',text='clone', args=[A('pk')], attrs={
     'a': {'class': 'btn'}
     }, orderable = False)
-    program_name = tables.LinkColumn('Temp4', args=[A('pk')], attrs={
-    'a': {'class': 'btn'}
-    }, orderable = True)
+    
 
     class Meta:
         model = Program
@@ -259,7 +274,7 @@ class CageTable(ColumnShiftTableBootstrap3):
     },orderable = False)
 
     update = tables.LinkColumn('update_cage',text='edit', args=[A('pk')], attrs={
-    'a': {'class': 'btn'}
+    'a': {'class': 'btn', 'target': '_blank'}
     }, orderable = False)
 
 
@@ -274,7 +289,7 @@ class DarTable(ColumnShiftTableBootstrap3):
     },orderable = False)
 
     update = tables.LinkColumn('update_Dar',text='edit', args=[A('pk')], attrs={
-    'a': {'class': 'btn'}
+    'a': {'class': 'btn', 'target': '_blank'}
     }, orderable = False)
 
 
@@ -289,7 +304,7 @@ class ChamberTable(ColumnShiftTableBootstrap3):
     },orderable = False)
 
     update = tables.LinkColumn('update_Chamber',text='edit', args=[A('pk')], attrs={
-    'a': {'class': 'btn'}
+    'a': {'class': 'btn', 'target': '_blank'}
     }, orderable = False)
 
 
@@ -303,7 +318,7 @@ class ProductTable(ColumnShiftTableBootstrap3):
     }, orderable = False)
 
     update = tables.LinkColumn('update_product',text='edit', args=[A('pk')], attrs={
-    'a': {'class': 'btn'}
+    'a': {'class': 'btn', 'target': '_blank'}
     }, orderable = False)
 
     clone = tables.LinkColumn('clone1',text='clone', args=[A('pk')], attrs={
@@ -320,7 +335,7 @@ class TestTable(ColumnShiftTableBootstrap3):
     }, orderable = False)
 
     update = tables.LinkColumn('update_test',text='edit', args=[A('pk')], attrs={
-    'a': {'class': 'btn'}
+    'a': {'class': 'btn', 'target': '_blank'}
     }, orderable = False)
 
     clone = tables.LinkColumn('clone',text='clone', args=[A('pk')], attrs={
@@ -328,7 +343,7 @@ class TestTable(ColumnShiftTableBootstrap3):
     }, orderable = False)
 
     log = tables.LinkColumn('find',text='log', args=[A('pk')], attrs={
-    'a': {'class': 'btn'}
+    'a': {'class': 'btn', 'target': '_blank'}
     }, orderable = False)
     
 
@@ -343,7 +358,7 @@ class ChamberLogInfoTable(ColumnShiftTableBootstrap3):
     }, orderable = False)
 
     update = tables.LinkColumn('update_ChamberLogInfo',text='edit', args=[A('pk')], attrs={
-    'a': {'class': 'btn'}
+    'a': {'class': 'btn', 'target': '_blank'}
     }, orderable = False)
 
     clone = tables.LinkColumn('clone3',text='clone', args=[A('pk')], attrs={
@@ -351,7 +366,7 @@ class ChamberLogInfoTable(ColumnShiftTableBootstrap3):
     }, orderable = False)
 
     id = tables.LinkColumn('ChamberLog', args=[A('pk')], attrs={
-    'a': {'class': 'btn'}
+    'a': {'class': 'btn', 'target': '_blank'}
     }, orderable = True)
 
 
@@ -384,11 +399,11 @@ class DUTTable(ColumnShiftTableBootstrap3):
     }, orderable = False)
 
     update = tables.LinkColumn('update_dut',text='edit', args=[A('pk')], attrs={
-    'a': {'class': 'btn', 'target': '__blank'}
+    'a': {'class': 'btn', 'target': '_blank'}
     }, orderable = False)
     
     dut_name = tables.LinkColumn('dut_info', args=[A('pk')], attrs={
-    'a': {'class': 'btn', 'target': '__blank'}
+    'a': {'class': 'btn', 'target': '_blank'}
     }, orderable = True)
 
     class Meta:
@@ -401,7 +416,7 @@ class SubcomponentTable(ColumnShiftTableBootstrap3):
     }, orderable = False)
 
     update = tables.LinkColumn('update_subcomponent',text='edit', args=[A('pk')], attrs={
-    'a': {'class': 'btn', 'target': '__blank'}
+    'a': {'class': 'btn', 'target': '_blank'}
     }, orderable = False)
 
     class Meta:

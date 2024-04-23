@@ -10,6 +10,7 @@
 
 <html>
     <head>
+        {%if user.is_authenticated%}
         <title>Tests </title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet"  href="{% static 'database/test.css' %}">
@@ -22,7 +23,12 @@
             }
             .dropdown{
                 display: inline-block;
-                width: 33%;
+                width: 22%;
+                vertical-align: top;
+            }
+            .account{
+                display: inline-block;
+                width: 10%;
                 vertical-align: top;
             }
             .dropdown-label{
@@ -48,46 +54,64 @@
             }
 
             .dropdown:hover .dropdown-content {display: block;}
-            .menu-space{height: 25px;}
+            .menu-space{height: 35px;}
         </style>
     </head>
-    
     <body>
         <div class = "menu-space"></div>
         <div class = "menu">
             <div class="dropdown">
-                <div class="dropdown-label">Testing Information</div>
+                <div class="dropdown-label">Daily Operations</div>
+                <div class="dropdown-content">
+                    <a href="{% url 'test' %}">Tests</a>
+                    <a href="{% url 'dut' %}">DUTs</a>
+                    <a href="{% url 'Harness' %}">Harnesses</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <div class="dropdown-label">Program Information</div>
                 <div class="dropdown-content">
                     <a href="{% url 'product' %}">Products</a>
                     <a href="{% url 'program' %}">Programs</a>
-                    <a href="{% url 'menu' %}">Test Maps</a>
-                    <a href="{% url 'test' %}">Tests</a>
+                    <a href="{% url 'TestMap' %}">Test Maps</a>
                 </div>
             </div>
 
             <div class="dropdown">
-                <div class="dropdown-label">Equipment</div>
+                <div class="dropdown-label">Equipment Information</div>
                 <div class="dropdown-content">
-                    <a href="{% url 'menu' %}">DUTs</a>
-                    <a href="{% url 'menu' %}">Harnesses</a>
-                    <a href="{% url 'menu' %}">DARs</a>
-                    <a href="{% url 'menu' %}">Chambers</a>
-                    <a href="{% url 'menu' %}">Cages</a>
-                    <a href="{% url 'menu' %}">Laptops</a>
-                    <a href="{% url 'menu' %}">Test Fluids</a>
+                    <a href="{% url 'Chamber' %}">Chambers</a>
+                    <a href="{% url 'Dar' %}">DARs</a>
+                    <a href="{% url 'cage' %}">Cages</a>
+                    <a href="{% url 'Laptop' %}">Laptops</a>
+                    <a href="{% url 'Fluid' %}">Test Fluids</a>
                 </div>
             </div>
-
             <div class="dropdown">
-                <div class="dropdown-label">Lab Information</div>
+                <div class="dropdown-label">Other</div>
                 <div class="dropdown-content">
-                    <a href="{% url 'menu' %}">Labs</a>
-                    <a href="{% url 'menu' %}">Technicians</a>
+                    <a href="{% url 'Lab' %}">Labs</a>
+                    <a href="{% url 'Technician' %}">Technicians</a>
+                    <a href="{% url 'TestType' %}">Add new test type</a>
                     <a href="{% url 'hours calculations' %}">Program Hours Calculator</a>
                 </div>
             </div>
+            <div class = "account">
+                {%if user.is_authenticated%}
+                <div class="nav-item">
+                    <a class="nav-link" href="{% url 'Logout' %}">Logout</a>
+                </div>
+                {%else%}
+                <div class="nav-item">
+                    <a class="nav-link" href="{% url 'register_user' %}">Register</a>
+                </div>
+                <div class="nav-item">
+                    <a class="nav-link" href="{% url 'Login' %}">Login</a>
+                </div>
+                {%endif%}
             </div>
-
+        </div>     
         {% if filter %}
             <form action="" method="get" class="form-inline">
                 {% bootstrap_form filter.form layout='inline'%}
@@ -102,7 +126,7 @@
             
         <br>
         
-            <button id="add_button" type="submit" class="btn" onclick="openPopup()"> add new test </button>
+            <button id="add_button" type="submit" class="btn" onclick="openPopup()"> Add a new test </button>
             <div class="container">
                 <br>
             <div class="popup" id="popup">
@@ -250,7 +274,14 @@
 
             
 
-       
+            {%else%}
+            <div class="nav-item">
+                <a class="nav-link" href="{% url 'register_user' %}">Register</a>
+            </div>
+            <div class="nav-item">
+                <a class="nav-link" href="{% url 'Login' %}">Login</a>
+            </div>
+        {%endif%}
         <script>
             //column selector
             table3 = document.getElementsByTagName("table").item(3);

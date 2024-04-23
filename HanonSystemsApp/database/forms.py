@@ -29,6 +29,11 @@ class Test_HarnessForm(ModelForm):
         model = Test_Harness
         exclude = ('created', )
 
+class Test_DUTForm(ModelForm):
+    class Meta:
+        model = Test_DUT
+        exclude = ('created', )
+
 class Technician_SkillForm(ModelForm):
     class Meta:
         model = Technician_Skill
@@ -251,7 +256,20 @@ class ChamberLogForm(ModelForm):
         widget = forms.DateTimeInput(attrs={'class': 'form-control', 'type': 'datetime-local'}))
     class Meta:
         model = ChamberLog
-        fields = '__all__'
+        exclude = ('', )
+    def save(self, commit=True, *args, **kwargs):
+        instance = super(ChamberLogForm, self).save(commit=False)
+        
+        if commit:
+            instance.save()
+            # self.save_m2m()
+        print(instance.pk)
+        
+
+        
+        instance.save()
+        return instance
+
 
 class DUTForm(ModelForm):
     received_date = forms.DateField(

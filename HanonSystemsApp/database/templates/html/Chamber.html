@@ -10,12 +10,108 @@
 
 <html>
     <head>
-        <title>Chamber </title>
+        {%if user.is_authenticated%}
+        <title>Chambers</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            .menu{
+                display: block;
+                position: fixed;
+                width: 100%;
+                top: 0;
+            }
+            .dropdown{
+                display: inline-block;
+                width: 22%;
+                vertical-align: top;
+            }
+            .account{
+                display: inline-block;
+                width: 10%;
+                vertical-align: top;
+            }
+            .dropdown-label{
+                background-color: gray;
+                color: white;
+                padding: 5px;
+                font-family: sans-serif;
+                text-align: center;
+            }
+            .dropdown-content a{
+                display: block;
+                color: black;
+                padding: 5px;
+                text-decoration: none;
+                font-family: sans-serif;
+                background-color: white;
+            }
+            .dropdown-content{
+                display: none;
+            }
+            .dropdown-content a:hover{
+                background-color: #ddd;
+            }
+
+            .dropdown:hover .dropdown-content {display: block;}
+            .menu-space{height: 35px;}
+        </style>
     </head>
-    
     <body>
-       
+        <div class = "menu-space"></div>
+        <div class = "menu">
+            <div class="dropdown">
+                <div class="dropdown-label">Daily Operations</div>
+                <div class="dropdown-content">
+                    <a href="{% url 'test' %}">Tests</a>
+                    <a href="{% url 'dut' %}">DUTs</a>
+                    <a href="{% url 'Harness' %}">Harnesses</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <div class="dropdown-label">Program Information</div>
+                <div class="dropdown-content">
+                    <a href="{% url 'product' %}">Products</a>
+                    <a href="{% url 'program' %}">Programs</a>
+                    <a href="{% url 'TestMap' %}">Test Maps</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <div class="dropdown-label">Equipment Information</div>
+                <div class="dropdown-content">
+                    <a href="{% url 'Chamber' %}">Chambers</a>
+                    <a href="{% url 'Dar' %}">DARs</a>
+                    <a href="{% url 'cage' %}">Cages</a>
+                    <a href="{% url 'Laptop' %}">Laptops</a>
+                    <a href="{% url 'Fluid' %}">Test Fluids</a>
+                </div>
+            </div>
+            <div class="dropdown">
+                <div class="dropdown-label">Other</div>
+                <div class="dropdown-content">
+                    <a href="{% url 'Lab' %}">Labs</a>
+                    <a href="{% url 'Technician' %}">Technicians</a>
+                    <a href="{% url 'TestType' %}">Add new test type</a>
+                    <a href="{% url 'hours calculations' %}">Program Hours Calculator</a>
+                </div>
+            </div>
+            <div class = "account">
+                {%if user.is_authenticated%}
+                <div class="nav-item">
+                    <a class="nav-link" href="{% url 'Logout' %}">Logout</a>
+                </div>
+                {%else%}
+                <div class="nav-item">
+                    <a class="nav-link" href="{% url 'register_user' %}">Register</a>
+                </div>
+                <div class="nav-item">
+                    <a class="nav-link" href="{% url 'Login' %}">Login</a>
+                </div>
+                {%endif%}
+            </div>
+        </div>
+        <a class="nav-link" href="{% url 'Test_Chamber' %}">Link a Chamber with a Test Type</a>
         {% if filter %}
             <form action="" method="get" class="form-inline">
                 {% bootstrap_form filter.form layout='inline'%}
@@ -26,7 +122,7 @@
         {% load crispy_forms_tags %}
         
             <!--Django Model Form-->
-            <h2 class="my-4">Add a new chamber</h2>
+            <h2 class="my-4">Add a new Chamber</h2>
 
             
 
@@ -43,7 +139,14 @@
         
         
 
-       
+        {%else%}
+            <div class="nav-item">
+                <a class="nav-link" href="{% url 'register_user' %}">Register</a>
+            </div>
+            <div class="nav-item">
+                <a class="nav-link" href="{% url 'Login' %}">Login</a>
+            </div>
+        {%endif%}
         <script>
             function clicked(e)
                 {

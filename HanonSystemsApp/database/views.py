@@ -57,7 +57,7 @@ class LaptopListView(SingleTableMixin,  CreateView, FilterView):
 
     model = Laptop
     table_class = LaptopTable
-    template_name = 'html/index.html'
+    template_name = 'html/laptops.html'
     paginate_by = 20
     filterset_class = LaptopFilter
     form_class = LaptopForm
@@ -114,12 +114,42 @@ def delete_Test_Harness(request, pk):
 
     return HttpResponseRedirect(reverse("Test_Harness"))
 
+class Test_DUTListView(SingleTableMixin,  CreateView, FilterView):
+
+    model = Test_DUT
+    table_class = Test_DUTTable
+    template_name = 'html/Test_DUT.html'
+    paginate_by = 20
+    filterset_class = Test_DUTFilter
+    form_class = Test_DUTForm
+    success_url = '/database/Test_DUT'
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'sorry error')
+        return HttpResponseRedirect(reverse("Test_DUT"))
+
+class UpdateTableViewTest_DUT(SingleTableMixin,  UpdateView):
+    
+    model = Test_DUT
+    table_class = Test_DUTTable
+    form_class = Test_DUTForm
+    template_name = 'html/update.html'
+    success_url = '/database/Test_DUT'
+
+
+
+def delete_Test_DUT(request, pk):
+
+    Test_DUT.objects.filter(id=pk).delete()
+
+    return HttpResponseRedirect(reverse("Test_DUT"))
+
 
 class Technician_SkillListView(SingleTableMixin,  CreateView, FilterView):
 
     model = Technician_Skill
     table_class = Technician_SkillTable
-    template_name = 'html/index.html'
+    template_name = 'html/technician_skills.html'
     paginate_by = 20
     filterset_class = Technician_SkillFilter
     form_class = Technician_SkillForm
@@ -150,7 +180,7 @@ class TestMapListView(SingleTableMixin,  CreateView, FilterView):
 
     model = TestMap
     table_class = TestMapTable
-    template_name = 'html/index.html'
+    template_name = 'html/test_map.html'
     paginate_by = 20
     filterset_class = TestMapFilter
     form_class = TestMapForm
@@ -375,7 +405,7 @@ class FluidListView(SingleTableMixin,  CreateView, FilterView):
 
     model = Fluid
     table_class = FluidTable
-    template_name = 'html/index.html'
+    template_name = 'html/test_fluids.html'
     paginate_by = 20
     filterset_class = FluidFilter
     form_class = FluidForm
@@ -407,7 +437,7 @@ class TechnicianListView(SingleTableMixin,  CreateView, FilterView):
 
     model = Technician
     table_class = TechnicianTable
-    template_name = 'html/index.html'
+    template_name = 'html/technician.html'
     paginate_by = 20
     filterset_class = TechnicianFilter
     form_class = TechnicianForm
@@ -530,7 +560,7 @@ class HarnessListView(SingleTableMixin,  CreateView, FilterView):
 
     model = Harness
     table_class = HarnessTable
-    template_name = 'html/index.html'
+    template_name = 'html/harness.html'
     paginate_by = 20
     filterset_class = HarnessFilter
     form_class = HarnessForm
@@ -558,23 +588,11 @@ def delete_Harness(request, pk):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 class ProgramListView(SingleTableMixin,  CreateView, FilterView):
 
     model = Program
     table_class = ProgramTable
-    template_name = 'html/index.html'
+    template_name = 'html/programs.html'
     paginate_by = 20
     filterset_class = ProgramFilter
     form_class = ProgramForm
@@ -1021,7 +1039,8 @@ class UpdateTableViewChamberLogInfo(SingleTableMixin,  UpdateView):
     form_class = ChamberLogInfoForm
     # template_name_suffix = 'html/index.html'
     # fields = '__all__'
-    success_url = '/database/ChamberLogInfo'
+    def get_success_url(self):
+        return reverse('ChamberLog', kwargs={'pk': self.kwargs.get('pk')})
 
 
 
@@ -1092,23 +1111,6 @@ def clone_item4(request, pk):
     }
     """
 
-class ProgramInfoView(MultiTableMixin, TemplateView):
-    template_name = "html/Temp4.html"
-    def get_tables(self, **kwargs):
-        qs = TestMap.objects.filter(program_id = self.kwargs.get('pk'))
-        qs2 = Test.objects.filter(program_id = self.kwargs.get('pk'))
-        qs3 = Product.objects.filter(program_id = self.kwargs.get('pk'))
-        self.tables = [
-            TestMapTable(qs),
-            TestTable(qs2),
-            ProductTable(qs3)
-        ]
-        return super().get_tables()
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['Program'] = Program.objects.filter(pk = self.kwargs.get('pk'))
-        return context
 
 def menu(request):
     return render(request, "html/menu.html")
@@ -1470,54 +1472,13 @@ def dut_hours(request):
     
     return HttpResponse("dut hours compiled")
 
-def dut_history(request, id):
-    test_list = Test_DUT.objects.filter(dut_id = id).order_by("test_id__targeted_start")
-    dut_name = DUT.objects.get(dut_id = id).dut_name
-    test_history = {}
-    accumulated_hours = 0
-    
-    if test_list.count() == 0:
-        return render(request, "html/dut_history.html", {"test_history": test_history, "dut_name": dut_name})
-    
-    for test in test_list:
-        if test.date_inserted == None:
-            starting_time = 0
-            start_date = test.test_id.targeted_start
-        else:
-            start_date = test.date_inserted.date
-            try:
-                starting_time = ChamberLog.objects.filter(log_id__test_id = test.test_id).filter(circuit_number = test.circuit_number).filter(timestamp__gte = test.date_inserted).earliest("timestamp").total_hours
-            except:
-                continue
-            
-        if test.date_removed == None:
-            try:
-                ending_time = ChamberLog.objects.filter(log_id__test_id = test.test_id).filter(circuit_number = test.circuit_number).latest("timestamp").total_hours
-            except:
-                continue
-        else:
-            try:
-                ending_time = ChamberLog.objects.filter(log_id__test_id = test.test_id).filter(circuit_number = test.circuit_number).filter(timestamp__lte = test.date_inserted).latest("timestamp").total_hours
-            except:
-                continue
-            
-        total_hours = ending_time - starting_time
-        accumulated_hours += total_hours
-        if test.test_id.test_type_id.test_name in test_history:
-            test_history[test.test_id.test_type_id.test_name] = [total_hours + test_history[test.test_id.test_type_id.test_name][0], accumulated_hours, start_date, test.test_id.chamber_id.chamber_name]
-        else:
-            test_history[test.test_id.test_type_id.test_name] = [total_hours, accumulated_hours, start_date, test.test_id.chamber_id.chamber_name]
-    
-    return render(request, "html/dut_history.html", {"test_history": test_history, "dut_name":dut_name})
-
-def harness_history(request, id):
+def harness_info(request, id):
     test_list = Test_Harness.objects.filter(harness_id = id).order_by("test_id__targeted_start")
     test_history = {}
     accumulated_hours = 0
-    harness_name = Harness.objects.get(harness_id = id).harness_name
     
     if test_list.count() == 0:
-        return render(request, "html/harness_history.html", {"test_history": test_history, "harness_name": harness_name})
+        return render(request, "html/harness_history.html", {"test_history": test_history, "harness_info":Harness.objects.filter(pk = id)})
     
     for test in test_list:
         if test.date_inserted == None:
@@ -1548,7 +1509,7 @@ def harness_history(request, id):
         else:
             test_history[test.test_id.test_type_id.test_name] = [total_hours, accumulated_hours, start_date, test.test_id.chamber_id.chamber_name]
     
-    return render(request, "html/harness_history.html", {"test_history": test_history, "harness_name":harness_name})
+    return render(request, "html/harness_info.html", {"test_history": test_history, "harness_info":Harness.objects.filter(pk = id)})
 
 def menu(request):
     return render(request, "html/menu.html")
