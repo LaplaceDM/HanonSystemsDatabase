@@ -2,6 +2,7 @@
 {% load static %}
 <html>
     <head>
+        {%if user.is_authenticated%}
         <title>Harness history</title>
         <style>
             .menu{
@@ -179,4 +180,12 @@
             {% endfor %}
         </table>
     </body>
+    {%else%}
+            <div class="nav-item">
+                <a class="nav-link" href="{% url 'register_user' %}">Register</a>
+            </div>
+            <div class="nav-item">
+                <a class="nav-link" href="{% url 'Login' %}">Login</a>
+            </div>
+        {%endif%}
 </html>

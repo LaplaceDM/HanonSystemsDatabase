@@ -256,7 +256,22 @@ class ChamberLogForm(ModelForm):
         widget = forms.DateTimeInput(attrs={'class': 'form-control', 'type': 'datetime-local'}))
     class Meta:
         model = ChamberLog
-        fields = '__all__'
+        exclude = ('', )
+    def save(self, commit=True, *args, **kwargs):
+        instance = super(ChamberLogForm, self).save(commit=False)
+        
+        if commit:
+            instance.save()
+            # self.save_m2m()
+        print(instance.pk)
+        ch = ChamberLogInfo.objects.get(pk= instance.log_id.pk)
+        t = Test.objects.get(pk = ch.test_id.pk)
+        if (instance.total_hours > t.total_hours):
+            t.total_hours = instance.total_hours      
+        t.save()
+        instance.save()
+        return instance
+
 
 class DUTForm(ModelForm):
     received_date = forms.DateField(

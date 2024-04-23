@@ -10,6 +10,7 @@
 
 <html>
     <head>
+        {%if user.is_authenticated%}
         <title>ChamberLog</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet"  href="{% static 'database/ch.css' %}">
@@ -137,9 +138,14 @@
             <label> Technician:</label>
             {{record.technician_id}}
             <br>
+            <label> Comments:</label>
+            {{record.comments}}
+            <br>
 
-            {%endfor%}
+            
         </h4>
+        
+        <a href="{% url 'update_ChamberLogInfo' record.pk  %}">EDIT INFO</a>
 
         {% if filter %}
             <form action="" method="get" class="form-inline">
@@ -147,6 +153,7 @@
                 {% bootstrap_button 'filter' %}
             </form>
         {% endif %}
+        {%endfor%}
 
 
        
@@ -167,6 +174,8 @@
             </div>
         </div>
 
+
+
             
 
 
@@ -185,6 +194,14 @@
        
         
     </body>
+    {%else%}
+            <div class="nav-item">
+                <a class="nav-link" href="{% url 'register_user' %}">Register</a>
+            </div>
+            <div class="nav-item">
+                <a class="nav-link" href="{% url 'Login' %}">Login</a>
+            </div>
+        {%endif%}
     <script>
         let popup = document.getElementById("popup");
             popup.hidden = true;    

@@ -1039,7 +1039,8 @@ class UpdateTableViewChamberLogInfo(SingleTableMixin,  UpdateView):
     form_class = ChamberLogInfoForm
     # template_name_suffix = 'html/index.html'
     # fields = '__all__'
-    success_url = '/database/ChamberLogInfo'
+    def get_success_url(self):
+        return reverse('ChamberLog', kwargs={'pk': self.kwargs.get('pk')})
 
 
 

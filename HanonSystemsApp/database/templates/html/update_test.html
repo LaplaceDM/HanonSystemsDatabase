@@ -6,6 +6,7 @@
 {% load static %}
 <html>
     <head>
+        {%if user.is_authenticated%}
         <title>Edit</title>
         <link rel="stylesheet"  href="{% static 'database/test.css' %}">
         <style>
@@ -237,6 +238,14 @@
             </center>
 
             {% render_table table  "django_tables2/bootstrap.html"%} 
+            {%else%}
+            <div class="nav-item">
+                <a class="nav-link" href="{% url 'register_user' %}">Register</a>
+            </div>
+            <div class="nav-item">
+                <a class="nav-link" href="{% url 'Login' %}">Login</a>
+            </div>
+        {%endif%}
             <script>
                 //column selector
                 table3 = document.getElementsByTagName("table").item(3);

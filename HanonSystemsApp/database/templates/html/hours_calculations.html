@@ -2,6 +2,7 @@
 {% load static %}
 <html>
     <head>
+        {%if user.is_authenticated%}
         <title>Hours Calculation</title>
         <link rel="stylesheet"  href="{% static 'database/hours_calculations.css' %}"> 
         <style>
@@ -92,7 +93,14 @@
 
         <button id="calculate" onclick="calculate()"> Calculate </button>
 
-
+        {%else%}
+            <div class="nav-item">
+                <a class="nav-link" href="{% url 'register_user' %}">Register</a>
+            </div>
+            <div class="nav-item">
+                <a class="nav-link" href="{% url 'Login' %}">Login</a>
+            </div>
+        {%endif%}
         <script>
             function getCookie(name) {
                 var cookieValue = null;

@@ -5,6 +5,7 @@
 {% bootstrap_javascript %}
 <html>
     <head>
+        {%if user.is_authenticated%}
         <title>Edit DUT</title>
         
         <style>
@@ -96,7 +97,14 @@
                   {{form}}
                   <button class="btn btn-primary my-4"  onclick="clicked(event)" type="submit">Submit</button>
             </form>
-            
+            {%else%}
+            <div class="nav-item">
+                <a class="nav-link" href="{% url 'register_user' %}">Register</a>
+            </div>
+            <div class="nav-item">
+                <a class="nav-link" href="{% url 'Login' %}">Login</a>
+            </div>
+        {%endif%} 
         <script>
             function clicked(e)
             {
