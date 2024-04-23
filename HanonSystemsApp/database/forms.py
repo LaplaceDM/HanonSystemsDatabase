@@ -264,9 +264,11 @@ class ChamberLogForm(ModelForm):
             instance.save()
             # self.save_m2m()
         print(instance.pk)
-        
-
-        
+        ch = ChamberLogInfo.objects.get(pk= instance.log_id.pk)
+        t = Test.objects.get(pk = ch.test_id.pk)
+        if (instance.total_hours > t.total_hours):
+            t.total_hours = instance.total_hours      
+        t.save()
         instance.save()
         return instance
 
