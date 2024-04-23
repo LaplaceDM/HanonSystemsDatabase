@@ -44,6 +44,11 @@
 
             .dropdown:hover .dropdown-content {display: block;}
             .menu-space{height: 35px;}
+            .account{
+                display: inline-block;
+                width: 10%;
+                vertical-align: top;
+            }
         </style>
     </head>
     <body>
@@ -86,9 +91,18 @@
                     <a href="{% url 'hours calculations' %}">Program Hours Calculator</a>
                 </div>
             </div>
+            <div class = "account">
+                {%if user.is_authenticated%}
+                <div class="nav-item">
+                    <a class="nav-link" href="{% url 'Logout' %}">Logout</a>
+                </div>
+                {%else%}
+                <div class="nav-item">
+                    <a class="nav-link" href="{% url 'Login' %}">Login</a>
+                </div>
+                {%endif%}
             </div>
-            </div>
-        <div>
+        </div>     
             <h3>DUT {{DUT.dut_info.0.dut_name}} Information</h3>
             <table>
                 <tr>
