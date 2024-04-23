@@ -203,6 +203,17 @@
             </div>
         {%endif%}
     <script>
+        let x  = window.location.href.replace("http://10.22.137.40:8000/database/ChamberLog/", '')
+        let y  = Number(x)
+        let drop = document.getElementsByName("log_id")[1]
+        let values = drop.getElementsByTagName("option")
+        console.log(x)
+        for (let j = 0; j<values.length;j++){
+            if (y == values[j].value){
+                values[j].selected = true
+            }
+        }
+
         let popup = document.getElementById("popup");
             popup.hidden = true;    
             function openPopup(){

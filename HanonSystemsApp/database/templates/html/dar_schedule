@@ -1,0 +1,10 @@
+{
+"booking0": {"targeted_start" : "2024-01-31", "targeted_end" : "2024-02-15","test_map_id" : "TR.CC23.174700", "product_id" : "eTMOP - Audi MLB-150", "test_type_id" : "Endurance Test", "program_id" : "Audi MLB-150", "scheduling" : "current"},
+"booking1": {"targeted_start" : "2024-02-03", "targeted_end" : "2024-03-29","test_map_id" : "TR.CC23.174700", "product_id" : "eTMOP - Audi MLB-150", "test_type_id" : "Thermal Shock", "program_id" : "Audi MLB-150", "scheduling" : "current"},
+"booking2": {"targeted_start" : "2024-02-03", "targeted_end" : "2024-03-28","test_map_id" : "TR.CC23.174700", "product_id" : "eTMOP - Audi MLB-150", "test_type_id" : "Endurance Test", "program_id" : "Audi MLB-150", "scheduling" : "current"},
+"booking3": {"targeted_start" : "2024-02-08", "targeted_end" : "2024-02-07","test_map_id" : "TR.CC23.174700", "product_id" : "eTMOP - Audi MLB-150", "test_type_id" : "Endurance Test", "program_id" : "Audi MLB-150", "scheduling" : "current"},
+"booking4": {"targeted_start" : "2024-02-15", "targeted_end" : "2024-03-26","test_map_id" : "TR.CC23.174700", "product_id" : "eTMOP - Audi MLB-150", "test_type_id" : "Endurance Test", "program_id" : "Audi MLB-150", "scheduling" : "current"},
+"booking5": {"targeted_start" : "2024-02-22", "targeted_end" : "2024-02-22","test_map_id" : "TR.CC23.174700", "product_id" : "eTMOP - Audi MLB-150", "test_type_id" : "Endurance Test", "program_id" : "Audi MLB-150", "scheduling" : "upcoming"},
+"booking6": {"targeted_start" : "2024-04-19", "targeted_end" : "2024-04-20","test_map_id" : "TR.CC23.174700", "product_id" : "eTMOP - Audi MLB-150", "test_type_id" : "Pump Asembly", "program_id" : "Audi MLB-150", "scheduling" : "current"},
+"DAR": "ETS 14"
+}
