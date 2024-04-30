@@ -7,35 +7,9 @@ from .forms import *
 from .filters import *
 from django.shortcuts import render
 from django_filters.views import FilterView
-from .filters import ProgramFilter
-from .filters import ProductFilter
-from .filters import TestFilter
-from .filters import ChamberLogInfoFilter
-from .filters import ChamberLogFilter
-from .filters import CageFilter
-from .filters import ChamberFilter
-from .filters import *
 from django_tables2.views import SingleTableMixin
-from .tables import ProgramTable
-from .tables import ProductTable
-from .tables import TestTable
-from .tables import TestMapTable
-from .tables import ChamberLogTable
-from .tables import ChamberLogInfoTable
-from .tables import CageTable
-from .tables import ChamberTable
-from .tables import *
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from .forms import ProgramForm
-from .forms import *
-from .forms import TestForm
-from .forms import ChamberLogInfoForm
-from .forms import ChamberLogForm
-from .forms import TestUpdateForm
-from .forms import CageForm
-from .forms import ChamberForm
-from .forms import DarForm
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.views.generic.edit import FormView
@@ -51,7 +25,6 @@ from django.utils import timezone
 from django.http import HttpResponse
 from django.db.models import Q
 import math
-from dal import autocomplete
 
 class LaptopListView(SingleTableMixin,  CreateView, FilterView):
 
