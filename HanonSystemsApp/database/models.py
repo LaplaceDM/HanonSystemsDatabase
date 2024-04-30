@@ -225,8 +225,8 @@ class Chamber(models.Model):
     chamber_id = models.SmallAutoField(primary_key=True)
     chamber_name = models.CharField(max_length = 20, unique= True)
     cooling_type = models.CharField(max_length = 20, null=True, blank = True)
-    power = models.SmallIntegerField(null=True, blank = True)
-    humidity = models.CharField(max_length = 10, verbose_name = "Humidity",  null = True, blank = True)
+    power = models.CharField(max_length=20,null=True, blank = True)
+    humidity = models.BooleanField(max_length = 10, verbose_name = "Humidity",  null = True, blank = True)
     operation_team = models.CharField(max_length = 20, null=True, blank = True)
     working_condition = models.CharField(max_length = 50, verbose_name = "Working Condition",  null = True, blank = True)
     rate = models.FloatField(null=True, blank = True)
@@ -263,7 +263,6 @@ class Laptop(models.Model):
 
 class Test_Chamber (models.Model):
     id = models.SmallAutoField(primary_key=True)
-    test_type_id = models.SmallIntegerField(null =True, blank = True)
     test_type_id = models.ForeignKey("TestType", on_delete = models.CASCADE, null =True, blank = True, db_column = "test_type_id", verbose_name = "Test")
     
     chamber_id = models.ForeignKey("Chamber", on_delete = models.CASCADE, null =True, blank = True, db_column = "chamber_id", verbose_name = "Chamber")
@@ -284,9 +283,9 @@ class DARChannel(models.Model):
     pwn = models.CharField(max_length = 50, verbose_name = "PWN",  null = True, blank = True)
     can = models.CharField(max_length = 50, verbose_name = "CAN",  null = True, blank = True)
 
-    dar_id = models.ForeignKey("DAR", on_delete = models.CASCADE, null =True, blank = True, db_column = "dar_id")
+    dar_id = models.ForeignKey("DAR", on_delete = models.CASCADE, null =True, blank = True, db_column = "dar_id", verbose_name="DAR")
     def __str__(self):
-        return str(self.channel_number)
+        return str(self.dar_id.dar_name) + "-" + str(self.channel_number)
 
 class Program_Fluid(models.Model):
     id = models.AutoField(primary_key=True)

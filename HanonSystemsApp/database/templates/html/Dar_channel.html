@@ -11,7 +11,7 @@
 <html>
     <head>
         {%if user.is_authenticated%}
-        <title>DARs</title>
+        <title>DAR Channels</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <style>
             .menu{
@@ -114,12 +114,6 @@
                 {%endif%}
             </div>
         </div>          
-        <div>
-        <a target="_blank" href="{% url 'DAR_Channel' %}">View DAR Channels</a>
-        </div>
-        <div>
-        <a target="_blank" href="{% url 'Program_DAR' %}">Link a DAR with a Program</a>
-        </div>
         <div class = 'filter'>
         {% if filter %}
             <form action="" method="get" class="form-inline">

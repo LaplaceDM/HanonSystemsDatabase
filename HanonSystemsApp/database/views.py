@@ -1608,3 +1608,32 @@ def delete_item_subcomponent(request, pk):
     dut_id = Subcomponent.objects.get(component_id = pk).dut_id.dut_id
     Subcomponent.objects.filter(component_id=pk).delete()
     return HttpResponseRedirect(reverse("dut_info", kwargs={'pk': dut_id}))
+
+
+class DAR_ChannelListView(SingleTableMixin,  CreateView, FilterView):
+
+    model = DARChannel
+    table_class = DAR_ChannelTable
+    template_name = 'html/DAR_channel.html'
+    paginate_by = 20
+    filterset_class = DAR_ChannelFilter
+    form_class = DAR_ChannelForm
+    success_url = '/database/dar_channel'
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'sorry error')
+        return HttpResponseRedirect(reverse("DAR_Channel"))
+
+class UpdateTableView_DAR_Channel(SingleTableMixin,  UpdateView):
+    
+    model = DARChannel
+    table_class = DAR_ChannelTable
+    form_class = DAR_ChannelForm
+    template_name = 'html/update.html'
+    success_url = '/database/dar_channel'
+
+
+
+def delete_DAR_Channel(request, pk):
+    DARChannel.objects.filter(channel_id=pk).delete()
+    return HttpResponseRedirect(reverse("DAR_Channel"))

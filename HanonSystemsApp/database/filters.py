@@ -182,3 +182,8 @@ class DUTFilter(django_filters.FilterSet):
     class Meta:
         model = DUT
         exclude = ['delete' ,]
+        
+class DAR_ChannelFilter(django_filters.FilterSet):
+    class Meta:
+        model = DARChannel
+        exclude = ['channel_id' ,]

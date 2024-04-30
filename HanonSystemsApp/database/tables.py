@@ -422,3 +422,16 @@ class SubcomponentTable(ColumnShiftTableBootstrap3):
     class Meta:
         model = Subcomponent
         exclude = ("component_id","dut_id" )
+
+class DAR_ChannelTable(ColumnShiftTableBootstrap3):
+    delete = tables.LinkColumn('delete_DAR_Channel',text='delete', args=[A('pk')], attrs={
+    'a': {'class': 'btn'}
+    }, orderable = False)
+
+    update = tables.LinkColumn('update_DAR_Channel',text='edit', args=[A('pk')], attrs={
+    'a': {'class': 'btn', 'target': '_blank'}
+    }, orderable = False)
+
+    class Meta:
+        model = DARChannel
+        exclude = ("channel_id", )

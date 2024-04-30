@@ -287,3 +287,7 @@ class SubcomponentForm(ModelForm):
         model = Subcomponent
         exclude = ('component_id',)
         
+class DAR_ChannelForm(ModelForm):
+    class Meta:
+        model = DARChannel
+        exclude = ('channel_id', )
