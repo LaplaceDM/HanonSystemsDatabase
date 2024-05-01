@@ -431,9 +431,9 @@
             rows = table.rows;
             
             for (let i = 1; i < rows.length ; i++){
-                x = rows[i].getElementsByTagName("td")[18];
+                x = rows[i].getElementsByTagName("td")[19];
                 y = x.getElementsByClassName("btn")[0];
-                w = rows[i].getElementsByTagName("td")[20];
+                w = rows[i].getElementsByTagName("td")[21];
                 z = w.getElementsByClassName("btn")[0];
 
                 y.onclick = function clicked(e)
@@ -454,7 +454,7 @@
             
             //formating filter and add fields
             var label, input, formated_label, formated_input, length, formated_fields, current_fields, th, td, button, children;
-            length = 19;
+            length = 20;
 
             formated_fields = document.createElement("table");
             formated_fields.id = "filter";
@@ -484,7 +484,7 @@
                 document.getElementsByClassName("form-group")[0].remove();
             }
 
-            length = 18;
+            length = 19;
             formated_fields = document.createElement("table");
             formated_fields.id = "add";
             current_fields = document.getElementsByTagName("form")[1];

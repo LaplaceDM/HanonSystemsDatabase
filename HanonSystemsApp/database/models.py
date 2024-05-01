@@ -135,7 +135,8 @@ class Test(models.Model):
     priority = models.SmallIntegerField(null = True, blank = True)
     scheduling = models.CharField(max_length = 15, null =True, blank = True)
     status = models.CharField(max_length = 15, null =True, blank = True)
-    test_type_id = models.ForeignKey("TestType", on_delete = models.CASCADE, db_column = "test_type_id", verbose_name = "Test")
+    test_type_id = models.ForeignKey("TestType", on_delete = models.CASCADE, db_column = "test_type_id", verbose_name = "Test Type")
+    test_description = models.CharField(max_length = 100, null =True, blank = True)
     test_id = models.AutoField(primary_key=True)
     technician_id = models.ForeignKey("Technician", on_delete = models.CASCADE, db_column = "technician_id", verbose_name = "Technician")
     chamber_id = models.ForeignKey("Chamber", on_delete = models.CASCADE, db_column = "chamber_id", verbose_name = "Chamber")
@@ -200,12 +201,14 @@ class Cage (models.Model):
     cage_id = models.SmallAutoField(primary_key=True)
     cage_name = models.CharField(max_length = 20, unique = True)
     number_of_duts = models.SmallIntegerField(null=True, blank = True)
+    category = models.CharField(max_length=20, null=True, blank = True)
+    product = models.CharField(max_length=10, null=True, blank = True)
     def __str__(self):
         return self.cage_name
 
 class TestType (models.Model):
     test_type_id = models.SmallAutoField(primary_key=True)
-    test_name = models.CharField(max_length = 20, unique = True)
+    test_name = models.CharField(max_length = 20, unique = True, db_column = "test_type", verbose_name = "test_type")
     def __str__(self):
         return self.test_name
 
@@ -276,13 +279,22 @@ class DAR_Laptop(models.Model):
 class DARChannel(models.Model):
     channel_id = models.SmallIntegerField(primary_key=True)
     channel_number = models.SmallIntegerField(null =True, blank = True)
+    number_of_duts = models.SmallIntegerField(null =True, blank = True)
     power_supply_type = models.CharField(max_length = 20, null =True, blank = True)
     power_supply_voltage = models.SmallIntegerField(null =True, blank = True)
     max_current = models.SmallIntegerField(null =True, blank = True)
+    power_supply_model = models.CharField(max_length = 50,  null = True, blank = True)
+    N_eWP_Primary = models.SmallIntegerField(null =True, blank = True)
+    N_eWP_Med_Aux = models.SmallIntegerField(null =True, blank = True)
+    N_eTMOP = models.SmallIntegerField(null =True, blank = True)
+    N_eCF = models.SmallIntegerField(null =True, blank = True)
     lin = models.CharField(max_length = 50, verbose_name = "LIN",  null = True, blank = True)
     pwn = models.CharField(max_length = 50, verbose_name = "PWN",  null = True, blank = True)
     can = models.CharField(max_length = 50, verbose_name = "CAN",  null = True, blank = True)
-
+    pressure_transducer_inlet = models.CharField(max_length = 50, null =True, blank = True)
+    pressure_transducer_outlet = models.CharField(max_length = 50, null =True, blank = True)
+    
+    
     dar_id = models.ForeignKey("DAR", on_delete = models.CASCADE, null =True, blank = True, db_column = "dar_id", verbose_name="DAR")
     def __str__(self):
         return str(self.dar_id.dar_name) + "-" + str(self.channel_number)

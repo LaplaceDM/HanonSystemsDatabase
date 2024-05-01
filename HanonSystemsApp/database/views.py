@@ -472,7 +472,7 @@ class LabListView(SingleTableMixin,  CreateView, FilterView):
 
     model = Lab
     table_class = LabTable
-    template_name = 'html/index.html'
+    template_name = 'html/labs.html'
     paginate_by = 20
     filterset_class = LabFilter
     form_class = LabForm
