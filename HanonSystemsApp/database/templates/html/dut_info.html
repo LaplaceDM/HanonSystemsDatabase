@@ -6,7 +6,6 @@
 {% bootstrap_css %}
 <html>
     <head>
-        {%if user.is_authenticated%}
         <title>DUT {{DUT.dut_name}}</title>
         <style>
             .menu{
@@ -52,6 +51,7 @@
         </style>
     </head>
     <body>
+        {%if user.is_authenticated%}
         <div class = "menu-space"></div>
         <div class = "menu">
             <div class="dropdown">
@@ -96,11 +96,6 @@
                 <div class="nav-item">
                     <a class="nav-link" href="{% url 'Logout' %}">Logout</a>
                 </div>
-                {%else%}
-                <div class="nav-item">
-                    <a class="nav-link" href="{% url 'Login' %}">Login</a>
-                </div>
-                {%endif%}
             </div>
         </div>     
             <h3>DUT {{DUT.dut_info.0.dut_name}} Information</h3>
@@ -191,9 +186,6 @@
             {% endfor %}
         </table>
         {%else%}
-            <div class="nav-item">
-                <a class="nav-link" href="{% url 'register_user' %}">Register</a>
-            </div>
             <div class="nav-item">
                 <a class="nav-link" href="{% url 'Login' %}">Login</a>
             </div>

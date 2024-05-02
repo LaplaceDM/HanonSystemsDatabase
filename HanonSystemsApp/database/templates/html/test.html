@@ -10,7 +10,6 @@
 
 <html>
     <head>
-        {%if user.is_authenticated%}
         <title>Tests </title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet"  href="{% static 'database/test.css' %}">
@@ -136,6 +135,7 @@
         </style>
     </head>
     <body>
+        {%if user.is_authenticated%}
         <div class = "menu-space"></div>
         <div class = "menu">
             <div class="dropdown">
@@ -176,15 +176,9 @@
                 </div>
             </div>
             <div class = "account">
-                {%if user.is_authenticated%}
                 <div class="nav-item">
                     <a class="nav-link" href="{% url 'Logout' %}">Logout</a>
                 </div>
-                {%else%}
-                <div class="nav-item">
-                    <a class="nav-link" href="{% url 'Login' %}">Login</a>
-                </div>
-                {%endif%}
             </div>
         </div>    
         <div class = "filter"> 
@@ -375,9 +369,6 @@
             
 
             {%else%}
-            <div class="nav-item">
-                <a class="nav-link" href="{% url 'register_user' %}">Register</a>
-            </div>
             <div class="nav-item">
                 <a class="nav-link" href="{% url 'Login' %}">Login</a>
             </div>

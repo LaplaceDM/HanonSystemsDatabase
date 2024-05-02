@@ -133,6 +133,7 @@
         </style>
     </head>
     <body>
+        {%if user.is_authenticated%}
         <div class = "menu-space"></div>
         <div class = "menu">
             <div class="dropdown">
@@ -173,15 +174,9 @@
                 </div>
             </div>
             <div class = "account">
-                {%if user.is_authenticated%}
                 <div class="nav-item">
                     <a class="nav-link" href="{% url 'Logout' %}">Logout</a>
                 </div>
-                {%else%}
-                <div class="nav-item">
-                    <a class="nav-link" href="{% url 'Login' %}">Login</a>
-                </div>
-                {%endif%}
             </div>
         </div>    
         <div class  = 'filter'>
@@ -231,7 +226,11 @@
             {% render_table table  "django_tables2/bootstrap.html"%} 
 
         
-        
+            {%else%}
+            <div class="nav-item">
+                <a class="nav-link" href="{% url 'Login' %}">Login</a>
+            </div>
+        {%endif%}
 
        
         <script>

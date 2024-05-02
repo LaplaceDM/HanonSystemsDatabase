@@ -199,7 +199,7 @@ class ChamberLogInfo(models.Model):
 
 class Cage (models.Model):
     cage_id = models.SmallAutoField(primary_key=True)
-    cage_name = models.CharField(max_length = 20, unique = True)
+    cage_name = models.CharField(max_length = 20)
     number_of_duts = models.SmallIntegerField(null=True, blank = True)
     category = models.CharField(max_length=20, null=True, blank = True)
     product = models.CharField(max_length=10, null=True, blank = True)
@@ -208,15 +208,15 @@ class Cage (models.Model):
 
 class TestType (models.Model):
     test_type_id = models.SmallAutoField(primary_key=True)
-    test_name = models.CharField(max_length = 20, unique = True, db_column = "test_type", verbose_name = "test_type")
+    test_name = models.CharField(max_length = 50, db_column = "test_type", verbose_name = "test_type")
     def __str__(self):
         return self.test_name
 
 class DAR (models.Model):
     dar_id = models.SmallAutoField(primary_key=True)
-    dar_name = models.CharField(max_length = 20, unique = True)
-    ac_input_voltage = models.SmallIntegerField(null = True, blank = True)
-    ac_input_phase = models.CharField(max_length = 20, null = True, blank = True)
+    dar_name = models.CharField(max_length = 40, unique = True)
+    ac_input_voltage = models.CharField(max_length = 20,null = True, blank = True)
+    ac_input_phase = models.CharField(max_length = 30, null = True, blank = True)
     operation_team = models.CharField(max_length = 20, null = True, blank = True)
     working_condition = models.CharField(max_length = 50, verbose_name = "Working Condition",  null = True, blank = True)
 
@@ -229,7 +229,7 @@ class Chamber(models.Model):
     chamber_name = models.CharField(max_length = 20, unique= True)
     cooling_type = models.CharField(max_length = 20, null=True, blank = True)
     power = models.CharField(max_length=20,null=True, blank = True)
-    humidity = models.BooleanField(max_length = 10, verbose_name = "Humidity",  null = True, blank = True)
+    humidity = models.CharField(max_length = 3, verbose_name = "Humidity",  null = True, blank = True)
     operation_team = models.CharField(max_length = 20, null=True, blank = True)
     working_condition = models.CharField(max_length = 50, verbose_name = "Working Condition",  null = True, blank = True)
     rate = models.FloatField(null=True, blank = True)
@@ -277,17 +277,19 @@ class DAR_Laptop(models.Model):
     laptop_id = models.ForeignKey("Laptop", on_delete = models.CASCADE, null =True, blank = True, db_column = "laptop_id", verbose_name = "Laptop")
 
 class DARChannel(models.Model):
-    channel_id = models.SmallIntegerField(primary_key=True)
+    channel_id = models.AutoField(primary_key=True)
     channel_number = models.SmallIntegerField(null =True, blank = True)
     number_of_duts = models.SmallIntegerField(null =True, blank = True)
     power_supply_type = models.CharField(max_length = 20, null =True, blank = True)
-    power_supply_voltage = models.SmallIntegerField(null =True, blank = True)
-    max_current = models.SmallIntegerField(null =True, blank = True)
+    power_supply_48V = models.SmallIntegerField(null =True, blank = True)
+    power_supply_12V = models.SmallIntegerField(null =True, blank = True)
+    max_current_48V = models.CharField(max_length = 10, null =True, blank = True)
+    max_current_12V = models.CharField(max_length = 10, null =True, blank = True)
     power_supply_model = models.CharField(max_length = 50,  null = True, blank = True)
-    N_eWP_Primary = models.SmallIntegerField(null =True, blank = True)
-    N_eWP_Med_Aux = models.SmallIntegerField(null =True, blank = True)
-    N_eTMOP = models.SmallIntegerField(null =True, blank = True)
-    N_eCF = models.SmallIntegerField(null =True, blank = True)
+    eWP_Primary = models.CharField(max_length = 3,null =True, blank = True)
+    eWP_Med_Aux = models.CharField(max_length = 3,null =True, blank = True)
+    eTMOP = models.CharField(max_length = 3,null =True, blank = True)
+    eCF = models.CharField(max_length = 3,null =True, blank = True)
     lin = models.CharField(max_length = 50, verbose_name = "LIN",  null = True, blank = True)
     pwn = models.CharField(max_length = 50, verbose_name = "PWN",  null = True, blank = True)
     can = models.CharField(max_length = 50, verbose_name = "CAN",  null = True, blank = True)
