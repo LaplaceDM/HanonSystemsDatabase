@@ -136,8 +136,8 @@
                 }
                 var csrftoken = getCookie('csrftoken');
 
-                fetch("http://127.0.0.1:8000/database/calculate", {method: "POST", body: `${start},${end}`, headers:{"X-CSRFToken": csrftoken}})
-                .then(()=>window.location.replace("http://127.0.0.1:8000/database/hours_download")
+                fetch("http://10.22.137.40:8000/database/calculate", {method: "POST", body: `${start},${end}`, headers:{"X-CSRFToken": csrftoken}})
+                .then(()=>window.location.replace("http://10.22.137.40:8000/database/hours_download")
                 )
                 .catch(()=>{alert("An error occurred, please check the values entered")})    
             }
