@@ -1,13 +1,5 @@
 import django_tables2 as tables
 from .models import *
-from .models import Product
-from .models import ChamberLogInfo
-from .models import ChamberLog
-from .models import TestMap
-from .models import Test
-from .models import Cage
-from .models import DAR
-from .models import Chamber
 from django_tables2.utils import A
 from django_tables2_column_shifter.tables import ColumnShiftTableBootstrap3
 
@@ -94,19 +86,6 @@ class Test_ChamberTable(ColumnShiftTableBootstrap3):
         model = Test_Chamber
         exclude = ("Test_Chamber_id", )
 
-
-class DAR_LaptopTable(ColumnShiftTableBootstrap3):
-    delete = tables.LinkColumn('delete_DAR_Laptop',text='delete', args=[A('pk')], attrs={
-    'a': {'class': 'btn'}
-    },orderable = False)
-
-    update = tables.LinkColumn('update_DAR_Laptop',text='edit', args=[A('pk')], attrs={
-    'a': {'class': 'btn', 'target': '_blank'}
-    }, orderable = False)
-
-    class Meta:
-        model = DAR_Laptop
-        exclude = ("id", )
 
 class Program_CageTable(ColumnShiftTableBootstrap3):
     delete = tables.LinkColumn('delete_Program_Cage',text='delete', args=[A('pk')], attrs={

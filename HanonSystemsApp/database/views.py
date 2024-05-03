@@ -180,39 +180,6 @@ def delete_TestMap(request, pk):
     return HttpResponseRedirect(reverse("TestMap"))
 
 
-
-class DAR_LaptopListView(SingleTableMixin,  CreateView, FilterView):
-
-    model = DAR_Laptop
-    table_class = DAR_LaptopTable
-    template_name = 'html/DAR_laptop.html'
-    paginate_by = 20
-    filterset_class = DAR_LaptopFilter
-    form_class = DAR_LaptopForm
-    success_url = '/database/DAR_Laptop'
-
-    def form_invalid(self, form):
-        messages.error(self.request, 'sorry error')
-        return HttpResponseRedirect(reverse("DAR_Laptop"))
-
-class UpdateTableViewDAR_Laptop(SingleTableMixin,  UpdateView):
-    
-    model = DAR_Laptop
-    table_class = DAR_LaptopTable
-    form_class = DAR_LaptopForm
-    template_name = 'html/update.html'
-    success_url = '/database/DAR_Laptop'
-
-
-
-def delete_DAR_Laptop(request, pk):
-
-    DAR_Laptop.objects.filter(id=pk).delete()
-
-    return HttpResponseRedirect(reverse("DAR_Laptop"))
-
-
-
 class Test_ChamberListView(SingleTableMixin,  CreateView, FilterView):
 
     model = Test_Chamber

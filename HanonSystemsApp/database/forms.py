@@ -49,11 +49,6 @@ class Test_ChamberForm(ModelForm):
         model = Test_Chamber
         exclude = ('created', )
 
-class DAR_LaptopForm(ModelForm):
-    class Meta:
-        model = DAR_Laptop
-        exclude = ('created', )
-
 
 
 class Program_CageForm(ModelForm):

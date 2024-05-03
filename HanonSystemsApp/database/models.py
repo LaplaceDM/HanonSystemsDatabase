@@ -253,7 +253,7 @@ class Laptop(models.Model):
     ram_slot1= models.SmallIntegerField(null=True, blank = True)
     ram_slot2 =models.SmallIntegerField(null=True, blank = True)
     total_ram = models.SmallIntegerField(null=True, blank = True)
-    ram_limit = models.SmallIntegerField(null=True, blank = True)
+    processor_type = models.SmallIntegerField(null=True, blank = True, verbose_name="Processor Type (32 or 64)")
     ram_type = models.CharField(max_length= 20, null=True, blank = True)
     ram_upgrade_date = models.DateField(null=True, blank = True)
     mfg_year = models.SmallIntegerField(null=True, blank = True)
@@ -261,20 +261,17 @@ class Laptop(models.Model):
     model_number = models.CharField(max_length = 30, null=True, blank = True)
     serial_number = models.CharField(max_length =30, null=True, blank = True)
     operating_system = models.CharField(max_length = 20, null =True, blank = True)
-    keyboard_cover = models.CharField(max_length = 10, verbose_name = "Keyboard Cover",  null = True, blank = True)
+    keyboard_cover = models.CharField(max_length = 3, verbose_name = "Keyboard Cover",  null = True, blank = True)
+    teamviewer_id = models.CharField(max_length = 20,  null = True, blank = True)
+    status = models.CharField(max_length = 25,  null = True, blank = True)
     comments = models.CharField(max_length= 300, null =True, blank = True)
+    dar = models.ForeignKey("DAR", on_delete = models.SET_NULL, null =True, blank = True, verbose_name="DAR")
 
 class Test_Chamber (models.Model):
     id = models.SmallAutoField(primary_key=True)
     test_type_id = models.ForeignKey("TestType", on_delete = models.CASCADE, null =True, blank = True, db_column = "test_type_id", verbose_name = "Test")
     
     chamber_id = models.ForeignKey("Chamber", on_delete = models.CASCADE, null =True, blank = True, db_column = "chamber_id", verbose_name = "Chamber")
-
-class DAR_Laptop(models.Model):
-    id = models.SmallAutoField(primary_key=True)
-
-    dar_id = models.ForeignKey("DAR", on_delete = models.CASCADE, null =True, blank = True, db_column = "dar_id", verbose_name = "DAR")
-    laptop_id = models.ForeignKey("Laptop", on_delete = models.CASCADE, null =True, blank = True, db_column = "laptop_id", verbose_name = "Laptop")
 
 class DARChannel(models.Model):
     channel_id = models.AutoField(primary_key=True)

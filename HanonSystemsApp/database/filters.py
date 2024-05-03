@@ -52,12 +52,6 @@ class Test_ChamberFilter(django_filters.FilterSet):
         model = Test_Chamber
         exclude = ['delete' ,]
 
-
-class DAR_LaptopFilter(django_filters.FilterSet):
-    class Meta:
-        model = DAR_Laptop
-        exclude = ['delete' ,]
-
 class Program_CageFilter(django_filters.FilterSet):
     class Meta:
         model = Program_Cage

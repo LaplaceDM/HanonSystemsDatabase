@@ -49,10 +49,6 @@ urlpatterns = [
     path('Test_Chamber/delete_Test_Chamber/<int:pk>', views.delete_Test_Chamber, name="delete_Test_Chamber"),
     path('Test_Chamber/update_Test_Chamber/<int:pk>', views.UpdateTableViewTest_Chamber.as_view(), name="update_Test_Chamber"),
 
-    path("DAR_Laptop", views.DAR_LaptopListView.as_view(), name="DAR_Laptop"),
-    path('DAR_Laptop/delete_DAR_Laptop/<int:pk>', views.delete_DAR_Laptop, name="delete_DAR_Laptop"),
-    path('DAR_Laptop/update_DAR_Laptop/<int:pk>', views.UpdateTableViewDAR_Laptop.as_view(), name="update_DAR_Laptop"),
-
     path("Program_Cage", views.Program_CageListView.as_view(), name="Program_Cage"),
     path('Program_Cage/delete_Program_Cage/<int:pk>', views.delete_Program_Cage, name="delete_Program_Cage"),
     path('Program_Cage/update_Program_Cage/<int:pk>', views.UpdateTableViewProgram_Cage.as_view(), name="update_Program_Cage"),
