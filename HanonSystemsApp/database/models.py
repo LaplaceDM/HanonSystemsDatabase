@@ -151,7 +151,7 @@ class Test(models.Model):
     total_hours = models.SmallIntegerField(null = True, blank = True)
 
     def __str__(self):
-        return f"{self.test_map_id.tr} - {self.test_type_id}"
+        return f"{self.test_map_id.tr} - {self.test_type_id}: {self.test_description}"
 
 class ChamberLog(models.Model):
     id = models.BigAutoField(primary_key=True)
@@ -167,6 +167,7 @@ class ChamberLog(models.Model):
     cage_id = models.ForeignKey("Cage", on_delete = models.CASCADE, db_column = "cage_id", null = True, blank = True, verbose_name = "Cage")
     
     log_id = models.ForeignKey("ChamberLogInfo", on_delete = models.CASCADE, db_column = "log_id", verbose_name = "Log")
+    
     
 
 class ChamberLogInfo(models.Model):
@@ -193,9 +194,8 @@ class ChamberLogInfo(models.Model):
     comments = models.CharField(max_length = 4000, null = True, blank = True)
 
     test_id = models.ForeignKey("Test", on_delete = models.CASCADE, db_column = "test_id", verbose_name = "Test")
-
     def __str__(self):
-        return self.test_id
+        return f"{self.test_id}"
 
 class Cage (models.Model):
     cage_id = models.SmallAutoField(primary_key=True)

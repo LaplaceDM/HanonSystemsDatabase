@@ -43,7 +43,6 @@ class LaptopListView(SingleTableMixin,  CreateView, FilterView):
 class UpdateTableViewLaptop(SingleTableMixin,  UpdateView):
     
     model = Laptop
-    table_class = LaptopTable
     form_class = LaptopForm
     template_name = 'html/update.html'
     success_url = '/database/Laptop'
@@ -74,7 +73,6 @@ class Test_HarnessListView(SingleTableMixin,  CreateView, FilterView):
 class UpdateTableViewTest_Harness(SingleTableMixin,  UpdateView):
     
     model = Test_Harness
-    table_class = Test_HarnessTable
     form_class = Test_HarnessForm
     template_name = 'html/update.html'
     success_url = '/database/Test_Harness'
@@ -104,7 +102,6 @@ class Test_DUTListView(SingleTableMixin,  CreateView, FilterView):
 class UpdateTableViewTest_DUT(SingleTableMixin,  UpdateView):
     
     model = Test_DUT
-    table_class = Test_DUTTable
     form_class = Test_DUTForm
     template_name = 'html/update.html'
     success_url = '/database/Test_DUT'
@@ -135,7 +132,6 @@ class Technician_SkillListView(SingleTableMixin,  CreateView, FilterView):
 class UpdateTableViewTechnician_Skill(SingleTableMixin,  UpdateView):
     
     model = Technician_Skill
-    table_class = Technician_SkillTable
     form_class = Technician_SkillForm
     template_name = 'html/update.html'
     success_url = '/database/Technician_Skill'
@@ -166,7 +162,6 @@ class TestMapListView(SingleTableMixin,  CreateView, FilterView):
 class UpdateTableViewTestMap(SingleTableMixin,  UpdateView):
     
     model = TestMap
-    table_class = TestMapTable
     form_class = TestMapForm
     template_name = 'html/update.html'
     success_url = '/database/TestMap'
@@ -197,7 +192,6 @@ class Test_ChamberListView(SingleTableMixin,  CreateView, FilterView):
 class UpdateTableViewTest_Chamber(SingleTableMixin,  UpdateView):
     
     model = Test_Chamber
-    table_class = Test_ChamberTable
     form_class = Test_ChamberForm
     template_name = 'html/update.html'
     success_url = '/database/Test_Chamber'
@@ -229,7 +223,6 @@ class Program_CageListView(SingleTableMixin,  CreateView, FilterView):
 class UpdateTableViewProgram_Cage(SingleTableMixin,  UpdateView):
     
     model = Program_Cage
-    table_class = Program_CageTable
     form_class = Program_CageForm
     template_name = 'html/update.html'
     success_url = '/database/Program_Cage'
@@ -261,7 +254,6 @@ class Program_DARListView(SingleTableMixin,  CreateView, FilterView):
 class UpdateTableViewProgram_DAR(SingleTableMixin,  UpdateView):
     
     model = Program_DAR
-    table_class = Program_DARTable
     form_class = Program_DARForm
     template_name = 'html/update.html'
     success_url = '/database/Program_DAR'
@@ -292,7 +284,6 @@ class Program_FluidListView(SingleTableMixin,  CreateView, FilterView):
 class UpdateTableViewProgram_Fluid(SingleTableMixin,  UpdateView):
     
     model = Program_Fluid
-    table_class = Program_FluidTable
     form_class = Program_FluidForm
     template_name = 'html/update.html'
     success_url = '/database/Program_Fluid'
@@ -326,7 +317,6 @@ class DARChannelListView(SingleTableMixin,  CreateView, FilterView):
 class UpdateTableViewDARChannel(SingleTableMixin,  UpdateView):
     
     model = DARChannel
-    table_class = DARChannelTable
     form_class = DARChannelForm
     template_name = 'html/update.html'
     success_url = '/database/DARChannel'
@@ -358,7 +348,6 @@ class FluidListView(SingleTableMixin,  CreateView, FilterView):
 class UpdateTableViewFluid(SingleTableMixin,  UpdateView):
     
     model = Fluid
-    table_class = FluidTable
     form_class = FluidForm
     template_name = 'html/update.html'
     success_url = '/database/Fluid'
@@ -421,7 +410,6 @@ class TestTypeListView(SingleTableMixin,  CreateView, FilterView):
 class UpdateTableViewTestType(SingleTableMixin,  UpdateView):
     
     model = TestType
-    table_class = TestTypeTable
     form_class = TestTypeForm
     template_name = 'html/update.html'
     success_url = '/database/TestType'
@@ -452,7 +440,6 @@ class LabListView(SingleTableMixin,  CreateView, FilterView):
 class UpdateTableViewLab(SingleTableMixin,  UpdateView):
     
     model = Lab
-    table_class = LabTable
     form_class = LabForm
     template_name = 'html/update.html'
     success_url = '/database/Lab'
@@ -483,7 +470,6 @@ class SkillListView(SingleTableMixin,  CreateView, FilterView):
 class UpdateTableViewSkill(SingleTableMixin,  UpdateView):
     
     model = Skill
-    table_class = SkillTable
     form_class = SkillForm
     template_name = 'html/update.html'
     success_url = '/database/Skill'
@@ -513,7 +499,6 @@ class HarnessListView(SingleTableMixin,  CreateView, FilterView):
 class UpdateTableViewHarness(SingleTableMixin,  UpdateView):
     
     model = Harness
-    table_class = HarnessTable
     form_class = HarnessForm
     template_name = 'html/update.html'
     success_url = '/database/Harness'
@@ -560,7 +545,6 @@ class CageListView(SingleTableMixin,  CreateView, FilterView):
 class UpdateTableViewCage(SingleTableMixin,  UpdateView):
     
     model = Cage
-    table_class = CageTable
     form_class = CageForm
     template_name = 'html/update cage.html'
     success_url = '/database/cage'
@@ -592,7 +576,6 @@ class ChamberListView(SingleTableMixin,  CreateView, FilterView):
 class UpdateTableViewChamber(SingleTableMixin,  UpdateView):
     
     model = Chamber
-    table_class = ChamberTable
     form_class = ChamberForm
     template_name = 'html/update Chamber.html'
     success_url = '/database/Chamber'
@@ -642,7 +625,6 @@ class DarListView(SingleTableMixin,  CreateView, FilterView):
 class UpdateTableViewDar(SingleTableMixin,  UpdateView):
     
     model = DAR
-    table_class = DarTable
     form_class = DarForm
     template_name = 'html/update Dar.html'
     success_url = '/database/Dar'
@@ -676,7 +658,6 @@ class UpdateTableViewProduct(SingleTableMixin,  UpdateView):
     
     model = Product
     template_name = 'html/update_prod.html'
-    table_class = ProductTable
     form_class = ProductForm
     success_url = '/database/product'
 
@@ -702,7 +683,6 @@ class UpdateTableViewTest(SingleTableMixin,  UpdateView, FilterView):
     
     
     model = Test
-    table_class = TestTable
     template_name = 'html/update_test.html'
     form_class = TestUpdateForm
     # template_name_suffix = 'html/index.html'
@@ -741,7 +721,8 @@ def clone_item(request, pk):
                                 system_restriction_target=None,
                                 system_restriction_record=None,
                                 trial_run_record_and_process=None,
-                                special_requirements=None)
+                                special_requirements=None,
+                                comments = obj.supervisor_comments)
 
     ch.save()
 
@@ -971,10 +952,7 @@ class ChamberLogInfoListView(SingleTableMixin, CreateView, FilterView):
     
 
 class UpdateTableViewChamberLogInfo(SingleTableMixin,  UpdateView):
-    
-    
     model = ChamberLogInfo
-    table_class = ChamberLogInfoTable
     template_name = 'html/update_ChamberLogInfo.html'
     form_class = ChamberLogInfoForm
     # template_name_suffix = 'html/index.html'
@@ -1018,6 +996,7 @@ class ChamberLogView(SingleTableMixin, CreateView, FilterView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['ChamberLogInfo'] = ChamberLogInfo.objects.filter(pk = self.kwargs.get('pk'))
+        context['Comments'] = ChamberLogInfo.objects.filter(pk = self.kwargs.get('pk'))[0].comments.replace("\n", "<br>")
         return context
     
     def get_success_url(self):
@@ -1096,6 +1075,10 @@ def hours_calculations(request):
     return render(request, "html/hours_calculations.html")
 
 def calculate(request):
+    a = open("database/static/database/programhours.csv", "w")
+    a.write("")
+    a.write("Chamber,Program,Running,Setup,Waiting for product,Stopped,Total Operable Hours,Billing Category\n")
+    a.close()
     dates = str(request.body)
     first = dates.find("'")
     last = dates.find("'", first +1)
@@ -1147,7 +1130,7 @@ def calculate(request):
                             try:
                                 last_log = ChamberLog.objects.filter(log_id__test_id= log.log_id.test_id).filter(chamber_id= log.chamber_id).filter(circuit_number = log.circuit_number).filter(timestamp__lt = log.timestamp).latest("timestamp")
                             except:
-                                first_log = True               #case 2:no previous log in circuit, but there is a previous log from another circuit
+                                first_log = True               #case 2:no previous log in current circuit, but there is a previous log from another circuit
                                 switch_date = str(previous_log.timestamp.day) + "/" + str(previous_log.timestamp.month) + "/" + str(previous_log.timestamp.year)
                                 try:                #checking used hours on the day of the previous log
                                     used = used_hours[switch_date]
@@ -1353,11 +1336,7 @@ def calculate(request):
                             break
     #print(program_hours)              
     #write csv file for program hours:
-    a = open("database/static/database/programhours.csv", "w")
-    a.write("")
-    a.close()
     a = open("database/static/database/programhours.csv", "a")
-    a.write("Chamber,Program,Running,Setup,Waiting for product,Stopped,Total Operable Hours,Billing Category\n")
     for i in program_hours:
         for x in program_hours[i]:
             a.write(f'{i},')
@@ -1567,7 +1546,6 @@ class DAR_ChannelListView(SingleTableMixin,  CreateView, FilterView):
 class UpdateTableView_DAR_Channel(SingleTableMixin,  UpdateView):
     
     model = DARChannel
-    table_class = DAR_ChannelTable
     form_class = DAR_ChannelForm
     template_name = 'html/update.html'
     success_url = '/database/dar_channel'

@@ -18,6 +18,7 @@
                 position: fixed;
                 width: 100%;
                 top: 0;
+                z-index: 1;
             }
             .dropdown{
                 display: inline-block;
@@ -166,7 +167,13 @@
                 };
             }
             
-            
+            //making table headers visible on scroll
+            let headings = document.getElementsByTagName("table")[0].rows[0].getElementsByTagName("th");
+            for (let i =0; i<headings.length;i++){
+                headings[i].style.position = "sticky";
+                headings[i].style.top = "30px";
+                headings[i].style.backgroundColor = "white";
+            }
 
 
         </script>

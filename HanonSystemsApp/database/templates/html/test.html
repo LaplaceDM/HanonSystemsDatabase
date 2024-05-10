@@ -13,12 +13,14 @@
         <title>Tests </title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet"  href="{% static 'database/test.css' %}">
+        
         <style>
             .menu{
                 display: block;
                 position: fixed;
                 width: 100%;
                 top: 0;
+                z-index: 1;
             }
             .dropdown{
                 display: inline-block;
@@ -29,6 +31,8 @@
                 display: inline-block;
                 width: 10%;
                 vertical-align: top;
+                background-color: white;
+                height: 30px;
             }
             .dropdown-label{
                 background-color: gray;
@@ -52,8 +56,44 @@
                 background-color: #ddd;
             }
 
-            .dropdown:hover .dropdown-content {display: block;}
+            .dropdown:hover .dropdown-content {display: block;z-index: 1;}
             .menu-space{height: 35px;}
+            #program_dropdown{
+                display: inline-block;
+                position: absolute;
+                vertical-align: top;
+                background-color: white;
+
+            }
+            #program_dropdown button{
+                display: block;
+                font-family: sans-serif;
+                width: 100%;
+                color: black;
+                text-align: left;
+            }
+            #program_dropdown button:hover{
+                background-color: #ddd;
+            }
+
+
+            #program_dropdown_filter{
+                display: inline-block;
+                position: absolute;
+                vertical-align: top;
+                background-color: white;
+
+            }
+            #program_dropdown_filter button{
+                display: block;
+                font-family: sans-serif;
+                width: 100%;
+                color: black;
+                text-align: left;
+            }
+            #program_dropdown_filter button:hover{
+                background-color: #ddd;
+            }
             #product_dropdown{
                 display: inline-block;
                 position: absolute;
@@ -445,7 +485,7 @@
             
             //formating filter and add fields
             var label, input, formated_label, formated_input, length, formated_fields, current_fields, th, td, button, children;
-            length = 20;
+            length = 19;
 
             formated_fields = document.createElement("table");
             formated_fields.id = "filter";
@@ -475,7 +515,7 @@
                 document.getElementsByClassName("form-group")[0].remove();
             }
 
-            length = 19;
+            length = 18;
             formated_fields = document.createElement("table");
             formated_fields.id = "add";
             current_fields = document.getElementsByTagName("form")[1];
@@ -1197,6 +1237,14 @@
                         newDiv.addEventListener("click", select_program_filter)
                     }
                 }
+            }
+            
+            //making table headers visible on scroll
+            let headings = document.getElementsByTagName("table")[5].rows[0].getElementsByTagName("th");
+            for (let i =0; i<headings.length;i++){
+                headings[i].style.position = "sticky";
+                headings[i].style.top = "30px";
+                headings[i].style.backgroundColor = "white";
             }
 
         </script>

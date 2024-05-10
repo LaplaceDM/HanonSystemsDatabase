@@ -135,9 +135,6 @@ class TestFilter(django_filters.FilterSet):
         targeted_end = django_filters.DateFilter(field_name='targeted_end',
                                             widget= forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
                                             lookup_expr='lte', label='Targed End')
-        setup_date = django_filters.DateFilter(field_name='setup_date', 
-                                            widget= forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
-                                            lookup_expr='iexact', label='Start Date')
         created = django_filters.DateFilter(field_name='Created', 
                                             widget= forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
                                             lookup_expr='date',

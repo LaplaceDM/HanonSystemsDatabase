@@ -246,125 +246,13 @@
                     
             </center>
 
-            {% render_table table  "django_tables2/bootstrap.html"%} 
             {%else%}
             <div class="nav-item">
                 <a class="nav-link" href="{% url 'Login' %}">Login</a>
             </div>
         {%endif%}
             <script>
-                //column selector
-                table3 = document.getElementsByTagName("table").item(3);
-                rows3 = table3.rows;
-    
-                function hide(e, l){
-                    let dec = document.getElementById(e);
-                    if (dec.checked){
-                        for (let i = 0; i < rows3.length ; i++){
-                            if (i == 0){
-                                x = rows3[i].getElementsByTagName("th")[l];
-                                x.hidden = true;
-                                continue;
-                            }
-                            x = rows3[i].getElementsByTagName("td")[l];
-                            x.hidden = true;
-                        }
-                    }else{
-                        for (let i = 0; i < rows3.length ; i++){
-                            if (i == 0){
-                                x = rows3[i].getElementsByTagName("th")[l];
-                                x.hidden = false;
-                                continue;
-                            }
-                            x = rows3[i].getElementsByTagName("td")[l];
-                            x.hidden = false;
-                        }
-                    }
-                }
-                //end of column selector
-    
-                //adding confirmation for deleting
-                var table, rows
-                table = document.getElementsByTagName("table").item(3);
-                rows = table.rows;
-                
-                for (let i = 1; i < rows.length ; i++){
-                    x = rows[i].getElementsByTagName("td")[20];
-                    y = x.getElementsByClassName("btn")[0];
-                    w = rows[i].getElementsByTagName("td")[22];
-                    z = w.getElementsByClassName("btn")[0];
-    
-                    y.onclick = function clicked(e)
-                    {
-                        if(!confirm('Are you sure?')) {
-                            e.preventDefault();
-                        }
-                    };
-
-                    z.onclick = function clicked(e){
-                    if(!confirm('Are you sure?')) {
-                        e.preventDefault();
-                    }
-                    };
-                }
-                //end of delete confirmation
-    
-                //color coding table rows
-                var table, rows, cells, length;
-                rows = document.getElementsByTagName("table")[3].rows;
-                length = rows.length;
-    
-                function highlight_status(cells){
-                    if (cells[6].innerHTML=="stopped"){
-                        cells[6].style.backgroundColor = "red";
-                    }
-                    else if(cells[6].innerHTML =="setup"){
-                        cells[6].style.backgroundColor = "yellow";
-                    }
-                    else if(cells[6].innerHTML =="running"){
-                        cells[6].style.backgroundColor = "green";
-                    }
-                    else if(cells[6].innerHTML =="data review"){
-                        cells[6].style.backgroundColor = "green";
-                    }
-                    else if(cells[6].innerHTML =="on hold"){
-                        cells[6].style.backgroundColor = "red";
-                    }
-                    else if(cells[6].innerHTML =="no man power"){
-                        cells[6].style.backgroundColor = "purple";
-                    }
-                    else if(cells[6].innerHTML =="on track"){
-                        cells[6].style.backgroundColor = "green";
-                    }
-                }
-    
-                for (var i = 1; i<length; i++){
-                    cells = rows[i].cells;
-                    if (cells[5].innerText=="complete"||cells[5].innerText=="cancelled"){
-                        for (var y=4; y<cells.length; y++){
-                            cells[y].style.backgroundColor = "rgb(211, 211, 211)";
-                        }
-                    }
-                    else{
-                        if (cells[4].innerText=="1"){
-                            for (var y=4; y<cells.length; y++){
-                                cells[y].style.backgroundColor = "rgb(255, 165, 0)";
-                            }
-                        }
-                        else if(cells[4].innerText=="2"){
-                            for (var y=4; y<cells.length; y++){
-                                cells[y].style.backgroundColor = "rgb(255, 255, 0)";
-                            }
-                        }
-                        else if(cells[4].innerText=="3"){
-                            for (var y=4; y<cells.length; y++){
-                                cells[y].style.backgroundColor = "rgb(255, 240, 230)";
-                            }
-                        }
-                        highlight_status(cells);
-                    }
-                }
-                //end of table color coding
+            
     
                 //checking booking time conflicts
                 var conflict;
@@ -455,7 +343,7 @@
                 //formating filter and update fields
                 var label, input, formated_label, formated_input, length, formated_fields, current_fields, th, td, button, children;
     
-                length = 20;
+                length = 19;
 
             formated_fields = document.createElement("table");
             formated_fields.id = "filter";
@@ -485,7 +373,7 @@
                 document.getElementsByClassName("form-group")[0].remove();
             }
 
-                length = 19;
+                length = 18;
                 formated_fields = document.createElement("table");
                 formated_fields.id = "add";
                 current_fields = document.getElementsByTagName("form")[1];

@@ -128,8 +128,6 @@ class TestUpdateForm(ModelForm):
         widget = forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}))
     targeted_end = forms.DateField(
         widget = forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}))
-    setup_date = forms.DateField(
-        widget = forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}))   
     supervisor_comments = forms.CharField(widget=forms.Textarea(attrs={"rows":"3"}))          
     class Meta:
         model = Test
@@ -140,29 +138,30 @@ class TestUpdateForm(ModelForm):
         if commit:
             instance.save()
             # self.save_m2m()
-        ch = ChamberLogInfo.objects.get(test_id = instance.pk)
-        print(datetime.now())
-        o = ''
-        if ch.comments in instance.supervisor_comments and ch.comments != instance.supervisor_comments:
-            o = instance.supervisor_comments.replace(ch.comments, '')
-            n = "\n"+str(datetime.now()) +" " + o
-            new = ch.comments + n
-            ch.comments = new
-            instance.supervisor_comments = new
+        test = Test.objects.get(pk = instance.pk)
+
+        if test.supervisor_comments in instance.supervisor_comments and test.supervisor_comments != instance.supervisor_comments:
+            input = instance.supervisor_comments.replace("\n" + test.supervisor_comments, '')
+            new_line = str(datetime.now().date()) +" " + input + "\n"
+            new_comment = new_line +test.supervisor_comments
+            instance.supervisor_comments = new_comment
             instance.save()
-            print(o)
+        elif test.supervisor_comments == instance.supervisor_comments:
+            instance.save()
+        else:
+            position = instance.supervisor_comments.find("\n")
+            new_line = str(datetime.now().date()) +" "+ instance.supervisor_comments[:position+1]
+            new_comment = new_line + instance.supervisor_comments[position+1:]
+            instance.supervisor_comments = new_comment
+            instance.save()
+
+        info = ChamberLogInfo.objects.get(test_id = instance.pk)
+        info.comments = instance.supervisor_comments
+        info.chamber_id = instance.chamber_id
+        info.technician_id = instance.technician_id
+        info.program_id= instance.program_id
         
-        
-
-
-        ch.chamber_id = instance.chamber_id
-        ch.technician_id = instance.technician_id
-        ch.program_id= instance.program_id
-        ch.comments = instance.supervisor_comments
-
-
-        ch.save()
-        
+        info.save()
             
             
         return instance
@@ -171,8 +170,6 @@ class TestForm(ModelForm):
     targeted_start = forms.DateField(
         widget = forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}))
     targeted_end = forms.DateField(
-        widget = forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}))
-    setup_date = forms.DateField(
         widget = forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}))
     supervisor_comments = forms.CharField(widget=forms.Textarea(attrs={"rows":"3"}))        
     class Meta:
@@ -183,8 +180,7 @@ class TestForm(ModelForm):
         if commit:
             instance.save()
             # self.save_m2m()
-        print(str(instance.created) + instance.supervisor_comments)
-        c = str(datetime.now()) + " "+ instance.supervisor_comments
+        c = str(datetime.now().date()) + " "+ instance.supervisor_comments
         
         ch = ChamberLogInfo( chamber_id = instance.chamber_id, program_id = instance.program_id, technician_id = instance.technician_id, test_id = Test.objects.get(pk = instance.pk),
                                 pretest_inspection_and_photo=None,
@@ -225,23 +221,31 @@ class ChamberLogInfoForm(ModelForm):
         if commit:
             instance.save()
             # self.save_m2m()
-        print(instance.pk)
-        ch = Test.objects.get(pk = instance.test_id.pk)
+        info = ChamberLogInfo.objects.get(pk = instance.pk)
 
-        o = instance.comments.replace(ch.supervisor_comments, '')
-        n = "\n"+str(datetime.now()) +" " + o
-        new = ch.supervisor_comments + n
-        ch.supervisor_comments = new
-        instance.comments = new
-        instance.save()
+        if info.comments in instance.comments and info.comments != instance.comments:
+            input = instance.comments.replace("\n" + info.comments, '')
+            new_line = str(datetime.now().date()) +" " + input + "\n"
+            new_comment = new_line +info.comments
+            instance.comments = new_comment
+            instance.save()
+        elif info.comments == instance.comments:
+            instance.save()
+        else:
+            position = instance.comments.find("\n")
+            new_line = str(datetime.now().date()) +" "+ instance.comments[:position+1]
+            new_comment = new_line + instance.comments[position+1:]
+            instance.comments = new_comment
+            instance.save()
+
+        test = Test.objects.get(pk = instance.test_id.pk)
+        test.supervisor_comments = instance.comments
+        test.chamber_id = instance.chamber_id
+        test.technician_id = instance.technician_id
+        test.program_id= instance.program_id
 
 
-        ch.chamber_id = instance.chamber_id
-        ch.technician_id = instance.technician_id
-        ch.program_id= instance.program_id
-
-
-        ch.save()
+        test.save()
         return instance
 
 
@@ -251,7 +255,7 @@ class ChamberLogForm(ModelForm):
         widget = forms.DateTimeInput(attrs={'class': 'form-control', 'type': 'datetime-local'}))
     class Meta:
         model = ChamberLog
-        exclude = ('', )
+        exclude = ('created', )
     def save(self, commit=True, *args, **kwargs):
         instance = super(ChamberLogForm, self).save(commit=False)
         

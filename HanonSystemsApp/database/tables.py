@@ -84,7 +84,7 @@ class Test_ChamberTable(ColumnShiftTableBootstrap3):
 
     class Meta:
         model = Test_Chamber
-        exclude = ("Test_Chamber_id", )
+        exclude = ("id", )
 
 
 class Program_CageTable(ColumnShiftTableBootstrap3):
@@ -364,9 +364,16 @@ class ChamberLogTable(ColumnShiftTableBootstrap3):
 
     class Meta:
         model = ChamberLog
+        exclude = ("log_id", )
 
 class TestMapTable(ColumnShiftTableBootstrap3):
+    delete = tables.LinkColumn('delete_TestMap',text= 'delete', args=[A('pk')], attrs={
+    'a': {'class': 'btn'}
+    }, orderable = False)
 
+    update = tables.LinkColumn('update_TestMap',text='edit', args=[A('pk')], attrs={
+    'a': {'class': 'btn', 'target': '_blank'}
+    }, orderable = False)
     class Meta:
         model = TestMap
         exclude = ("program_id", )
