@@ -357,11 +357,6 @@ class ChamberLogTable(ColumnShiftTableBootstrap3):
     'a': {'class': 'btn'}
     }, orderable = False)
 
-
-    clone = tables.LinkColumn('clone4',text='clone', args=[A('pk')], attrs={
-    'a': {'class': 'btn'}
-    }, orderable = False)
-
     class Meta:
         model = ChamberLog
         exclude = ("log_id", )

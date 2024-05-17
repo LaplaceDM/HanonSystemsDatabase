@@ -25,11 +25,19 @@ class LaptopForm(ModelForm):
         exclude = ('created', )
 
 class Test_HarnessForm(ModelForm):
+    date_inserted = forms.DateField(
+        widget = forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}))
+    date_removed = forms.DateField(
+        widget = forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}), required=False)
     class Meta:
         model = Test_Harness
         exclude = ('created', )
 
 class Test_DUTForm(ModelForm):
+    date_inserted = forms.DateField(
+        widget = forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}))
+    date_removed = forms.DateField(
+        widget = forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}), required=False)
     class Meta:
         model = Test_DUT
         exclude = ('created', )
@@ -135,9 +143,9 @@ class TestUpdateForm(ModelForm):
     def save(self, commit=True):
         
         instance = super(TestUpdateForm, self).save(commit=False) 
-        if commit:
-            instance.save()
-            # self.save_m2m()
+        #if commit:
+            #instance.save()
+            #self.save_m2m()
         test = Test.objects.get(pk = instance.pk)
 
         if test.supervisor_comments in instance.supervisor_comments and test.supervisor_comments != instance.supervisor_comments:
@@ -171,39 +179,34 @@ class TestForm(ModelForm):
         widget = forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}))
     targeted_end = forms.DateField(
         widget = forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}))
-    supervisor_comments = forms.CharField(widget=forms.Textarea(attrs={"rows":"3"}))        
+    supervisor_comments = forms.CharField(widget=forms.Textarea(attrs={"rows":"3"}), required=False)        
     class Meta:
         model = Test
         exclude = ('created', )
     def save(self, commit=True):
         instance = super(TestForm, self).save(commit=False)
-        if commit:
-            instance.save()
+        #if commit:
+            #instance.save()
             # self.save_m2m()
-        c = str(datetime.now().date()) + " "+ instance.supervisor_comments
-        
-        ch = ChamberLogInfo( chamber_id = instance.chamber_id, program_id = instance.program_id, technician_id = instance.technician_id, test_id = Test.objects.get(pk = instance.pk),
+        print(instance.supervisor_comments)
+        print(type(instance.supervisor_comments))
+        if instance.supervisor_comments:
+            c = str(datetime.now().date()) + " "+ instance.supervisor_comments
+            instance.supervisor_comments = c
+            instance.save()
+        else:
+            instance.save()
+        ch = ChamberLogInfo( chamber_id = instance.chamber_id, program_id = instance.program_id, technician_id = instance.technician_id, test_id = Test.objects.get(pk= instance.pk),
                                 pretest_inspection_and_photo=None,
                                 setup_photo=None,
                                 humidity=None,
                                 system_pressure=None,
                                 voltage=None,
-                                comments= c,
+                                comments= instance.supervisor_comments,
                                 system_restriction_target=None,
                                 system_restriction_record=None,
                                 trial_run_record_and_process=None,
                                 special_requirements=None)
-        instance.supervisor_comments = c
-        instance.save()
-        #print(instance.created)
-        #print(ch.created)
-        #print(ch.chamber_id)
-        #print(ch.program_id)
-        #print(ch.test_id)
-        #print(ch.technician_id)
-        #print(ch.voltage)
-        #print(ch.pk)
-        #print(ch.special_requirements)
 
         ch.save() 
         
@@ -218,8 +221,8 @@ class ChamberLogInfoForm(ModelForm):
         exclude = ('created', )
     def save(self, commit=True):
         instance = super(ChamberLogInfoForm, self).save(commit=False)
-        if commit:
-            instance.save()
+        #if commit:
+            #instance.save()
             # self.save_m2m()
         info = ChamberLogInfo.objects.get(pk = instance.pk)
 
