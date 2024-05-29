@@ -149,6 +149,10 @@ urlpatterns = [
     path("dar_channel", views.DAR_ChannelListView.as_view(), name="DAR_Channel"),
     path("dar_channel/delete_dar_channel/<int:pk>", views.delete_DAR_Channel, name="delete_DAR_Channel"),
     path("dar_channel/update_dar_channel/<int:pk>", views.UpdateTableView_DAR_Channel.as_view(), name="update_DAR_Channel"),
+    
+    path("compileDUTList", views.compileDUTList, name="compile_DUT_List"),
+    path("getDUTList", views.getDUTList, name="get_DUT_List"),
+    
 ]
 
 

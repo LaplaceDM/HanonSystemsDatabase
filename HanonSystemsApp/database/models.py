@@ -82,7 +82,7 @@ class DUT(models.Model):
     product_id = models.ForeignKey("Product", on_delete = models.SET_NULL, null = True, blank = True, db_column = "product_id", verbose_name = "Product name")
     
     def __str__(self):
-        return self.dut_name
+        return self.dut_name + " - " + self.product_id.program_id.program_name
 
 class Test_DUT(models.Model):
     circuit_number = models.SmallIntegerField(null = True, blank = True)
@@ -93,8 +93,10 @@ class Test_DUT(models.Model):
     dut_id = models.ForeignKey("DUT", on_delete = models.CASCADE, db_column = "dut_id", verbose_name = "DUT name")
     
 class Subcomponent(models.Model):
-    component_name = models.CharField(max_length = 100)
-    component_id = models.BigAutoField(primary_key=True, verbose_name = "Subcomponent")
+    subcomponent_name = models.CharField(max_length = 100)
+    subcomponent_id = models.BigAutoField(primary_key=True, verbose_name = "Subcomponent")
+    software = models.CharField(max_length = 100, null=True)
+    hardware = models.CharField(max_length = 100, null=True)
     dut_id = models.ForeignKey("DUT", on_delete = models.CASCADE, null = True, blank = True, db_column = "dut_id", verbose_name = "DUT name")
 
 class Test_Harness(models.Model):

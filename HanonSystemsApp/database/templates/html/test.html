@@ -20,7 +20,7 @@
                 position: fixed;
                 width: 100%;
                 top: 0;
-                z-index: 1;
+                z-index: 10;
             }
             .dropdown{
                 display: inline-block;
@@ -171,6 +171,11 @@
                 border-color: black;
                 border-width: 2px;
             }
+
+            .search {
+                position: relative;
+                z-index: 5;
+            }
         
         </style>
     </head>
@@ -233,13 +238,13 @@
             <div>
                 <label for="search_product_filter">Search for Product:</label>
                 <input type ="text" id="search_product_filter" onkeyup="search_product_filter()">
-                <div id = "product_dropdown_filter">
+                <div id = "product_dropdown_filter" class = 'search'>
                 </div>
             </div>
             <div>
                 <label for="search_program_filter">Search for Program:</label>
                 <input type ="text" id="search_program_filter" onkeyup="search_program_filter()">
-                <div id = "program_dropdown_filter">
+                <div id = "program_dropdown_filter" class = 'search'>
                 </div>
             </div>
         </div>
@@ -262,13 +267,13 @@
                 <div>
                     <label for="search_product">Search for Product:</label>
                     <input type ="text" id="search_product" onkeyup="search_product()">
-                    <div id = "product_dropdown">
+                    <div id = "product_dropdown" class = 'search'>
                     </div>
                 </div>
                 <div>
                     <label for="search_program">Search for Program:</label>
                     <input type ="text" id="search_program" onkeyup="search_program()">
-                    <div id = "program_dropdown">
+                    <div id = "program_dropdown" class = 'search'>
                     </div>
                 </div>
 

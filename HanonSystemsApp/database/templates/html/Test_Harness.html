@@ -18,7 +18,7 @@
                 position: fixed;
                 width: 100%;
                 top: 0;
-                z-index: 1;
+                z-index: 10;
             }
             .dropdown{
                 display: inline-block;
@@ -133,7 +133,11 @@
                 border-color: black;
                 border-width: 2px;
             }
-        
+            
+            .search {
+                position: relative;
+                z-index: 5;
+            }
         </style>
     </head>
     <body>
@@ -193,13 +197,13 @@
         <div>
             <label for="search_test_filter">Search for Test:</label>
             <input type ="text" id="search_test_filter" onkeyup="search_test_filter()">
-            <div id = "test_dropdown_filter">
+            <div id = "test_dropdown_filter" class = 'search'>
             </div>
         </div>
         <div>
             <label for="search_harness_filter">Search for Harness:</label>
             <input type ="text" id="search_harness_filter" onkeyup="search_harness_filter()">
-            <div id = "harness_dropdown_filter">
+            <div id = "harness_dropdown_filter" class = 'search'>
             </div>
         </div>
         </div>
@@ -217,13 +221,13 @@
             <div>
                 <label for="search_test">Search for Test:</label>
                 <input type ="text" id="search_test" onkeyup="search_test()">
-                <div id = "test_dropdown">
+                <div id = "test_dropdown" class = 'search'>
                 </div>
             </div>
             <div>
                 <label for="search_harness">Search for Harness:</label>
                 <input type ="text" id="search_harness" onkeyup="search_harness()">
-                <div id = "harness_dropdown">
+                <div id = "harness_dropdown" class = 'search'>
                 </div>
             </div>
         </div>

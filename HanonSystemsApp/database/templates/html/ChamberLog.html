@@ -59,6 +59,9 @@
                 border-color: black;
                 border-width: 2px;
             }
+            #info {
+                display: block;
+            }
         </style>
     </head>
     <body>
@@ -109,6 +112,7 @@
             </div>
         </div>    
         {% for record in ChamberLogInfo %}
+        <div id = 'info'>
         <h3>
             <label> Test:</label>
             {{record.test_id}}
@@ -131,7 +135,7 @@
             <label> System Pressure:</label>
             {{record.system_pressure}}
         </h3>
-        <h4>
+        <h4 id = "h4">
             
             
             <label> Voltage:</label>
@@ -158,6 +162,7 @@
             {%endautoescape%}
             <br>
         </h4>
+    </div>
         
         <a href="{% url 'update_ChamberLogInfo' record.pk  %}">EDIT INFO</a>
         {% endfor %}
@@ -213,16 +218,7 @@
         
     </body>
     <script>
-        let x  = window.location.href.replace("http://10.22.137.40:8000/database/ChamberLog/", '')
-        let y  = Number(x)
-        let drop = document.getElementsByName("log_id")[1]
-        let values = drop.getElementsByTagName("option")
-        console.log(x)
-        for (let j = 0; j<values.length;j++){
-            if (y == values[j].value){
-                values[j].selected = true
-            }
-        }
+
 
         let popup = document.getElementById("popup");
             popup.hidden = true;    
@@ -241,5 +237,10 @@
                     }
                     popup.classList.remove("open-popup");
                 }
+                
+        document.getElementsByTagName("label")[34].hidden =true
+        document.getElementById("id_log_id").value = {{ChamberLogInfo.0.id}}
+        document.getElementById("id_log_id").hidden =true
+        document.getElementById("info").style.height = eval(document.getElementById("h4").clientHeight) + "px"
     </script>
 </html>

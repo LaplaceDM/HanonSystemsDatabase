@@ -196,6 +196,10 @@
                         e.preventDefault();
                     }
                 }
+
+                document.getElementById("id_dut_id").hidden= true
+                document.getElementsByTagName("label")[3].hidden  =true
+                document.getElementById("id_dut_id").value= {{DUT.dut_info.0.dut_id}}
         </script>
     </body>
 </html>

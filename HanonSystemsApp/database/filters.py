@@ -159,7 +159,7 @@ class ChamberLogFilter(django_filters.FilterSet):
                                             label='timestamp')
     class Meta:
         model = ChamberLog
-        exclude = ['delete' ,]
+        exclude = ['log_id' ,]
         
 class DUTFilter(django_filters.FilterSet):
     received_date = django_filters.DateFilter(field_name='received_date', 

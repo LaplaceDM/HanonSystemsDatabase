@@ -97,9 +97,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'mssql',
         'NAME': 'hanonsystems_database',
-        "USER": "abc",
-        "PASSWORD": "abc",
-        "HOST": "localhost",
+        "USER": "123",
+        "PASSWORD": "123",
+        "HOST": "CADL3T3C2T3",
         "PORT": "1433",
         "OPTIONS": {"driver": "ODBC Driver 17 for SQL Server", 
         "setencoding": [

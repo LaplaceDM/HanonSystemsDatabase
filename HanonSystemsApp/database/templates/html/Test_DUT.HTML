@@ -18,7 +18,7 @@
                 position: fixed;
                 width: 100%;
                 top: 0;
-                z-index: 1;
+                z-index: 10;
             }
             .dropdown{
                 display: inline-block;
@@ -133,6 +133,12 @@
                 border-color: black;
                 border-width: 2px;
             }
+
+
+            .search {
+                position: relative;
+                z-index: 5;
+            }
         
         </style>
     </head>
@@ -195,13 +201,13 @@
         <div>
             <label for="search_test_filter">Search for Test:</label>
             <input type ="text" id="search_test_filter" onkeyup="search_test_filter()">
-            <div id = "test_dropdown_filter">
+            <div id = "test_dropdown_filter" class = 'search'>
             </div>
         </div>
         <div>
             <label for="search_dut_filter">Search for DUT:</label>
             <input type ="text" id="search_dut_filter" onkeyup="search_dut_filter()">
-            <div id = "dut_dropdown_filter">
+            <div id = "dut_dropdown_filter" class = 'search'>
             </div>
         </div>
         </div>
@@ -219,13 +225,13 @@
             <div>
                 <label for="search_test">Search for Test:</label>
                 <input type ="text" id="search_test" onkeyup="search_test()">
-                <div id = "test_dropdown">
+                <div id = "test_dropdown" class = 'search'>
                 </div>
             </div>
             <div>
                 <label for="search_dut">Search for DUT:</label>
                 <input type ="text" id="search_dut" onkeyup="search_dut()">
-                <div id = "dut_dropdown">
+                <div id = "dut_dropdown" class = 'search'>
                 </div>
             </div>
 
@@ -241,6 +247,7 @@
             </div>
         {%endif%}
         <script>
+            document.getElementsByName("test_id")[1].addEventListener("input", getDUTList)
             function clicked(e)
                 {
                     if(!confirm('Are you sure?')) {
@@ -386,6 +393,53 @@
                 headings[i].style.position = "sticky";
                 headings[i].style.top = "30px";
                 headings[i].style.backgroundColor = "white";
+            }
+
+            function getCookie(name) {
+                var cookieValue = null;
+                    if (document.cookie && document.cookie !== '') {
+                        var cookies = document.cookie.split(';');
+                        for (var i = 0; i < cookies.length; i++) {
+                            var cookie = cookies[i].trim();
+                            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                break;
+                            }
+                        }
+                    }
+                return cookieValue;
+            }
+
+            function getDUTList(){
+                let test_id = document.getElementsByName("test_id")[1].value;
+                let csrftoken = getCookie('csrftoken');
+                
+                fetch("http://127.0.0.1:8000/database/compileDUTList", {method: "POST", body: test_id, headers:{"X-CSRFToken": csrftoken}})
+                .then((response)=>
+                fetch("http://127.0.0.1:8000/database/getDUTList")
+                )
+                .then(result=> result.json())
+                .then(result=>{
+                    let option;
+                    let keys = Object.keys(result);
+                    let list = document.getElementsByName("dut_id")[1];
+                    list.innerHTML=""
+                    option = document.createElement("option")
+                    option.value= ""
+                    option.selected = true
+                    option.innerText = "--------"
+                    list.appendChild(option)
+
+                    for (let i =0; i<keys.length; i++){
+                        option = document.createElement("option")
+                        option.value= keys[i]
+                        option.innerText = result[keys[i]]
+                        list.appendChild(option)
+                    }
+                })
+                .catch(()=>{
+                    console.log("something went wrong")
+                })
             }
         </script>
     </body>

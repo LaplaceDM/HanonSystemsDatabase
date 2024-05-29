@@ -1397,7 +1397,7 @@ def harness_info(request, id):
     accumulated_hours = 0
     
     if test_list.count() == 0:
-        return render(request, "html/harness_history.html", {"test_history": test_history, "harness_info":Harness.objects.filter(pk = id)})
+        return render(request, "html/harness_info.html", {"test_history": test_history, "harness_info":Harness.objects.filter(pk = id)})
     
     for test in test_list:
         if test.date_inserted == None:
@@ -1555,3 +1555,35 @@ class UpdateTableView_DAR_Channel(SingleTableMixin,  UpdateView):
 def delete_DAR_Channel(request, pk):
     DARChannel.objects.filter(channel_id=pk).delete()
     return HttpResponseRedirect(reverse("DAR_Channel"))
+
+def compileDUTList(request):
+    test_id = request.body
+    try:
+        test_id = int(test_id)
+    except:
+        a = open("database/templates/html/dut_list", "w")
+        a.write("")
+        a.close()
+        return HttpResponse("No test selected")
+    else:
+        program_id = Test.objects.filter(test_id=test_id)[0].program_id
+        dut_list = DUT.objects.filter(product_id__program_id = program_id)
+        
+        a = open("database/templates/html/dut_list", "w")
+        a.write("{\n")
+        a.close()
+
+        a = open("database/templates/html/dut_list", "a")
+        for i in range(len(dut_list)):
+            a.write(f'\"{dut_list[i].dut_id}\":\"{dut_list[i]}\"')
+            if i == len(dut_list)-1:
+                a.write("\n")
+            else:
+                a.write(",\n")
+            
+        a.write(f'}}')
+        a.close()
+        return HttpResponse("DUT list compiled")
+
+def getDUTList(request):
+    return render(request, "html/dut_list")
