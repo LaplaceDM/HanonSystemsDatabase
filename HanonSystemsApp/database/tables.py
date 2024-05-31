@@ -237,9 +237,6 @@ class ProgramTable(ColumnShiftTableBootstrap3):
     'a': {'class': 'btn', 'target': '_blank'}
     }, orderable = False)
 
-    clone = tables.LinkColumn('clone2',text='clone', args=[A('pk')], attrs={
-    'a': {'class': 'btn'}
-    }, orderable = False)
     
 
     class Meta:
@@ -300,9 +297,6 @@ class ProductTable(ColumnShiftTableBootstrap3):
     'a': {'class': 'btn', 'target': '_blank'}
     }, orderable = False)
 
-    clone = tables.LinkColumn('clone1',text='clone', args=[A('pk')], attrs={
-    'a': {'class': 'btn'}
-    }, orderable = False)
 
     class Meta:
         model = Product
@@ -402,7 +396,7 @@ class SubcomponentTable(ColumnShiftTableBootstrap3):
 
     class Meta:
         model = Subcomponent
-        exclude = ("component_id","dut_id" )
+        exclude = ("subcomponent_id","dut_id" )
 
 class DAR_ChannelTable(ColumnShiftTableBootstrap3):
     delete = tables.LinkColumn('delete_DAR_Channel',text='delete', args=[A('pk')], attrs={

@@ -1463,7 +1463,6 @@ def delete_item_dut(request, pk):
 
 class DUTInfo(SingleTableMixin, CreateView):
     template_name = 'html/dut_info.html'
-    #model = Subcomponent
     table_class = SubcomponentTable
     form_class = SubcomponentForm
     
