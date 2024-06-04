@@ -42,7 +42,7 @@ class Product(models.Model):
         return self.product_family+ (" - ")  +str(self.program_id.program_name)
 
 class TestMap(models.Model):
-    test_map_name = models.CharField(max_length = 30, null = True, verbose_name = "Test Map name")
+    test_map_name = models.CharField(max_length = 100, null = True, verbose_name = "Test Map name")
     tr = models.CharField(max_length = 14, unique= True, null = True, verbose_name = "TR")
     test_map_id = models.AutoField(primary_key=True)
 

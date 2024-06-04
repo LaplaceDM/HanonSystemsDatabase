@@ -58,18 +58,6 @@ class Technician_SkillTable(ColumnShiftTableBootstrap3):
         exclude = ("id", )
 
 
-class TestMapTable(ColumnShiftTableBootstrap3):
-    delete = tables.LinkColumn('delete_TestMap',text='delete', args=[A('pk')], attrs={
-    'a': {'class': 'btn'}
-    },orderable = False)
-
-    update = tables.LinkColumn('update_TestMap',text='edit', args=[A('pk')], attrs={
-    'a': {'class': 'btn', 'target': '_blank'}
-    }, orderable = False)
-
-    class Meta:
-        model = TestMap
-        exclude = ("test_map_id", )
 
 
 
@@ -365,7 +353,7 @@ class TestMapTable(ColumnShiftTableBootstrap3):
     }, orderable = False)
     class Meta:
         model = TestMap
-        exclude = ("program_id", )
+        exclude = ("test_map_id", )
         
         
 class DUTTable(ColumnShiftTableBootstrap3):
