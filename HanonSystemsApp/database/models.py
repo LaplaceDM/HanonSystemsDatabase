@@ -42,13 +42,13 @@ class Product(models.Model):
         return self.product_family+ (" ")+ self.variant + (" - ")  + self.program_id.program_name
 
 class TestMap(models.Model):
-    test_map_name = models.CharField(max_length = 100, null = True, verbose_name = "Test Map name")
+    test_map_name = models.CharField(max_length = 100, null = True, verbose_name = "Test Map Name")
     tr = models.CharField(max_length = 14, null = True, verbose_name = "TR")
     test_map_id = models.AutoField(primary_key=True)
 
     program_id = models.ForeignKey( "Program", on_delete = models.CASCADE, null = True, db_column="program_id", verbose_name = "Program")
     def __str__(self):
-        return self.test_map_name
+        return self.tr + (" ") + self.test_map_name
 
 class Technician (models.Model):
     technician_name = models.CharField(max_length = 30)

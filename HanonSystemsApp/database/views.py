@@ -803,10 +803,9 @@ def getchildren(request):
 
 
 def darchildren(request):
-    test_map_id = request.body
+    program_id = request.body
     try:
-        test_map_id = int(test_map_id)
-        program_id = TestMap.objects.get(test_map_id = test_map_id).program_id.program_id
+        program_id = int(program_id)
     except:
         a = open("database/templates/html/children", "w")
         a.write("{\n")
@@ -1037,41 +1036,6 @@ def menu(request):
 
 
 
-def short(request):
-    program_id = request.body
-    try:
-        program_id = int(program_id)
-    except:
-        a = open("database/templates/html/short", "w")
-        a.write("{\n")
-        a.close()
-        return HttpResponse()
-    else:
-        prod = Product.objects.filter(program_id = program_id) #.order_by("targeted_start");
-        map = TestMap.objects.filter(program_id = program_id)
-        a = open("database/templates/html/short", "w")
-        a.write("{\n")
-        a.close()
-        a = open("database/templates/html/short", "a")
-        b = 0
-        for i in range(len(prod)):
-            b = b+1
-            a.write(f'\"id{i}\": {{\"product_id\" : \"{prod[i].product_id}\"}}')
-            if i != (len(prod)-1):
-                a.write(",\n")
-        if (len(prod) > 0 and len(map) > 0):
-            a.write(",\n")
-        for i in range(len(map)):
-            a.write(f'\"id{b}\": {{\"test_map_id\" : \"{map[i].test_map_id}\"}}')
-            b = b + 1
-            if i != (len(map)-1):
-                a.write(",\n")
-        a.write("\n}")
-        a.close()
-        return HttpResponse("program shortlist compiled")
-    
-def getshort(request):
-    return render(request, "html/short")
 def hours_calculations(request):
     return render(request, "html/hours_calculations.html")
 
@@ -1587,3 +1551,58 @@ def compileDUTList(request):
 
 def getDUTList(request):
     return render(request, "html/dut_list")
+
+
+def compileTestPageFilterList(request):
+    program_id = request.body
+    try:
+        program_id = int(program_id)
+    except:
+        a = open("database/templates/html/ProductList", "w")
+        a.write("")
+        a.close()
+        a = open("database/templates/html/TestMapList", "w")
+        a.write("")
+        a.close()
+        return HttpResponse("No test selected")
+    else:
+        product_list = Product.objects.filter(program_id = program_id)
+        testmap_list = TestMap.objects.filter(program_id = program_id)
+        
+        a = open("database/templates/html/ProductList", "w")
+        a.write("{\n")
+        a.close()
+        
+        a = open("database/templates/html/TestMapList", "w")
+        a.write("{\n")
+        a.close()
+
+        a = open("database/templates/html/ProductList", "a")
+        for i in range(len(product_list)):
+            a.write(f'\"{product_list[i].product_id}\":\"{product_list[i]}\"')
+            if i == len(product_list)-1:
+                a.write("\n")
+            else:
+                a.write(",\n")
+            
+        a.write(f'}}')
+        a.close()
+        
+        a = open("database/templates/html/TestMapList", "a")
+        for i in range(len(testmap_list)):
+            a.write(f'\"{testmap_list[i].test_map_id}\":\"{testmap_list[i]}\"')
+            if i == len(testmap_list)-1:
+                a.write("\n")
+            else:
+                a.write(",\n")
+            
+        a.write(f'}}')
+        a.close()
+        
+        return HttpResponse("Product and Test Map lists compiled")
+
+def getProductList(request):
+    return render(request, "html/ProductList")
+
+def getTestMapList(request):
+    return render(request, "html/TestMapList")

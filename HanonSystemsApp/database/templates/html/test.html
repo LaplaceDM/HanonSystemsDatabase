@@ -236,9 +236,9 @@
 
             {% load crispy_forms_tags %}
             <div>
-                <label for="search_product_filter">Search for Product:</label>
-                <input type ="text" id="search_product_filter" onkeyup="search_product_filter()">
-                <div id = "product_dropdown_filter" class = 'search'>
+                <label for="search_program_filter">Search for Program:</label>
+                <input type ="text" id="search_program_filter" onkeyup="search_program_filter()">
+                <div id = "program_dropdown_filter" class = 'search'>
                 </div>
             </div>
         </div>
@@ -259,9 +259,9 @@
                     <button type="submit" onclick="submitCheck(event)">Submit</button>
                 </form>
                 <div>
-                    <label for="search_product">Search for Product:</label>
-                    <input type ="text" id="search_product" onkeyup="search_product()">
-                    <div id = "product_dropdown" class = 'search'>
+                    <label for="search_product">Search for Program</label>
+                    <input type ="text" id="search_program" onkeyup="search_program()">
+                    <div id = "program_dropdown" class = 'search'>
                     </div>
                 </div>
 
@@ -273,32 +273,32 @@
             <input type="checkbox" id="checkcreated" onclick="hide('checkcreated', 0)">
             <label for="checkcreated"> Created</label>
 
-            <input type="checkbox" id="checkProduct id" onclick="hide('checkProduct id', 1)">
+            <input type="checkbox" id="checkProduct_id" onclick="hide('checkProduct_id', 1)">
             <label for="checkProduct id"> Product</label>
 
-            <input type="checkbox" id="checkProgram id" onclick="hide('checkProgram id', 2)">
+            <input type="checkbox" id="checkProgram_id" onclick="hide('checkProgram_id', 2)">
             <label for="checkProgram id"> Program</label>
 
-            <input type="checkbox" id="checkTR" onclick="hide('checkProgram id', 3)">
-            <label for="checkTR"> TR</label>
+            <input type="checkbox" id="checkTestMapName" onclick="hide('checkTestMapName', 3)">
+            <label for="checkTestMapName"> Test Map Name</label>
 
-            <input type="checkbox" id="checkLeg" onclick="hide('checkLeg', 4)">
-            <label for="checkLeg"> Leg</label>
-
-            <input type="checkbox" id="checkPriority" onclick="hide('checkPriority', 5)">
+            <input type="checkbox" id="checkPriority" onclick="hide('checkPriority', 4)">
             <label for="checkPriority"> Priority</label>
 
-            <input type="checkbox" id="checkScheduling" onclick="hide('checkScheduling', 6)">
+            <input type="checkbox" id="checkScheduling" onclick="hide('checkScheduling', 5)">
             <label for="checkScheduling"> Scheduling</label>
 
-            <input type="checkbox" id="checkStatus" onclick="hide('checkStatus', 7)">
+            <input type="checkbox" id="checkStatus" onclick="hide('checkStatus', 6)">
             <label for="checkStatus"> Status</label>
 
-            <input type="checkbox" id="checkTestType" onclick="hide('checkTest', 8)">
+            <input type="checkbox" id="checkTestType" onclick="hide('checkTestType', 7)">
             <label for="checkTestType"> Test Type</label>
 
-            <input type="checkbox" id="checkTestDescription" onclick="hide('checkTest', 9)">
+            <input type="checkbox" id="checkTestDescription" onclick="hide('checkTestDescription', 8)">
             <label for="checkTestDescription"> Test Description</label>
+
+            <input type="checkbox" id="checkTR" onclick="hide('checkTR', 9)">
+            <label for="checkTR"> TR</label>
 
             <input type="checkbox" id="checkTechnician" onclick="hide('checkTechnician', 10)">
             <label for="checkTechnician"> Technician</label>
@@ -458,9 +458,9 @@
             rows = table.rows;
             
             for (let i = 1; i < rows.length ; i++){
-                x = rows[i].getElementsByTagName("td")[19];
+                x = rows[i].getElementsByTagName("td")[20];
                 y = x.getElementsByClassName("btn")[0];
-                w = rows[i].getElementsByTagName("td")[21];
+                w = rows[i].getElementsByTagName("td")[22];
                 z = w.getElementsByClassName("btn")[0];
 
                 y.onclick = function clicked(e)
@@ -599,82 +599,10 @@
             }
 
 
-            function shortlist(){
-                
-                var csrftoken = getCookie('csrftoken');
-                var test_map_id = document.getElementsByName("test_map_id")[1].value;
-                fetch("http://10.22.137.40:8000/database/short", {method: "POST", body: test_map_id, headers:{"X-CSRFToken": csrftoken}})
-                .then((response)=>
-                fetch("http://10.22.137.40:8000/database/getshort")
-                )
-                .then(result=> result.json())
-                .then(result=>{
-                    var keys = Object.keys(result)
-                    let prod = document.getElementsByName("product_id")[1]
-                    let values = prod.getElementsByTagName("option")
-                    let prod2 = document.getElementsByName("test_map_id")[1]
-                    let values2 = prod2.getElementsByTagName("option")
-                    let int = 0;
-                    let int2 = 0;
-                    for (let j = 0; j<values.length;j++){
-                        values[j].hidden = true;
-                    }
-                    for (let j = 0; j<values2.length;j++){
-                        values2[j].hidden = true;
-                    }
-                    
-                    for (let i = 0; i<keys.length;i++){
-                        if (eval(`result.${keys[i]}.product_id`) != null){
-                            for (let j = 0; j<values.length;j++){
-                                if (eval(`result.${keys[i]}.product_id`) === values[j].value){
-                                    values[j].hidden = false;
-                                    int++;
-                                }
-                            }
-                        }
-                        if (eval(`result.${keys[i]}.test_map_id`) != null){
-                            for (let j = 0; j<values2.length;j++){
-                                if (eval(`result.${keys[i]}.test_map_id`) === values2[j].value){
-                                    values2[j].hidden = false;
-                                    int2++;
-                                }
-                            }
-                        }
-                    }
-                    
-                    if (int === 0){
-                        for (let j = 0; j<values.length;j++){
-                        values[j].setAttribute("style","background-color: #ffffff");
-                    }
-                    }
-                    if (int2 === 0){
-                        for (let j = 0; j<values2.length;j++){
-                        values2[j].setAttribute("style","background-color: #ffffff");
-                    }
-                    }
-                }
-                )
-                .catch(()=>{
-                    let prod = document.getElementsByName("product_id")[1]
-                    let values = prod.getElementsByTagName("option")
-                    let prod2 = document.getElementsByName("test_map_id")[1]
-                    let values2 = prod2.getElementsByTagName("option")
-                    for (let j = 0; j<values.length;j++){
-                        values[j].setAttribute("style","background-color: #ffffff");
-                    }
-                    for (let j = 0; j<values2.length;j++){
-                        values2[j].setAttribute("style","background-color: #ffffff");
-                    }
-
-                })
-            }
-
-
-
             function highlight2(){
                 var csrftoken = getCookie('csrftoken');
-                var test_map_id = document.getElementsByName("test_map_id")[1].value;
-                fetch("http://10.22.137.40:8000/database/darchildren", {method: "POST", body: test_map_id, headers:{"X-CSRFToken": csrftoken}})
+                var program_id = document.getElementsByName("program_id")[1].value;
+                fetch("http://10.22.137.40:8000/database/darchildren", {method: "POST", body: program_id, headers:{"X-CSRFToken": csrftoken}})
                 .then((response)=>
                 fetch("http://10.22.137.40:8000/database/getdarchildren")
                 )
@@ -738,8 +666,7 @@
                 })
             }
             document.getElementsByName("test_type_id")[1].addEventListener("input", highlight)
-            document.getElementsByName("test_map_id")[1].addEventListener("input", highlight2)
-            //document.getElementsByName("test_map_id")[1].addEventListener("input", shortlist)
+            document.getElementsByName("program_id")[1].addEventListener("input", highlight2)     
 
             
 
@@ -1071,48 +998,48 @@
             length = rows.length;
 
             function highlight_status(cells){
-                if (cells[7].innerHTML=="stopped"){
-                    cells[7].style.backgroundColor = "red";
+                if (cells[6].innerHTML=="stopped"){
+                    cells[6].style.backgroundColor = "red";
                 }
-                else if(cells[7].innerHTML =="setup"){
-                    cells[7].style.backgroundColor = "yellow";
+                else if(cells[6].innerHTML =="setup"){
+                    cells[6].style.backgroundColor = "yellow";
                 }
-                else if(cells[7].innerHTML =="running"){
-                    cells[7].style.backgroundColor = "green";
+                else if(cells[6].innerHTML =="running"){
+                    cells[6].style.backgroundColor = "green";
                 }
-                else if(cells[7].innerHTML =="data review"){
-                    cells[7].style.backgroundColor = "green";
+                else if(cells[6].innerHTML =="data review"){
+                    cells[6].style.backgroundColor = "green";
                 }
-                else if(cells[7].innerHTML =="on hold"){
-                    cells[7].style.backgroundColor = "red";
+                else if(cells[6].innerHTML =="on hold"){
+                    cells[6].style.backgroundColor = "red";
                 }
-                else if(cells[7].innerHTML =="no man power"){
-                    cells[7].style.backgroundColor = "purple";
+                else if(cells[6].innerHTML =="no man power"){
+                    cells[6].style.backgroundColor = "purple";
                 }
-                else if(cells[7].innerHTML =="on track"){
-                    cells[7].style.backgroundColor = "green";
+                else if(cells[6].innerHTML =="on track"){
+                    cells[6].style.backgroundColor = "green";
                 }
             }
 
             for (var i = 1; i<length; i++){
                 cells = rows[i].cells;
-                if (cells[6].innerText=="complete"||cells[6].innerText=="cancelled"){
+                if (cells[5].innerText=="complete"||cells[5].innerText=="cancelled"){
                     for (var y=4; y<cells.length; y++){
                         cells[y].style.backgroundColor = "rgb(211, 211, 211)";
                     }
                 }
                 else{
-                    if (cells[5].innerText=="1"){
+                    if (cells[4].innerText=="1"){
                         for (var y=4; y<cells.length; y++){
                             cells[y].style.backgroundColor = "rgb(255, 165, 0)";
                         }
                     }
-                    else if(cells[5].innerText=="2"){
+                    else if(cells[4].innerText=="2"){
                         for (var y=4; y<cells.length; y++){
                             cells[y].style.backgroundColor = "rgb(255, 255, 0)";
                         }
                     }
-                    else if(cells[5].innerText=="3"){
+                    else if(cells[4].innerText=="3"){
                         for (var y=4; y<cells.length; y++){
                             cells[y].style.backgroundColor = "rgb(255, 240, 230)";
                         }
@@ -1127,20 +1054,20 @@
             document.getElementsByClassName("btn btn-default")[0].style.border = " thin solid";
             document.getElementsByTagName("button")[2].style.border = "thin solid";
 
-            function select_product(event){
-                document.getElementsByName("product_id")[1].value=event.target.value
+            function select_program(event){
+                document.getElementsByName("program_id")[1].value=event.target.value
             }
 
 
-            function search_product(){
-                parent = document.getElementById("product_dropdown")
+            function search_program(){
+                parent = document.getElementById("program_dropdown")
                 parent.innerHTML=""
-                text = document.getElementById("search_product").value.toLowerCase()
+                text = document.getElementById("search_program").value.toLowerCase()
                 
                 if (text==""){
                     return
                 }
-                list = document.getElementsByName("product_id")[1]
+                list = document.getElementsByName("program_id")[1]
                 options = list.getElementsByTagName("option")
                 for (let i =0; i<options.length;i++){
                     if (options[i].innerHTML.toLowerCase().includes(text)){
@@ -1149,41 +1076,38 @@
                         newDiv.value = value
                         newDiv.innerHTML = options[i].innerHTML
                         parent.append(newDiv)
-                        newDiv.addEventListener("click", select_product)
+                        newDiv.addEventListener("click", select_program)
                     }
                 }
             }
 
-
-            function select_product_filter(event){
-                document.getElementsByName("product_id")[0].value=event.target.value
-            }
-
-            function search_product_filter(){
-                parent = document.getElementById("product_dropdown_filter")
-                parent.innerHTML=""
-                text = document.getElementById("search_product_filter").value.toLowerCase()
-                
-                if (text==""){
-                    return
-                }
-                list = document.getElementsByName("product_id")[0]
-                options = list.getElementsByTagName("option")
-                for (let i =0; i<options.length;i++){
-                    if (options[i].innerHTML.toLowerCase().includes(text)){
-                        value = options[i].value
-                        newDiv = document.createElement("button")
-                        newDiv.value = value
-                        newDiv.innerHTML = options[i].innerHTML
-                        parent.append(newDiv)
-                        newDiv.addEventListener("click", select_product_filter)
-                    }
-                }
-            }
 
             function select_program_filter(event){
                 document.getElementsByName("program_id")[0].value=event.target.value
             }
+
+            function search_program_filter(){
+                parent = document.getElementById("program_dropdown_filter")
+                parent.innerHTML=""
+                text = document.getElementById("search_program_filter").value.toLowerCase()
+                
+                if (text==""){
+                    return
+                }
+                list = document.getElementsByName("program_id")[0]
+                options = list.getElementsByTagName("option")
+                for (let i =0; i<options.length;i++){
+                    if (options[i].innerHTML.toLowerCase().includes(text)){
+                        value = options[i].value
+                        newDiv = document.createElement("button")
+                        newDiv.value = value
+                        newDiv.innerHTML = options[i].innerHTML
+                        parent.append(newDiv)
+                        newDiv.addEventListener("click", select_program_filter)
+                    }
+                }
+            }
+
 
             
             //making table headers visible on scroll
@@ -1201,11 +1125,62 @@
             add_product.innerHTML = '';
             add_testmap.innerHTML = '';
 
-            function filter_product_and_testmap(){
+            function filter_products_and_testmaps(){
+                let program_id = document.getElementsByName("program_id")[1].value;
+                let csrftoken = getCookie('csrftoken');
                 
+                fetch("http://127.0.0.1:8000/database/testPageFilter", {method: "POST", body: program_id, headers:{"X-CSRFToken": csrftoken}})
+                .then((response)=>
+                fetch("http://127.0.0.1:8000/database/ProductList")
+                )
+                .then(result=> result.json())
+                .then(result=>{
+                    let option;
+                    let keys = Object.keys(result);
+                    let list = document.getElementsByName("product_id")[1];
+                    list.innerHTML = '';
+                    option = document.createElement("option")
+                    option.value= ""
+                    option.selected = true
+                    option.innerText = "--------"
+                    list.appendChild(option)
+
+                    for (let i =0; i<keys.length; i++){
+                        option = document.createElement("option")
+                        option.value= keys[i]
+                        option.innerText = result[keys[i]]
+                        list.appendChild(option)
+                    }
+                })
+                .then(()=>
+                fetch("http://127.0.0.1:8000/database/TestMapList")
+                )
+                .then(result=> result.json())
+                .then(result=>{
+                    let option;
+                    let keys = Object.keys(result);
+                    let list = document.getElementsByName("test_map_id")[1];
+                    list.innerHTML = '';
+                    option = document.createElement("option")
+                    option.value= ""
+                    option.selected = true
+                    option.innerText = "--------"
+                    list.appendChild(option)
+
+                    for (let i =0; i<keys.length; i++){
+                        option = document.createElement("option")
+                        option.value= keys[i]
+                        option.innerText = result[keys[i]]
+                        list.appendChild(option)
+                    }
+                })
+                .catch(()=>{
+                    console.log("something went wrong")
+                })
             }
 
-            document.getElementsByName("product_id")[1].addEventListener("input", filter_product_and_testmap)
+            document.getElementsByName("program_id")[1].addEventListener("input", filter_products_and_testmaps)
+            document.getElementById("program_dropdown").addEventListener("click", filter_products_and_testmaps)
 
         </script>
     </body>

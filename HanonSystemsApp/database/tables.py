@@ -307,13 +307,16 @@ class TestTable(ColumnShiftTableBootstrap3):
     'a': {'class': 'btn', 'target': '_blank'}
     }, orderable = False)
     
+    test_map = tables.Column(accessor="test_map_id__test_map_name")
+    
+    tr = tables.Column(accessor="test_map_id__tr")
     
 
     class Meta:
         model = Test
-        exclude = ("test_id",)
+        exclude = ("test_id","test_map_id")
         order_by = "program_id", "-test_map_id", "created"
-        sequence = ("created", "program_id", "product_id", "priority", "scheduling", "status", "test_type_id", "test_description", "test_map_id", "technician_id", "chamber_id", "dar_id", "cage_id", "lab_id", "targeted_start", "targeted_end", "supervisor_comments", "hours_planned", "total_hours")
+        sequence = ("created", "product_id", "program_id","test_map", "priority", "scheduling", "status", "test_type_id", "test_description", "tr", "technician_id", "chamber_id", "dar_id", "cage_id", "lab_id", "targeted_start", "targeted_end", "supervisor_comments", "hours_planned", "total_hours")
 
 class ChamberLogInfoTable(ColumnShiftTableBootstrap3):
     delete = tables.LinkColumn('delete_ChamberLogInfo',text= 'delete', args=[A('pk')], attrs={

@@ -105,9 +105,6 @@ urlpatterns = [
     path("darchildren", views.darchildren, name="darchildren"),
     path("getdarchildren", views.getdarchildren, name="getdarchildren"),
 
-    path("short", views.short, name="short"),
-    path("getshort", views.getshort, name="getshort"),
-
 
     path("chamberschedule", views.chamber_schedule, name ='chamberschedule'),
     path("getchamberschedule", views.get_chamber_schedule, name ='getchamberschedule'),
@@ -150,6 +147,10 @@ urlpatterns = [
     
     path("compileDUTList", views.compileDUTList, name="compile_DUT_List"),
     path("getDUTList", views.getDUTList, name="get_DUT_List"),
+    
+    path("testPageFilter", views.compileTestPageFilterList, name="compile_testPageFilter_List"),
+    path("ProductList", views.getProductList, name="get_Product_List"),
+    path("TestMapList", views.getTestMapList, name="get_TestMap_List"),
     
 ]
 
