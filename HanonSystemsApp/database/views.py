@@ -803,9 +803,10 @@ def getchildren(request):
 
 
 def darchildren(request):
-    program_id = request.body
+    test_map_id = request.body
     try:
-        program_id = int(program_id)
+        test_map_id = int(test_map_id)
+        program_id = TestMap.objects.get(test_map_id = test_map_id).program_id.program_id
     except:
         a = open("database/templates/html/children", "w")
         a.write("{\n")

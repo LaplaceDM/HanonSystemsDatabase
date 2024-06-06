@@ -290,7 +290,7 @@ class ProductTable(ColumnShiftTableBootstrap3):
         model = Product
         exclude = ("product_id", )
 
-class TestTable(ColumnShiftTableBootstrap3):
+class TestTable(ColumnShiftTableBootstrap3):    
     delete = tables.LinkColumn('delete_test',text='delete', args=[A('pk')], attrs={
     'a': {'class': 'btn'}
     }, orderable = False)
@@ -307,11 +307,13 @@ class TestTable(ColumnShiftTableBootstrap3):
     'a': {'class': 'btn', 'target': '_blank'}
     }, orderable = False)
     
+    
 
     class Meta:
         model = Test
-        exclude = ("test_id", )
+        exclude = ("test_id",)
         order_by = "program_id", "-test_map_id", "created"
+        sequence = ("created", "program_id", "product_id", "priority", "scheduling", "status", "test_type_id", "test_description", "test_map_id", "technician_id", "chamber_id", "dar_id", "cage_id", "lab_id", "targeted_start", "targeted_end", "supervisor_comments", "hours_planned", "total_hours")
 
 class ChamberLogInfoTable(ColumnShiftTableBootstrap3):
     delete = tables.LinkColumn('delete_ChamberLogInfo',text= 'delete', args=[A('pk')], attrs={
@@ -357,6 +359,8 @@ class TestMapTable(ColumnShiftTableBootstrap3):
         
         
 class DUTTable(ColumnShiftTableBootstrap3):
+    program = tables.Column(accessor="product_id__program_id")
+    
     delete = tables.LinkColumn('delete_dut',text='delete', args=[A('pk')], attrs={
     'a': {'class': 'btn'}
     }, orderable = False)
@@ -371,7 +375,7 @@ class DUTTable(ColumnShiftTableBootstrap3):
 
     class Meta:
         model = DUT
-        exclude = ("dut_id", )
+        exclude = ("dut_id", "product_id" )
         
 class SubcomponentTable(ColumnShiftTableBootstrap3):
     delete = tables.LinkColumn('delete_subcomponent',text='delete', args=[A('pk')], attrs={

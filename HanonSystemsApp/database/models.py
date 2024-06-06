@@ -39,16 +39,16 @@ class Product(models.Model):
     product_id = models.AutoField(primary_key=True, verbose_name = "Product")
     program_id = models.ForeignKey( "Program", on_delete = models.CASCADE, null = True, db_column="program_id", verbose_name = "Program")
     def __str__(self):
-        return self.product_family+ (" - ")  +str(self.program_id.program_name)
+        return self.product_family+ (" ")+ self.variant + (" - ")  + self.program_id.program_name
 
 class TestMap(models.Model):
     test_map_name = models.CharField(max_length = 100, null = True, verbose_name = "Test Map name")
-    tr = models.CharField(max_length = 14, unique= True, null = True, verbose_name = "TR")
+    tr = models.CharField(max_length = 14, null = True, verbose_name = "TR")
     test_map_id = models.AutoField(primary_key=True)
 
     program_id = models.ForeignKey( "Program", on_delete = models.CASCADE, null = True, db_column="program_id", verbose_name = "Program")
     def __str__(self):
-        return self.tr + (" - ")  +str(self.test_map_name)
+        return self.test_map_name
 
 class Technician (models.Model):
     technician_name = models.CharField(max_length = 30)
@@ -78,7 +78,7 @@ class DUT(models.Model):
     pedigree = models.CharField(max_length = 30, null = True)
 
     dut_id = models.BigAutoField(primary_key=True, verbose_name = "DUT name")
-    product_id = models.ForeignKey("Product", on_delete = models.SET_NULL, null = True, db_column = "product_id", verbose_name = "Product - Program")
+    product_id = models.ForeignKey("Product", on_delete = models.SET_NULL, null = True, db_column = "product_id", verbose_name="Product")
     
     def __str__(self):
         return self.dut_name + " - " + self.product_id.program_id.program_name
@@ -130,9 +130,9 @@ class Harness(models.Model):
     
 class Test(models.Model):
     created = models.DateTimeField(default=timezone.now)
-    product_id = models.ForeignKey("Product", on_delete = models.SET_NULL, null = True, db_column = "product_id", verbose_name = "Product")
-    program_id = models.ForeignKey( "Program", on_delete = models.CASCADE, null = True, db_column="program_id", verbose_name = "Program")
-    test_map_id = models.ForeignKey("TestMap", on_delete = models.CASCADE, db_column = "test_map_id", verbose_name = "Leg")
+    program_id = models.ForeignKey("Program", on_delete = models.CASCADE, db_column = "program_id", verbose_name = "Program", null=True)
+    product_id = models.ForeignKey("Product", on_delete = models.CASCADE, db_column = "product_id", verbose_name = "Product", null=True)
+    test_map_id = models.ForeignKey("TestMap", on_delete = models.CASCADE, db_column = "test_map_id", verbose_name = "Test Map", null=True)
     priority = models.SmallIntegerField(null = True)
     scheduling = models.CharField(max_length = 15, null =True)
     status = models.CharField(max_length = 15, null =True)

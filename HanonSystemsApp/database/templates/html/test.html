@@ -241,12 +241,6 @@
                 <div id = "product_dropdown_filter" class = 'search'>
                 </div>
             </div>
-            <div>
-                <label for="search_program_filter">Search for Program:</label>
-                <input type ="text" id="search_program_filter" onkeyup="search_program_filter()">
-                <div id = "program_dropdown_filter" class = 'search'>
-                </div>
-            </div>
         </div>
             <!--Django Model Form-->
 
@@ -270,12 +264,6 @@
                     <div id = "product_dropdown" class = 'search'>
                     </div>
                 </div>
-                <div>
-                    <label for="search_program">Search for Program:</label>
-                    <input type ="text" id="search_program" onkeyup="search_program()">
-                    <div id = "program_dropdown" class = 'search'>
-                    </div>
-                </div>
 
                 </div>
             </div>
@@ -286,68 +274,71 @@
             <label for="checkcreated"> Created</label>
 
             <input type="checkbox" id="checkProduct id" onclick="hide('checkProduct id', 1)">
-            <label for="checkProduct id"> Product id</label>
+            <label for="checkProduct id"> Product</label>
 
             <input type="checkbox" id="checkProgram id" onclick="hide('checkProgram id', 2)">
-            <label for="checkProgram id"> Program id</label>
+            <label for="checkProgram id"> Program</label>
 
-            <input type="checkbox" id="checkLeg" onclick="hide('checkLeg', 3)">
+            <input type="checkbox" id="checkTR" onclick="hide('checkProgram id', 3)">
+            <label for="checkTR"> TR</label>
+
+            <input type="checkbox" id="checkLeg" onclick="hide('checkLeg', 4)">
             <label for="checkLeg"> Leg</label>
 
-            <input type="checkbox" id="checkPriority" onclick="hide('checkPriority', 4)">
+            <input type="checkbox" id="checkPriority" onclick="hide('checkPriority', 5)">
             <label for="checkPriority"> Priority</label>
 
-            <input type="checkbox" id="checkScheduling" onclick="hide('checkScheduling', 5)">
+            <input type="checkbox" id="checkScheduling" onclick="hide('checkScheduling', 6)">
             <label for="checkScheduling"> Scheduling</label>
 
-            <input type="checkbox" id="checkStatus" onclick="hide('checkStatus', 6)">
+            <input type="checkbox" id="checkStatus" onclick="hide('checkStatus', 7)">
             <label for="checkStatus"> Status</label>
 
-            <input type="checkbox" id="checkTest" onclick="hide('checkTest', 7)">
-            <label for="checkTest"> Test</label>
+            <input type="checkbox" id="checkTestType" onclick="hide('checkTest', 8)">
+            <label for="checkTestType"> Test Type</label>
 
-            <input type="checkbox" id="checkTechnician" onclick="hide('checkTechnician', 8)">
+            <input type="checkbox" id="checkTestDescription" onclick="hide('checkTest', 9)">
+            <label for="checkTestDescription"> Test Description</label>
+
+            <input type="checkbox" id="checkTechnician" onclick="hide('checkTechnician', 10)">
             <label for="checkTechnician"> Technician</label>
 
-            <input type="checkbox" id="checkChamber" onclick="hide('checkChamber', 9)">
+            <input type="checkbox" id="checkChamber" onclick="hide('checkChamber', 11)">
             <label for="checkChamber"> Chamber</label>
 
-            <input type="checkbox" id="checkDAR" onclick="hide('checkDAR', 10)">
+            <input type="checkbox" id="checkDAR" onclick="hide('checkDAR', 12)">
             <label for="checkDAR"> DAR</label>
 
-            <input type="checkbox" id="checkCage" onclick="hide('checkCage', 11)">
+            <input type="checkbox" id="checkCage" onclick="hide('checkCage', 13)">
             <label for="checkCage"> Cage</label>
 
-            <input type="checkbox" id="checkLab" onclick="hide('checkLab', 12)">
+            <input type="checkbox" id="checkLab" onclick="hide('checkLab', 14)">
             <label for="checkLab"> Lab</label>
 
-            <input type="checkbox" id="checkTargeted start" onclick="hide('checkTargeted start', 13)">
+            <input type="checkbox" id="checkTargeted start" onclick="hide('checkTargeted start', 15)">
             <label for="checkTargeted start"> Targeted Start</label>
 
-            <input type="checkbox" id="checkTargeted end" onclick="hide('checkTargeted end', 14)">
+            <input type="checkbox" id="checkTargeted end" onclick="hide('checkTargeted end', 16)">
             <label for="checkTargeted end"> Targeted end</label>
 
-            <input type="checkbox" id="checkSupervisor comments" onclick="hide('checkSupervisor comments', 15)">
+            <input type="checkbox" id="checkSupervisor comments" onclick="hide('checkSupervisor comments', 17)">
             <label for="checkSupervisor comments"> Supervisor comments</label>
 
-            <input type="checkbox" id="checkHours planned" onclick="hide('checkHours planned', 16)">
+            <input type="checkbox" id="checkHours planned" onclick="hide('checkHours planned', 18)">
             <label for="checkHours planned"> Hours planned</label>
 
-            <input type="checkbox" id="checkHours actual" onclick="hide('checkHours actual', 17)">
+            <input type="checkbox" id="checkHours actual" onclick="hide('checkHours actual', 19)">
             <label for="checkHours actual"> Hours actual</label>
 
-            <input type="checkbox" id="checkSetup date" onclick="hide('checkSetup date', 18)">
-            <label for="checkSetup date"> Setup date</label>
-            
-            <input type="checkbox" id="checkStatus log" onclick="hide('checkStatus log', 19)">
-            <label for="checkStatus log"> Status log</label>
-            
             <input type="checkbox" id="checkdelete" onclick="hide('checkdelete', 20)">
             <label for="checkLab"> Delete</label>
+            
             <input type="checkbox" id="checkupdate" onclick="hide('checkupdate', 21)">
             <label for="checkProgram id"> Update</label>
             <input type="checkbox" id="checkclone" onclick="hide('checkclone', 22)">
-            <label for="checkProduct id"> Clone</label> <br>
+            <label for="checkProduct id"> Clone</label>
+            <input type="checkbox" id="checkStatus log" onclick="hide('checkStatus log', 23)">
+            <label for="checkStatus log"> Log</label>
             </center>
             <div>
                 <div class = "notation">
@@ -611,8 +602,8 @@
             function shortlist(){
                 
                 var csrftoken = getCookie('csrftoken');
-                var program_id = document.getElementsByName("program_id")[1].value;
-                fetch("http://10.22.137.40:8000/database/short", {method: "POST", body: program_id, headers:{"X-CSRFToken": csrftoken}})
+                var test_map_id = document.getElementsByName("test_map_id")[1].value;
+                fetch("http://10.22.137.40:8000/database/short", {method: "POST", body: test_map_id, headers:{"X-CSRFToken": csrftoken}})
                 .then((response)=>
                 fetch("http://10.22.137.40:8000/database/getshort")
                 )
@@ -682,8 +673,8 @@
 
             function highlight2(){
                 var csrftoken = getCookie('csrftoken');
-                var program_id = document.getElementsByName("program_id")[1].value;
-                fetch("http://10.22.137.40:8000/database/darchildren", {method: "POST", body: program_id, headers:{"X-CSRFToken": csrftoken}})
+                var test_map_id = document.getElementsByName("test_map_id")[1].value;
+                fetch("http://10.22.137.40:8000/database/darchildren", {method: "POST", body: test_map_id, headers:{"X-CSRFToken": csrftoken}})
                 .then((response)=>
                 fetch("http://10.22.137.40:8000/database/getdarchildren")
                 )
@@ -747,8 +738,8 @@
                 })
             }
             document.getElementsByName("test_type_id")[1].addEventListener("input", highlight)
-            document.getElementsByName("program_id")[1].addEventListener("input", highlight2)
-            document.getElementsByName("program_id")[1].addEventListener("input", shortlist)
+            document.getElementsByName("test_map_id")[1].addEventListener("input", highlight2)
+            //document.getElementsByName("test_map_id")[1].addEventListener("input", shortlist)
 
             
 
@@ -1080,48 +1071,48 @@
             length = rows.length;
 
             function highlight_status(cells){
-                if (cells[6].innerHTML=="stopped"){
-                    cells[6].style.backgroundColor = "red";
+                if (cells[7].innerHTML=="stopped"){
+                    cells[7].style.backgroundColor = "red";
                 }
-                else if(cells[6].innerHTML =="setup"){
-                    cells[6].style.backgroundColor = "yellow";
+                else if(cells[7].innerHTML =="setup"){
+                    cells[7].style.backgroundColor = "yellow";
                 }
-                else if(cells[6].innerHTML =="running"){
-                    cells[6].style.backgroundColor = "green";
+                else if(cells[7].innerHTML =="running"){
+                    cells[7].style.backgroundColor = "green";
                 }
-                else if(cells[6].innerHTML =="data review"){
-                    cells[6].style.backgroundColor = "green";
+                else if(cells[7].innerHTML =="data review"){
+                    cells[7].style.backgroundColor = "green";
                 }
-                else if(cells[6].innerHTML =="on hold"){
-                    cells[6].style.backgroundColor = "red";
+                else if(cells[7].innerHTML =="on hold"){
+                    cells[7].style.backgroundColor = "red";
                 }
-                else if(cells[6].innerHTML =="no man power"){
-                    cells[6].style.backgroundColor = "purple";
+                else if(cells[7].innerHTML =="no man power"){
+                    cells[7].style.backgroundColor = "purple";
                 }
-                else if(cells[6].innerHTML =="on track"){
-                    cells[6].style.backgroundColor = "green";
+                else if(cells[7].innerHTML =="on track"){
+                    cells[7].style.backgroundColor = "green";
                 }
             }
 
             for (var i = 1; i<length; i++){
                 cells = rows[i].cells;
-                if (cells[5].innerText=="complete"||cells[5].innerText=="cancelled"){
+                if (cells[6].innerText=="complete"||cells[6].innerText=="cancelled"){
                     for (var y=4; y<cells.length; y++){
                         cells[y].style.backgroundColor = "rgb(211, 211, 211)";
                     }
                 }
                 else{
-                    if (cells[4].innerText=="1"){
+                    if (cells[5].innerText=="1"){
                         for (var y=4; y<cells.length; y++){
                             cells[y].style.backgroundColor = "rgb(255, 165, 0)";
                         }
                     }
-                    else if(cells[4].innerText=="2"){
+                    else if(cells[5].innerText=="2"){
                         for (var y=4; y<cells.length; y++){
                             cells[y].style.backgroundColor = "rgb(255, 255, 0)";
                         }
                     }
-                    else if(cells[4].innerText=="3"){
+                    else if(cells[5].innerText=="3"){
                         for (var y=4; y<cells.length; y++){
                             cells[y].style.backgroundColor = "rgb(255, 240, 230)";
                         }
@@ -1163,33 +1154,7 @@
                 }
             }
 
-            function select_program(event){
-                document.getElementsByName("program_id")[1].value=event.target.value
-            }
 
-
-            function search_program(){
-                parent = document.getElementById("program_dropdown")
-                parent.innerHTML=""
-                text = document.getElementById("search_program").value.toLowerCase()
-                
-                if (text==""){
-                    return
-                }
-                list = document.getElementsByName("program_id")[1]
-                console.log(list)
-                options = list.getElementsByTagName("option")
-                for (let i =0; i<options.length;i++){
-                    if (options[i].innerHTML.toLowerCase().includes(text)){
-                        value = options[i].value
-                        newDiv = document.createElement("button")
-                        newDiv.value = value
-                        newDiv.innerHTML = options[i].innerHTML
-                        parent.append(newDiv)
-                        newDiv.addEventListener("click", select_program)
-                    }
-                }
-            }
             function select_product_filter(event){
                 document.getElementsByName("product_id")[0].value=event.target.value
             }
@@ -1220,29 +1185,6 @@
                 document.getElementsByName("program_id")[0].value=event.target.value
             }
 
-
-            function search_program_filter(){
-                parent = document.getElementById("program_dropdown_filter")
-                parent.innerHTML=""
-                text = document.getElementById("search_program_filter").value.toLowerCase()
-                
-                if (text==""){
-                    return
-                }
-                list = document.getElementsByName("program_id")[0]
-                console.log(list)
-                options = list.getElementsByTagName("option")
-                for (let i =0; i<options.length;i++){
-                    if (options[i].innerHTML.toLowerCase().includes(text)){
-                        value = options[i].value
-                        newDiv = document.createElement("button")
-                        newDiv.value = value
-                        newDiv.innerHTML = options[i].innerHTML
-                        parent.append(newDiv)
-                        newDiv.addEventListener("click", select_program_filter)
-                    }
-                }
-            }
             
             //making table headers visible on scroll
             let headings = document.getElementsByTagName("table")[5].rows[0].getElementsByTagName("th");
@@ -1251,6 +1193,19 @@
                 headings[i].style.top = "30px";
                 headings[i].style.backgroundColor = "white";
             }
+
+
+            //Display products, test maps belonging to a program in the add form after selecting program
+            let add_product = document.getElementsByName("product_id")[1];
+            let add_testmap = document.getElementsByName("test_map_id")[1];
+            add_product.innerHTML = '';
+            add_testmap.innerHTML = '';
+
+            function filter_product_and_testmap(){
+                
+            }
+
+            document.getElementsByName("product_id")[1].addEventListener("input", filter_product_and_testmap)
 
         </script>
     </body>
