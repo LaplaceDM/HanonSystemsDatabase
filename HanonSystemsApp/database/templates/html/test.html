@@ -1129,9 +1129,9 @@
                 let program_id = document.getElementsByName("program_id")[1].value;
                 let csrftoken = getCookie('csrftoken');
                 
-                fetch("http://127.0.0.1:8000/database/testPageFilter", {method: "POST", body: program_id, headers:{"X-CSRFToken": csrftoken}})
+                fetch("http://10.22.137.40:8000/database/testPageFilter", {method: "POST", body: program_id, headers:{"X-CSRFToken": csrftoken}})
                 .then((response)=>
-                fetch("http://127.0.0.1:8000/database/ProductList")
+                fetch("http://10.22.137.40:8000/database/ProductList")
                 )
                 .then(result=> result.json())
                 .then(result=>{
@@ -1153,7 +1153,7 @@
                     }
                 })
                 .then(()=>
-                fetch("http://127.0.0.1:8000/database/TestMapList")
+                fetch("http://10.22.137.40:8000/database/TestMapList")
                 )
                 .then(result=> result.json())
                 .then(result=>{
