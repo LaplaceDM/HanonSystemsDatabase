@@ -38,6 +38,8 @@ class LaptopListView(SingleTableMixin,  CreateView, FilterView):
     def form_invalid(self, form):
         messages.error(self.request, 'sorry error')
         return HttpResponseRedirect(reverse("Laptop"))
+    def get_table_pagination(self, request):
+        return False
 
 class UpdateTableViewLaptop(SingleTableMixin,  UpdateView):
     
@@ -67,6 +69,8 @@ class Test_HarnessListView(SingleTableMixin,  CreateView, FilterView):
     def form_invalid(self, form):
         messages.error(self.request, 'sorry error')
         return HttpResponseRedirect(reverse("Test_Harness"))
+    def get_table_pagination(self, request):
+        return False
 
 class UpdateTableViewTest_Harness(SingleTableMixin,  UpdateView):
     
@@ -95,6 +99,8 @@ class Test_DUTListView(SingleTableMixin,  CreateView, FilterView):
     def form_invalid(self, form):
         messages.error(self.request, 'sorry error')
         return HttpResponseRedirect(reverse("Test_DUT"))
+    def get_table_pagination(self, request):
+        return False
 
 class UpdateTableViewTest_DUT(SingleTableMixin,  UpdateView):
     
@@ -124,6 +130,8 @@ class Technician_SkillListView(SingleTableMixin,  CreateView, FilterView):
     def form_invalid(self, form):
         messages.error(self.request, 'sorry error')
         return HttpResponseRedirect(reverse("Technician_Skill"))
+    def get_table_pagination(self, request):
+        return False
 
 class UpdateTableViewTechnician_Skill(SingleTableMixin,  UpdateView):
     
@@ -153,6 +161,8 @@ class TestMapListView(SingleTableMixin,  CreateView, FilterView):
     def form_invalid(self, form):
         messages.error(self.request, 'sorry error')
         return HttpResponseRedirect(reverse("TestMap"))
+    def get_table_pagination(self, request):
+        return False
 
 class UpdateTableViewTestMap(SingleTableMixin,  UpdateView):
     
@@ -182,6 +192,8 @@ class Test_ChamberListView(SingleTableMixin,  CreateView, FilterView):
     def form_invalid(self, form):
         messages.error(self.request, 'sorry error')
         return HttpResponseRedirect(reverse("Test_Chamber"))
+    def get_table_pagination(self, request):
+        return False
 
 class UpdateTableViewTest_Chamber(SingleTableMixin,  UpdateView):
     
@@ -212,6 +224,8 @@ class Program_CageListView(SingleTableMixin,  CreateView, FilterView):
     def form_invalid(self, form):
         messages.error(self.request, 'sorry error')
         return HttpResponseRedirect(reverse("Program_Cage"))
+    def get_table_pagination(self, request):
+        return False
 
 class UpdateTableViewProgram_Cage(SingleTableMixin,  UpdateView):
     
@@ -242,6 +256,8 @@ class Program_DARListView(SingleTableMixin,  CreateView, FilterView):
     def form_invalid(self, form):
         messages.error(self.request, 'sorry error')
         return HttpResponseRedirect(reverse("Program_DAR"))
+    def get_table_pagination(self, request):
+        return False
 
 class UpdateTableViewProgram_DAR(SingleTableMixin,  UpdateView):
     
@@ -271,6 +287,8 @@ class Program_FluidListView(SingleTableMixin,  CreateView, FilterView):
     def form_invalid(self, form):
         messages.error(self.request, 'sorry error')
         return HttpResponseRedirect(reverse("Program_Fluid"))
+    def get_table_pagination(self, request):
+        return False
 
 class UpdateTableViewProgram_Fluid(SingleTableMixin,  UpdateView):
     
@@ -303,6 +321,8 @@ class DARChannelListView(SingleTableMixin,  CreateView, FilterView):
     def form_invalid(self, form):
         messages.error(self.request, 'sorry error')
         return HttpResponseRedirect(reverse("DARChannel"))
+    def get_table_pagination(self, request):
+        return False
 
 class UpdateTableViewDARChannel(SingleTableMixin,  UpdateView):
     
@@ -333,6 +353,8 @@ class FluidListView(SingleTableMixin,  CreateView, FilterView):
     def form_invalid(self, form):
         messages.error(self.request, 'sorry error')
         return HttpResponseRedirect(reverse("Fluid"))
+    def get_table_pagination(self, request):
+        return False
 
 class UpdateTableViewFluid(SingleTableMixin,  UpdateView):
     
@@ -363,6 +385,8 @@ class TechnicianListView(SingleTableMixin,  CreateView, FilterView):
     def form_invalid(self, form):
         messages.error(self.request, 'sorry error')
         return HttpResponseRedirect(reverse("Technician"))
+    def get_table_pagination(self, request):
+        return False
 
 class UpdateTableViewTechnician(SingleTableMixin,  UpdateView):
     
@@ -393,6 +417,8 @@ class TestTypeListView(SingleTableMixin,  CreateView, FilterView):
     def form_invalid(self, form):
         messages.error(self.request, 'sorry error')
         return HttpResponseRedirect(reverse("TestType"))
+    def get_table_pagination(self, request):
+        return False
 
 class UpdateTableViewTestType(SingleTableMixin,  UpdateView):
     
@@ -422,6 +448,8 @@ class LabListView(SingleTableMixin,  CreateView, FilterView):
     def form_invalid(self, form):
         messages.error(self.request, 'sorry error')
         return HttpResponseRedirect(reverse("Lab"))
+    def get_table_pagination(self, request):
+        return False
 
 class UpdateTableViewLab(SingleTableMixin,  UpdateView):
     
@@ -451,6 +479,8 @@ class SkillListView(SingleTableMixin,  CreateView, FilterView):
     def form_invalid(self, form):
         messages.error(self.request, 'sorry error')
         return HttpResponseRedirect(reverse("Skill"))
+    def get_table_pagination(self, request):
+        return False
 
 class UpdateTableViewSkill(SingleTableMixin,  UpdateView):
     
@@ -479,6 +509,8 @@ class HarnessListView(SingleTableMixin,  CreateView, FilterView):
     def form_invalid(self, form):
         messages.error(self.request, 'sorry error')
         return HttpResponseRedirect(reverse("Harness"))
+    def get_table_pagination(self, request):
+        return False
 
 class UpdateTableViewHarness(SingleTableMixin,  UpdateView):
     
@@ -509,7 +541,8 @@ class ProgramListView(SingleTableMixin,  CreateView, FilterView):
     def form_invalid(self, form):
         messages.error(self.request, 'sorry error')
         return HttpResponseRedirect(reverse("program"))
-    
+    def get_table_pagination(self, request):
+        return False
 
 class CageListView(SingleTableMixin,  CreateView, FilterView):
 
@@ -523,6 +556,8 @@ class CageListView(SingleTableMixin,  CreateView, FilterView):
     def form_invalid(self, form):
         messages.error(self.request, 'sorry error')
         return HttpResponseRedirect(reverse("cage"))
+    def get_table_pagination(self, request):
+        return False
     
 class UpdateTableViewCage(SingleTableMixin,  UpdateView):
     
@@ -553,6 +588,8 @@ class ChamberListView(SingleTableMixin,  CreateView, FilterView):
     def form_invalid(self, form):
         messages.error(self.request, 'sorry error')
         return HttpResponseRedirect(reverse("Chamber"))
+    def get_table_pagination(self, request):
+        return False
     
 class UpdateTableViewChamber(SingleTableMixin,  UpdateView):
     
@@ -601,6 +638,8 @@ class DarListView(SingleTableMixin,  CreateView, FilterView):
     def form_invalid(self, form):
         messages.error(self.request, 'sorry error')
         return HttpResponseRedirect(reverse("Dar"))
+    def get_table_pagination(self, request):
+        return False
     
 class UpdateTableViewDar(SingleTableMixin,  UpdateView):
     
@@ -632,6 +671,8 @@ class ProductListView(SingleTableMixin,  CreateView, FilterView):
     def form_invalid(self, form):
         messages.error(self.request, 'sorry error')
         return HttpResponseRedirect(reverse("product"))
+    def get_table_pagination(self, request):
+        return False
 
 class UpdateTableViewProduct(SingleTableMixin,  UpdateView):
     
@@ -656,6 +697,8 @@ class TestListView(SingleTableMixin, CreateView, FilterView):
     success_url = '/database/tests'
     filterset_class = TestFilter
     form_class = TestForm
+    def get_table_pagination(self, request):
+        return False
 
 class UpdateTableViewTest(SingleTableMixin,  UpdateView, FilterView):
     
@@ -911,6 +954,8 @@ class ChamberLogInfoListView(SingleTableMixin, CreateView, FilterView):
     success_url = '/database/ChamberLogInfo'
     filterset_class = ChamberLogInfoFilter
     form_class = ChamberLogInfoForm
+    def get_table_pagination(self, request):
+        return False
 
     
 
@@ -969,6 +1014,8 @@ class ChamberLogView(SingleTableMixin, CreateView, FilterView):
         print(form.errors)
         messages.error(self.request, 'sorry error')
         return HttpResponseRedirect(reverse("ChamberLog", kwargs={'pk': self.kwargs.get('pk')}))
+    def get_table_pagination(self, request):
+        return False
 
 def delete_item_ChamberLog(request, pk):
     item = ChamberLog.objects.get(id = pk).log_id.id
@@ -1368,6 +1415,8 @@ class DUTListView(SingleTableMixin,  CreateView, FilterView):
     def form_invalid(self, form):
         messages.error(self.request, 'sorry error')
         return HttpResponseRedirect(reverse("dut"))
+    def get_table_pagination(self, request):
+        return False
 
 class UpdateTableViewDUT(UpdateView):
     
@@ -1390,6 +1439,9 @@ class DUTInfo(SingleTableMixin, CreateView):
     
     def get_queryset(self, *args, **kwargs):
         return Subcomponent.objects.filter(dut_id = self.kwargs.get('pk'))
+    
+    def get_table_pagination(self, request):
+        return False
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -1462,6 +1514,8 @@ class DAR_ChannelListView(SingleTableMixin,  CreateView, FilterView):
     def form_invalid(self, form):
         messages.error(self.request, 'sorry error')
         return HttpResponseRedirect(reverse("DAR_Channel"))
+    def get_table_pagination(self, request):
+        return False
 
 class UpdateTableView_DAR_Channel(SingleTableMixin,  UpdateView):
     
