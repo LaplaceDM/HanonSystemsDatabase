@@ -31,7 +31,6 @@ class LaptopListView(SingleTableMixin,  CreateView, FilterView):
     model = Laptop
     table_class = LaptopTable
     template_name = 'html/laptops.html'
-    paginate_by = 20
     filterset_class = LaptopFilter
     form_class = LaptopForm
     success_url = '/database/Laptop'
@@ -61,7 +60,6 @@ class Test_HarnessListView(SingleTableMixin,  CreateView, FilterView):
     model = Test_Harness
     table_class = Test_HarnessTable
     template_name = 'html/Test_Harness.html'
-    paginate_by = 20
     filterset_class = Test_HarnessFilter
     form_class = Test_HarnessForm
     success_url = '/database/Test_Harness'
@@ -90,7 +88,6 @@ class Test_DUTListView(SingleTableMixin,  CreateView, FilterView):
     model = Test_DUT
     table_class = Test_DUTTable
     template_name = 'html/Test_DUT.html'
-    paginate_by = 20
     filterset_class = Test_DUTFilter
     form_class = Test_DUTForm
     success_url = '/database/Test_DUT'
@@ -120,7 +117,6 @@ class Technician_SkillListView(SingleTableMixin,  CreateView, FilterView):
     model = Technician_Skill
     table_class = Technician_SkillTable
     template_name = 'html/technician_skills.html'
-    paginate_by = 20
     filterset_class = Technician_SkillFilter
     form_class = Technician_SkillForm
     success_url = '/database/Technician_Skill'
@@ -150,7 +146,6 @@ class TestMapListView(SingleTableMixin,  CreateView, FilterView):
     model = TestMap
     table_class = TestMapTable
     template_name = 'html/test_map.html'
-    paginate_by = 20
     filterset_class = TestMapFilter
     form_class = TestMapForm
     success_url = '/database/TestMap'
@@ -180,7 +175,6 @@ class Test_ChamberListView(SingleTableMixin,  CreateView, FilterView):
     model = Test_Chamber
     table_class = Test_ChamberTable
     template_name = 'html/index.html'
-    paginate_by = 20
     filterset_class = Test_ChamberFilter
     form_class = Test_ChamberForm
     success_url = '/database/Test_Chamber'
@@ -211,7 +205,6 @@ class Program_CageListView(SingleTableMixin,  CreateView, FilterView):
     model = Program_Cage
     table_class = Program_CageTable
     template_name = 'html/index.html'
-    paginate_by = 20
     filterset_class = Program_CageFilter
     form_class = Program_CageForm
     success_url = '/database/Program_Cage'
@@ -242,7 +235,6 @@ class Program_DARListView(SingleTableMixin,  CreateView, FilterView):
     model = Program_DAR
     table_class = Program_DARTable
     template_name = 'html/DAR_program.html'
-    paginate_by = 20
     filterset_class = Program_DARFilter
     form_class = Program_DARForm
     success_url = '/database/Program_DAR'
@@ -272,7 +264,6 @@ class Program_FluidListView(SingleTableMixin,  CreateView, FilterView):
     model = Program_Fluid
     table_class = Program_FluidTable
     template_name = 'html/Program_fluid.html'
-    paginate_by = 20
     filterset_class = Program_FluidFilter
     form_class = Program_FluidForm
     success_url = '/database/Program_Fluid'
@@ -305,7 +296,6 @@ class DARChannelListView(SingleTableMixin,  CreateView, FilterView):
     model = DARChannel
     table_class = DARChannelTable
     template_name = 'html/index.html'
-    paginate_by = 20
     filterset_class = DARChannelFilter
     form_class = DARChannelForm
     success_url = '/database/DARChannel'
@@ -336,7 +326,6 @@ class FluidListView(SingleTableMixin,  CreateView, FilterView):
     model = Fluid
     table_class = FluidTable
     template_name = 'html/test_fluids.html'
-    paginate_by = 20
     filterset_class = FluidFilter
     form_class = FluidForm
     success_url = '/database/Fluid'
@@ -367,7 +356,6 @@ class TechnicianListView(SingleTableMixin,  CreateView, FilterView):
     model = Technician
     table_class = TechnicianTable
     template_name = 'html/technician.html'
-    paginate_by = 20
     filterset_class = TechnicianFilter
     form_class = TechnicianForm
     success_url = '/database/Technician'
@@ -398,7 +386,6 @@ class TestTypeListView(SingleTableMixin,  CreateView, FilterView):
     model = TestType
     table_class = TestTypeTable
     template_name = 'html/index.html'
-    paginate_by = 20
     filterset_class = TestTypeFilter
     form_class = TestTypeForm
     success_url = '/database/TestType'
@@ -428,7 +415,6 @@ class LabListView(SingleTableMixin,  CreateView, FilterView):
     model = Lab
     table_class = LabTable
     template_name = 'html/labs.html'
-    paginate_by = 20
     filterset_class = LabFilter
     form_class = LabForm
     success_url = '/database/Lab'
@@ -458,7 +444,6 @@ class SkillListView(SingleTableMixin,  CreateView, FilterView):
     model = Skill
     table_class = SkillTable
     template_name = 'html/index.html'
-    paginate_by = 20
     filterset_class = SkillFilter
     form_class = SkillForm
     success_url = '/database/Skill'
@@ -487,7 +472,6 @@ class HarnessListView(SingleTableMixin,  CreateView, FilterView):
     model = Harness
     table_class = HarnessTable
     template_name = 'html/harness.html'
-    paginate_by = 20
     filterset_class = HarnessFilter
     form_class = HarnessForm
     success_url = '/database/Harness'
@@ -518,7 +502,6 @@ class ProgramListView(SingleTableMixin,  CreateView, FilterView):
     model = Program
     table_class = ProgramTable
     template_name = 'html/programs.html'
-    paginate_by = 20
     filterset_class = ProgramFilter
     form_class = ProgramForm
     success_url = '/database/program'
@@ -533,7 +516,6 @@ class CageListView(SingleTableMixin,  CreateView, FilterView):
     model = Cage
     table_class = CageTable
     template_name = 'html/cage.html'
-    paginate_by = 20
     filterset_class = CageFilter
     form_class = CageForm
     success_url = '/database/cage'
@@ -564,7 +546,6 @@ class ChamberListView(SingleTableMixin,  CreateView, FilterView):
     model = Chamber
     table_class = ChamberTable
     template_name = 'html/Chamber.html'
-    paginate_by = 20
     filterset_class = ChamberFilter
     form_class = ChamberForm
     success_url = '/database/Chamber'
@@ -613,7 +594,6 @@ class DarListView(SingleTableMixin,  CreateView, FilterView):
     model = DAR
     table_class = DarTable
     template_name = 'html/Dar.html'
-    paginate_by = 20
     filterset_class = DarFilter
     form_class = DarForm
     success_url = '/database/Dar'
@@ -645,7 +625,6 @@ class ProductListView(SingleTableMixin,  CreateView, FilterView):
     model = Product
     table_class = ProductTable
     template_name = 'html/product.html'
-    paginate_by = 20
     filterset_class = ProductFilter
     form_class = ProductForm
     success_url = '/database/product'
@@ -674,7 +653,6 @@ class TestListView(SingleTableMixin, CreateView, FilterView):
     model = Test
     table_class = TestTable
     template_name = 'html/test.html'
-    paginate_by = 20
     success_url = '/database/tests'
     filterset_class = TestFilter
     form_class = TestForm
@@ -837,20 +815,6 @@ def darchildren(request):
     
 def getdarchildren(request):
     return render(request, "html/children")
-"""
-class TestTablesView(MultiTableMixin, TemplateView):
-    items = Test.objects.all()
-    items2 = Product.objects.all()
-    template_name = 'html/index.html'
-    tables = [
-        TestTable(items),
-        ProductTable(items2)
-    ]
-
-    table_pagination = {
-        "per_page": 10
-    }
-"""
 
 def chamber_schedule(request):
     chamber_id = request.body
@@ -944,7 +908,6 @@ class ChamberLogInfoListView(SingleTableMixin, CreateView, FilterView):
     model = ChamberLogInfo
     table_class = ChamberLogInfoTable
     template_name = 'html/ChamberLogInfo.html'
-    paginate_by = 20
     success_url = '/database/ChamberLogInfo'
     filterset_class = ChamberLogInfoFilter
     form_class = ChamberLogInfoForm
@@ -1024,11 +987,6 @@ def clone_item4(request, pk):
 
     return  HttpResponseRedirect(reverse('ChamberLog', kwargs={'pk': obj.log_id.id}))
 
-    """
-    table_pagination = {
-        "per_page": 10
-    }
-    """
 
 
 def menu(request):
@@ -1403,7 +1361,6 @@ class DUTListView(SingleTableMixin,  CreateView, FilterView):
     model = DUT
     table_class = DUTTable
     template_name = 'html/dut.html'
-    paginate_by = 20
     filterset_class = DUTFilter
     form_class = DUTForm
     success_url = '/database/dut'
@@ -1498,7 +1455,6 @@ class DAR_ChannelListView(SingleTableMixin,  CreateView, FilterView):
     model = DARChannel
     table_class = DAR_ChannelTable
     template_name = 'html/DAR_channel.html'
-    paginate_by = 20
     filterset_class = DAR_ChannelFilter
     form_class = DAR_ChannelForm
     success_url = '/database/dar_channel'
