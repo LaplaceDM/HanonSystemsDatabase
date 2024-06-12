@@ -288,9 +288,9 @@ class DARChannel(models.Model):
     eWP_Med_Aux = models.CharField(max_length = 3,null =True)
     eTMOP = models.CharField(max_length = 3,null =True)
     eCF = models.CharField(max_length = 3,null =True)
-    lin = models.CharField(max_length = 50, verbose_name = "LIN",  null = True)
-    pwn = models.CharField(max_length = 50, verbose_name = "PWN",  null = True)
-    can = models.CharField(max_length = 50, verbose_name = "CAN",  null = True)
+    lin = models.CharField(max_length = 5, verbose_name = "LIN",  null = True)
+    pwn = models.CharField(max_length = 5, verbose_name = "PWN",  null = True)
+    can = models.CharField(max_length = 5, verbose_name = "CAN",  null = True)
     pressure_transducer_inlet = models.CharField(max_length = 50, null =True)
     pressure_transducer_outlet = models.CharField(max_length = 50, null =True)
     
@@ -316,3 +316,27 @@ class Program_Cage(models.Model):
 
     program_id = models.ForeignKey("Program", on_delete = models.CASCADE, null =True, db_column = "program_id", verbose_name = "Program")
     cage_id = models.ForeignKey("Cage", on_delete = models.CASCADE, null =True, db_column = "cage_id", verbose_name = "Cage")
+    
+    
+    
+    
+    
+    
+##################################################################################################################################################################################
+# TEST PAGE
+
+
+class Fixtures(models.Model):
+    fixture_name = models.CharField(max_length = 50, verbose_name = "Fixture Name",  null = True) 
+    product_id = models.CharField(max_length = 10, verbose_name = "Product ID",  null = True)
+    number_of_DUTs = models.CharField(max_length = 30, null = True, verbose_name = "Number of DUTs")
+    comments = models.CharField(max_length = 1000, verbose_name = "Comments",  null = True) 
+    
+    program_id = models.SmallAutoField(primary_key=True)
+
+    def __str__(self):
+        return self.fixture_name
+    
+    
+    
+##################################################################################################################################################################################

@@ -405,3 +405,24 @@ class DAR_ChannelTable(ColumnShiftTableBootstrap3):
     class Meta:
         model = DARChannel
         exclude = ("channel_id", )
+        
+        
+        
+###########################################################################################################################################################################
+
+class FixturesTable(ColumnShiftTableBootstrap3):
+    delete = tables.LinkColumn('delete_fixtures',text='delete', args=[A('pk')], attrs={
+    'a': {'class': 'btn'}
+    },orderable = False)
+
+    update = tables.LinkColumn('update_fixtures',text='edit', args=[A('pk')], attrs={
+    'a': {'class': 'btn', 'target': '_blank'}
+    }, orderable = False)
+
+    
+
+    class Meta:
+        model = Fixtures
+        exclude = ("fixtures_id", )
+        
+###########################################################################################################################################################################

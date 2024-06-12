@@ -10,17 +10,14 @@
 
 <html>
     <head>
-        <title>Technicians </title>
+        <title>Fixtures </title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <style>
-            body {
-                padding-top: 50px; 
-            }
             .menu{
                 display: block;
                 position: fixed;
                 width: 100%;
-                top: 50px;
+                top: 0;
                 z-index: 1;
             }
             .dropdown{
@@ -62,27 +59,10 @@
                 border-color: black;
                 border-width: 2px;
             }
-
-            {# Added a header with fixed position #}
-            .top-header {
-                position: fixed;
-                width: 100%;
-                top: 0;
-                z-index: 2;
-                background-color: #ADD8E6; 
-                text-align: center;
-                padding: 10px 0;
-                border-bottom: 1px solid #ccc;
-                font-size: 24px;
-                font-weight: bold; 
-                color: black; 
-            }
         
         </style>
     </head>
     <body>
-        <div class="top-header">Hanon Systems</div>
-
         {%if user.is_authenticated%}
         <div class = "menu-space"></div>
         <div class = "menu">

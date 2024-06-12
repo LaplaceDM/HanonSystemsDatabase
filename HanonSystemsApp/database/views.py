@@ -1616,3 +1616,46 @@ def getProductList(request):
 
 def getTestMapList(request):
     return render(request, "html/TestMapList")
+
+
+
+##################################################################################################################################################################################
+# TEST PAGE
+
+class FixturesListView(SingleTableMixin,  CreateView, FilterView):
+
+    model = Fixtures
+    table_class = FixturesTable
+    template_name = 'html/fixtures.html'
+    filterset_class = FixturesFilter
+    form_class = FixturesForm
+    success_url = '/database/fixtures'
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'sorry error')
+        return HttpResponseRedirect(reverse("fixtures"))
+    def get_table_pagination(self, request):
+        return False
+    
+class UpdateTableViewFixtures(SingleTableMixin,  UpdateView):
+    
+    model = Fixtures
+    table_class = FixturesTable
+    form_class = FixturesForm
+    template_name = 'html/update.html'
+    success_url = '/database/fixtures'
+
+
+
+def delete_fixtures(request, pk):
+
+    Fixtures.objects.filter(Fixtures_id=pk).delete()
+
+    return HttpResponseRedirect(reverse("fixtures"))
+
+
+
+
+
+
+##################################################################################################################################################################################

@@ -152,6 +152,16 @@ urlpatterns = [
     path("ProductList", views.getProductList, name="get_Product_List"),
     path("TestMapList", views.getTestMapList, name="get_TestMap_List"),
     
+    
+    ########################################################################################################################################################
+    # TEST PAGE
+    
+    path("Fixtures", views.FixturesListView.as_view(), name="Fixtures"),
+    path('Fixtures/delete_Fixtures/<int:pk>', views.delete_fixtures, name="delete_Fixtures"),
+    path('Fixtures/update_Fixtures/<int:pk>', views.UpdateTableViewFixtures.as_view(), name="update_Fixtures"),
+    
+    ########################################################################################################################################################
+    
 ]
 
 
