@@ -1629,11 +1629,11 @@ class FixturesListView(SingleTableMixin,  CreateView, FilterView):
     template_name = 'html/fixtures.html'
     filterset_class = FixturesFilter
     form_class = FixturesForm
-    success_url = '/database/fixtures'
+    success_url = '/database/Fixtures'
 
     def form_invalid(self, form):
         messages.error(self.request, 'sorry error')
-        return HttpResponseRedirect(reverse("fixtures"))
+        return HttpResponseRedirect(reverse("Fixtures"))
     def get_table_pagination(self, request):
         return False
     
@@ -1643,7 +1643,7 @@ class UpdateTableViewFixtures(SingleTableMixin,  UpdateView):
     table_class = FixturesTable
     form_class = FixturesForm
     template_name = 'html/update.html'
-    success_url = '/database/fixtures'
+    success_url = '/database/Fixtures'
 
 
 
@@ -1651,7 +1651,7 @@ def delete_fixtures(request, pk):
 
     Fixtures.objects.filter(Fixtures_id=pk).delete()
 
-    return HttpResponseRedirect(reverse("fixtures"))
+    return HttpResponseRedirect(reverse("Fixtures"))
 
 
 

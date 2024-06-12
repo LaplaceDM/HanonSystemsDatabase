@@ -411,11 +411,11 @@ class DAR_ChannelTable(ColumnShiftTableBootstrap3):
 ###########################################################################################################################################################################
 
 class FixturesTable(ColumnShiftTableBootstrap3):
-    delete = tables.LinkColumn('delete_fixtures',text='delete', args=[A('pk')], attrs={
+    delete = tables.LinkColumn('delete_Fixtures',text='delete', args=[A('pk')], attrs={
     'a': {'class': 'btn'}
     },orderable = False)
 
-    update = tables.LinkColumn('update_fixtures',text='edit', args=[A('pk')], attrs={
+    update = tables.LinkColumn('update_Fixtures',text='edit', args=[A('pk')], attrs={
     'a': {'class': 'btn', 'target': '_blank'}
     }, orderable = False)
 

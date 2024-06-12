@@ -332,7 +332,7 @@ class Fixtures(models.Model):
     number_of_DUTs = models.CharField(max_length = 30, null = True, verbose_name = "Number of DUTs")
     comments = models.CharField(max_length = 1000, verbose_name = "Comments",  null = True) 
     
-    program_id = models.SmallAutoField(primary_key=True)
+    Fixtures_id = models.SmallAutoField(primary_key=True)
 
     def __str__(self):
         return self.fixture_name
