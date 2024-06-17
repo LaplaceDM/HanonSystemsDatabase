@@ -13,17 +13,22 @@
         <title>Tests-Harnesses </title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <style>
+            body {
+                padding-top: 50px; 
+            }
             .menu{
-                display: block;
+                display: flex;
+                align-items: center;
                 position: fixed;
                 width: 100%;
-                top: 0;
-                z-index: 10;
+                top: 50px;
+                z-index: 1;
             }
             .dropdown{
                 display: inline-block;
                 width: 22%;
                 vertical-align: top;
+                position: relative; 
             }
             .account{
                 display: inline-block;
@@ -31,7 +36,7 @@
                 vertical-align: top;
             }
             .dropdown-label{
-                background-color: gray;
+                background-color: #0089c4;
                 color: white;
                 padding: 5px;
                 font-family: sans-serif;
@@ -46,7 +51,11 @@
                 background-color: white;
             }
             .dropdown-content{
+                position: absolute;
+                width: 100%;
+                left: 0;
                 display: none;
+                z-index: 2;
             }
             .dropdown-content a:hover{
                 background-color: #ddd;
@@ -138,9 +147,41 @@
                 position: relative;
                 z-index: 5;
             }
+
+            .top-header {
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                position: fixed;
+                width: 100%;
+                top: 0;
+                z-index: 2;
+                background-color: #1d3442;
+                text-align: left;
+                padding: 0;
+                height: 50px;
+            }
+
+            .header-logo {
+                height: 80%;
+                margin-right: 20px;
+            } 
+
+            .header-title {
+                color: white;
+                font-size: 24px;
+                font-weight: bold;
+                line-height: 50px;
+            }
         </style>
     </head>
     <body>
+        {######################################################}
+        <div class="top-header">
+            <img src="{% static 'logo.png' %}" alt="Title Image" class="header-logo">
+            <span class="header-title">GVV Lab Business Process Management System</span>
+        </div>
+
         {%if user.is_authenticated%}
         <div class = "menu-space"></div>
         <div class = "menu">
