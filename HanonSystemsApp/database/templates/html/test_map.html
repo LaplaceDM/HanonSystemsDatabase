@@ -92,6 +92,21 @@
                 font-weight: bold;
                 line-height: 50px;
             }
+
+            {# Add CSS for table row height #}
+            {############################################################################################################}
+            table {
+                border-collapse: collapse;
+                width: 100%;
+            }
+            table tr {
+                height: 2px !important;
+            }
+            table td, table th {
+                padding: 1.5px !important;
+                line-height: 1.5 !important;
+                vertical-align: middle !important;
+            }
         
         </style>
     </head>
@@ -214,7 +229,7 @@
             let headings = document.getElementsByTagName("table")[0].rows[0].getElementsByTagName("th");
             for (let i =0; i<headings.length;i++){
                 headings[i].style.position = "sticky";
-                headings[i].style.top = "30px";
+                headings[i].style.top = "70px";
                 headings[i].style.backgroundColor = "white";
             }
         </script>
