@@ -244,7 +244,14 @@
             document.addEventListener("DOMContentLoaded", function () {
                 const editButtons = document.querySelectorAll(".btn");
                 editButtons.forEach(button => {
-                    button.addEventListener("click", saveScrollPosition);
+                    button.addEventListener("click", function (event) {
+                        event.preventDefault();
+                        saveScrollPosition();
+                        // Open update_cage.html in a new tab/window
+                        window.open(this.href, '_blank');
+                        // Close the current window
+                        window.close();
+                    });
                 });
 
                 // Restore scroll position

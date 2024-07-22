@@ -1,0 +1,24 @@
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            {% for column in table.columns %}
+                <th>
+                    <a href="#" onclick="sortTable('{{ column.name }}')">{{ column.header }}</a>
+                </th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in table.rows %}
+            <tr class="{% if forloop.counter0|divisibleby:2 %}even-row{% else %}odd-row{% endif %}">
+                {% for cell in row %}
+                    {% if forloop.counter == 18 %}
+                        <td><div class="scrollable">{{ cell }}</div></td>
+                    {% else %}
+                        <td>{{ cell }}</td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

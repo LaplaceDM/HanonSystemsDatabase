@@ -26,6 +26,14 @@ from django.http import HttpResponse
 from django.db.models import Q
 import math
 
+from .models import Test
+from .forms import TestUpdateForm
+from .tables import TestTable
+from .filters import TestFilter
+from django.core.paginator import Paginator
+
+
+
 class LaptopListView(SingleTableMixin,  CreateView, FilterView):
 
     model = Laptop
@@ -689,31 +697,114 @@ def delete_item_product(request, pk):
 
     return HttpResponseRedirect(reverse("product"))
 
-class TestListView(SingleTableMixin, CreateView, FilterView):
+# class TestListView(SingleTableMixin, CreateView, FilterView):
     
+#     model = Test
+#     table_class = TestTable
+#     template_name = 'html/test.html'
+#     success_url = '/database/tests'
+#     filterset_class = TestFilter
+#     form_class = TestForm
+#     def get_table_pagination(self, request):
+#         return False
+
+# class UpdateTableViewTest(SingleTableMixin,  UpdateView, FilterView):
+    
+    
+#     model = Test
+#     template_name = 'html/update_test.html'
+#     form_class = TestUpdateForm
+#     # template_name_suffix = 'html/index.html'
+#     # fields = '__all__'
+#     filterset_class = TestFilter
+#     success_url = '/database/tests'
+
+from django.shortcuts import render, get_object_or_404, redirect
+from django_tables2.views import SingleTableMixin
+from django.views.generic import CreateView, UpdateView
+from django_filters.views import FilterView
+from .models import Test
+from .forms import TestForm, TestUpdateForm
+from .tables import TestTable
+from .filters import TestFilter
+
+class TestListView(SingleTableMixin, CreateView, FilterView):
     model = Test
     table_class = TestTable
     template_name = 'html/test.html'
     success_url = '/database/tests'
     filterset_class = TestFilter
     form_class = TestForm
+
     def get_table_pagination(self, request):
         return False
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tests = self.get_queryset()
+        paginator = Paginator(tests, 10)  # 每页10条记录
+        page = self.request.GET.get('page')
+        context['page_obj'] = paginator.get_page(page)
+        context['is_paginated'] = True
+        return context
 
-class UpdateTableViewTest(SingleTableMixin,  UpdateView, FilterView):
-    
-    
+class UpdateTableViewTest(SingleTableMixin, UpdateView, FilterView):
     model = Test
     template_name = 'html/update_test.html'
     form_class = TestUpdateForm
-    # template_name_suffix = 'html/index.html'
-    # fields = '__all__'
     filterset_class = TestFilter
     success_url = '/database/tests'
+    table_class = TestTable
+
+    def get_queryset(self):
+        return Test.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # 设置 object_list，这里使用 get_queryset() 获取查询集
+        context['object_list'] = self.get_queryset()
+        return context
+
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        test = Test.objects.get(pk=instance.pk)
+
+        # 处理 supervisor_comments 字段
+        if test.supervisor_comments in instance.supervisor_comments and test.supervisor_comments != instance.supervisor_comments:
+            input = instance.supervisor_comments.replace("\n" + test.supervisor_comments, '')
+            new_line = str(datetime.now().date()) + " " + input + "\n"
+            new_comment = new_line + test.supervisor_comments
+            instance.supervisor_comments = new_comment
+        elif test.supervisor_comments == instance.supervisor_comments:
+            pass
+        else:
+            position = instance.supervisor_comments.find("\n")
+            new_line = str(datetime.now().date()) + " " + instance.supervisor_comments[:position + 1]
+            new_comment = new_line + instance.supervisor_comments[position + 1:]
+            instance.supervisor_comments = new_comment
+
+        instance.save()
+
+        # 更新相关的 ChamberLogInfo
+        info, created = ChamberLogInfo.objects.get_or_create(test_id=instance.pk)
+        info.comments = instance.supervisor_comments
+        info.chamber_id = instance.chamber_id
+        info.technician_id = instance.technician_id
+        info.program_id = instance.program_id
+        info.save()
+
+        return super().form_valid(form)
+
 
 def find(request, pk):
-    p = ChamberLogInfo.objects.get(test_id = pk).pk
-    return HttpResponseRedirect(reverse("ChamberLog", kwargs={'pk': p}))
+    try:
+        p = ChamberLogInfo.objects.get(test_id=pk).pk
+        # 这里你可以添加处理找到的对象的逻辑
+    except ChamberLogInfo.DoesNotExist:
+        # 如果对象不存在，返回一个友好的错误页面或消息
+        return render(request, 'error_page.html', {'message': 'ChamberLogInfo with this test ID does not exist.'})
+    # 如果对象存在，继续处理你的逻辑
+    return render(request, 'chamber_log_detail.html', {'pk': p})
 
 
 def delete_item_test(request, pk):
@@ -1654,7 +1745,10 @@ def delete_fixtures(request, pk):
     return HttpResponseRedirect(reverse("Fixtures"))
 
 
-
+# def test_view(request):
+#     queryset = Test.objects.all()  # 使用模型类的 objects 属性
+#     table = TestTable(queryset)  # 实例化表类
+#     return render(request, 'html/test.html', {'table': table})
 
 
 
