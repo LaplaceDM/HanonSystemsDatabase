@@ -95,6 +95,11 @@ urlpatterns = [
     path("product/update_product/<int:pk>", views.UpdateTableViewProduct.as_view(), name="update_product"),
 
     path("tests", views.TestListView.as_view(), name="test"),
+    ##################################################################
+    
+    #  path('tests/', views.test_view, name='test'),
+    
+    ##################################################################
     path("tests/delete_test/<int:pk>", views.delete_item_test, name="delete_test"),
     path("tests/update_test/<int:pk>", views.UpdateTableViewTest.as_view(), name="update_test"),
     path("tests/clone/<int:pk>", views.clone_item, name="clone"),
