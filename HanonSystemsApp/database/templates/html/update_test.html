@@ -74,9 +74,10 @@
             }
 
             .header-logo {
-                height: 80%;
+                height: 40px;
+                width: auto;
                 margin-right: 20px;
-            } 
+            }
 
             .header-title {
                 color: white;
@@ -89,7 +90,9 @@
     <body>
         {######################################################}
         <div class="top-header">
-            <img src="{% static 'logo.png' %}" alt="Title Image" class="header-logo">
+            <a href="{% url 'menu' %}">
+                <img src="{% static 'logo.png' %}" alt="Title Image" class="header-logo">
+            </a>
             <span class="header-title">GVV Lab Business Process Management System</span>
         </div>
 

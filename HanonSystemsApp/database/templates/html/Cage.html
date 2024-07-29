@@ -1,4 +1,3 @@
-{# tutorial/templates/tutorial/people.html #}
 <!doctype html>
 {% load render_table from django_tables2 %}
 {% load bootstrap3 %}
@@ -6,267 +5,242 @@
 {% bootstrap_css %}
 {% load static %}
 
-
-
 <html>
-    <head>      
-        <title>Cages </title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <style>
-            body {
-                padding-top: 50px; 
-            }
-            .menu{
-                {% comment %} display: block;
-                position: fixed;
-                width: 100%;
-                top: 0;
-                z-index: 1; {% endcomment %}
-                display: flex;
-                align-items: center;
-                position: fixed;
-                width: 100%;
-                top: 50px;
-                z-index: 1;
-            }
-            .dropdown{
-                display: inline-block;
-                width: 22%;
-                vertical-align: top;
-                position: relative;
-            }
-            .account{
-                display: inline-block;
-                width: 10%;
-                vertical-align: top;
-            }
-            .dropdown-label{
-                background-color: #0089c4;
-                color: white;
-                padding: 5px;
-                font-family: sans-serif;
-                text-align: center;
-            }
-            .dropdown-content a{
-                display: block;
-                color: black;
-                padding: 5px;
-                text-decoration: none;
-                font-family: sans-serif;
-                background-color: white;
-            }
-            .dropdown-content{
-                position: absolute;
-                width: 100%;
-                left: 0;
-                display: none;
-                z-index: 2;
-            }
-            .dropdown-content a:hover{
-                background-color: #ddd;
-            }
-
-            .dropdown:hover .dropdown-content {display: block;}
-            .menu-space{height: 35px;}
-            .filter, .add{
-                border-style: solid;
-                border-color: black;
-                border-width: 2px;
-            }
-
-            .top-header {
-                display: flex;
-                align-items: center;
-                justify-content: flex-start;
-                position: fixed;
-                width: 100%;
-                top: 0;
-                z-index: 2;
-                background-color: #1d3442;
-                text-align: left;
-                padding: 0;
-                height: 50px;
-            }
-
-            .header-logo {
-                height: 80%;
-                margin-right: 20px;
-            } 
-
-            .header-title {
-                color: white;
-                font-size: 24px;
-                font-weight: bold;
-                line-height: 50px;
-            }
-
-            {# Add CSS for table row height #}
-            {############################################################################################################}
-            table {
-                border-collapse: collapse;
-                width: 100%;
-            }
-            table tr {
-                height: 2px !important;
-            }
-            table td, table th {
-                padding: 1.5px !important;
-                line-height: 1.5 !important;
-                vertical-align: middle !important;
-            }
-        
-        </style>
-    </head>
-    <body>
-        <div class="top-header">
+<head>
+    <title>Cages</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            padding-top: 50px;
+        }
+        .menu {
+            display: flex;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 50px;
+            z-index: 1;
+        }
+        .dropdown {
+            display: inline-block;
+            width: 22%;
+            vertical-align: top;
+            position: relative;
+        }
+        .account {
+            display: inline-block;
+            width: 10%;
+            vertical-align: top;
+        }
+        .dropdown-label {
+            background-color: #0089c4;
+            color: white;
+            padding: 5px;
+            font-family: sans-serif;
+            text-align: center;
+        }
+        .dropdown-content a {
+            display: block;
+            color: black;
+            padding: 5px;
+            text-decoration: none;
+            font-family: sans-serif;
+            background-color: white;
+        }
+        .dropdown-content {
+            position: absolute;
+            width: 100%;
+            left: 0;
+            display: none;
+            z-index: 2;
+        }
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+        .dropdown:hover .dropdown-content {display: block;}
+        .menu-space {height: 35px;}
+        .filter, .add {
+            border-style: solid;
+            border-color: black;
+            border-width: 2px;
+        }
+        .top-header {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 2;
+            background-color: #1d3442;
+            text-align: left;
+            padding: 0;
+            height: 50px;
+        }
+        .header-logo {
+            height: 40px;
+            width: auto;
+            margin-right: 20px;
+        }
+        .header-title {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            line-height: 50px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        table tr {
+            height: 2px !important;
+        }
+        table td, table th {
+            padding: 1.5px !important;
+            line-height: 1.5 !important;
+            vertical-align: middle !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-header">
+        <a href="{% url 'menu' %}">
             <img src="{% static 'logo.png' %}" alt="Title Image" class="header-logo">
-            <span class="header-title">GVV Lab Business Process Management System</span>
+        </a>
+        <span class="header-title">GVV Lab Business Process Management System</span>
+    </div>
+
+    {% if user.is_authenticated %}
+    <div class="menu-space"></div>
+    <div class="menu">
+        <div class="dropdown">
+            <div class="dropdown-label">Daily Operations</div>
+            <div class="dropdown-content">
+                <a href="{% url 'test' %}">Tests</a>
+                <a href="{% url 'dut' %}">DUTs</a>
+                <a href="{% url 'Harness' %}">Harnesses</a>
+            </div>
         </div>
 
-        {%if user.is_authenticated%}
-        <div class = "menu-space"></div>
-        <div class = "menu">
-            <div class="dropdown">
-                <div class="dropdown-label">Daily Operations</div>
-                <div class="dropdown-content">
-                    <a href="{% url 'test' %}">Tests</a>
-                    <a href="{% url 'dut' %}">DUTs</a>
-                    <a href="{% url 'Harness' %}">Harnesses</a>
-                </div>
+        <div class="dropdown">
+            <div class="dropdown-label">Program Information</div>
+            <div class="dropdown-content">
+                <a href="{% url 'product' %}">Products</a>
+                <a href="{% url 'program' %}">Programs</a>
+                <a href="{% url 'TestMap' %}">Test Maps</a>
             </div>
-
-            <div class="dropdown">
-                <div class="dropdown-label">Program Information</div>
-                <div class="dropdown-content">
-                    <a href="{% url 'product' %}">Products</a>
-                    <a href="{% url 'program' %}">Programs</a>
-                    <a href="{% url 'TestMap' %}">Test Maps</a>
-                </div>
-            </div>
-
-            <div class="dropdown">
-                <div class="dropdown-label">Equipment Information</div>
-                <div class="dropdown-content">
-                    <a href="{% url 'Chamber' %}">Chambers</a>
-                    <a href="{% url 'Dar' %}">DARs</a>
-                    <a href="{% url 'cage' %}">Cages</a>
-                    <a href="{% url 'Laptop' %}">Laptops</a>
-                    <a href="{% url 'Fluid' %}">Test Fluids</a>
-                </div>
-            </div>
-            <div class="dropdown">
-                <div class="dropdown-label">Other</div>
-                <div class="dropdown-content">
-                    <a href="{% url 'Lab' %}">Labs</a>
-                    <a href="{% url 'Technician' %}">Technicians</a>
-                    <a href="{% url 'TestType' %}">Add new test type</a>
-                    <a href="{% url 'hours calculations' %}">Program Hours Calculator</a>
-                </div>
-            </div>
-            <div class = "account">
-                <div class="nav-item">
-                    <a class="nav-link" href="{% url 'Logout' %}">Logout</a>
-                </div>
-            </div>
-        </div>            
-        <a target="_blank" href="{% url 'Program_Cage' %}">Link a Cage with a Program</a>
-       <div class = 'filter'>
-        {% if filter %}
-            <form action="" method="get" class="form-inline">
-                {% bootstrap_form filter.form layout='inline'%}
-                {% bootstrap_button 'filter' %}
-            </form>
-        {% endif %}
         </div>
 
-        {% load crispy_forms_tags %}
-        <div class = 'add'>
-            <!--Django Model Form-->
-            <h2 class="my-4">Add a new Cage</h2>
-
-            
-
-            <form action="" method="post">
-              {% csrf_token %}
-                  {{form}}
-                  <button class="btn btn-primary my-4" onclick="clicked(event)" type="submit">Submit</button>
-            </form>
-
+        <div class="dropdown">
+            <div class="dropdown-label">Equipment Information</div>
+            <div class="dropdown-content">
+                <a href="{% url 'Chamber' %}">Chambers</a>
+                <a href="{% url 'Dar' %}">DARs</a>
+                <a href="{% url 'cage' %}">Cages</a>
+                <a href="{% url 'Laptop' %}">Laptops</a>
+                <a href="{% url 'Fluid' %}">Test Fluids</a>
+            </div>
         </div>
-
-            {% render_table table  "django_tables2/bootstrap.html"%} 
-
-        
-        
-
-        {%else%}
+        <div class="dropdown">
+            <div class="dropdown-label">Other</div>
+            <div class="dropdown-content">
+                <a href="{% url 'Lab' %}">Labs</a>
+                <a href="{% url 'Technician' %}">Technicians</a>
+                <a href="{% url 'TestType' %}">Add new test type</a>
+                <a href="{% url 'hours calculations' %}">Program Hours Calculator</a>
+            </div>
+        </div>
+        <div class="account">
             <div class="nav-item">
-                <a class="nav-link" href="{% url 'Login' %}">Login</a>
+                <a class="nav-link" href="{% url 'Logout' %}">Logout</a>
             </div>
-        {%endif%}
-        <script>
-            function clicked(e)
-                {
-                    if(!confirm('Are you sure?')) {
-                        e.preventDefault();
-                    }
+        </div>
+    </div>
+    <a target="_blank" href="{% url 'Program_Cage' %}">Link a Cage with a Program</a>
+    <div class='filter'>
+        {% if filter %}
+        <form action="" method="get" class="form-inline">
+            {% bootstrap_form filter.form layout='inline' %}
+            {% bootstrap_button 'filter' %}
+        </form>
+        {% endif %}
+    </div>
+
+    {% load crispy_forms_tags %}
+    <div class='add'>
+        <!--Django Model Form-->
+        <h2 class="my-4">Add a new Cage</h2>
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form }}
+            <button class="btn btn-primary my-4" onclick="clicked(event)" type="submit">Submit</button>
+        </form>
+    </div>
+
+    {% render_table table "django_tables2/bootstrap.html" %}
+    {% else %}
+    <div class="nav-item">
+        <a class="nav-link" href="{% url 'Login' %}">Login</a>
+    </div>
+    {% endif %}
+    <script>
+        function clicked(e) {
+            if (!confirm('Are you sure?')) {
+                e.preventDefault();
+            }
+        }
+        var table, rows
+        table = document.getElementsByTagName("table").item(0);
+        rows = table.rows;
+        for (let i = 1; i < rows.length; i++) {
+            x = rows[i].getElementsByTagName("td")[4];
+            y = x.getElementsByClassName("btn")[0];
+            y.onclick = function clicked(e) {
+                if (!confirm('Are you sure?')) {
+                    e.preventDefault();
                 }
-            var table, rows
-            table = document.getElementsByTagName("table").item(0);
-            rows = table.rows;
-            
-            for (let i = 1; i < rows.length ; i++){
-                x = rows[i].getElementsByTagName("td")[4];
-                y = x.getElementsByClassName("btn")[0];
-                y.onclick = function clicked(e)
-                {
-                    if(!confirm('Are you sure?')) {
-                        e.preventDefault();
-                    }
-                };
-            }
+            };
+        }
 
-            // Save scroll position before navigating away
-            function saveScrollPosition() {
-                localStorage.setItem('scrollPos', window.scrollY);
-            }
+        // Save scroll position before navigating away
+        function saveScrollPosition() {
+            localStorage.setItem('scrollPos', window.scrollY);
+        }
 
-            // Restore scroll position when the page loads
-            function restoreScrollPosition() {
-                const scrollPos = localStorage.getItem('scrollPos');
-                if (scrollPos) {
-                    window.scrollTo(0, scrollPos);
-                    localStorage.removeItem('scrollPos');
-                }
+        // Restore scroll position when the page loads
+        function restoreScrollPosition() {
+            const scrollPos = localStorage.getItem('scrollPos');
+            if (scrollPos) {
+                window.scrollTo(0, scrollPos);
+                localStorage.removeItem('scrollPos');
             }
+        }
 
-            // Attach saveScrollPosition function to all edit buttons
-            document.addEventListener("DOMContentLoaded", function () {
-                const editButtons = document.querySelectorAll(".btn");
-                editButtons.forEach(button => {
-                    button.addEventListener("click", function (event) {
-                        event.preventDefault();
-                        saveScrollPosition();
-                        // Open update_cage.html in a new tab/window
-                        window.open(this.href, '_blank');
-                        // Close the current window
-                        window.close();
-                    });
+        // Attach saveScrollPosition function to all edit buttons
+        document.addEventListener("DOMContentLoaded", function () {
+            const editButtons = document.querySelectorAll(".btn");
+            editButtons.forEach(button => {
+                button.addEventListener("click", function (event) {
+                    event.preventDefault();
+                    saveScrollPosition();
+                    // Open update_cage.html in a new tab/window
+                    window.open(this.href, '_blank');
+                    // Close the current window
+                    window.close();
                 });
-
-                // Restore scroll position
-                restoreScrollPosition();
             });
-            
-            //making table headers visible on scroll
-            let headings = document.getElementsByTagName("table")[0].rows[0].getElementsByTagName("th");
-            for (let i =0; i<headings.length;i++){
-                headings[i].style.position = "sticky";
-                headings[i].style.top = "75px";
-                headings[i].style.backgroundColor = "white";
-            }
 
+            // Restore scroll position
+            restoreScrollPosition();
+        });
 
-        </script>
-    </body>
+        // Making table headers visible on scroll
+        let headings = document.getElementsByTagName("table")[0].rows[0].getElementsByTagName("th");
+        for (let i = 0; i < headings.length; i++) {
+            headings[i].style.position = "sticky";
+            headings[i].style.top = "75px";
+            headings[i].style.backgroundColor = "white";
+        }
+    </script>
+</body>
 </html>

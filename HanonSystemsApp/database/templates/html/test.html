@@ -84,9 +84,10 @@
              height: 50px;
          }
          .header-logo {
-             height: 80%;
-             margin-right: 20px;
-         }
+            height: 40px;
+            width: auto;
+            margin-right: 20px;
+        }
          .header-title {
              color: white;
              font-size: 24px;
@@ -118,10 +119,12 @@
      </style>
  </head>
  <body>
-     <div class="top-header">
-         <img src="{% static 'logo.png' %}" alt="Title Image" class="header-logo">
-         <span class="header-title">GVV Lab Business Process Management System</span>
-     </div>
+    <div class="top-header">
+        <a href="{% url 'menu' %}">
+            <img src="{% static 'logo.png' %}" alt="Title Image" class="header-logo">
+        </a>
+        <span class="header-title">GVV Lab Business Process Management System</span>
+    </div>
  
      {% if user.is_authenticated %}
      <div class="menu-space"></div>
@@ -305,7 +308,7 @@
          </div>
      </div>
  
-     {% include 'C:\Quang Thang\Projects\Database\HanonSystemsDatabase\HanonSystemsApp\database\templates\html\custom_table_render.html' %}
+     {% include 'C:\Users\SZHANG36\Desktop\DB Project\HanonSystemsDatabase\HanonSystemsApp\database\templates\html\custom_table_render.html' %}
  
      {% else %}
      <div class="nav-item">
@@ -1021,7 +1024,14 @@
          document.addEventListener("DOMContentLoaded", function () {
              const editButtons = document.querySelectorAll(".btn");
              editButtons.forEach(button => {
-                 button.addEventListener("click", saveScrollPosition);
+                button.addEventListener("click", function (event) {
+                    event.preventDefault();
+                    saveScrollPosition();
+                    // Open update_cage.html in a new tab/window
+                    window.open(this.href, '_blank');
+                    // Close the current window
+                    window.close();
+                });
              });
  
              // Restore scroll position

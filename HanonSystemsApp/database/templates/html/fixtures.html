@@ -167,6 +167,38 @@
                 };
             }
             
+            // Save scroll position before navigating away
+            function saveScrollPosition() {
+                localStorage.setItem('scrollPos', window.scrollY);
+            }
+
+            // Restore scroll position when the page loads
+            function restoreScrollPosition() {
+                const scrollPos = localStorage.getItem('scrollPos');
+                if (scrollPos) {
+                    window.scrollTo(0, scrollPos);
+                    localStorage.removeItem('scrollPos');
+                }
+            }
+
+            // Attach saveScrollPosition function to all edit buttons
+            document.addEventListener("DOMContentLoaded", function () {
+                const editButtons = document.querySelectorAll(".btn");
+                editButtons.forEach(button => {
+                    button.addEventListener("click", function (event) {
+                        event.preventDefault();
+                        saveScrollPosition();
+                        // Open update_cage.html in a new tab/window
+                        window.open(this.href, '_blank');
+                        // Close the current window
+                        window.close();
+                    });
+                });
+
+                // Restore scroll position
+                restoreScrollPosition();
+            });
+
             //making table headers visible on scroll
             let headings = document.getElementsByTagName("table")[0].rows[0].getElementsByTagName("th");
             for (let i =0; i<headings.length;i++){

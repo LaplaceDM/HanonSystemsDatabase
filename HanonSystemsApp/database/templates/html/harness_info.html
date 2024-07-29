@@ -8,11 +8,6 @@
                 padding-top: 50px; 
             }
             .menu{
-                {% comment %} display: block;
-                position: fixed;
-                width: 100%;
-                top: 50px;
-                z-index: 1; {% endcomment %}
                 display: flex;
                 align-items: center;
                 position: fixed;
@@ -64,21 +59,6 @@
                 border-color: black;
                 border-width: 2px;
             }
-
-            {# Added a header with fixed position #}
-            {% comment %} .top-header {
-                position: fixed;
-                width: 100%;
-                top: 0;
-                z-index: 2;
-                background-color: #1d3442; 
-                text-align: center;
-                padding: 10px 0;
-                border-bottom: 1px solid #ccc;
-                font-size: 24px;
-                font-weight: bold; 
-                color: white; 
-            } {% endcomment %}
             .top-header {
                 display: flex;
                 align-items: center;
@@ -94,9 +74,10 @@
             }
 
             .header-logo {
-                height: 80%;
+                height: 40px;
+                width: auto;
                 margin-right: 20px;
-            } 
+            }
 
             .header-title {
                 color: white;
@@ -108,7 +89,9 @@
     </head>
     <body>
         <div class="top-header">
-            <img src="{% static 'logo.png' %}" alt="Title Image" class="header-logo">
+            <a href="{% url 'menu' %}">
+                <img src="{% static 'logo.png' %}" alt="Title Image" class="header-logo">
+            </a>
             <span class="header-title">GVV Lab Business Process Management System</span>
         </div>
 
