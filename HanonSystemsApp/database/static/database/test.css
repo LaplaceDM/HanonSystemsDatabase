@@ -67,3 +67,38 @@
     width: 20px;
     height: 10px;
 }
+
+#red_box{
+    background-color: red;
+    display: inline-block;
+    width: 20px;
+    height: 10px;
+}
+#purple_box{
+    background-color: purple;
+    display: inline-block;
+    width: 20px;
+    height: 10px;
+}
+#orange_box{
+    background-color: rgb(255, 255, 0);
+    display: inline-block;
+    width: 20px;
+    height: 10px;
+}
+#dark_orange_box{
+    background-color: rgb(255, 240, 230);
+    display: inline-block;
+    width: 20px;
+    height: 10px;
+}
+#grey_box{
+    background-color: rgb(211, 211, 211);
+    display: inline-block;
+    width: 20px;
+    height: 10px;
+}
+
+.legend{
+    display: inline-block;
+}

@@ -1,12 +1,5 @@
 from django.forms import ModelForm
-from .models import Program
 from .models import *
-from .models import Test
-from .models import ChamberLogInfo
-from .models import ChamberLog
-from .models import Cage
-from .models import DAR
-from .models import Chamber
 from django import forms
 from django.utils import timezone
 from datetime import datetime 
@@ -264,12 +257,26 @@ class TestUpdateForm(ModelForm):
 
 
 class TestForm(ModelForm):
+    choices1 = (('', '-----'),('complete', 'complete'),('cancelled', 'cancelled'),('current', 'current'),('upcoming', 'upcoming'),)
+    choices2 = (('', '-----'),('running', 'running'),('stopped', 'stopped'),('setup', 'setup'),('data review', 'data review'),('on hold', 'on hold'),('no man power', 'no man power'),('on track', 'on track'),)
+    choices3 = (("", "-----"),(1, 1),(2, 2),(3, 3),)
     targeted_start = forms.DateField(
         widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}), required=False)
     targeted_end = forms.DateField(
         widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}), required=False)
     supervisor_comments = forms.CharField(widget=forms.Textarea(attrs={"rows": "3"}), required=False)
-
+    scheduling= forms.ChoiceField(
+        widget=forms.Select,
+        choices = choices1
+    )
+    status= forms.ChoiceField(
+        widget=forms.Select,
+        choices = choices2
+    )
+    priority= forms.ChoiceField(
+        widget=forms.Select,
+        choices = choices3
+    )
     class Meta:
         model = Test
         exclude = ('created',)
