@@ -804,8 +804,7 @@ def find(request, pk):
         # 如果对象不存在，返回一个友好的错误页面或消息
         return render(request, 'error_page.html', {'message': 'ChamberLogInfo with this test ID does not exist.'})
     # 如果对象存在，继续处理你的逻辑
-    return HttpResponseRedirect(reverse('ChamberLog', kwargs={'pk': p}))
-    #return render(request, 'ChamberLog', {'pk': p})
+    return render(request, 'chamber_log_detail.html', {'pk': p})
 
 
 def delete_item_test(request, pk):
@@ -888,7 +887,6 @@ def children(request):
         return HttpResponse("product highligth compiled")
     
 def children1(request):
-    print(2232323232323232323)
     test_type_id = request.body
     try:
         test_type_id = int(test_type_id)
