@@ -129,6 +129,9 @@ class ProductFilter(django_filters.FilterSet):
         exclude = ['delete' ,]
 
 class TestFilter(django_filters.FilterSet):
+        choices1 = (('complete', 'complete'),('cancelled', 'cancelled'),('current', 'current'),('upcoming', 'upcoming'),)
+        choices2 = (('running', 'running'),('stopped', 'stopped'),('setup', 'setup'),('data review', 'data review'),('on hold', 'on hold'),('no man power', 'no man power'),('on track', 'on track'),)
+        choices3 = ((1, 1),(2, 2),(3, 3),)
         targeted_start = django_filters.DateFilter(field_name='targeted_start', 
                                             widget= forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
                                             lookup_expr='gte', label='Targed Start')
@@ -139,6 +142,20 @@ class TestFilter(django_filters.FilterSet):
                                             widget= forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
                                             lookup_expr='date',
                                             label='Created')
+        
+        scheduling= django_filters.ChoiceFilter(
+        widget=forms.Select,
+        choices = choices1
+        )
+        status= django_filters.ChoiceFilter(
+            widget=forms.Select,
+            choices = choices2
+        )
+        priority= django_filters.ChoiceFilter(
+            widget=forms.Select,
+            choices = choices3
+        )
+        
         class Meta:
             model = Test
             exclude = ['delete' ,]
