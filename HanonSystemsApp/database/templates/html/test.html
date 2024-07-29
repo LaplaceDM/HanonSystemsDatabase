@@ -1277,7 +1277,7 @@
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// {% endcomment %}
 
-{% comment %} <!doctype html>
+<!doctype html>
  {% load bootstrap3 %}
  {% bootstrap_css %}
  {% load static %}
@@ -2325,9 +2325,9 @@
              let program_id = document.getElementsByName("program_id")[1].value;
              let csrftoken = getCookie('csrftoken');
  
-             fetch("http://10.22.137.40:8000/database/testPageFilter", { method: "POST", body: program_id, headers: { "X-CSRFToken": csrftoken } })
+             fetch("http://127.0.0.1:8000/database/testPageFilter", { method: "POST", body: program_id, headers: { "X-CSRFToken": csrftoken } })
                  .then((response) =>
-                     fetch("http://10.22.137.40:8000/database/ProductList")
+                     fetch("http://127.0.0.1:8000/database/ProductList")
                  )
                  .then(result => result.json())
                  .then(result => {
@@ -2349,7 +2349,7 @@
                      }
                  })
                  .then(() =>
-                     fetch("http://10.22.137.40:8000/database/TestMapList")
+                     fetch("http://127.0.0.1:8000/database/TestMapList")
                  )
                  .then(result => result.json())
                  .then(result => {
@@ -2379,7 +2379,7 @@
          document.getElementById("program_dropdown").addEventListener("click", filter_products_and_testmaps)
      </script>
  </body>
- </html> {% endcomment %}
+ </html>
 
  {% comment %} /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
  /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -3578,7 +3578,7 @@
 
         </script>
     </body>
-</html> {% endcomment %}
+</html>
 
 
 
@@ -3605,7 +3605,7 @@
 
 
 
-{# tutorial/templates/tutorial/people.html #}
+{% comment %} {# tutorial/templates/tutorial/people.html #}
 <!doctype html>
 {% load render_table from django_tables2 %}
 {% load bootstrap3 %}
@@ -4779,9 +4779,9 @@
                 let program_id = document.getElementsByName("program_id")[1].value;
                 let csrftoken = getCookie('csrftoken');
                 
-                fetch("http://10.22.137.40:8000/database/testPageFilter", {method: "POST", body: program_id, headers:{"X-CSRFToken": csrftoken}})
+                fetch("http://127.0.0.1:8000/database/testPageFilter", {method: "POST", body: program_id, headers:{"X-CSRFToken": csrftoken}})
                 .then((response)=>
-                fetch("http://10.22.137.40:8000/database/ProductList")
+                fetch("http://127.0.0.1:8000/database/ProductList")
                 )
                 .then(result=> result.json())
                 .then(result=>{
@@ -4803,7 +4803,7 @@
                     }
                 })
                 .then(()=>
-                fetch("http://10.22.137.40:8000/database/TestMapList")
+                fetch("http://127.0.0.1:8000/database/TestMapList")
                 )
                 .then(result=> result.json())
                 .then(result=>{
@@ -4834,7 +4834,7 @@
 
         </script>
     </body>
-</html>
+</html> {% endcomment %}
 
 
 {#######################################################################################################################################################################################################################}
