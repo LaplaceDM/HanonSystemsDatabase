@@ -415,6 +415,10 @@
             window.location.href = currentUrl.toString();
         }
 
+        // Function to scroll to the bottom of the page
+        function scrollToBottom() {
+            window.scrollTo(0, document.body.scrollHeight);
+        }
 
          // column selector
          table3 = document.getElementsByTagName("table").item(3);
@@ -974,6 +978,10 @@
              }
              if (!confirm('Do you want to add this test?')) {
                  e.preventDefault();
+             } else
+             {
+                // Scroll to the bottom of the page
+                scrollToBottom();
              }
          }
          document.getElementsByName("targeted_start")[1].addEventListener("input", checkSchedule);
