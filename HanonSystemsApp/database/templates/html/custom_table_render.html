@@ -2,8 +2,55 @@
     <thead>
         <tr>
             {% for column in table.columns %}
-                <th>
+                <th class="{% if forloop.counter <= 11 %}frozen-column{% endif %}">
                     <a href="#" onclick="sortTable('{{ column.name }}')">{{ column.header }}</a>
+                    {% if forloop.counter == 6 %}
+                        <button class="legend-button">?</button>
+                        <div class="legend-content">
+                            Information about scheduling.
+                        </div>
+                    {% elif forloop.counter == 7 %}
+                        <button class="legend-button">?</button>
+                        <div class="legend-content">
+                            <div class="notation">
+                                <div id="green_box"></div>
+                                Running/ Data Review/ On track
+                            </div>
+                            <div class="notation">
+                                <div id="yellow_box"></div>
+                                Set up
+                            </div>
+                            <div class="notation">
+                                <div id="red_box"></div>
+                                Stopped/ On hold
+                            </div>
+                            <div class="notation">
+                                <div id="purple_box"></div>
+                                No man power
+                            </div>
+                            <div class='legend'>
+                                <div class="notation">
+                                    Row colors
+                                </div>
+                                <div class="notation">
+                                    <div id="grey_box"></div>
+                                    Completed/ Cancelled
+                                </div>
+                                <div class="notation">
+                                    <div id="orange_box"></div>
+                                    Priority 1
+                                </div>
+                                <div class="notation">
+                                    <div id="yellow_box"></div>
+                                    Priority 2
+                                </div>
+                                <div class="notation">
+                                    <div id="dark_orange_box"></div>
+                                    Priority 3
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
                 </th>
             {% endfor %}
         </tr>
@@ -12,11 +59,13 @@
         {% for row in table.rows %}
             <tr class="{% if forloop.counter0|divisibleby:2 %}even-row{% else %}odd-row{% endif %}">
                 {% for cell in row %}
-                    {% if forloop.counter == 18 %}
-                        <td><div class="scrollable">{{ cell }}</div></td>
-                    {% else %}
-                        <td>{{ cell }}</td>
-                    {% endif %}
+                    <td class="{% if forloop.counter <= 11 %}frozen-column{% endif %}">
+                        {% if forloop.counter == 18 %}
+                            <div class="scrollable">{{ cell }}</div>
+                        {% else %}
+                            {{ cell }}
+                        {% endif %}
+                    </td>
                 {% endfor %}
             </tr>
         {% endfor %}

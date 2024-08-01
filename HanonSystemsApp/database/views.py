@@ -742,7 +742,7 @@ class TestListView(SingleTableMixin, CreateView, FilterView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         tests = self.get_queryset()
-        paginator = Paginator(tests, 10)  # 每页10条记录
+        paginator = Paginator(tests, 10)
         page = self.request.GET.get('page')
         context['page_obj'] = paginator.get_page(page)
         context['is_paginated'] = True
