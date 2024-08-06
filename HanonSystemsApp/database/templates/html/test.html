@@ -107,7 +107,7 @@
             vertical-align: middle !important;
          }
          .scrollable {
-            max-height: 100px;
+            max-height: 45px;
             overflow-y: auto;
         }
         .even-row {
@@ -116,6 +116,80 @@
         .odd-row {
             background-color: white;
         }
+
+        #data-container .data-item {
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+        
+        #loading {
+            text-align: center;
+            padding: 10px;
+            font-size: 16px;
+            color: #888;
+        }
+
+        .legend-button {
+            background-color: #f1f1f1;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            margin-left: 5px;
+            font-size: 12px;
+            position: relative;
+        }
+        
+        .legend-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            border: 1px solid #ccc;
+            padding: 10px;
+            z-index: 1;
+            width: 200px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+        }
+        
+        .legend-button:hover + .legend-content,
+        .legend-content:hover {
+            display: block;
+        }
+        
+        #green_box, #yellow_box, #red_box, #purple_box, #grey_box, #orange_box, #dark_orange_box {
+            width: 15px;
+            height: 15px;
+            display: inline-block;
+        }
+        
+        #green_box { background-color: green; }
+        #yellow_box { background-color: yellow; }
+        #red_box { background-color: red; }
+        #purple_box { background-color: purple; }
+        #grey_box { background-color: grey; }
+        #orange_box { background-color: orange; }
+        #dark_orange_box { background-color: darkorange; }
+
+        {% comment %} 
+        .table th.frozen-column, .table td.frozen-column {
+            position: sticky;
+            left: 0;
+            background-color: white;
+            z-index: 1;
+            box-shadow: 2px 0px 5px rgba(0,0,0,0.1);
+        }
+        .table th.frozen-column:nth-child(1), .table td.frozen-column:nth-child(1) { left: 0; }
+        .table th.frozen-column:nth-child(2), .table td.frozen-column:nth-child(2) { left: 50px; }
+        .table th.frozen-column:nth-child(3), .table td.frozen-column:nth-child(3) { left: 100px; }
+        .table th.frozen-column:nth-child(4), .table td.frozen-column:nth-child(4) { left: 300px; }
+        .table th.frozen-column:nth-child(5), .table td.frozen-column:nth-child(5) { left: 400px; }
+        .table th.frozen-column:nth-child(6), .table td.frozen-column:nth-child(6) { left: 500px; }
+        .table th.frozen-column:nth-child(7), .table td.frozen-column:nth-child(7) { left: 600px; }
+        .table th.frozen-column:nth-child(8), .table td.frozen-column:nth-child(8) { left: 700px; }
+        .table th.frozen-column:nth-child(9), .table td.frozen-column:nth-child(9) { left: 800px; }
+        .table th.frozen-column:nth-child(10), .table td.frozen-column:nth-child(10) { left: 900px; }
+        .table th.frozen-column:nth-child(11), .table td.frozen-column:nth-child(11) { left: 1000px; } {% endcomment %}
+        
+                
      </style>
  </head>
  <body>
@@ -125,6 +199,11 @@
         </a>
         <span class="header-title">GVV Lab Business Process Management System</span>
     </div>
+
+    {% comment %} #################################################################################################################################################################### {% endcomment %}
+    <div id="data-container">
+      </div>
+      <div id="loading" style="display: none;">Loading...</div>
  
      {% if user.is_authenticated %}
      <div class="menu-space"></div>
@@ -308,56 +387,6 @@
          <input type="checkbox" id="checkStatus_log" onclick="hide('checkStatus_log', 23)">
          <label for="checkStatus_log"> Log</label>
      </center>
-     <div>
-        <div>
-            <label>
-                Legend:
-            </label>
-        </div>
-        <div class ='legend'>
-            <div class="notation">
-                Statuses
-            </div>
-            <div class="notation">
-                <div id="green_box"></div>
-                Running/ Data Review/ On track
-            </div>
-            <div class="notation">
-                <div id="yellow_box"></div>
-                Set up
-            </div>
-            <div class="notation">
-                <div id="red_box"></div>
-                Stopped/ On hold
-            </div>
-            <div class="notation">
-                <div id="purple_box"></div>
-                No man power
-            </div>
-        </div>
-
-        <div class ='legend'>
-            <div class="notation">
-                Row colors
-            </div>
-            <div class="notation">
-                <div id="grey_box"></div>
-                Completed/ Cancelled
-            </div>
-            <div class="notation">
-                <div id="orange_box"></div>
-                Priority 1
-            </div>
-            <div class="notation">
-                <div id="yellow_box"></div>
-                Priority 2
-            </div>
-            <div class="notation">
-                <div id="dark_orange_box"></div>
-                Priority 3
-            </div>
-        </div>
-    </div>
  
      {% include 'C:\Quang Thang\Projects\Database\HanonSystemsDatabase\HanonSystemsApp\database\templates\html\custom_table_render.html' %}
  
@@ -1074,7 +1103,7 @@
  
          // Attach saveScrollPosition function to all edit buttons
          document.addEventListener("DOMContentLoaded", function () {
-             const editButtons = document.querySelectorAll(".btn");
+             const editButtons = document.querySelectorAll();
              editButtons.forEach(button => {
                 button.addEventListener("click", function (event) {
                     event.preventDefault();
@@ -1084,6 +1113,26 @@
                     // Close the current window
                     window.close();
                 });
+             });
+
+             const buttons = document.querySelectorAll('.legend-button');
+             buttons.forEach(button => {
+                 button.addEventListener('mouseover', function() {
+                     this.nextElementSibling.style.display = 'block';
+                 });
+                 button.addEventListener('mouseout', function() {
+                     this.nextElementSibling.style.display = 'none';
+                 });
+             });
+         
+             const contents = document.querySelectorAll('.legend-content');
+             contents.forEach(content => {
+                 content.addEventListener('mouseover', function() {
+                     this.style.display = 'block';
+                 });
+                 content.addEventListener('mouseout', function() {
+                     this.style.display = 'none';
+                 });
              });
  
              // Restore scroll position

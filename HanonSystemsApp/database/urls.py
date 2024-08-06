@@ -166,7 +166,6 @@ urlpatterns = [
     path('Fixtures/update_Fixtures/<int:pk>', views.UpdateTableViewFixtures.as_view(), name="update_Fixtures"),
     
     ########################################################################################################################################################
-    
 ]
 
 
