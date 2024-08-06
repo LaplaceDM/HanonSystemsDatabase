@@ -13,7 +13,6 @@ class Program(models.Model):
     enterproj_id = models.CharField(max_length = 10, verbose_name = "EnterProj ID",  null = True)
     wbs_number = models.CharField(max_length = 30, null = True, verbose_name = "WBS")
     oem = models.CharField(max_length = 20, null = True, verbose_name = "OEM")
-    
     program_id = models.SmallAutoField(primary_key=True)
 
     def __str__(self):
