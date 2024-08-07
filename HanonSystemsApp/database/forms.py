@@ -257,8 +257,8 @@ class TestUpdateForm(ModelForm):
 
 
 class TestForm(ModelForm):
-    choices1 = (('', '-----'),('complete', 'complete'),('cancelled', 'cancelled'),('current', 'current'),('upcoming', 'upcoming'),('archive', 'archive'))
-    choices2 = (('', '-----'),('running', 'running'),('stopped', 'stopped'),('setup', 'setup'),('data review', 'data review'),('on hold', 'on hold'),('no man power', 'no man power'),('on track', 'on track'),)
+    choices1 = (('', '-----'),('complete', 'complete'),('cancelled', 'cancelled'),('current', 'current'),('upcoming', 'upcoming'),('archive', 'archive'),('next 1', 'next 1'),('next 2', 'next 2'),('next 3', 'next 3'),('next 4', 'next 4'),('next 5', 'next 5'),('next 6', 'next 6'),('next 7', 'next 7'),('next 8', 'next 8'),('next 9', 'next 9'),('next 10', 'next 10'))
+    choices2 = (('', '-----'),('0-stopped', '0-stopped'),('1-setup', '1-setup'),('2-running', '2-running'),('3-data review', '3-data review'),('4-on hold', '4-on hold'),('5-no man power', '5-no man power'),('6-on track', '6-on track'),)
     choices3 = (("", "-----"),(1, 1),(2, 2),(3, 3),)
     targeted_start = forms.DateField(
         widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}), required=False)

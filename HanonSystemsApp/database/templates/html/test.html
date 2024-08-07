@@ -390,11 +390,20 @@
          <input type="checkbox" id="checkStatus_log" onclick="hide('checkStatus_log', 23)">
          <label for="checkStatus_log"> Log</label>
 
-        {####################################################################################################################################}
-         <button type="button" onclick="hideCompleteTests()">Hide Complete Tests</button>
-        {####################################################################################################################################}
      </center>
- 
+
+        <input type="radio" id="All" name="table-filter" onclick="filterTable('all')" checked>
+        <label for="All">All</label>
+        <input type="radio" id="Current" name="table-filter" onclick="filterTable('current')">
+        <label for="Current">Current</label>
+        <input type="radio" id="Upcoming" name="table-filter" onclick="filterTable('upcoming')">
+        <label for="Upcoming">Upcoming</label>
+        <input type="radio" id="Current&Upcoming" name="table-filter" onclick="filterTable('current&upcoming')">
+        <label for="Current&Upcoming">Current&Upcoming</label>
+        <input type="radio" id="Include Archive" name="table-filter" onclick="filterTable('archive')">
+        <label for="Include Archive">Include Archive</label>
+
+
      {% include 'C:\Quang Thang\Projects\Database\HanonSystemsDatabase\HanonSystemsApp\database\templates\html\custom_table_render.html' %}
  
      {% else %}
@@ -1317,6 +1326,55 @@
          document.getElementsByName("program_id")[0].addEventListener("input", filter_products_and_testmaps2)
          document.getElementById("program_dropdown_filter").addEventListener("click", filter_products_and_testmaps2)
          hide('checkdelete', 20)
+
+         //hiding all archive
+         rows = document.getElementsByTagName("table")[5].rows
+         for (let i = 0; i<rows.length;i++){
+            if (rows[i].cells[5].innerText == "archive"){
+                rows[i].style.display = "none"
+            }
+         }
+
+         //filtering table from radio buttons
+         function filterTable(scheduling){
+            let rows = document.getElementsByTagName("table")[5].rows
+            if (scheduling=='all'){
+                for (let i = 1; i<=rows.length;i++){
+                    if (rows[i].cells[5].innerText == "archive"){
+                    rows[i].style.display = "none"
+                    } else{
+                        rows[i].style.display = ""
+                    }
+                }
+
+            } else if(scheduling =='archive'){
+                for (let i = 1; i<=rows.length;i++){
+                    rows[i].style.display = ""
+                }
+
+            } else if(scheduling == 'current&upcoming'){
+                for (let i = 1; i<=rows.length;i++){
+                    if (rows[i].cells[5].innerText == "current"||rows[i].cells[5].innerText == "upcoming"){
+                    rows[i].style.display = ""
+                    } else{
+                        rows[i].style.display = "none"
+                    }
+                }
+
+            } else{
+                for (let i = 1; i<=rows.length;i++){
+                    if (rows[i].cells[5].innerText == scheduling){
+                    rows[i].style.display = ""
+                    } else{
+                        rows[i].style.display = "none"
+                    }
+                }
+            }
+
+         }
+
+
+
      </script>
  </body>
  </html>
