@@ -272,6 +272,9 @@
                      {% csrf_token %}
                      {{ form }}
                      <button type="submit" onclick="submitCheck(event)">Submit</button>
+                     {####################################################################################################################################}
+                     <button type="button" onclick="clearForm()">Clear</button>
+                     {####################################################################################################################################}
                  </form>
                  <div>
                      <label for="search_program">Search for Program</label>
@@ -386,6 +389,10 @@
          <label for="checkclone"> Clone</label>
          <input type="checkbox" id="checkStatus_log" onclick="hide('checkStatus_log', 23)">
          <label for="checkStatus_log"> Log</label>
+
+        {####################################################################################################################################}
+         <button type="button" onclick="hideCompleteTests()">Hide Complete Tests</button>
+        {####################################################################################################################################}
      </center>
  
      {% include 'C:\Quang Thang\Projects\Database\HanonSystemsDatabase\HanonSystemsApp\database\templates\html\custom_table_render.html' %}
@@ -415,6 +422,42 @@
             window.location.href = currentUrl.toString();
         }
 
+        {####################################################################################################################################}
+        function clearForm() {
+            // clear input content
+            document.querySelectorAll('.form input, .form select, .form textarea').forEach(element => {
+                element.value = '';
+            });
+            // clear search content
+            document.getElementById('search_program').value = '';
+            // clear drop down content
+            document.getElementById('program_dropdown').innerHTML = '';
+        }
+
+        function hideCompleteTests() {
+            var table = document.getElementById('######'); // need to replace the table
+            var rows = table.getElementsByTagName('tr');
+            for (var i = 1; i < rows.length; i++) {
+                var cells = rows[i].cells;
+                var status = cells[5].innerText.toLowerCase(); 
+                if (status === "complete" || status === "cancelled") {
+                    rows[i].style.display = 'none'; 
+                }
+            }
+        }
+
+        function hide(checkboxId, columnIndex) {
+            var checkbox = document.getElementById(checkboxId);
+            var table = document.getElementById('######'); // need to replace the table
+            var rows = table.getElementsByTagName('tr');
+            for (var i = 0; i < rows.length; i++) {
+                var cells = rows[i].cells;
+                if (cells[columnIndex]) {
+                    cells[columnIndex].style.display = checkbox.checked ? 'none' : '';
+                }
+            }
+        }
+        {####################################################################################################################################}
 
          // column selector
          table3 = document.getElementsByTagName("table").item(3);
