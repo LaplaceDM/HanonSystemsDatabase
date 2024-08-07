@@ -257,7 +257,7 @@ class TestUpdateForm(ModelForm):
 
 
 class TestForm(ModelForm):
-    choices1 = (('', '-----'),('complete', 'complete'),('cancelled', 'cancelled'),('current', 'current'),('upcoming', 'upcoming'),)
+    choices1 = (('', '-----'),('complete', 'complete'),('cancelled', 'cancelled'),('current', 'current'),('upcoming', 'upcoming'),('archive', 'archive'))
     choices2 = (('', '-----'),('running', 'running'),('stopped', 'stopped'),('setup', 'setup'),('data review', 'data review'),('on hold', 'on hold'),('no man power', 'no man power'),('on track', 'on track'),)
     choices3 = (("", "-----"),(1, 1),(2, 2),(3, 3),)
     targeted_start = forms.DateField(
