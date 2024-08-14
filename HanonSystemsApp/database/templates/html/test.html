@@ -11,7 +11,7 @@
  
      <style>
          body {
-             padding-top: 50px; 
+             padding-top: 100px; 
          }
          .menu {
              display: flex;
@@ -19,7 +19,7 @@
              position: fixed;
              width: 100%;
              top: 50px;
-             z-index: 1;
+             z-index: 5;
          }
          .dropdown {
              display: inline-block;
@@ -54,13 +54,13 @@
              width: 100%;
              left: 0;
              display: none;
-             z-index: 2;
+             z-index: 6;
          }
          .dropdown-content a:hover {
              background-color: #ddd;
          }
          .dropdown:hover .dropdown-content {display: block; z-index: 1;}
-         .menu-space {height: 35px;}
+         .menu-space {height: 1px;}
          .filter, .add {
              border-style: solid;
              border-color: black;
@@ -77,7 +77,7 @@
              position: fixed;
              width: 100%;
              top: 0;
-             z-index: 2;
+             z-index: 20;
              background-color: #1d3442;
              text-align: left;
              padding: 0;
@@ -169,27 +169,21 @@
         #orange_box { background-color: orange; }
         #dark_orange_box { background-color: darkorange; }
 
-        {% comment %} 
-        .table th.frozen-column, .table td.frozen-column {
-            position: sticky;
-            left: 0;
-            background-color: white;
-            z-index: 1;
-            box-shadow: 2px 0px 5px rgba(0,0,0,0.1);
+        .table th, .table td {
+            box-sizing: border-box; /* Ensures padding and borders are included in width calculation */
         }
-        .table th.frozen-column:nth-child(1), .table td.frozen-column:nth-child(1) { left: 0; }
-        .table th.frozen-column:nth-child(2), .table td.frozen-column:nth-child(2) { left: 50px; }
-        .table th.frozen-column:nth-child(3), .table td.frozen-column:nth-child(3) { left: 100px; }
-        .table th.frozen-column:nth-child(4), .table td.frozen-column:nth-child(4) { left: 300px; }
-        .table th.frozen-column:nth-child(5), .table td.frozen-column:nth-child(5) { left: 400px; }
-        .table th.frozen-column:nth-child(6), .table td.frozen-column:nth-child(6) { left: 500px; }
-        .table th.frozen-column:nth-child(7), .table td.frozen-column:nth-child(7) { left: 600px; }
-        .table th.frozen-column:nth-child(8), .table td.frozen-column:nth-child(8) { left: 700px; }
-        .table th.frozen-column:nth-child(9), .table td.frozen-column:nth-child(9) { left: 800px; }
-        .table th.frozen-column:nth-child(10), .table td.frozen-column:nth-child(10) { left: 900px; }
-        .table th.frozen-column:nth-child(11), .table td.frozen-column:nth-child(11) { left: 1000px; } {% endcomment %}
         
-                
+        .table th.frozen-column, .table td.frozen-column {
+            width: 150px;  /* Ensure that all frozen columns have the same width */
+        }
+        
+        .table th.frozen-column:nth-child(2), .table td.frozen-column:nth-child(2) { 
+            width: 200px;
+        }
+        
+        .table th.frozen-column:nth-child(3), .table td.frozen-column:nth-child(3) { 
+            width: 250px;
+        }
      </style>
  </head>
  <body>
@@ -404,7 +398,11 @@
         <label for="Include Archive">Include Archive</label>
 
 
-     {% include 'C:\Quang Thang\Projects\Database\HanonSystemsDatabase\HanonSystemsApp\database\templates\html\custom_table_render.html' %}
+     {% include 'C:\Users\SZHANG36\Desktop\DB Project\HanonSystemsDatabase\HanonSystemsApp\database\templates\html\custom_table_render.html' %}
+
+     <div class="table-container">
+        {% include 'C:\Users\SZHANG36\Desktop\DB Project\HanonSystemsDatabase\HanonSystemsApp\database\templates\html\custom_table_render.html' %}
+    </div>
  
      {% else %}
      <div class="nav-item">
@@ -1152,6 +1150,20 @@
                  localStorage.removeItem('scrollPos');
              }
          }
+
+         window.addEventListener('resize', function() {
+            let createdColumn = document.querySelectorAll('.frozen-column:nth-child(1)');
+            let productColumn = document.querySelectorAll('.frozen-column:nth-child(2)');
+            let programColumn = document.querySelectorAll('.frozen-column:nth-child(3)');
+        
+            let createdWidth = createdColumn[0].offsetWidth;
+            let productWidth = productColumn[0].offsetWidth;
+            let programWidth = programColumn[0].offsetWidth;
+        
+            createdColumn.forEach(cell => cell.style.width = createdWidth + 'px');
+            productColumn.forEach(cell => cell.style.width = productWidth + 'px');
+            programColumn.forEach(cell => cell.style.width = programWidth + 'px');
+        });
  
          // Attach saveScrollPosition function to all edit buttons
          document.addEventListener("DOMContentLoaded", function () {
