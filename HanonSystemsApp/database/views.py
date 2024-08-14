@@ -34,6 +34,30 @@ from django.core.paginator import Paginator
 
 
 
+##################################################################################################################################################################################################################
+
+def test_view(request):
+    # 获取排序参数
+    sort_column = request.GET.get('sort', 'default_column')  # 'default_column' 是默认排序的列名
+    sort_order = request.GET.get('order', 'asc')  # 默认为升序排序
+
+    # 如果是降序排序，添加负号前缀
+    if sort_order == 'desc':
+        sort_column = f'-{sort_column}'
+
+    # 查询并排序
+    table = TestTable.objects.all().order_by(sort_column)
+
+    context = {
+        'table': table,
+        # 其他上下文变量
+    }
+
+    return render(request, 'test.html', context)
+
+##################################################################################################################################################################################################################
+
+
 class LaptopListView(SingleTableMixin,  CreateView, FilterView):
 
     model = Laptop
