@@ -1094,7 +1094,10 @@ class ChamberLogView(SingleTableMixin, CreateView, FilterView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['ChamberLogInfo'] = ChamberLogInfo.objects.filter(pk = self.kwargs.get('pk'))
-        context['Comments'] = ChamberLogInfo.objects.filter(pk = self.kwargs.get('pk'))[0].comments.replace("\n", "<br>")
+        comments = ChamberLogInfo.objects.filter(pk = self.kwargs.get('pk'))[0].comments
+        if comments:
+            comments = comments.replace("\n", "<br>")
+        context['Comments'] = comments
         return context
     
     def get_success_url(self):
@@ -1752,3 +1755,31 @@ def delete_fixtures(request, pk):
 
 
 ##################################################################################################################################################################################
+
+
+def create_logs(request):
+    
+    tests = Test.objects.all()
+    
+    for test in tests:
+        log = ChamberLogInfo.objects.filter(test_id = test.test_id)
+        if not log:
+            new_log = ChamberLogInfo(
+            chamber_id=test.chamber_id,
+            program_id=test.program_id,
+            technician_id=test.technician_id,
+            test_id=Test.objects.get(pk=test.pk),
+            pretest_inspection_and_photo=None,
+            setup_photo=None,
+            humidity=None,
+            system_pressure=None,
+            voltage=None,
+            comments=test.supervisor_comments,
+            system_restriction_target=None,
+            system_restriction_record=None,
+            trial_run_record_and_process=None,
+            special_requirements=None)
+            
+            new_log.save()
+    
+    return HttpResponse("done")

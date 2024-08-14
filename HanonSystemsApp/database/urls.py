@@ -157,6 +157,7 @@ urlpatterns = [
     path("ProductList", views.getProductList, name="get_Product_List"),
     path("TestMapList", views.getTestMapList, name="get_TestMap_List"),
     
+    path('createlogs', views.create_logs, name="create_logs"),
     
     ########################################################################################################################################################
     # TEST PAGE

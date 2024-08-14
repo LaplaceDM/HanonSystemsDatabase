@@ -4,13 +4,9 @@
             {% for column in table.columns %}
                 <th class="{% if forloop.counter <= 11 %}frozen-column{% endif %}">
                     <a href="#" onclick="sortTable('{{ column.name }}')">{{ column.header }}</a>
-                    {% if forloop.counter == 6 %}
+                    {% if forloop.counter == 5 %}
                         <button class="legend-button">?</button>
                         <div class="legend-content">
-                            <div class="notation">
-                                <div id="grey_box"></div>
-                                Completed/ Cancelled
-                            </div>
                             <div class="notation">
                                 <div id="orange_box"></div>
                                 Priority 1
@@ -22,6 +18,14 @@
                             <div class="notation">
                                 <div id="dark_orange_box"></div>
                                 Priority 3
+                            </div>
+                        </div>
+                        {% elif forloop.counter == 6 %}
+                        <button class="legend-button">?</button>
+                        <div class="legend-content">
+                            <div class="notation">
+                                <div id="grey_box"></div>
+                                Completed/ Cancelled
                             </div>
                         </div>
                     {% elif forloop.counter == 7 %}
