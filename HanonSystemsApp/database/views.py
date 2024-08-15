@@ -776,18 +776,9 @@ class UpdateTableViewTest(SingleTableMixin, UpdateView, FilterView):
     model = Test
     template_name = 'html/update_test.html'
     form_class = TestUpdateForm
-    filterset_class = TestFilter
     success_url = '/database/tests'
-    table_class = TestTable
 
-    def get_queryset(self):
-        return Test.objects.all()
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        # 设置 object_list，这里使用 get_queryset() 获取查询集
-        context['object_list'] = self.get_queryset()
-        return context
 
     def form_valid(self, form):
         instance = form.save(commit=False)
@@ -983,7 +974,7 @@ def chamber_schedule(request):
         a.close()
         return HttpResponse("No chamber selected")
     else:
-        chamber_tests = Test.objects.filter(Q(scheduling = "current")|Q(scheduling = "upcoming")).filter(chamber_id = chamber_id).order_by("targeted_start")
+        chamber_tests = Test.objects.filter(Q(scheduling = "current")|Q(scheduling = "upcoming")).filter(chamber_id = chamber_id).order_by("targeted_start").first(10)
         a = open("database/templates/html/chamber_schedule", "w")
         a.write("{\n")
         a.close()
@@ -1012,7 +1003,7 @@ def dar_schedule(request):
         a.close()
         return HttpResponse("No DAR selected")
     else:
-        dar_tests = Test.objects.filter(Q(scheduling = "current")|Q(scheduling = "upcoming")).filter(dar_id = dar_id).order_by("targeted_start")
+        dar_tests = Test.objects.filter(Q(scheduling = "current")|Q(scheduling = "upcoming")).filter(dar_id = dar_id).order_by("targeted_start").first(10)
         a = open("database/templates/html/dar_schedule", "w")
         a.write("{\n")
         a.close()
@@ -1040,7 +1031,7 @@ def cage_schedule(request):
         a.close()
         return HttpResponse("No cage selected")
     else:
-        cage_tests = Test.objects.filter(Q(scheduling = "current")|Q(scheduling = "upcoming")).filter(cage_id = cage_id).order_by("targeted_start")
+        cage_tests = Test.objects.filter(Q(scheduling = "current")|Q(scheduling = "upcoming")).filter(cage_id = cage_id).order_by("targeted_start").first(10)
         a = open("database/templates/html/cage_schedule", "w")
         a.write("{\n")
         a.close()
@@ -1805,5 +1796,18 @@ def create_logs(request):
             special_requirements=None)
             
             new_log.save()
+    
+    return HttpResponse("done")
+
+def lower(request):
+    
+    tests = Test.objects.all()
+    
+    for test in tests:
+        scheduling = test.scheduling
+        if scheduling:
+            test.scheduling = scheduling.lower()
+            test.save()
+        
     
     return HttpResponse("done")

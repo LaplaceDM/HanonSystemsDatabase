@@ -147,12 +147,6 @@
 
         {% load crispy_forms_tags %}
         <h2 class="my-4">Update an existing Test</h2>
-        {% if filter %}
-            <form action="" method="get" class="form-inline">
-                {% bootstrap_form filter.form layout='inline'%}
-                {% bootstrap_button 'filter' %}
-            </form>
-        {% endif %}
             
         <form action="" method="post" novalidate>
             {% csrf_token %}
@@ -388,40 +382,11 @@
             //formating filter and update fields
             var label, input, formated_label, formated_input, length, formated_fields, current_fields, th, td, button, children;
 
-            length = 19;
-
-            formated_fields = document.createElement("table");
-            formated_fields.id = "filter";
-
-            current_fields = document.getElementsByTagName("form")[0];
-            current_fields.appendChild(formated_fields);
-            formated_label = document.createElement("tr");
-            formated_input = document.createElement("tr");
-            
-            for (var i =0; i<length; i++){
-                th = document.createElement("th");
-                td = document.createElement("td");
-                label = document.getElementsByClassName("sr-only")[i].innerHTML;
-                input = document.getElementsByClassName("form-control")[i].cloneNode(true);
-                input.id = "filter_field";
-                th.innerHTML=label;
-                td.appendChild(input);
-                formated_label.appendChild(th);
-                formated_input.appendChild(td);
-            }
-            button = document.getElementsByTagName("button")[0]
-            formated_fields.appendChild(formated_label);
-            formated_fields.appendChild(formated_input);
-            current_fields.appendChild(button);
-
-            for (var i =0; i<length; i++){
-                document.getElementsByClassName("form-group")[0].remove();
-            }
 
             length = 18;
             formated_fields = document.createElement("table");
             formated_fields.id = "add";
-            current_fields = document.getElementsByTagName("form")[1];
+            current_fields = document.getElementsByTagName("form")[0];
             children = current_fields.children;
             current_fields.appendChild(formated_fields);
             formated_label = document.createElement("tr");

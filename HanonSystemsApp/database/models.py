@@ -151,7 +151,7 @@ class Test(models.Model):
     total_hours = models.SmallIntegerField(null = True)
 
     def __str__(self):
-        return f"{self.test_map_id.tr} - {self.test_type_id}: {self.test_description}"
+        return f"{self.test_type_id}: {self.test_description}"
 
 class ChamberLog(models.Model):
     id = models.BigAutoField(primary_key=True)
