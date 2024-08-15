@@ -158,6 +158,7 @@ urlpatterns = [
     path("TestMapList", views.getTestMapList, name="get_TestMap_List"),
     
     path('createlogs', views.create_logs, name="create_logs"),
+    path('lower', views.lower, name="lower"),
     
     ########################################################################################################################################################
     # TEST PAGE

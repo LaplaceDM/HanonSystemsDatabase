@@ -386,23 +386,17 @@
 
      </center>
 
-        <input type="radio" id="All" name="table-filter" onclick="filterTable('all')" checked>
-        <label for="All">All</label>
-        <input type="radio" id="Current" name="table-filter" onclick="filterTable('current')">
-        <label for="Current">Current</label>
-        <input type="radio" id="Upcoming" name="table-filter" onclick="filterTable('upcoming')">
-        <label for="Upcoming">Upcoming</label>
-        <input type="radio" id="Current&Upcoming" name="table-filter" onclick="filterTable('current&upcoming')">
-        <label for="Current&Upcoming">Current&Upcoming</label>
-        <input type="radio" id="Include Archive" name="table-filter" onclick="filterTable('archive')">
-        <label for="Include Archive">Include Archive</label>
 
+     {% include 'C:\Quang Thang\Projects\Database\LaplaceDM\HanonSystemsDatabase\HanonSystemsApp\database\templates\html\custom_table_render.html' %}
 
+<<<<<<< HEAD
+=======
      {% include 'C:\Users\SZHANG36\Desktop\LaplaceDM DB Project\HanonSystemsDatabase\HanonSystemsApp\database\templates\html\custom_table_render.html' %}
 
      <div class="table-container">
         {% include 'C:\Users\SZHANG36\Desktop\LaplaceDM DB Project\HanonSystemsDatabase\HanonSystemsApp\database\templates\html\custom_table_render.html' %}
     </div>
+>>>>>>> 358168200fbadf0422cc34866a153556eee7df60
  
      {% else %}
      <div class="nav-item">
@@ -1346,46 +1340,6 @@
                 rows[i].style.display = "none"
             }
          }
-
-         //filtering table from radio buttons
-         function filterTable(scheduling){
-            let rows = document.getElementsByTagName("table")[5].rows
-            if (scheduling=='all'){
-                for (let i = 1; i<=rows.length;i++){
-                    if (rows[i].cells[5].innerText == "archive"){
-                    rows[i].style.display = "none"
-                    } else{
-                        rows[i].style.display = ""
-                    }
-                }
-
-            } else if(scheduling =='archive'){
-                for (let i = 1; i<=rows.length;i++){
-                    rows[i].style.display = ""
-                }
-
-            } else if(scheduling == 'current&upcoming'){
-                for (let i = 1; i<=rows.length;i++){
-                    if (rows[i].cells[5].innerText == "current"||rows[i].cells[5].innerText == "upcoming"){
-                    rows[i].style.display = ""
-                    } else{
-                        rows[i].style.display = "none"
-                    }
-                }
-
-            } else{
-                for (let i = 1; i<=rows.length;i++){
-                    if (rows[i].cells[5].innerText == scheduling){
-                    rows[i].style.display = ""
-                    } else{
-                        rows[i].style.display = "none"
-                    }
-                }
-            }
-
-         }
-
-
 
      </script>
  </body>
