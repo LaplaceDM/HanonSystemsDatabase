@@ -1108,8 +1108,8 @@ class ChamberLogView(SingleTableMixin, CreateView, FilterView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['ChamberLogInfo'] = ChamberLogInfo.objects.filter(pk = self.kwargs.get('pk'))
-        comments = ChamberLogInfo.objects.filter(pk = self.kwargs.get('pk'))[0].comments
+        context['ChamberLogInfo'] = ChamberLogInfo.objects.filter(test_id = self.kwargs.get('pk'))
+        comments = ChamberLogInfo.objects.filter(test_id = self.kwargs.get('pk'))[0].comments
         if comments:
             comments = comments.replace("\n", "<br>")
         context['Comments'] = comments
