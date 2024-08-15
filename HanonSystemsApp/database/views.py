@@ -31,7 +31,7 @@ from .forms import TestUpdateForm
 from .tables import TestTable
 from .filters import TestFilter
 from django.core.paginator import Paginator
-
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 
 ##################################################################################################################################################################################################################
@@ -54,6 +54,28 @@ def test_view(request):
     }
 
     return render(request, 'test.html', context)
+
+
+
+def test_only_user(user):
+    return user.username == 'test_page'
+
+@login_required
+@user_passes_test(test_only_user)
+def view_cage(request):
+    # 仅允许test_only用户查看cage页面的逻辑
+    return render(request, 'cage.html')
+
+@login_required
+@user_passes_test(test_only_user)
+def modify_test(request):
+    # 仅允许test_only用户添加、修改、删除test页面的逻辑
+    if request.method == 'POST':
+        # 执行添加、修改或删除操作
+        pass
+    return render(request, 'test.html')
+
+
 
 ##################################################################################################################################################################################################################
 
@@ -1117,8 +1139,8 @@ class ChamberLogView(SingleTableMixin, CreateView, FilterView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['ChamberLogInfo'] = ChamberLogInfo.objects.filter(test_id = self.kwargs.get('pk'))
-        comments = ChamberLogInfo.objects.filter(test_id = self.kwargs.get('pk'))[0].comments
+        context['ChamberLogInfo'] = ChamberLogInfo.objects.filter(pk = self.kwargs.get('pk'))
+        comments = ChamberLogInfo.objects.filter(pk = self.kwargs.get('pk'))[0].comments
         if comments:
             comments = comments.replace("\n", "<br>")
         context['Comments'] = comments
