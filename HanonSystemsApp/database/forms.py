@@ -219,16 +219,19 @@ class TestUpdateForm(ModelForm):
     supervisor_comments = forms.CharField(widget=forms.Textarea(attrs={"rows": "3"}), required=False)
     scheduling= forms.ChoiceField(
         widget=forms.Select,
-        choices = choices1
+        choices = choices1,
+        required=False
     )
     status= forms.ChoiceField(
         widget=forms.Select,
-        choices = choices2
+        choices = choices2,
+        required=False
     )
     priority= forms.ChoiceField(
         widget=forms.Select,
         choices = choices3
     )
+
 
     class Meta:
         model = Test
@@ -248,16 +251,21 @@ class TestForm(ModelForm):
     supervisor_comments = forms.CharField(widget=forms.Textarea(attrs={"rows": "3"}), required=False)
     scheduling= forms.ChoiceField(
         widget=forms.Select,
-        choices = choices1
+        choices = choices1,
+        required=False
     )
     status= forms.ChoiceField(
         widget=forms.Select,
-        choices = choices2
+        choices = choices2,
+        required=False
     )
     priority= forms.ChoiceField(
         widget=forms.Select,
-        choices = choices3
+        choices = choices3,
+        required=False
     )
+
+    
     class Meta:
         model = Test
         exclude = ('created',)
