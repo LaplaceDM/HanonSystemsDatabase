@@ -209,51 +209,32 @@ class ProductForm(ModelForm):
 
 
 class TestUpdateForm(ModelForm):
+    choices1 = (('', '-----'),('complete', 'complete'),('cancelled', 'cancelled'),('current', 'current'),('upcoming', 'upcoming'),('archive', 'archive'),('next 1', 'next 1'),('next 2', 'next 2'),('next 3', 'next 3'),('next 4', 'next 4'),('next 5', 'next 5'),('next 6', 'next 6'),('next 7', 'next 7'),('next 8', 'next 8'),('next 9', 'next 9'),('next 10', 'next 10'))
+    choices2 = (('', '-----'),('0-stopped', '0-stopped'),('1-setup', '1-setup'),('2-running', '2-running'),('3-data review', '3-data review'),('4-on hold', '4-on hold'),('5-no man power', '5-no man power'),('6-on track', '6-on track'),)
+    choices3 = (("", "-----"),(1, 1),(2, 2),(3, 3),)
     targeted_start = forms.DateField(
-        required=False,
-        widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'})
-    )
+        widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}), required=False)
     targeted_end = forms.DateField(
-        required=False,
-        widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'})
+        widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}), required=False)
+    supervisor_comments = forms.CharField(widget=forms.Textarea(attrs={"rows": "3"}), required=False)
+    scheduling= forms.ChoiceField(
+        widget=forms.Select,
+        choices = choices1
     )
-    supervisor_comments = forms.CharField(
-        required=False,
-        widget=forms.Textarea(attrs={"rows": "3"})
+    status= forms.ChoiceField(
+        widget=forms.Select,
+        choices = choices2
+    )
+    priority= forms.ChoiceField(
+        widget=forms.Select,
+        choices = choices3
     )
 
     class Meta:
         model = Test
         exclude = ('created', )
 
-    def save(self, commit=True):
-        instance = super(TestUpdateForm, self).save(commit=False)
-        test = Test.objects.get(pk=instance.pk)
 
-        if test.supervisor_comments in instance.supervisor_comments and test.supervisor_comments != instance.supervisor_comments:
-            input = instance.supervisor_comments.replace("\n" + test.supervisor_comments, '')
-            new_line = str(datetime.now().date()) + " " + input + "\n"
-            new_comment = new_line + test.supervisor_comments
-            instance.supervisor_comments = new_comment
-        elif test.supervisor_comments == instance.supervisor_comments:
-            pass
-        else:
-            position = instance.supervisor_comments.find("\n")
-            new_line = str(datetime.now().date()) + " " + instance.supervisor_comments[:position+1]
-            new_comment = new_line + instance.supervisor_comments[position+1:]
-            instance.supervisor_comments = new_comment
-
-        if commit:
-            instance.save()
-
-        info = ChamberLogInfo.objects.get(test_id=instance.pk)
-        info.comments = instance.supervisor_comments
-        info.chamber_id = instance.chamber_id
-        info.technician_id = instance.technician_id
-        info.program_id = instance.program_id
-        info.save()
-
-        return instance
 
 
 class TestForm(ModelForm):
