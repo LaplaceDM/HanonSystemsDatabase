@@ -158,74 +158,7 @@
             <button id ="back">Back to Tests page</button>
         </a>
         </p>
-        <center>
-            <input type="checkbox" id="checkcreated" onclick="hide('checkcreated', 0)">
-            <label for="checkcreated"> Created</label>
 
-            <input type="checkbox" id="checkProduct id" onclick="hide('checkProduct id', 1)">
-            <label for="checkProduct id"> Product id</label>
-
-            <input type="checkbox" id="checkProgram id" onclick="hide('checkProgram id', 2)">
-            <label for="checkProgram id"> Program id</label>
-
-            <input type="checkbox" id="checkLeg" onclick="hide('checkLeg', 3)">
-            <label for="checkLeg"> Leg</label>
-
-            <input type="checkbox" id="checkPriority" onclick="hide('checkPriority', 4)">
-            <label for="checkPriority"> Priority</label>
-
-            <input type="checkbox" id="checkScheduling" onclick="hide('checkScheduling', 5)">
-            <label for="checkScheduling"> Scheduling</label>
-
-            <input type="checkbox" id="checkStatus" onclick="hide('checkStatus', 6)">
-            <label for="checkStatus"> Status</label>
-
-            <input type="checkbox" id="checkTest" onclick="hide('checkTest', 7)">
-            <label for="checkTest"> Test</label>
-
-            <input type="checkbox" id="checkTechnician" onclick="hide('checkTechnician', 8)">
-            <label for="checkTechnician"> Technician</label>
-
-            <input type="checkbox" id="checkChamber" onclick="hide('checkChamber', 9)">
-            <label for="checkChamber"> Chamber</label>
-
-            <input type="checkbox" id="checkDAR" onclick="hide('checkDAR', 10)">
-            <label for="checkDAR"> DAR</label>
-
-            <input type="checkbox" id="checkCage" onclick="hide('checkCage', 11)">
-            <label for="checkCage"> Cage</label>
-
-            <input type="checkbox" id="checkLab" onclick="hide('checkLab', 12)">
-            <label for="checkLab"> Lab</label>
-
-            <input type="checkbox" id="checkTargeted start" onclick="hide('checkTargeted start', 13)">
-            <label for="checkTargeted start"> Targeted Start</label>
-
-            <input type="checkbox" id="checkTargeted end" onclick="hide('checkTargeted end', 14)">
-            <label for="checkTargeted end"> Targeted end</label>
-
-            <input type="checkbox" id="checkSupervisor comments" onclick="hide('checkSupervisor comments', 15)">
-            <label for="checkSupervisor comments"> Supervisor comments</label>
-
-            <input type="checkbox" id="checkHours planned" onclick="hide('checkHours planned', 16)">
-            <label for="checkHours planned"> Hours planned</label>
-
-            <input type="checkbox" id="checkHours actual" onclick="hide('checkHours actual', 17)">
-            <label for="checkHours actual"> Hours actual</label>
-
-            <input type="checkbox" id="checkSetup date" onclick="hide('checkSetup date', 18)">
-            <label for="checkSetup date"> Setup date</label>
-                
-            <input type="checkbox" id="checkStatus log" onclick="hide('checkStatus log', 19)">
-            <label for="checkStatus log"> Status log</label>
-                
-            <input type="checkbox" id="checkdelete" onclick="hide('checkdelete', 20)">
-            <label for="checkLab"> Delete</label>
-            <input type="checkbox" id="checkupdate" onclick="hide('checkupdate', 21)">
-            <label for="checkProgram id"> Update</label>
-            <input type="checkbox" id="checkclone" onclick="hide('checkclone', 22)">
-            <label for="checkProduct id"> Clone</label> <br>
-        </center>
         <div>
             <div class = "notation">
                 When entering fields to add or edit a test, some elements of the page may change color:
@@ -379,39 +312,7 @@
             }
             //end of checking for booking conflicts
     
-            //formating filter and update fields
-            var label, input, formated_label, formated_input, length, formated_fields, current_fields, th, td, button, children;
 
-
-            length = 18;
-            formated_fields = document.createElement("table");
-            formated_fields.id = "add";
-            current_fields = document.getElementsByTagName("form")[0];
-            children = current_fields.children;
-            current_fields.appendChild(formated_fields);
-            formated_label = document.createElement("tr");
-            formated_input = document.createElement("tr");
-                
-            for (var i =0; i<length; i++){
-                th = document.createElement("th");
-                td = document.createElement("td");
-                label = children[2*i+1].innerHTML;
-                input = children[2*i+2].cloneNode(true);
-                input.id = "add_field"
-                th.innerHTML = label;
-                td.appendChild(input);
-                formated_label.appendChild(th);
-                formated_input.appendChild(td);
-            }
-            button = document.getElementsByTagName("button")[1]
-            formated_fields.appendChild(formated_label);
-            formated_fields.appendChild(formated_input);
-            current_fields.appendChild(button);
-    
-            for (var i =0; i<length*2; i++){
-                children[1].remove();
-            }
-            //end of formating filter and update fields
     
             //checking equipment test bookings
             function getCookie(name) {
@@ -771,13 +672,13 @@
             document.getElementsByClassName("btn btn-default")[0].style.border = " thin solid";
             
 
-            document.getElementsByName("chamber_id")[1].addEventListener("input", getChamberSchedule);
-            document.getElementsByName("dar_id")[1].addEventListener("input", getDARSchedule);
-            document.getElementsByName("cage_id")[1].addEventListener("input", getCageSchedule);
-            document.getElementsByName("targeted_start")[1].addEventListener("input", checkSchedule);
-            document.getElementsByName("targeted_end")[1].addEventListener("input", checkSchedule);
-            document.getElementsByName("test_type_id")[1].addEventListener("input", highlight)
-            document.getElementsByName("program_id")[1].addEventListener("input", highlight2)
+            document.getElementsByName("chamber_id")[0].addEventListener("input", getChamberSchedule);
+            document.getElementsByName("dar_id")[0].addEventListener("input", getDARSchedule);
+            document.getElementsByName("cage_id")[0].addEventListener("input", getCageSchedule);
+            document.getElementsByName("targeted_start")[0].addEventListener("input", checkSchedule);
+            document.getElementsByName("targeted_end")[0].addEventListener("input", checkSchedule);
+            document.getElementsByName("test_type_id")[0].addEventListener("input", highlight)
+            document.getElementsByName("program_id")[0].addEventListener("input", highlight2)
             
             //end of checking equipment test bookings\
             getChamberSchedule();

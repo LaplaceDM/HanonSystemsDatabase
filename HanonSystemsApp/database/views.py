@@ -772,12 +772,12 @@ class TestListView(SingleTableMixin, CreateView, FilterView):
         context['is_paginated'] = True
         return context
 
-class UpdateTableViewTest(SingleTableMixin, UpdateView, FilterView):
+class UpdateTableViewTest(UpdateView):
     model = Test
     template_name = 'html/update_test.html'
     form_class = TestUpdateForm
     success_url = '/database/tests'
-
+    
 
 
     def form_valid(self, form):
@@ -785,13 +785,14 @@ class UpdateTableViewTest(SingleTableMixin, UpdateView, FilterView):
         test = Test.objects.get(pk=instance.pk)
 
         # 处理 supervisor_comments 字段
-        if test.supervisor_comments in instance.supervisor_comments and test.supervisor_comments != instance.supervisor_comments:
-            input = instance.supervisor_comments.replace("\n" + test.supervisor_comments, '')
-            new_line = str(datetime.now().date()) + " " + input + "\n"
-            new_comment = new_line + test.supervisor_comments
-            instance.supervisor_comments = new_comment
-        elif test.supervisor_comments == instance.supervisor_comments:
-            pass
+        if test.supervisor_comments:
+            if test.supervisor_comments in instance.supervisor_comments and test.supervisor_comments != instance.supervisor_comments:
+                input = instance.supervisor_comments.replace("\n" + test.supervisor_comments, '')
+                new_line = str(datetime.now().date()) + " " + input + "\n"
+                new_comment = new_line + test.supervisor_comments
+                instance.supervisor_comments = new_comment
+            elif test.supervisor_comments == instance.supervisor_comments:
+                pass
         else:
             position = instance.supervisor_comments.find("\n")
             new_line = str(datetime.now().date()) + " " + instance.supervisor_comments[:position + 1]
@@ -801,7 +802,7 @@ class UpdateTableViewTest(SingleTableMixin, UpdateView, FilterView):
         instance.save()
 
         # 更新相关的 ChamberLogInfo
-        info, created = ChamberLogInfo.objects.get_or_create(test_id=instance.pk)
+        info = ChamberLogInfo.objects.get(test_id=instance.pk)
         info.comments = instance.supervisor_comments
         info.chamber_id = instance.chamber_id
         info.technician_id = instance.technician_id

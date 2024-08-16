@@ -234,34 +234,7 @@ class TestUpdateForm(ModelForm):
         model = Test
         exclude = ('created', )
 
-    def save(self, commit=True):
-        instance = super(TestUpdateForm, self).save(commit=False)
-        test = Test.objects.get(pk=instance.pk)
 
-        if test.supervisor_comments in instance.supervisor_comments and test.supervisor_comments != instance.supervisor_comments:
-            input = instance.supervisor_comments.replace("\n" + test.supervisor_comments, '')
-            new_line = str(datetime.now().date()) + " " + input + "\n"
-            new_comment = new_line + test.supervisor_comments
-            instance.supervisor_comments = new_comment
-        elif test.supervisor_comments == instance.supervisor_comments:
-            pass
-        else:
-            position = instance.supervisor_comments.find("\n")
-            new_line = str(datetime.now().date()) + " " + instance.supervisor_comments[:position+1]
-            new_comment = new_line + instance.supervisor_comments[position+1:]
-            instance.supervisor_comments = new_comment
-
-        if commit:
-            instance.save()
-
-        info = ChamberLogInfo.objects.get(test_id=instance.pk)
-        info.comments = instance.supervisor_comments
-        info.chamber_id = instance.chamber_id
-        info.technician_id = instance.technician_id
-        info.program_id = instance.program_id
-        info.save()
-
-        return instance
 
 
 class TestForm(ModelForm):
