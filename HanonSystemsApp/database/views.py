@@ -997,7 +997,7 @@ def chamber_schedule(request):
         a.close()
         return HttpResponse("No chamber selected")
     else:
-        chamber_tests = Test.objects.filter(Q(scheduling = "current")|Q(scheduling = "upcoming")).filter(chamber_id = chamber_id).order_by("targeted_start").first(10)
+        chamber_tests = Test.objects.filter(Q(scheduling = "current")|Q(scheduling = "upcoming")).filter(chamber_id = chamber_id).order_by("targeted_start")[:9]
         a = open("database/templates/html/chamber_schedule", "w")
         a.write("{\n")
         a.close()
@@ -1026,7 +1026,7 @@ def dar_schedule(request):
         a.close()
         return HttpResponse("No DAR selected")
     else:
-        dar_tests = Test.objects.filter(Q(scheduling = "current")|Q(scheduling = "upcoming")).filter(dar_id = dar_id).order_by("targeted_start").first(10)
+        dar_tests = Test.objects.filter(Q(scheduling = "current")|Q(scheduling = "upcoming")).filter(dar_id = dar_id).order_by("targeted_start")[:9]
         a = open("database/templates/html/dar_schedule", "w")
         a.write("{\n")
         a.close()
@@ -1054,7 +1054,7 @@ def cage_schedule(request):
         a.close()
         return HttpResponse("No cage selected")
     else:
-        cage_tests = Test.objects.filter(Q(scheduling = "current")|Q(scheduling = "upcoming")).filter(cage_id = cage_id).order_by("targeted_start").first(10)
+        cage_tests = Test.objects.filter(Q(scheduling = "current")|Q(scheduling = "upcoming")).filter(cage_id = cage_id).order_by("targeted_start")[:9]
         a = open("database/templates/html/cage_schedule", "w")
         a.write("{\n")
         a.close()

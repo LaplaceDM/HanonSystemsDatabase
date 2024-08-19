@@ -2,6 +2,7 @@
 {% load render_table from django_tables2 %}
 {% load bootstrap3 %}
 {% bootstrap_css %}
+{% bootstrap_javascript %}
 {% load static %}
 <html>
     <head>
@@ -92,7 +93,7 @@
         </style>
     </head>
     <body>
-        {######################################################}
+
         <div class="top-header">
             <a href="{% url 'menu' %}">
                 <img src="{% static 'logo.png' %}" alt="Title Image" class="header-logo">
@@ -234,8 +235,8 @@
             function checkSchedule() {
                 var start, end, booked_start, booked_end, length, rows;
                     
-                start = new Date(document.getElementsByName("targeted_start")[1].value);
-                end = new Date(document.getElementsByName("targeted_end")[1].value);
+                start = new Date(document.getElementsByName("targeted_start")[0].value);
+                end = new Date(document.getElementsByName("targeted_end")[0].value);
     
                 if(isNaN(start)||isNaN(end)){
                     return;
@@ -336,7 +337,7 @@
     
             function highlight(){
                 var csrftoken = getCookie('csrftoken');
-                var test_type_id = document.getElementsByName("test_type_id")[1].value;
+                var test_type_id = document.getElementsByName("test_type_id")[0].value;
                 fetch("http://127.0.0.1:8000/database/children", {method: "POST", body: test_type_id, headers:{"X-CSRFToken": csrftoken}})
                 .then((response)=>
                 fetch("http://127.0.0.1:8000/database/getchildren")
@@ -344,7 +345,7 @@
                 .then(result=> result.json())
                 .then(result=>{
                     var keys = Object.keys(result)
-                    let prod = document.getElementsByName("chamber_id")[1]
+                    let prod = document.getElementsByName("chamber_id")[0]
                     let values = prod.getElementsByTagName("option")
                     let int = 0;
                     for (let j = 0; j<values.length;j++){
@@ -366,7 +367,7 @@
                 }
                 )
                 .catch(()=>{
-                    let prod = document.getElementsByName("chamber_id")[1]
+                    let prod = document.getElementsByName("chamber_id")[0]
                     let values = prod.getElementsByTagName("option")
                     for (let j = 0; j<values.length;j++){
                         values[j].setAttribute("style","background-color: #ffffff");
@@ -376,7 +377,7 @@
             }
             function highlight2(){
                 var csrftoken = getCookie('csrftoken');
-                var program_id = document.getElementsByName("program_id")[1].value;
+                var program_id = document.getElementsByName("program_id")[0].value;
                 fetch("http://127.0.0.1:8000/database/darchildren", {method: "POST", body: program_id, headers:{"X-CSRFToken": csrftoken}})
                 .then((response)=>
                 fetch("http://127.0.0.1:8000/database/getdarchildren")
@@ -384,9 +385,9 @@
                 .then(result=> result.json())
                 .then(result=>{
                     var keys = Object.keys(result)
-                    let prod = document.getElementsByName("dar_id")[1]
+                    let prod = document.getElementsByName("dar_id")[0]
                     let values = prod.getElementsByTagName("option")
-                    let prod2 = document.getElementsByName("cage_id")[1]
+                    let prod2 = document.getElementsByName("cage_id")[0]
                     let values2 = prod2.getElementsByTagName("option")
                     let int = 0;
                     let int2 = 0;
@@ -427,9 +428,9 @@
                 }
                 )
                 .catch(()=>{
-                    let prod = document.getElementsByName("dar_id")[1]
+                    let prod = document.getElementsByName("dar_id")[0]
                     let values = prod.getElementsByTagName("option")
-                    let prod2 = document.getElementsByName("cage_id")[1]
+                    let prod2 = document.getElementsByName("cage_id")[0]
                     let values2 = prod2.getElementsByTagName("option")
                     for (let j = 0; j<values.length;j++){
                         values[j].setAttribute("style","background-color: #ffffff");
@@ -442,7 +443,7 @@
             }
     
             function getChamberSchedule(){
-                var chamber_id = document.getElementsByName("chamber_id")[1].value;
+                var chamber_id = document.getElementsByName("chamber_id")[0].value;
                 var csrftoken = getCookie('csrftoken');
                 
                 fetch("http://127.0.0.1:8000/database/chamberschedule", {method: "POST", body: chamber_id, headers:{"X-CSRFToken": csrftoken}})
@@ -520,7 +521,7 @@
             }
 
             function getDARSchedule(){
-                var dar_id = document.getElementsByName("dar_id")[1].value;
+                var dar_id = document.getElementsByName("dar_id")[0].value;
                 var csrftoken = getCookie('csrftoken');
                 
                 fetch("http://127.0.0.1:8000/database/darschedule", {method: "POST", body: dar_id, headers:{"X-CSRFToken": csrftoken}})
@@ -596,7 +597,7 @@
             }
 
             function getCageSchedule(){
-                var cage_id = document.getElementsByName("cage_id")[1].value;
+                var cage_id = document.getElementsByName("cage_id")[0].value;
                 var csrftoken = getCookie('csrftoken');
                 
                 fetch("http://127.0.0.1:8000/database/cageschedule", {method: "POST", body: cage_id, headers:{"X-CSRFToken": csrftoken}})
@@ -671,9 +672,7 @@
                 `;})
             }
 
-            document.getElementsByClassName("btn btn-default")[0].style.margin = "7px 5px 5px 0px";
-            document.getElementsByClassName("btn btn-default")[0].style.backgroundColor = "rgb(237, 237, 237)";
-            document.getElementsByClassName("btn btn-default")[0].style.border = " thin solid";
+
             
 
             document.getElementsByName("chamber_id")[0].addEventListener("input", getChamberSchedule);
@@ -688,6 +687,38 @@
             getChamberSchedule();
             getDARSchedule();
             getCageSchedule();
+
+            var label, input, formated_label, formated_input, length, formated_fields, current_fields, th, td, button, children;
+         
+ 
+            length = 18;
+            formated_fields = document.createElement("table");
+            formated_fields.id = "add";
+            current_fields = document.getElementsByTagName("form")[0];
+            children = current_fields.children;
+            current_fields.appendChild(formated_fields);
+            formated_label = document.createElement("tr");
+            formated_input = document.createElement("tr");
+    
+            for (var i = 0; i < length; i++) {
+                th = document.createElement("th");
+                td = document.createElement("td");
+                label = children[2 * i + 1].innerHTML;
+                input = children[2 * i + 2].cloneNode(true);
+                input.id = "add_field"
+                th.innerHTML = label;
+                td.appendChild(input);
+                formated_label.appendChild(th);
+                formated_input.appendChild(td);
+            }
+            button = document.getElementsByTagName("button")[0]
+            formated_fields.appendChild(formated_label);
+            formated_fields.appendChild(formated_input);
+            current_fields.appendChild(button);
+    
+            for (var i = 0; i < length * 2; i++) {
+                children[1].remove();
+            }
 
         </script>
     </body>
