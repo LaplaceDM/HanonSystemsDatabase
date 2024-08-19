@@ -229,13 +229,14 @@ class TestUpdateForm(ModelForm):
     )
     priority= forms.ChoiceField(
         widget=forms.Select,
-        choices = choices3
+        choices = choices3,
+        required=False
     )
 
-
+    
     class Meta:
         model = Test
-        exclude = ('created', )
+        exclude = ('created',)
 
 
 
