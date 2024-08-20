@@ -194,7 +194,7 @@ class TechnicianTable(ColumnShiftTableBootstrap3):
     },orderable = False)
 
     update = tables.LinkColumn('update_Technician',text='edit', args=[A('pk')], attrs={
-    'a': {'class': 'btn', 'target': '_blank'}
+    'a': {'class': 'btn-update', 'target': '_blank'}
     }, orderable = False)
 
     class Meta:

@@ -209,9 +209,9 @@ class ProductForm(ModelForm):
 
 
 class TestUpdateForm(ModelForm):
-    choices1 = (('', '-----'),('complete', 'complete'),('cancelled', 'cancelled'),('current', 'current'),('upcoming', 'upcoming'),('archive', 'archive'),('next 1', 'next 1'),('next 2', 'next 2'),('next 3', 'next 3'),('next 4', 'next 4'),('next 5', 'next 5'),('next 6', 'next 6'),('next 7', 'next 7'),('next 8', 'next 8'),('next 9', 'next 9'),('next 10', 'next 10'))
-    choices2 = (('', '-----'),('0-stopped', '0-stopped'),('1-setup', '1-setup'),('2-running', '2-running'),('3-data review', '3-data review'),('4-on hold', '4-on hold'),('5-no man power', '5-no man power'),('6-on track', '6-on track'),)
-    choices3 = (("", "-----"),(1, 1),(2, 2),(3, 3),)
+    choices1 = ((None, '-----'),('complete', 'complete'),('cancelled', 'cancelled'),('current', 'current'),('upcoming', 'upcoming'),('archive', 'archive'),('next 1', 'next 1'),('next 2', 'next 2'),('next 3', 'next 3'),('next 4', 'next 4'),('next 5', 'next 5'),('next 6', 'next 6'),('next 7', 'next 7'),('next 8', 'next 8'),('next 9', 'next 9'),('next 10', 'next 10'))
+    choices2 = ((None, '-----'),('0-stopped', '0-stopped'),('1-setup', '1-setup'),('2-running', '2-running'),('3-data review', '3-data review'),('4-on hold', '4-on hold'),('5-no man power', '5-no man power'),('6-on track', '6-on track'),)
+    choices3 = ((None, '-----'),(1, 1),(2, 2),(3, 3),)
     targeted_start = forms.DateField(
         widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}), required=False)
     targeted_end = forms.DateField(
@@ -232,8 +232,64 @@ class TestUpdateForm(ModelForm):
         choices = choices3,
         required=False
     )
-
     
+    program_id = forms.ModelChoiceField(
+        queryset= Program.objects.all(),
+        required=False,
+        label="Program")
+    
+    test_map_id = forms.ModelChoiceField(
+        queryset= TestMap.objects.all(),
+        required=False,
+        label="Test Map")
+    
+    product_id = forms.ModelChoiceField(
+        queryset= Product.objects.all(),
+        required=False,
+        label="Product")
+    
+    test_type_id = forms.ModelChoiceField(
+        queryset= TestType.objects.all(),
+        required=False,
+        label="Test Type")
+    
+    test_description = forms.CharField(
+        required=False,
+        label="Test Description")
+    
+    technician_id = forms.ModelChoiceField(
+        queryset= Technician.objects.all(),
+        required=False,
+        label="Technician")
+    
+    chamber_id = forms.ModelChoiceField(
+        queryset= Chamber.objects.all(),
+        required=False,
+        label="Chamber")
+    
+    dar_id = forms.ModelChoiceField(
+        queryset= DAR.objects.all(),
+        required=False,
+        label="DAR")
+    
+    cage_id = forms.ModelChoiceField(
+        queryset= Cage.objects.all(),
+        required=False,
+        label="Cage")
+    
+    lab_id = forms.ModelChoiceField(
+        queryset= Lab.objects.all(),
+        required=False,
+        label="Lab")
+    
+    hours_planned = forms.IntegerField(
+        required=False,
+        label="Hours Planned")
+    
+    total_hours = forms.IntegerField(
+        required=False,
+        label="Total Hours")
+
     class Meta:
         model = Test
         exclude = ('created',)
@@ -242,9 +298,9 @@ class TestUpdateForm(ModelForm):
 
 
 class TestForm(ModelForm):
-    choices1 = (('', '-----'),('complete', 'complete'),('cancelled', 'cancelled'),('current', 'current'),('upcoming', 'upcoming'),('archive', 'archive'),('next 1', 'next 1'),('next 2', 'next 2'),('next 3', 'next 3'),('next 4', 'next 4'),('next 5', 'next 5'),('next 6', 'next 6'),('next 7', 'next 7'),('next 8', 'next 8'),('next 9', 'next 9'),('next 10', 'next 10'))
-    choices2 = (('', '-----'),('0-stopped', '0-stopped'),('1-setup', '1-setup'),('2-running', '2-running'),('3-data review', '3-data review'),('4-on hold', '4-on hold'),('5-no man power', '5-no man power'),('6-on track', '6-on track'),)
-    choices3 = (("", "-----"),(1, 1),(2, 2),(3, 3),)
+    choices1 = ((None, '-----'),('complete', 'complete'),('cancelled', 'cancelled'),('current', 'current'),('upcoming', 'upcoming'),('archive', 'archive'),('next 1', 'next 1'),('next 2', 'next 2'),('next 3', 'next 3'),('next 4', 'next 4'),('next 5', 'next 5'),('next 6', 'next 6'),('next 7', 'next 7'),('next 8', 'next 8'),('next 9', 'next 9'),('next 10', 'next 10'))
+    choices2 = ((None, '-----'),('0-stopped', '0-stopped'),('1-setup', '1-setup'),('2-running', '2-running'),('3-data review', '3-data review'),('4-on hold', '4-on hold'),('5-no man power', '5-no man power'),('6-on track', '6-on track'),)
+    choices3 = ((None, '-----'),(1, 1),(2, 2),(3, 3),)
     targeted_start = forms.DateField(
         widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}), required=False)
     targeted_end = forms.DateField(
@@ -265,6 +321,63 @@ class TestForm(ModelForm):
         choices = choices3,
         required=False
     )
+    
+    program_id = forms.ModelChoiceField(
+        queryset= Program.objects.all(),
+        required=False,
+        label="Program")
+    
+    test_map_id = forms.ModelChoiceField(
+        queryset= TestMap.objects.all(),
+        required=False,
+        label="Test Map")
+    
+    product_id = forms.ModelChoiceField(
+        queryset= Product.objects.all(),
+        required=False,
+        label="Product")
+    
+    test_type_id = forms.ModelChoiceField(
+        queryset= TestType.objects.all(),
+        required=False,
+        label="Test Type")
+    
+    test_description = forms.CharField(
+        required=False,
+        label="Test Description")
+    
+    technician_id = forms.ModelChoiceField(
+        queryset= Technician.objects.all(),
+        required=False,
+        label="Technician")
+    
+    chamber_id = forms.ModelChoiceField(
+        queryset= Chamber.objects.all(),
+        required=False,
+        label="Chamber")
+    
+    dar_id = forms.ModelChoiceField(
+        queryset= DAR.objects.all(),
+        required=False,
+        label="DAR")
+    
+    cage_id = forms.ModelChoiceField(
+        queryset= Cage.objects.all(),
+        required=False,
+        label="Cage")
+    
+    lab_id = forms.ModelChoiceField(
+        queryset= Lab.objects.all(),
+        required=False,
+        label="Lab")
+    
+    hours_planned = forms.IntegerField(
+        required=False,
+        label="Hours Planned")
+    
+    total_hours = forms.IntegerField(
+        required=False,
+        label="Total Hours")
 
     
     class Meta:
