@@ -805,6 +805,9 @@ class UpdateTableViewTest(UpdateView):
     def form_valid(self, form):
         instance = form.save(commit=False)
         test = Test.objects.get(pk=instance.pk)
+        
+        if instance.priority =='':
+            instance.priority = None
 
         # 处理 supervisor_comments 字段
         if test.supervisor_comments:

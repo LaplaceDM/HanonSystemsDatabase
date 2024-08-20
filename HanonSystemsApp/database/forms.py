@@ -387,6 +387,9 @@ class TestForm(ModelForm):
     def save(self, commit=True):
         instance = super(TestForm, self).save(commit=False)
 
+        if instance.priority =='':
+            instance.priority = None
+        
         # 处理 supervisor_comments 字段
         if instance.supervisor_comments:
             c = str(datetime.now().date()) + " " + instance.supervisor_comments
@@ -471,8 +474,12 @@ class ChamberLogForm(ModelForm):
             # self.save_m2m()
         ch = ChamberLogInfo.objects.get(pk= instance.log_id.pk)
         t = Test.objects.get(pk = ch.test_id.pk)
-        if (instance.total_hours > t.total_hours):
-            t.total_hours = instance.total_hours      
+        try:
+            if (int(instance.total_hours) > int(t.total_hours)):
+                t.total_hours = instance.total_hours   
+        except:
+            t.total_hours = instance.total_hours
+               
         t.save()
         instance.save()
         return instance
