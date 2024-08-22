@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Dict
 from django.db.models.query import QuerySet
 from django.views.generic import ListView 
 from .models import *
@@ -94,6 +94,10 @@ class LaptopListView(SingleTableMixin,  CreateView, FilterView):
         return HttpResponseRedirect(reverse("Laptop"))
     def get_table_pagination(self, request):
         return False
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_laptop')
+        return context
 
 class UpdateTableViewLaptop(SingleTableMixin,  UpdateView):
     
@@ -125,6 +129,11 @@ class Test_HarnessListView(SingleTableMixin,  CreateView, FilterView):
         return HttpResponseRedirect(reverse("Test_Harness"))
     def get_table_pagination(self, request):
         return False
+        
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_test_harness')
+        return context
 
 class UpdateTableViewTest_Harness(SingleTableMixin,  UpdateView):
     
@@ -155,6 +164,10 @@ class Test_DUTListView(SingleTableMixin,  CreateView, FilterView):
         return HttpResponseRedirect(reverse("Test_DUT"))
     def get_table_pagination(self, request):
         return False
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_test_dut')
+        return context
 
 class UpdateTableViewTest_DUT(SingleTableMixin,  UpdateView):
     
@@ -186,6 +199,10 @@ class Technician_SkillListView(SingleTableMixin,  CreateView, FilterView):
         return HttpResponseRedirect(reverse("Technician_Skill"))
     def get_table_pagination(self, request):
         return False
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_technician_skill')
+        return context
 
 class UpdateTableViewTechnician_Skill(SingleTableMixin,  UpdateView):
     
@@ -217,6 +234,10 @@ class TestMapListView(SingleTableMixin,  CreateView, FilterView):
         return HttpResponseRedirect(reverse("TestMap"))
     def get_table_pagination(self, request):
         return False
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_testmap')
+        return context
 
 class UpdateTableViewTestMap(SingleTableMixin,  UpdateView):
     
@@ -248,6 +269,10 @@ class Test_ChamberListView(SingleTableMixin,  CreateView, FilterView):
         return HttpResponseRedirect(reverse("Test_Chamber"))
     def get_table_pagination(self, request):
         return False
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_test_chamber')
+        return context
 
 class UpdateTableViewTest_Chamber(SingleTableMixin,  UpdateView):
     
@@ -280,6 +305,10 @@ class Program_CageListView(SingleTableMixin,  CreateView, FilterView):
         return HttpResponseRedirect(reverse("Program_Cage"))
     def get_table_pagination(self, request):
         return False
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_program_cage')
+        return context
 
 class UpdateTableViewProgram_Cage(SingleTableMixin,  UpdateView):
     
@@ -312,6 +341,10 @@ class Program_DARListView(SingleTableMixin,  CreateView, FilterView):
         return HttpResponseRedirect(reverse("Program_DAR"))
     def get_table_pagination(self, request):
         return False
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_program_dar')
+        return context
 
 class UpdateTableViewProgram_DAR(SingleTableMixin,  UpdateView):
     
@@ -343,6 +376,10 @@ class Program_FluidListView(SingleTableMixin,  CreateView, FilterView):
         return HttpResponseRedirect(reverse("Program_Fluid"))
     def get_table_pagination(self, request):
         return False
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_program_fluid')
+        return context
 
 class UpdateTableViewProgram_Fluid(SingleTableMixin,  UpdateView):
     
@@ -377,6 +414,10 @@ class DARChannelListView(SingleTableMixin,  CreateView, FilterView):
         return HttpResponseRedirect(reverse("DARChannel"))
     def get_table_pagination(self, request):
         return False
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_darchannel')
+        return context
 
 class UpdateTableViewDARChannel(SingleTableMixin,  UpdateView):
     
@@ -409,6 +450,10 @@ class FluidListView(SingleTableMixin,  CreateView, FilterView):
         return HttpResponseRedirect(reverse("Fluid"))
     def get_table_pagination(self, request):
         return False
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_fluid')
+        return context
 
 class UpdateTableViewFluid(SingleTableMixin,  UpdateView):
     
@@ -441,6 +486,10 @@ class TechnicianListView(SingleTableMixin,  CreateView, FilterView):
         return HttpResponseRedirect(reverse("Technician"))
     def get_table_pagination(self, request):
         return False
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_technician')
+        return context
 
 class UpdateTableViewTechnician(SingleTableMixin,  UpdateView):
     
@@ -473,6 +522,10 @@ class TestTypeListView(SingleTableMixin,  CreateView, FilterView):
         return HttpResponseRedirect(reverse("TestType"))
     def get_table_pagination(self, request):
         return False
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_testtype')
+        return context
 
 class UpdateTableViewTestType(SingleTableMixin,  UpdateView):
     
@@ -504,6 +557,10 @@ class LabListView(SingleTableMixin,  CreateView, FilterView):
         return HttpResponseRedirect(reverse("Lab"))
     def get_table_pagination(self, request):
         return False
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_lab')
+        return context
 
 class UpdateTableViewLab(SingleTableMixin,  UpdateView):
     
@@ -565,6 +622,10 @@ class HarnessListView(SingleTableMixin,  CreateView, FilterView):
         return HttpResponseRedirect(reverse("Harness"))
     def get_table_pagination(self, request):
         return False
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_harness')
+        return context
 
 class UpdateTableViewHarness(SingleTableMixin,  UpdateView):
     
@@ -597,6 +658,10 @@ class ProgramListView(SingleTableMixin,  CreateView, FilterView):
         return HttpResponseRedirect(reverse("program"))
     def get_table_pagination(self, request):
         return False
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_program')
+        return context
 
 class CageListView(SingleTableMixin,  CreateView, FilterView):
 
@@ -612,6 +677,11 @@ class CageListView(SingleTableMixin,  CreateView, FilterView):
         return HttpResponseRedirect(reverse("cage"))
     def get_table_pagination(self, request):
         return False
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_cage')
+        return context
     
 class UpdateTableViewCage(SingleTableMixin,  UpdateView):
     
@@ -644,6 +714,10 @@ class ChamberListView(SingleTableMixin,  CreateView, FilterView):
         return HttpResponseRedirect(reverse("Chamber"))
     def get_table_pagination(self, request):
         return False
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_chamber')
+        return context
     
 class UpdateTableViewChamber(SingleTableMixin,  UpdateView):
     
@@ -694,6 +768,10 @@ class DarListView(SingleTableMixin,  CreateView, FilterView):
         return HttpResponseRedirect(reverse("Dar"))
     def get_table_pagination(self, request):
         return False
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_dar')
+        return context
     
 class UpdateTableViewDar(SingleTableMixin,  UpdateView):
     
@@ -727,6 +805,10 @@ class ProductListView(SingleTableMixin,  CreateView, FilterView):
         return HttpResponseRedirect(reverse("product"))
     def get_table_pagination(self, request):
         return False
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_product')
+        return context
 
 class UpdateTableViewProduct(SingleTableMixin,  UpdateView):
     
@@ -743,27 +825,7 @@ def delete_item_product(request, pk):
 
     return HttpResponseRedirect(reverse("product"))
 
-# class TestListView(SingleTableMixin, CreateView, FilterView):
-    
-#     model = Test
-#     table_class = TestTable
-#     template_name = 'html/test.html'
-#     success_url = '/database/tests'
-#     filterset_class = TestFilter
-#     form_class = TestForm
-#     def get_table_pagination(self, request):
-#         return False
 
-# class UpdateTableViewTest(SingleTableMixin,  UpdateView, FilterView):
-    
-    
-#     model = Test
-#     template_name = 'html/update_test.html'
-#     form_class = TestUpdateForm
-#     # template_name_suffix = 'html/index.html'
-#     # fields = '__all__'
-#     filterset_class = TestFilter
-#     success_url = '/database/tests'
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django_tables2.views import SingleTableMixin
@@ -792,6 +854,7 @@ class TestListView(SingleTableMixin, CreateView, FilterView):
         page = self.request.GET.get('page')
         context['page_obj'] = paginator.get_page(page)
         context['is_paginated'] = True
+        context['permission'] = self.request.user.has_perm('database.change_test')
         return context
 
 class UpdateTableViewTest(UpdateView):
@@ -1132,8 +1195,10 @@ class ChamberLogView(SingleTableMixin, CreateView, FilterView):
     def get_queryset(self, *args, **kwargs):
         return ChamberLog.objects.filter(log_id = self.kwargs.get('pk'))
     
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_chamberlog')
         context['ChamberLogInfo'] = ChamberLogInfo.objects.filter(pk = self.kwargs.get('pk'))
         comments = ChamberLogInfo.objects.filter(pk = self.kwargs.get('pk'))[0].comments
         if comments:
@@ -1551,6 +1616,10 @@ class DUTListView(SingleTableMixin,  CreateView, FilterView):
         return HttpResponseRedirect(reverse("dut"))
     def get_table_pagination(self, request):
         return False
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_dut')
+        return context
 
 class UpdateTableViewDUT(UpdateView):
     
@@ -1579,7 +1648,7 @@ class DUTInfo(SingleTableMixin, CreateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        
+        context['permission'] = self.request.user.has_perm('database.change_subcomponent')
         id = self.kwargs.get('pk')
         test_list = Test_DUT.objects.filter(dut_id = id).order_by("test_id__targeted_start")
         test_history = {}
@@ -1650,6 +1719,10 @@ class DAR_ChannelListView(SingleTableMixin,  CreateView, FilterView):
         return HttpResponseRedirect(reverse("DAR_Channel"))
     def get_table_pagination(self, request):
         return False
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_darchannel')
+        return context
 
 class UpdateTableView_DAR_Channel(SingleTableMixin,  UpdateView):
     

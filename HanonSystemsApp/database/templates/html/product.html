@@ -185,6 +185,7 @@
         </div>
         </div>
         {% load crispy_forms_tags %}
+        {%if permission%}
         <div class = 'add'>
             <!--Django Model Form-->
             <h2 class="my-4">Add a new Product</h2>
@@ -205,6 +206,7 @@
             </div>
 
         </div>
+        {%endif%}
         
             {% render_table table  "django_tables2/bootstrap.html"%} 
 
@@ -214,7 +216,7 @@
             <!--Django Model-->
             
 
-                {%else%}
+        {%else %}
             <div class="nav-item">
                 <a class="nav-link" href="{% url 'Login' %}">Login</a>
             </div>
@@ -317,7 +319,7 @@
 
             // Attach saveScrollPosition function to all edit buttons
             document.addEventListener("DOMContentLoaded", function () {
-                const editButtons = document.querySelectorAll(".btn");
+                const editButtons = document.querySelectorAll("td.btn");
                 editButtons.forEach(button => {
                     button.addEventListener("click", function (event) {
                         event.preventDefault();
@@ -340,6 +342,15 @@
                 headings[i].style.top = "30px";
                 headings[i].style.backgroundColor = "white";
             }
+            //checking permissions
+        if (document.querySelector(".btn-submit")==null){
+            table = document.querySelector(".table-container .table").rows
+            cells = table[0].cells.length
+            for (i=0; i<table.length;i++){
+                table[i].cells[cells-1].remove()
+                table[i].cells[cells-2].remove()
+            }
+        }
         </script>
     </body>
 </html>

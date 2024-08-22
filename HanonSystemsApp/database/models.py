@@ -47,7 +47,7 @@ class TestMap(models.Model):
 
     program_id = models.ForeignKey( "Program", on_delete = models.CASCADE, null = True, db_column="program_id", verbose_name = "Program")
     def __str__(self):
-        return self.tr + (" ") + self.test_map_name
+        return self.tr
 
 class Technician (models.Model):
     technician_name = models.CharField(max_length = 30)
@@ -151,7 +151,7 @@ class Test(models.Model):
     total_hours = models.SmallIntegerField(null = True)
 
     def __str__(self):
-        return f"{self.test_type_id}: {self.test_description}"
+        return f"{self.test_map_id} - {self.test_type_id}: {self.test_description}"
 
 class ChamberLog(models.Model):
     id = models.BigAutoField(primary_key=True)
