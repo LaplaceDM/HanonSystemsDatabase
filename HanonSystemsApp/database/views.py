@@ -105,12 +105,17 @@ class UpdateTableViewLaptop(SingleTableMixin,  UpdateView):
     form_class = LaptopForm
     template_name = 'html/update.html'
     success_url = '/database/Laptop'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_laptop')
+        return context
 
 
 
 def delete_Laptop(request, pk):
-
-    Laptop.objects.filter(laptop_id=pk).delete()
+    if request.user.has_perm('database.change_laptop'):
+        Laptop.objects.filter(laptop_id=pk).delete()
 
     return HttpResponseRedirect(reverse("Laptop"))
 
@@ -141,12 +146,17 @@ class UpdateTableViewTest_Harness(SingleTableMixin,  UpdateView):
     form_class = Test_HarnessForm
     template_name = 'html/update.html'
     success_url = '/database/Test_Harness'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_test_harness')
+        return context
 
 
 
 def delete_Test_Harness(request, pk):
-
-    Test_Harness.objects.filter(id=pk).delete()
+    if request.user.has_perm('database.change_laptop'):
+        Test_Harness.objects.filter(id=pk).delete()
 
     return HttpResponseRedirect(reverse("Test_Harness"))
 
@@ -175,12 +185,17 @@ class UpdateTableViewTest_DUT(SingleTableMixin,  UpdateView):
     form_class = Test_DUTForm
     template_name = 'html/update.html'
     success_url = '/database/Test_DUT'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_test_dut')
+        return context
 
 
 
 def delete_Test_DUT(request, pk):
-
-    Test_DUT.objects.filter(id=pk).delete()
+    if request.user.has_perm('database.change_test_dut'):
+        Test_DUT.objects.filter(id=pk).delete()
 
     return HttpResponseRedirect(reverse("Test_DUT"))
 
@@ -210,12 +225,18 @@ class UpdateTableViewTechnician_Skill(SingleTableMixin,  UpdateView):
     form_class = Technician_SkillForm
     template_name = 'html/update.html'
     success_url = '/database/Technician_Skill'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_technician_skill')
+        return context
 
 
 
 def delete_Technician_Skill(request, pk):
-
-    Technician_Skill.objects.filter(id=pk).delete()
+    
+    if request.user.has_perm('database.change_technician_skill'):
+        Technician_Skill.objects.filter(id=pk).delete()
 
     return HttpResponseRedirect(reverse("Technician_Skill"))
 
@@ -246,11 +267,15 @@ class UpdateTableViewTestMap(SingleTableMixin,  UpdateView):
     template_name = 'html/update.html'
     success_url = '/database/TestMap'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_testmap')
+        return context
 
 
 def delete_TestMap(request, pk):
-
-    TestMap.objects.filter(test_map_id=pk).delete()
+    if request.user.has_perm('database.change_testmap'):
+        TestMap.objects.filter(test_map_id=pk).delete()
 
     return HttpResponseRedirect(reverse("TestMap"))
 
@@ -281,11 +306,14 @@ class UpdateTableViewTest_Chamber(SingleTableMixin,  UpdateView):
     template_name = 'html/update.html'
     success_url = '/database/Test_Chamber'
 
-
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_test_chamber')
+        return context
 
 def delete_Test_Chamber(request, pk):
-
-    Test_Chamber.objects.filter(id=pk).delete()
+    if request.user.has_perm('database.change_test_chamber'):
+        Test_Chamber.objects.filter(id=pk).delete()
 
     return HttpResponseRedirect(reverse("Test_Chamber"))
 
@@ -317,11 +345,16 @@ class UpdateTableViewProgram_Cage(SingleTableMixin,  UpdateView):
     template_name = 'html/update.html'
     success_url = '/database/Program_Cage'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_program_cage')
+        return context
 
 
 def delete_Program_Cage(request, pk):
 
-    Program_Cage.objects.filter(id=pk).delete()
+    if request.user.has_perm('database.change_program_cage'):
+        Program_Cage.objects.filter(id=pk).delete()
 
     return HttpResponseRedirect(reverse("Program_Cage"))
 
@@ -353,11 +386,15 @@ class UpdateTableViewProgram_DAR(SingleTableMixin,  UpdateView):
     template_name = 'html/update.html'
     success_url = '/database/Program_DAR'
 
-
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_program_dar')
+        return context
 
 def delete_Program_DAR(request, pk):
 
-    Program_DAR.objects.filter(id=pk).delete()
+    if request.user.has_perm('database.change_program_dar'):
+        Program_DAR.objects.filter(id=pk).delete()
 
     return HttpResponseRedirect(reverse("Program_DAR"))
 
@@ -388,11 +425,16 @@ class UpdateTableViewProgram_Fluid(SingleTableMixin,  UpdateView):
     template_name = 'html/update.html'
     success_url = '/database/Program_Fluid'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_program_fluid')
+        return context
 
 
 def delete_Program_Fluid(request, pk):
 
-    Program_Fluid.objects.filter(id=pk).delete()
+    if request.user.has_perm('database.change_program_fluid'):
+        Program_Fluid.objects.filter(id=pk).delete()
 
     return HttpResponseRedirect(reverse("Program_Fluid"))
 
@@ -426,11 +468,16 @@ class UpdateTableViewDARChannel(SingleTableMixin,  UpdateView):
     template_name = 'html/update.html'
     success_url = '/database/DARChannel'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_darchannel')
+        return context
 
 
 def delete_DARChannel(request, pk):
 
-    DARChannel.objects.filter(channel_id=pk).delete()
+    if request.user.has_perm('database.change_darchannel'):
+        DARChannel.objects.filter(channel_id=pk).delete()
 
     return HttpResponseRedirect(reverse("DARChannel"))
 
@@ -462,11 +509,16 @@ class UpdateTableViewFluid(SingleTableMixin,  UpdateView):
     template_name = 'html/update.html'
     success_url = '/database/Fluid'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_fluid')
+        return context
 
 
 def delete_Fluid(request, pk):
 
-    Fluid.objects.filter(fluid_id=pk).delete()
+    if request.user.has_perm('database.change_fluid'):
+        Fluid.objects.filter(fluid_id=pk).delete()
 
     return HttpResponseRedirect(reverse("Fluid"))
 
@@ -499,11 +551,16 @@ class UpdateTableViewTechnician(SingleTableMixin,  UpdateView):
     template_name = 'html/update.html'
     success_url = '/database/Technician'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_technician')
+        return context
 
 
 def delete_Technician(request, pk):
 
-    Technician.objects.filter(technician_id=pk).delete()
+    if request.user.has_perm('database.change_technician'):
+        Technician.objects.filter(technician_id=pk).delete()
 
     return HttpResponseRedirect(reverse("Technician"))
 
@@ -534,11 +591,15 @@ class UpdateTableViewTestType(SingleTableMixin,  UpdateView):
     template_name = 'html/update.html'
     success_url = '/database/TestType'
 
-
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_testtype')
+        return context
 
 def delete_TestType(request, pk):
 
-    TestType.objects.filter(test_type_id=pk).delete()
+    if request.user.has_perm('database.change_testtype'):
+        TestType.objects.filter(test_type_id=pk).delete()
 
     return HttpResponseRedirect(reverse("TestType"))
 
@@ -569,11 +630,14 @@ class UpdateTableViewLab(SingleTableMixin,  UpdateView):
     template_name = 'html/update.html'
     success_url = '/database/Lab'
 
-
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_lab')
+        return context
 
 def delete_Lab(request, pk):
-
-    Lab.objects.filter(lab_id=pk).delete()
+    if request.user.has_perm('database.change_lab'):
+        Lab.objects.filter(lab_id=pk).delete()
 
     return HttpResponseRedirect(reverse("Lab"))
 
@@ -592,6 +656,10 @@ class SkillListView(SingleTableMixin,  CreateView, FilterView):
         return HttpResponseRedirect(reverse("Skill"))
     def get_table_pagination(self, request):
         return False
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_skill')
+        return context
 
 class UpdateTableViewSkill(SingleTableMixin,  UpdateView):
     
@@ -600,11 +668,16 @@ class UpdateTableViewSkill(SingleTableMixin,  UpdateView):
     template_name = 'html/update.html'
     success_url = '/database/Skill'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_lab')
+        return context
 
 
 def delete_Skill(request, pk):
 
-    Skill.objects.filter(skill_id=pk).delete()
+    if request.user.has_perm('database.change_lab'):
+        Skill.objects.filter(skill_id=pk).delete()
 
     return HttpResponseRedirect(reverse("Skill"))
 
@@ -634,11 +707,16 @@ class UpdateTableViewHarness(SingleTableMixin,  UpdateView):
     template_name = 'html/update.html'
     success_url = '/database/Harness'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_harness')
+        return context
 
 
 def delete_Harness(request, pk):
 
-    Harness.objects.filter(harness_id=pk).delete()
+    if request.user.has_perm('database.change_harness'):
+        Harness.objects.filter(harness_id=pk).delete()
 
     return HttpResponseRedirect(reverse("Harness"))
 
@@ -690,11 +768,14 @@ class UpdateTableViewCage(SingleTableMixin,  UpdateView):
     template_name = 'html/update cage.html'
     success_url = '/database/cage'
 
-
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_cage')
+        return context
 
 def delete_cage(request, pk):
-
-    Cage.objects.filter(cage_id=pk).delete()
+    if request.user.has_perm('database.change_cage'):
+        Cage.objects.filter(cage_id=pk).delete()
 
     return HttpResponseRedirect(reverse("cage"))
     
@@ -726,11 +807,15 @@ class UpdateTableViewChamber(SingleTableMixin,  UpdateView):
     template_name = 'html/update Chamber.html'
     success_url = '/database/Chamber'
 
-
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_chamber')
+        return context
 
 def delete_Chamber(request, pk):
 
-    Chamber.objects.filter(chamber_id=pk).delete()
+    if request.user.has_perm('database.change_chamber'):
+        Chamber.objects.filter(chamber_id=pk).delete()
 
     return HttpResponseRedirect(reverse("Chamber"))
 
@@ -745,11 +830,16 @@ class UpdateTableViewProgram(SingleTableMixin,  UpdateView):
     template_name = 'html/update.html'
     success_url = '/database/program'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_program')
+        return context
 
 
 def delete_program(request, pk):
 
-    Program.objects.filter(program_id=pk).delete()
+    if request.user.has_perm('database.change_program'):
+        Program.objects.filter(program_id=pk).delete()
 
     return HttpResponseRedirect(reverse("program"))
 
@@ -780,11 +870,15 @@ class UpdateTableViewDar(SingleTableMixin,  UpdateView):
     template_name = 'html/update Dar.html'
     success_url = '/database/Dar'
 
-
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_dar')
+        return context
 
 def delete_Dar(request, pk):
 
-    DAR.objects.filter(dar_id=pk).delete()
+    if request.user.has_perm('database.change_dar'):
+        DAR.objects.filter(dar_id=pk).delete()
 
     return HttpResponseRedirect(reverse("Dar"))
     
@@ -817,11 +911,16 @@ class UpdateTableViewProduct(SingleTableMixin,  UpdateView):
     form_class = ProductForm
     success_url = '/database/product'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_product')
+        return context
 
 
 def delete_item_product(request, pk):
-
-    Product.objects.filter(product_id=pk).delete()
+    
+    if request.user.has_perm('database.change_product'):
+        Product.objects.filter(product_id=pk).delete()
 
     return HttpResponseRedirect(reverse("product"))
 
@@ -843,6 +942,8 @@ class TestListView(SingleTableMixin, CreateView, FilterView):
     success_url = '/database/tests'
     filterset_class = TestFilter
     form_class = TestForm
+    
+    
 
     def get_table_pagination(self, request):
         return False
@@ -857,13 +958,19 @@ class TestListView(SingleTableMixin, CreateView, FilterView):
         context['permission'] = self.request.user.has_perm('database.change_test')
         return context
 
+    class Meta:
+        ordering = ['program_id', 'test_map_id']
+
 class UpdateTableViewTest(UpdateView):
     model = Test
     template_name = 'html/update_test.html'
     form_class = TestUpdateForm
     success_url = '/database/tests'
     
-
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_test')
+        return context
 
     def form_valid(self, form):
         instance = form.save(commit=False)
@@ -881,12 +988,12 @@ class UpdateTableViewTest(UpdateView):
                 instance.supervisor_comments = new_comment
             elif test.supervisor_comments == instance.supervisor_comments:
                 pass
+            else:
+                new_comment = str(datetime.now().date()) + " " + instance.supervisor_comments
+                instance.supervisor_comments = new_comment
         else:
-            position = instance.supervisor_comments.find("\n")
-            new_line = str(datetime.now().date()) + " " + instance.supervisor_comments[:position + 1]
-            new_comment = new_line + instance.supervisor_comments[position + 1:]
+            new_comment = str(datetime.now().date()) + " " + instance.supervisor_comments +"\n"
             instance.supervisor_comments = new_comment
-
         instance.save()
 
         # 更新相关的 ChamberLogInfo
@@ -912,55 +1019,50 @@ def find(request, pk):
 
 
 def delete_item_test(request, pk):
+    if request.user.has_perm('database.change_test'):
+        Test.objects.filter(test_id=pk).delete()
 
-    Test.objects.filter(test_id=pk).delete()
-
-    items = Test.objects.all()
-
-    context = {
-    'items': items
-    }
     return HttpResponseRedirect(reverse("test"))
 
 def clone_item(request, pk):
+    if request.user.has_perm('database.change_test'):
+        obj = Test.objects.get(test_id = pk)
+        obj.pk = None
+        obj.created = timezone.now()
+        obj.save()
+        ch = ChamberLogInfo(chamber_id = obj.chamber_id, program_id = obj.program_id, technician_id = obj.technician_id, test_id = Test.objects.get(pk = obj.pk),
+                                    pretest_inspection_and_photo=None,
+                                    setup_photo=None,
+                                    humidity=None,
+                                    system_pressure=None,
+                                    voltage=None,
+                                    system_restriction_target=None,
+                                    system_restriction_record=None,
+                                    trial_run_record_and_process=None,
+                                    special_requirements=None,
+                                    comments = obj.supervisor_comments)
 
-    obj = Test.objects.get(test_id = pk)
-    obj.pk = None
-    obj.created = timezone.now()
-    obj.save()
-    ch = ChamberLogInfo(chamber_id = obj.chamber_id, program_id = obj.program_id, technician_id = obj.technician_id, test_id = Test.objects.get(pk = obj.pk),
-                                pretest_inspection_and_photo=None,
-                                setup_photo=None,
-                                humidity=None,
-                                system_pressure=None,
-                                voltage=None,
-                                system_restriction_target=None,
-                                system_restriction_record=None,
-                                trial_run_record_and_process=None,
-                                special_requirements=None,
-                                comments = obj.supervisor_comments)
-
-    ch.save()
+        ch.save()
 
     return HttpResponseRedirect(reverse("test"))
 
 
 
 def clone_item1(request, pk):
-
-    obj = Product.objects.get(product_id = pk)
-    obj.pk = None
-    obj.created = timezone.now()
-    obj.save()
+    if request.user.has_perm('database.change_product'):
+        obj = Product.objects.get(product_id = pk)
+        obj.pk = None
+        obj.created = timezone.now()
+        obj.save()
 
     return HttpResponseRedirect(reverse("product"))
 
 def clone_item2(request, pk):
-
-    obj = Program.objects.get(program_id = pk)
-    obj.pk = None
-    obj.created = timezone.now()
-    obj.save()
+    if request.user.has_perm('database.change_program'):
+        obj = Program.objects.get(program_id = pk)
+        obj.pk = None
+        obj.created = timezone.now()
+        obj.save()
     
 
     return HttpResponseRedirect(reverse("program"))
@@ -1048,7 +1150,7 @@ def darchildren(request):
                 a.write(",\n")
         a.write("\n}")
         a.close()
-        return HttpResponse("product highligth compiled")
+        return HttpResponse("product highlight compiled")
     
 def getdarchildren(request):
     return render(request, "html/children")
@@ -1151,6 +1253,10 @@ class ChamberLogInfoListView(SingleTableMixin, CreateView, FilterView):
     def get_table_pagination(self, request):
         return False
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_chamberloginfo')
+        return context
     
 
 class UpdateTableViewChamberLogInfo(SingleTableMixin,  UpdateView):
@@ -1162,26 +1268,25 @@ class UpdateTableViewChamberLogInfo(SingleTableMixin,  UpdateView):
     def get_success_url(self):
         return reverse('ChamberLog', kwargs={'pk': self.kwargs.get('pk')})
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_chamberloginfo')
+        return context
 
 
 def delete_item_ChamberLogInfo(request, pk):
+    if request.user.has_perm('database.change_chamberloginfo'):
+        ChamberLogInfo.objects.filter(id=pk).delete()
 
-    ChamberLogInfo.objects.filter(id=pk).delete()
-
-    items = ChamberLogInfo.objects.all()
-
-    context = {
-    'items': items
-    }
 
     return HttpResponseRedirect(reverse("ChamberLogInfo"))
 
 def clone_item3(request, pk):
-
-    obj = ChamberLogInfo.objects.get(id = pk)
-    obj.pk = None
-    obj.created = timezone.now()
-    obj.save()
+    if request.user.has_perm('database.change_chamberloginfo'):
+        obj = ChamberLogInfo.objects.get(id = pk)
+        obj.pk = None
+        obj.created = timezone.now()
+        obj.save()
 
     return HttpResponseRedirect(reverse("ChamberLogInfo"))
 
@@ -1217,19 +1322,18 @@ class ChamberLogView(SingleTableMixin, CreateView, FilterView):
         return False
 
 def delete_item_ChamberLog(request, pk):
+    if request.user.has_perm('database.change_chamberlog'):
+        ChamberLog.objects.filter(id=pk).delete()
+
     item = ChamberLog.objects.get(id = pk).log_id.id
-
-    ChamberLog.objects.filter(id=pk).delete()
-
-   
 
     return HttpResponseRedirect(reverse("ChamberLog", kwargs={'pk': item}))
 
 def clone_item4(request, pk):
-
-    obj = ChamberLog.objects.get(id = pk)
-    obj.pk = None
-    obj.save()
+    if request.user.has_perm('database.change_chamberlog'):
+        obj = ChamberLog.objects.get(id = pk)
+        obj.pk = None
+        obj.save()
 
     return  HttpResponseRedirect(reverse('ChamberLog', kwargs={'pk': obj.log_id.id}))
 
@@ -1628,10 +1732,14 @@ class UpdateTableViewDUT(UpdateView):
     form_class = DUTForm
     success_url = '/database/dut'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_dut')
+        return context
 
 def delete_item_dut(request, pk):
-
-    DUT.objects.filter(dut_id=pk).delete()
+    if request.user.has_perm('database.change_dut'):
+        DUT.objects.filter(dut_id=pk).delete()
 
     return HttpResponseRedirect(reverse("dut"))
 
@@ -1698,10 +1806,15 @@ class UpdateTableViewSubcomponent(UpdateView):
     form_class = SubcomponentForm
     success_url = '/database/dut_info'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_subcomponent')
+        return context
 
 def delete_item_subcomponent(request, pk):
     dut_id = Subcomponent.objects.get(component_id = pk).dut_id.dut_id
-    Subcomponent.objects.filter(component_id=pk).delete()
+    if request.user.has_perm('database.change_subcomponent'):
+        Subcomponent.objects.filter(component_id=pk).delete()
     return HttpResponseRedirect(reverse("dut_info", kwargs={'pk': dut_id}))
 
 
@@ -1730,11 +1843,16 @@ class UpdateTableView_DAR_Channel(SingleTableMixin,  UpdateView):
     form_class = DAR_ChannelForm
     template_name = 'html/update.html'
     success_url = '/database/dar_channel'
-
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['permission'] = self.request.user.has_perm('database.change_darchannel')
+        return context
 
 
 def delete_DAR_Channel(request, pk):
-    DARChannel.objects.filter(channel_id=pk).delete()
+    if request.user.has_perm('database.change_darchannel'):
+        DARChannel.objects.filter(channel_id=pk).delete()
     return HttpResponseRedirect(reverse("DAR_Channel"))
 
 def compileDUTList(request):

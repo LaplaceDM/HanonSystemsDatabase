@@ -100,7 +100,7 @@
                 </div>
             </div>
         </div>   
-       
+        {%if permission%}
 
         {% load crispy_forms_tags %}
             <h2 class="my-4">Update an existing Subcomponent</h2>
@@ -109,6 +109,7 @@
                   {{form}}
                   <button class="btn-submit"  onclick="clicked(event)" type="submit">Submit</button>
             </form>
+        {%endif%}
             {%else%}
             <div class="nav-item">
                 <a class="nav-link" href="{% url 'Login' %}">Login</a>
