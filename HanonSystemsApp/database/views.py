@@ -958,8 +958,6 @@ class TestListView(SingleTableMixin, CreateView, FilterView):
         context['permission'] = self.request.user.has_perm('database.change_test')
         return context
 
-    class Meta:
-        ordering = ['program_id', 'test_map_id']
 
 class UpdateTableViewTest(UpdateView):
     model = Test

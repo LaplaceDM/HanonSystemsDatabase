@@ -152,6 +152,7 @@ class Test(models.Model):
 
     def __str__(self):
         return f"{self.test_map_id} - {self.test_type_id}: {self.test_description}"
+    
 
 class ChamberLog(models.Model):
     id = models.BigAutoField(primary_key=True)
