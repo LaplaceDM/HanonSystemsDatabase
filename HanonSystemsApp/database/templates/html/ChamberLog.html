@@ -177,7 +177,7 @@
         <div id = 'info'>
         <h3>
             <label> Test:</label>
-            {{record.test_id.test_map_id.tr}} - {{record.test_id}}
+            {{record.test_id}}
             <br>
             <label> Chamber:</label>
             {{record.chamber_id}}
@@ -240,6 +240,7 @@
        
         
         {% load crispy_forms_tags %}
+        {% if permission%}
 
         <button id="add_button" type="submit" class="btn" onclick="openPopup()"> Add new Log </button>
             <div class="container">
@@ -249,12 +250,12 @@
             <form class="form" action="" method="post">
               {% csrf_token %}
                   {{form}}
-                  <button type="submit">Submit</button>
+                  <button class = "btn-submit" type="submit">Submit</button>
             </form>
             <br>
             </div>
         </div>
-
+        {%endif%}
 
 
             
@@ -281,17 +282,18 @@
     </body>
     <script>
 
-
-        let popup = document.getElementById("popup");
-            popup.hidden = true;    
-            function openPopup(){
-                if (popup.hidden){
-                    popup.hidden = false;
+        if (document.querySelector(".btn-submit")!=null){
+            let popup = document.getElementById("popup");
+                popup.hidden = true;    
+                function openPopup(){
+                    if (popup.hidden){
+                        popup.hidden = false;
+                    }
+                    else{
+                        popup.hidden = true;
+                    }
                 }
-                else{
-                    popup.hidden = true;
-                }
-            }
+        }
         function clicked(e)
                 {
                     if(!confirm('Are you sure?')) {
@@ -299,10 +301,22 @@
                     }
                     popup.classList.remove("open-popup");
                 }
-                
-        document.getElementsByTagName("label")[34].hidden =true
-        document.getElementById("id_log_id").value = {{ChamberLogInfo.0.id}}
-        document.getElementById("id_log_id").hidden =true
+        
+        if (document.querySelector(".btn-submit")!=null){
+            document.getElementsByTagName("label")[34].hidden =true
+            document.getElementById("id_log_id").value = {{ChamberLogInfo.0.id}}
+            document.getElementById("id_log_id").hidden =true
+        }
         document.getElementById("info").style.height = eval(document.getElementById("h4").clientHeight) + "px"
+
+        //checking permissions
+        if (document.querySelector(".btn-submit")==null){
+            table = document.querySelector(".table-container .table").rows
+            cells = table[0].cells.length
+            for (i=0; i<table.length;i++){
+                table[i].cells[cells-1].remove()
+                table[i].cells[cells-2].remove()
+            }
+        }
     </script>
 </html>

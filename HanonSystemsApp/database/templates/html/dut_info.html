@@ -194,12 +194,14 @@
                 </tr>
             </table>
         </div>
+        {%if permission%}
         <h3 class="my-4">Add a new Subcomponent</h3>
             <form action="" method="post">
               {% csrf_token %}
                   {{form}}
-                  <button class="btn btn-primary my-4" onclick="clicked(event)" type="submit">Submit</button>
+                  <button class="btn-submit" onclick="clicked(event)" type="submit">Submit</button>
             </form>
+        {%endif%}
 
             {% render_table table  "django_tables2/bootstrap.html"%} 
         <h3>
@@ -262,9 +264,20 @@
                     }
                 }
 
-                document.getElementById("id_dut_id").hidden= true
-                document.getElementsByTagName("label")[3].hidden  =true
-                document.getElementById("id_dut_id").value= {{DUT.dut_info.0.dut_id}}
+                if (document.querySelector(".btn-submit")!=null){
+                    document.getElementById("id_dut_id").hidden= true
+                    document.getElementsByTagName("label")[3].hidden  =true
+                    document.getElementById("id_dut_id").value= {{DUT.dut_info.0.dut_id}}
+                }
+            //checking permissions
+        if (document.querySelector(".btn-submit")==null){
+            table = document.querySelector(".table-container .table").rows
+            cells = table[0].cells.length
+            for (i=0; i<table.length;i++){
+                table[i].cells[cells-1].remove()
+                table[i].cells[cells-2].remove()
+            }
+        }
         </script>
     </body>
 </html>

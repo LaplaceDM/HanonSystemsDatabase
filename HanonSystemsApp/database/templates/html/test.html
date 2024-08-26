@@ -261,6 +261,7 @@
          </div>
      </div>
      <br>
+     {%if permission%}
      <div class="add">
          <button id="add_button" type="submit" onclick="openPopup()">Add a new test</button>
          <div class="container">
@@ -268,7 +269,7 @@
                  <form class="form" action="" method="post">
                      {% csrf_token %}
                      {{ form }}
-                     <button type="submit" onclick="submitCheck(event)">Submit</button>
+                     <button class = "btn-submit" type="submit" onclick="submitCheck(event)">Submit</button>
                      {####################################################################################################################################}
                      <button type="button" onclick="clearForm()">Clear</button>
                      {####################################################################################################################################}
@@ -336,6 +337,7 @@
              </div>
          </div>
      </div>
+     {%endif%}
      <center>
         <label> Check to hide columns:</label>
          <input type="checkbox" id="checkcreated" onclick="hide('checkcreated', 0)">
@@ -378,6 +380,7 @@
          <label for="checkHours_planned"> Hours planned</label>
          <input type="checkbox" id="checkHours_actual" onclick="hide('checkHours_actual', 19)">
          <label for="checkHours_actual"> Hours actual</label>
+         {%if permission%}
          <input type="checkbox" id="checkdelete" onclick="hide('checkdelete', 20)" checked>
          <label for="checkdelete"> Delete</label>
          <input type="checkbox" id="checkupdate" onclick="hide('checkupdate', 21)">
@@ -386,11 +389,16 @@
          <label for="checkclone"> Clone</label>
          <input type="checkbox" id="checkStatus_log" onclick="hide('checkStatus_log', 23)">
          <label for="checkStatus_log"> Log</label>
+         {%else%}
+         <input type="checkbox" id="checkStatus_log" onclick="hide('checkStatus_log', 20)">
+         <label for="checkStatus_log"> Log</label>
+         {%endif%}
+
 
      </center>
 
 
-     {% include 'C:\Users\SZHANG36\Desktop\LaplaceDM DB Project\HanonSystemsDatabase\HanonSystemsApp\database\templates\html\custom_table_render.html' %}
+     {% include 'C:\Quang Thang\Projects\Database\LaplaceDM\HanonSystemsDatabase\HanonSystemsApp\database\templates\html\custom_table_render.html' %}
 
  
      {% else %}
@@ -456,8 +464,15 @@
         {####################################################################################################################################}
 
          // column selector
-         table3 = document.getElementsByTagName("table").item(3);
-         rows3 = table3.rows;
+         if (document.querySelector(".btn-submit")==null){
+            table3 = document.getElementsByTagName("table")[0];
+            rows3 = table3.rows;
+         }
+         else{
+            table3 = document.getElementsByTagName("table")[3];
+            rows3 = table3.rows;
+         }
+
  
          function hide(e, l) {
              let dec = document.getElementById(e);
@@ -483,9 +498,11 @@
                  }
              }
          }
- 
+         
+         if (document.querySelector(".btn-submit")!=null){
          let popup = document.getElementById("popup");
          popup.hidden = true;
+         }
          function openPopup() {
              if (popup.hidden) {
                  popup.hidden = false;
@@ -493,31 +510,35 @@
                  popup.hidden = true;
              }
          }
+        
  
          // adding confirmation for deleting
          var table, rows;
-         table = document.getElementsByTagName("table").item(3);
+         if (document.querySelector(".btn-submit")!=null){
+            table = document.getElementsByTagName("table").item(3);
+         
 
-         rows = table.rows;
- 
-         for (let i = 1; i < rows.length; i++) {
-             x = rows[i].getElementsByTagName("td")[20];
-             y = x.getElementsByClassName("btn")[0];
-             w = rows[i].getElementsByTagName("td")[22];
-             z = w.getElementsByClassName("btn")[0];
- 
-             y.onclick = function clicked(e) {
-                 if (!confirm('Are you sure?')) {
-                     e.preventDefault();
-                 }
-             };
- 
-             z.onclick = function clicked(e) {
-                 if (!confirm('Are you sure?')) {
-                     e.preventDefault();
-                 }
-             };
-         }
+            rows = table.rows;
+    
+            for (let i = 1; i < rows.length; i++) {
+                x = rows[i].getElementsByTagName("td")[20];
+                y = x.getElementsByClassName("btn")[0];
+                w = rows[i].getElementsByTagName("td")[22];
+                z = w.getElementsByClassName("btn")[0];
+    
+                y.onclick = function clicked(e) {
+                    if (!confirm('Are you sure?')) {
+                        e.preventDefault();
+                    }
+                };
+    
+                z.onclick = function clicked(e) {
+                    if (!confirm('Are you sure?')) {
+                        e.preventDefault();
+                    }
+                };
+            }
+        }
  
          // formatting filter and add fields
          var label, input, formated_label, formated_input, length, formated_fields, current_fields, th, td, button, children;
@@ -550,36 +571,37 @@
          for (var i = 0; i < length; i++) {
              document.getElementsByClassName("form-group")[0].remove();
          }
- 
-         length = 18;
-         formated_fields = document.createElement("table");
-         formated_fields.id = "add";
-         current_fields = document.getElementsByTagName("form")[1];
-         children = current_fields.children;
-         current_fields.appendChild(formated_fields);
-         formated_label = document.createElement("tr");
-         formated_input = document.createElement("tr");
- 
-         for (var i = 0; i < length; i++) {
-             th = document.createElement("th");
-             td = document.createElement("td");
-             label = children[2 * i + 1].innerHTML;
-             input = children[2 * i + 2].cloneNode(true);
-             input.id = "add_field"
-             th.innerHTML = label;
-             td.appendChild(input);
-             formated_label.appendChild(th);
-             formated_input.appendChild(td);
-         }
-         button = document.getElementsByTagName("button")[2]
-         formated_fields.appendChild(formated_label);
-         formated_fields.appendChild(formated_input);
-         current_fields.appendChild(button);
- 
-         for (var i = 0; i < length * 2; i++) {
-             children[1].remove();
-         }
- 
+
+         if (document.querySelector(".btn-submit")!=null){
+            length = 18;
+            formated_fields = document.createElement("table");
+            formated_fields.id = "add";
+            current_fields = document.getElementsByTagName("form")[1];
+            children = current_fields.children;
+            current_fields.appendChild(formated_fields);
+            formated_label = document.createElement("tr");
+            formated_input = document.createElement("tr");
+    
+            for (var i = 0; i < length; i++) {
+                th = document.createElement("th");
+                td = document.createElement("td");
+                label = children[2 * i + 1].innerHTML;
+                input = children[2 * i + 2].cloneNode(true);
+                input.id = "add_field"
+                th.innerHTML = label;
+                td.appendChild(input);
+                formated_label.appendChild(th);
+                formated_input.appendChild(td);
+            }
+            button = document.getElementsByTagName("button")[2]
+            formated_fields.appendChild(formated_label);
+            formated_fields.appendChild(formated_input);
+            current_fields.appendChild(button);
+    
+            for (var i = 0; i < length * 2; i++) {
+                children[1].remove();
+            }
+        }
          // checking equipment test bookings
          function getCookie(name) {
              var cookieValue = null;
@@ -703,8 +725,10 @@
  
                  })
          }
-         document.getElementsByName("test_type_id")[1].addEventListener("input", highlight)
-         document.getElementsByName("program_id")[1].addEventListener("input", highlight2)
+         if (document.querySelector(".btn-submit")!=null){
+            document.getElementsByName("test_type_id")[1].addEventListener("input", highlight)
+            document.getElementsByName("program_id")[1].addEventListener("input", highlight2)
+         }
  
          function getChamberSchedule() {
              var chamber_id = document.getElementsByName("chamber_id")[1].value;
@@ -1015,15 +1039,24 @@
                  e.preventDefault();
              }
          }
-         document.getElementsByName("targeted_start")[1].addEventListener("input", checkSchedule);
-         document.getElementsByName("targeted_end")[1].addEventListener("input", checkSchedule);
-         document.getElementsByName("chamber_id")[1].addEventListener("input", getChamberSchedule);
-         document.getElementsByName("dar_id")[1].addEventListener("input", getDARSchedule);
-         document.getElementsByName("cage_id")[1].addEventListener("input", getCageSchedule);
- 
-         var table, rows, cells, length;
-         rows = document.getElementsByTagName("table")[5].rows;
-         length = rows.length;
+         if (document.querySelector(".btn-submit")!=null){
+            document.getElementsByName("targeted_start")[1].addEventListener("input", checkSchedule);
+            document.getElementsByName("targeted_end")[1].addEventListener("input", checkSchedule);
+            document.getElementsByName("chamber_id")[1].addEventListener("input", getChamberSchedule);
+            document.getElementsByName("dar_id")[1].addEventListener("input", getDARSchedule);
+            document.getElementsByName("cage_id")[1].addEventListener("input", getCageSchedule);
+         }
+         if (document.querySelector(".btn-submit")!=null){
+            var table, rows, cells, length;
+            rows = document.getElementsByTagName("table")[5].rows;
+            length = rows.length;
+         }
+         else{
+            var table, rows, cells, length;
+            rows = document.getElementsByTagName("table")[1].rows;
+            length = rows.length;
+         }
+         
  
          function highlight_status(cells) {
              if (cells[6].innerHTML == "stopped") {
@@ -1156,7 +1189,7 @@
  
          // Attach saveScrollPosition function to all edit buttons
          document.addEventListener("DOMContentLoaded", function () {
-             const editButtons = document.querySelectorAll();
+             const editButtons = document.querySelectorAll('td.btn');
              editButtons.forEach(button => {
                 button.addEventListener("click", function (event) {
                     event.preventDefault();
@@ -1193,18 +1226,30 @@
          });
  
          // making table headers visible on scroll
-         let headings = document.getElementsByTagName("table")[5].rows[0].getElementsByTagName("th");
-         for (let i = 0; i < headings.length; i++) {
+         if (document.querySelector(".btn-submit")!=null){
+            let headings = document.getElementsByTagName("table")[5].rows[0].cells;
+            for (let i = 0; i < headings.length; i++) {
              headings[i].style.position = "sticky";
              headings[i].style.top = "80px";
              headings[i].style.backgroundColor = "white";
          }
+         }
+         else{
+            let headings = document.getElementsByTagName("table")[1].rows[0].cells;
+            for (let i = 0; i < headings.length; i++) {
+             headings[i].style.position = "sticky";
+             headings[i].style.top = "80px";
+             headings[i].style.backgroundColor = "white";
+         }
+         }
  
          // Display products, test maps belonging to a program in the add form after selecting program
-         let add_product = document.getElementsByName("product_id")[1];
-         let add_testmap = document.getElementsByName("test_map_id")[1];
-         add_product.innerHTML = '';
-         add_testmap.innerHTML = '';
+         if (document.querySelector(".btn-submit")!=null){
+            let add_product = document.getElementsByName("product_id")[1];
+            let add_testmap = document.getElementsByName("test_map_id")[1];
+            add_product.innerHTML = '';
+            add_testmap.innerHTML = '';
+         }
          
  
          function filter_products_and_testmaps() {
@@ -1321,20 +1366,27 @@
                      console.log("something went wrong")
                  })
          }
- 
-         document.getElementsByName("program_id")[1].addEventListener("input", filter_products_and_testmaps)
-         document.getElementById("program_dropdown").addEventListener("click", filter_products_and_testmaps)
+         if (document.querySelector(".btn-submit")!=null){
+            document.getElementsByName("program_id")[1].addEventListener("input", filter_products_and_testmaps)
+            document.getElementById("program_dropdown").addEventListener("click", filter_products_and_testmaps)
+         }
          document.getElementsByName("program_id")[0].addEventListener("input", filter_products_and_testmaps2)
          document.getElementById("program_dropdown_filter").addEventListener("click", filter_products_and_testmaps2)
-         hide('checkdelete', 20)
 
-         //hiding all archive
-         rows = document.getElementsByTagName("table")[5].rows
-         for (let i = 0; i<rows.length;i++){
-            if (rows[i].cells[5].innerText == "archive"){
-                rows[i].style.display = "none"
+         //checking permissions
+        if (document.querySelector(".btn-submit")==null){
+            table = document.getElementsByClassName("table table-bordered table-striped")[0].rows
+            cells = table[0].cells.length
+            for (i=0; i<table.length;i++){
+                table[i].cells[cells-2].remove()
+                table[i].cells[cells-3].remove()
+                table[i].cells[cells-4].remove()
             }
-         }
+        }
+        else {
+            hide('checkdelete', 20)
+        }
+        
 
      </script>
  </body>

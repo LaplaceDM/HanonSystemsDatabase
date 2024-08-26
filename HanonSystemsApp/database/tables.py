@@ -194,7 +194,7 @@ class TechnicianTable(ColumnShiftTableBootstrap3):
     },orderable = False)
 
     update = tables.LinkColumn('update_Technician',text='edit', args=[A('pk')], attrs={
-    'a': {'class': 'btn', 'target': '_blank'}
+    'a': {'class': 'btn-update', 'target': '_blank'}
     }, orderable = False)
 
     class Meta:
@@ -315,7 +315,7 @@ class TestTable(ColumnShiftTableBootstrap3):
     class Meta:
         model = Test
         exclude = ("test_id","test_map_id")
-        order_by = "program_id", "-test_map_id", "created"
+        order_by = "program_id__program_name"
         sequence = ("created", "product_id", "program_id","test_map", "priority", "scheduling", "status", "test_type_id", "test_description", "tr", "technician_id", "chamber_id", "dar_id", "cage_id", "lab_id", "targeted_start", "targeted_end", "supervisor_comments", "hours_planned", "total_hours")
 
 class ChamberLogInfoTable(ColumnShiftTableBootstrap3):
