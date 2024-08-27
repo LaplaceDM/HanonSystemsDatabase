@@ -46,7 +46,7 @@ def test_view(request):
         sort_column = f'-{sort_column}'
 
     # 查询并排序
-    table = TestTable.objects.all().order_by(sort_column)
+    table = Test.objects.all().order_by(sort_column)
 
     context = {
         'table': table,
