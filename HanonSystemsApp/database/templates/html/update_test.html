@@ -338,9 +338,9 @@
             function highlight(){
                 var csrftoken = getCookie('csrftoken');
                 var test_type_id = document.getElementsByName("test_type_id")[0].value;
-                fetch("http://127.0.0.1:8000/database/children", {method: "POST", body: test_type_id, headers:{"X-CSRFToken": csrftoken}})
+                fetch("http://10.22.137.40:8000/database/children", {method: "POST", body: test_type_id, headers:{"X-CSRFToken": csrftoken}})
                 .then((response)=>
-                fetch("http://127.0.0.1:8000/database/getchildren")
+                fetch("http://10.22.137.40:8000/database/getchildren")
                 )
                 .then(result=> result.json())
                 .then(result=>{
@@ -378,9 +378,9 @@
             function highlight2(){
                 var csrftoken = getCookie('csrftoken');
                 var program_id = document.getElementsByName("program_id")[0].value;
-                fetch("http://127.0.0.1:8000/database/darchildren", {method: "POST", body: program_id, headers:{"X-CSRFToken": csrftoken}})
+                fetch("http://10.22.137.40:8000/database/darchildren", {method: "POST", body: program_id, headers:{"X-CSRFToken": csrftoken}})
                 .then((response)=>
-                fetch("http://127.0.0.1:8000/database/getdarchildren")
+                fetch("http://10.22.137.40:8000/database/getdarchildren")
                 )
                 .then(result=> result.json())
                 .then(result=>{
@@ -446,9 +446,9 @@
                 var chamber_id = document.getElementsByName("chamber_id")[0].value;
                 var csrftoken = getCookie('csrftoken');
                 
-                fetch("http://127.0.0.1:8000/database/chamberschedule", {method: "POST", body: chamber_id, headers:{"X-CSRFToken": csrftoken}})
+                fetch("http://10.22.137.40:8000/database/chamberschedule", {method: "POST", body: chamber_id, headers:{"X-CSRFToken": csrftoken}})
                 .then((response)=>
-                fetch("http://127.0.0.1:8000/database/getchamberschedule")
+                fetch("http://10.22.137.40:8000/database/getchamberschedule")
                 )
                 .then(result=> result.json())
                 .then(result=>{
@@ -524,9 +524,9 @@
                 var dar_id = document.getElementsByName("dar_id")[0].value;
                 var csrftoken = getCookie('csrftoken');
                 
-                fetch("http://127.0.0.1:8000/database/darschedule", {method: "POST", body: dar_id, headers:{"X-CSRFToken": csrftoken}})
+                fetch("http://10.22.137.40:8000/database/darschedule", {method: "POST", body: dar_id, headers:{"X-CSRFToken": csrftoken}})
                 .then((response)=>
-                fetch("http://127.0.0.1:8000/database/getdarschedule")
+                fetch("http://10.22.137.40:8000/database/getdarschedule")
                 )
                 .then(result=> result.json())
                 .then(result=>{
@@ -600,9 +600,9 @@
                 var cage_id = document.getElementsByName("cage_id")[0].value;
                 var csrftoken = getCookie('csrftoken');
                 
-                fetch("http://127.0.0.1:8000/database/cageschedule", {method: "POST", body: cage_id, headers:{"X-CSRFToken": csrftoken}})
+                fetch("http://10.22.137.40:8000/database/cageschedule", {method: "POST", body: cage_id, headers:{"X-CSRFToken": csrftoken}})
                 .then((response)=>
-                fetch("http://127.0.0.1:8000/database/getcageschedule")
+                fetch("http://10.22.137.40:8000/database/getcageschedule")
                 )
                 .then(result=> result.json())
                 .then(result=>{
