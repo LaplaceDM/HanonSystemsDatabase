@@ -408,23 +408,59 @@
      {% endif %}
  
      <script>
-        function sortTable(columnName) {
-            let currentUrl = new URL(window.location.href);
-            let searchParams = currentUrl.searchParams;
-            let currentSort = searchParams.get('sort');
-            let currentOrder = searchParams.get('order');
+        function sortTable(columnIndex) {
+            let table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+            table = document.getElementsByTagName("table")[0]; // Assuming the first table is the one you want to sort
+            switching = true;
+            dir = "asc"; // Set the sorting direction to ascending
     
-            if (currentSort === columnName) {
-                // Toggle sorting order
-                searchParams.set('order', currentOrder === 'asc' ? 'desc' : 'asc');
-            } else {
-                searchParams.set('sort', columnName);
-                searchParams.set('order', 'asc');
+            while (switching) {
+                switching = false;
+                rows = table.rows;
+                
+                // Loop through all table rows (except the first, which contains table headers)
+                for (i = 1; i < (rows.length - 1); i++) {
+                    shouldSwitch = false;
+                    x = rows[i].getElementsByTagName("TD")[columnIndex];  // Get the cell content of the current row
+                    y = rows[i + 1].getElementsByTagName("TD")[columnIndex]; // Get the cell content of the next row
+    
+                    // Check if the two rows should switch place, based on the direction, asc or desc
+                    if (dir == "asc") {
+                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                            // If so, mark as a switch and break the loop
+                            shouldSwitch = true;
+                            break;
+                        }
+                    } else if (dir == "desc") {
+                        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                            // If so, mark as a switch and break the loop
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+                }
+                if (shouldSwitch) {
+                    // If a switch has been marked, make the switch and mark that a switch has been done
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                    switchcount++;
+                } else {
+                    // If no switching has been done AND the direction is "asc", set the direction to "desc" and run the while loop again
+                    if (switchcount == 0 && dir == "asc") {
+                        dir = "desc";
+                        switching = true;
+                    }
+                }
             }
-    
-            currentUrl.search = searchParams.toString();
-            window.location.href = currentUrl.toString();
         }
+    
+        // Attach the sortTable function to the column header click event
+        document.addEventListener("DOMContentLoaded", function () {
+            const schedulingHeader = document.querySelector("th:nth-child(5)"); // Assuming "Scheduling" is the 5th column
+            schedulingHeader.addEventListener("click", function () {
+                sortTable(4); // The index is 4 because the function assumes 0-based indexing for columns
+            });
+        });
 
         {####################################################################################################################################}
         function clearForm() {
@@ -1186,43 +1222,43 @@
             productColumn.forEach(cell => cell.style.width = productWidth + 'px');
             programColumn.forEach(cell => cell.style.width = programWidth + 'px');
         });
- 
-         // Attach saveScrollPosition function to all edit buttons
-         document.addEventListener("DOMContentLoaded", function () {
-             const editButtons = document.querySelectorAll('td.btn');
-             editButtons.forEach(button => {
-                button.addEventListener("click", function (event) {
-                    event.preventDefault();
-                    saveScrollPosition();
-                    // Open update_cage.html in a new tab/window
-                    window.open(this.href, '_blank');
-                    // Close the current window
-                    window.close();
-                });
-             });
 
-             const buttons = document.querySelectorAll('.legend-button');
-             buttons.forEach(button => {
-                 button.addEventListener('mouseover', function() {
-                     this.nextElementSibling.style.display = 'block';
-                 });
-                 button.addEventListener('mouseout', function() {
-                     this.nextElementSibling.style.display = 'none';
-                 });
-             });
-         
-             const contents = document.querySelectorAll('.legend-content');
-             contents.forEach(content => {
-                 content.addEventListener('mouseover', function() {
-                     this.style.display = 'block';
-                 });
-                 content.addEventListener('mouseout', function() {
-                     this.style.display = 'none';
-                 });
-             });
+        document.addEventListener("DOMContentLoaded", function () {
+            const editButtons = document.querySelectorAll('td.btn');
+            editButtons.forEach(button => {
+                button.addEventListener("click", function (event) {
+                    
+                    saveScrollPosition();
+                    window.location.href = this.href; // Navigate in the same window.
+                });
+            });
+        
+            // Handle hover events for legend buttons.
+            const buttons = document.querySelectorAll('.legend-button');
+            buttons.forEach(button => {
+                button.addEventListener('mouseover', function() {
+                    this.nextElementSibling.style.display = 'block';
+                });
+                button.addEventListener('mouseout', function() {
+                    this.nextElementSibling.style.display = 'none';
+                });
+            });
+        
+            const contents = document.querySelectorAll('.legend-content');
+            contents.forEach(content => {
+                content.addEventListener('mouseover', function() {
+                    this.style.display = 'block';
+                });
+                content.addEventListener('mouseout', function() {
+                    this.style.display = 'none';
+                });
+            });
+        
+            // Restore scroll position when the page is fully loaded.
+            window.onload = function () {
+                restoreScrollPosition();
+            };
  
-             // Restore scroll position
-             restoreScrollPosition();
          });
  
          // making table headers visible on scroll
