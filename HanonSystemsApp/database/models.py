@@ -7,7 +7,7 @@ from django.utils import timezone
 # Create your models here.
 
 class Program(models.Model):
-    program_name = models.CharField(max_length = 50, verbose_name = "Program",  null = True) 
+    program_name = models.CharField(max_length = 50, verbose_name = "Program") 
     status = models.CharField(max_length = 20, verbose_name = "Status",  null = True)
     phase = models.CharField(max_length = 10, verbose_name = "Phase",  null = True)
     enterproj_id = models.CharField(max_length = 10, verbose_name = "EnterProj ID",  null = True)
@@ -19,7 +19,7 @@ class Program(models.Model):
         return self.program_name
 
 class Lab(models.Model):
-    lab_name = models.CharField(max_length = 20, null = True)
+    lab_name = models.CharField(max_length = 20)
     city = models.CharField(max_length = 20, null = True)
     country = models.CharField(max_length = 15, null = True)
     supervisor = models.CharField(max_length = 25, null = True)
@@ -29,11 +29,11 @@ class Lab(models.Model):
         return self.lab_name
 
 class Product(models.Model):
-    product_family = models.CharField(max_length = 10, null = True)
+    product_family = models.CharField(max_length = 10)
     platform = models.CharField(max_length = 15, null = True)
     communication_protocol = models.CharField(max_length = 15, null = True)
     voltage = models.CharField(max_length = 3, null = True)
-    variant = models.CharField(max_length = 30, null = True)
+    variant = models.CharField(max_length = 30)
     
     product_id = models.AutoField(primary_key=True, verbose_name = "Product")
     program_id = models.ForeignKey( "Program", on_delete = models.CASCADE, null = True, db_column="program_id", verbose_name = "Program")
@@ -41,13 +41,17 @@ class Product(models.Model):
         return self.product_family+ (" ")+ self.variant + (" - ")  + self.program_id.program_name
 
 class TestMap(models.Model):
-    test_map_name = models.CharField(max_length = 100, null = True, verbose_name = "Test Map Name")
-    tr = models.CharField(max_length = 14, null = True, verbose_name = "TR")
+    test_map_name = models.CharField(max_length = 100, verbose_name = "Test Map Name")
+    tr = models.CharField(max_length = 14, verbose_name = "TR")
     test_map_id = models.AutoField(primary_key=True)
 
     program_id = models.ForeignKey( "Program", on_delete = models.CASCADE, null = True, db_column="program_id", verbose_name = "Program")
     def __str__(self):
+<<<<<<< HEAD
         return str(self.tr +" - "+ self.test_map_name)
+=======
+        return self.tr + ' - ' + self.test_map_name
+>>>>>>> 433d08ab90cbc1c3a51cd787bb9601c5dbdf156e
 
 class Technician (models.Model):
     technician_name = models.CharField(max_length = 30)
@@ -107,7 +111,7 @@ class Test_Harness(models.Model):
 
 class Fluid(models.Model):
     fluid_name = models.CharField(max_length = 30)
-    manufacturer = models.CharField(max_length = 20, null = True)
+    manufacturer = models.CharField(max_length = 20)
     storage_location = models.CharField(max_length = 20, null = True)
     fluid_id = models.SmallAutoField(primary_key=True, verbose_name = "Fluid name")
     def __str__(self):
@@ -135,8 +139,8 @@ class Test(models.Model):
     priority = models.SmallIntegerField(null = True)
     scheduling = models.TextField(max_length = 300, null =True)
     status = models.TextField(max_length = 300, null =True)
-    test_type_id = models.ForeignKey("TestType", on_delete = models.CASCADE, db_column = "test_type_id", verbose_name = "Test Type", null = True)
-    test_description = models.TextField(max_length = 150, null =True)
+    test_type_id = models.ForeignKey("TestType", on_delete = models.CASCADE, db_column = "test_type_id", verbose_name = "Test Type")
+    test_description = models.TextField(max_length = 150)
     test_id = models.AutoField(primary_key=True)
     technician_id = models.ForeignKey("Technician", on_delete = models.CASCADE, db_column = "technician_id", verbose_name = "Technician", null = True)
     chamber_id = models.ForeignKey("Chamber", on_delete = models.CASCADE, db_column = "chamber_id", verbose_name = "Chamber", null = True)
@@ -276,7 +280,7 @@ class Test_Chamber (models.Model):
 
 class DARChannel(models.Model):
     channel_id = models.AutoField(primary_key=True)
-    channel_number = models.SmallIntegerField(null =True)
+    channel_number = models.SmallIntegerField()
     number_of_duts = models.SmallIntegerField(null =True)
     power_supply_type = models.CharField(max_length = 20, null =True)
     power_supply_48V = models.SmallIntegerField(null =True)
