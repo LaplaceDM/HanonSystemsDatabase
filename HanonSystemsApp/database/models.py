@@ -47,11 +47,7 @@ class TestMap(models.Model):
 
     program_id = models.ForeignKey( "Program", on_delete = models.CASCADE, null = True, db_column="program_id", verbose_name = "Program")
     def __str__(self):
-<<<<<<< HEAD
         return str(self.tr +" - "+ self.test_map_name)
-=======
-        return self.tr + ' - ' + self.test_map_name
->>>>>>> 433d08ab90cbc1c3a51cd787bb9601c5dbdf156e
 
 class Technician (models.Model):
     technician_name = models.CharField(max_length = 30)
