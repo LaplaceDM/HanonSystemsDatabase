@@ -398,7 +398,11 @@
      </center>
 
 
+<<<<<<< HEAD
+     {% include 'C:\Quang Thang\Projects\Database\LaplaceDM\HanonSystemsDatabase\HanonSystemsApp\database\templates\html\custom_table_render.html' %}
+=======
      {% include 'C:\Users\DBWASA\Desktop\BPMS\HanonSystemsDatabase\HanonSystemsApp\database\templates\html\custom_table_render.html' %}
+>>>>>>> 433d08ab90cbc1c3a51cd787bb9601c5dbdf156e
 
  
      {% else %}
@@ -1222,6 +1226,23 @@
             productColumn.forEach(cell => cell.style.width = productWidth + 'px');
             programColumn.forEach(cell => cell.style.width = programWidth + 'px');
         });
+<<<<<<< HEAD
+ 
+         // Attach saveScrollPosition function to all edit buttons
+         document.addEventListener("DOMContentLoaded", function () {
+             const editButtons = document.querySelectorAll('td .btn');
+             editButtons.forEach(button => {
+                button.addEventListener("click", function (event) {
+                    event.preventDefault();
+                    saveScrollPosition();
+                    // Open update_cage.html in a new tab/window
+                    window.open(this.href, '_blank');
+                    // Close the current window
+                    window.close();
+                });
+             });
+=======
+>>>>>>> dbb7ac0bc8a23ec4015b6af6fd33e555a585113d
 
         document.addEventListener("DOMContentLoaded", function () {
             const editButtons = document.querySelectorAll('td .btn');
