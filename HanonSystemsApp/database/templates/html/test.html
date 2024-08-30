@@ -398,11 +398,7 @@
      </center>
 
 
-<<<<<<< HEAD
      {% include 'C:\Quang Thang\Projects\Database\LaplaceDM\HanonSystemsDatabase\HanonSystemsApp\database\templates\html\custom_table_render.html' %}
-=======
-     {% include 'C:\Users\DBWASA\Desktop\BPMS\HanonSystemsDatabase\HanonSystemsApp\database\templates\html\custom_table_render.html' %}
->>>>>>> 433d08ab90cbc1c3a51cd787bb9601c5dbdf156e
 
  
      {% else %}
@@ -412,9 +408,20 @@
      {% endif %}
  
      <script>
+//removing heading hyperlink
+        headings = document.getElementsByTagName("table")[3].rows[0]
+        for (i = 0; i < headings.cells.length; i++){
+            text = headings.cells[i].children[0].innerHTML
+            node = document.createElement("div")
+            node.innerText = text
+            headings.cells[i].insertBefore(node, headings.cells[i].children[0])
+            headings.cells[i].children[1].remove()
+        }
+
+
         function sortTable(columnIndex) {
             let table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-            table = document.getElementsByTagName("table")[0]; // Assuming the first table is the one you want to sort
+            table = document.getElementsByTagName("table")[5]; // Assuming the first table is the one you want to sort
             switching = true;
             dir = "asc"; // Set the sorting direction to ascending
     
@@ -423,10 +430,10 @@
                 rows = table.rows;
                 
                 // Loop through all table rows (except the first, which contains table headers)
-                for (i = 1; i < (rows.length - 1); i++) {
+                for (i = 1; i < rows.length-1; i++) {
                     shouldSwitch = false;
-                    x = rows[i].getElementsByTagName("TD")[columnIndex];  // Get the cell content of the current row
-                    y = rows[i + 1].getElementsByTagName("TD")[columnIndex]; // Get the cell content of the next row
+                    x = rows[i].getElementsByTagName("td")[columnIndex];  // Get the cell content of the current row
+                    y = rows[i + 1].getElementsByTagName("td")[columnIndex]; // Get the cell content of the next row
     
                     // Check if the two rows should switch place, based on the direction, asc or desc
                     if (dir == "asc") {
@@ -457,14 +464,15 @@
                 }
             }
         }
-    
-        // Attach the sortTable function to the column header click event
-        document.addEventListener("DOMContentLoaded", function () {
-            const schedulingHeader = document.querySelector("th:nth-child(5)"); // Assuming "Scheduling" is the 5th column
-            schedulingHeader.addEventListener("click", function () {
-                sortTable(4); // The index is 4 because the function assumes 0-based indexing for columns
-            });
-        });
+        
+        // Attach the sortTable function to the add button, need to put buttons inside of headings to click
+        //document.addEventListener("DOMContentLoaded", function () {
+        //    const schedulingHeader = document.querySelector("#add_button"); // Assuming "Scheduling" is the 5th column
+         //   console.log(schedulingHeader)
+          //  schedulingHeader.addEventListener("click", function () {
+           //     sortTable(5); // The index is 4 because the function assumes 0-based indexing for columns
+           // });
+        //});
 
         {####################################################################################################################################}
         function clearForm() {
@@ -1235,8 +1243,10 @@
                     event.preventDefault();
                     saveScrollPosition();
                     window.open(this.href, "_self");
-                });
-             });
+                })
+             })
+         })
+            
 
         document.addEventListener("DOMContentLoaded", function () {
             const editButtons = document.querySelectorAll('td .btn');
