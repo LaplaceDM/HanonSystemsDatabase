@@ -398,7 +398,8 @@
      </center>
 
 
-     {% include 'C:\Users\szhang36\Desktop\DB Project\HanonSystemsDatabase\HanonSystemsApp\database\templates\html\custom_table_render.html' %}
+     {% comment %} {% include 'C:\Users\szhang36\Desktop\DB Project\HanonSystemsDatabase\HanonSystemsApp\database\templates\html\custom_table_render.html' %} {% endcomment %}
+     {% include 'html/custom_table_render.html' %}
 
  
      {% else %}
@@ -421,35 +422,57 @@
 
         function sortTable(columnIndex) {
             let table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-            table = document.getElementsByTagName("table")[5]; // Assuming the first table is the one you want to sort
+            table = document.getElementsByTagName("table")[5]; // Adjust the table index if needed
             switching = true;
             dir = "asc"; // Set the sorting direction to ascending
-    
+        
             while (switching) {
                 switching = false;
                 rows = table.rows;
-                
+        
                 // Loop through all table rows (except the first, which contains table headers)
-                for (i = 1; i < rows.length-1; i++) {
+                for (i = 1; i < rows.length - 1; i++) {
                     shouldSwitch = false;
                     x = rows[i].getElementsByTagName("td")[columnIndex];  // Get the cell content of the current row
                     y = rows[i + 1].getElementsByTagName("td")[columnIndex]; // Get the cell content of the next row
-    
-                    // Check if the two rows should switch place, based on the direction, asc or desc
-                    if (dir == "asc") {
-                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-                            // If so, mark as a switch and break the loop
-                            shouldSwitch = true;
-                            break;
+        
+                    // Convert cell content to lowercase if it's a string
+                    let xContent = x.innerHTML.toLowerCase();
+                    let yContent = y.innerHTML.toLowerCase();
+        
+                    // Check if the cell content is numeric
+                    let xValue = parseFloat(xContent);
+                    let yValue = parseFloat(yContent);
+        
+                    if (!isNaN(xValue) && !isNaN(yValue)) {
+                        // If both values are numbers, compare as numbers
+                        if (dir == "asc") {
+                            if (xValue > yValue) {
+                                shouldSwitch = true;
+                                break;
+                            }
+                        } else if (dir == "desc") {
+                            if (xValue < yValue) {
+                                shouldSwitch = true;
+                                break;
+                            }
                         }
-                    } else if (dir == "desc") {
-                        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-                            // If so, mark as a switch and break the loop
-                            shouldSwitch = true;
-                            break;
+                    } else {
+                        // Otherwise, compare as strings
+                        if (dir == "asc") {
+                            if (xContent > yContent) {
+                                shouldSwitch = true;
+                                break;
+                            }
+                        } else if (dir == "desc") {
+                            if (xContent < yContent) {
+                                shouldSwitch = true;
+                                break;
+                            }
                         }
                     }
                 }
+        
                 if (shouldSwitch) {
                     // If a switch has been marked, make the switch and mark that a switch has been done
                     rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
@@ -465,14 +488,15 @@
             }
         }
         
-        // Attach the sortTable function to the add button, need to put buttons inside of headings to click
-        //document.addEventListener("DOMContentLoaded", function () {
-        //    const schedulingHeader = document.querySelector("#add_button"); // Assuming "Scheduling" is the 5th column
-         //   console.log(schedulingHeader)
-          //  schedulingHeader.addEventListener("click", function () {
-           //     sortTable(5); // The index is 4 because the function assumes 0-based indexing for columns
-           // });
-        //});
+        
+        {% comment %} // Attach the sortTable function to the add button, need to put buttons inside of headings to click
+        document.addEventListener("DOMContentLoaded", function () {
+            const schedulingHeader = document.querySelector("#add_button"); // Assuming "Scheduling" is the 5th column
+            console.log(schedulingHeader)
+            schedulingHeader.addEventListener("click", function () {
+                sortTable(5); // The index is 4 because the function assumes 0-based indexing for columns
+            });
+        }); {% endcomment %}
 
         {####################################################################################################################################}
         function clearForm() {
