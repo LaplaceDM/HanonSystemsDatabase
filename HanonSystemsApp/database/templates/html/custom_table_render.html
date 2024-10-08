@@ -63,9 +63,9 @@
             {% endfor %}
         </tr>
     </thead>
-    <tbody>
+    <tbody id="sortable-table-body">
         {% for row in table.rows %}
-            <tr class="{% if forloop.counter0|divisibleby:2 %}even-row{% else %}odd-row{% endif %}">
+            <tr class="{% if forloop.counter0|divisibleby:2 %}even-row{% else %}odd-row{% endif %}" data-id="{{ forloop.counter }}">
                 {% for cell in row %}
                     <td class="{% if forloop.counter == 1 or forloop.counter == 2 or forloop.counter == 3 %}frozen-column{% endif %}">
                         {% if forloop.counter == 18 %}
@@ -81,7 +81,6 @@
 </table>
 
 <style>
-/* 固定表格标题 */
 .table thead tr {
     position: sticky;
     top: 0;
@@ -90,7 +89,6 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* 冻结列的样式 */
 .table th.frozen-column, .table td.frozen-column {
     position: sticky;
     background-color: white;
@@ -102,17 +100,17 @@
 /* Adjust the left position and width for each frozen column */
     .table th.frozen-column:nth-child(1), .table td.frozen-column:nth-child(1) { 
         left: 0; 
-        width: 70px;   /* Created */
+        width: 70px;
     }
     
     .table th.frozen-column:nth-child(2), .table td.frozen-column:nth-child(2) { 
         left: 70px; 
-        width: 140px;   /* Product */
+        width: 140px;
     }
     
     .table th.frozen-column:nth-child(3), .table td.frozen-column:nth-child(3) { 
         left: 140px; 
-        width: 210px;   /* Program */
+        width: 210px;
     }
 
     .table th.frozen-column:nth-child(4), .table td.frozen-column:nth-child(4) { 

@@ -11,7 +11,11 @@
 
      <!-- 引用 Favicon 图标 -->
      <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon logo.png' %}">
- 
+     <!-- jQuery 和 jQuery UI 的引入 -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    
      <style>
          body {
              padding-top: 100px; 
@@ -187,6 +191,39 @@
         .table th.frozen-column:nth-child(3), .table td.frozen-column:nth-child(3) { 
             width: 250px;
         }
+
+        .table th.frozen-column:nth-child(4), .table td.frozen-column:nth-child(4) { 
+            width: 300px;
+        }
+
+        .table th.frozen-column:nth-child(5), .table td.frozen-column:nth-child(5) { 
+            width: 350px;
+        }
+
+        .table th.frozen-column:nth-child(6), .table td.frozen-column:nth-child(6) { 
+            width: 400px;
+        }
+
+        /* 拖拽中的行样式 */
+        .dragging-row {
+            background-color: #e0e0e0;
+            opacity: 0.9;
+            border: 2px dashed #007bff;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transform: scale(1.05);
+        }
+
+        /* 拖动占位符样式 */
+        .sortable-placeholder {
+            background-color: #f0f0f0;
+            border: 2px dashed #007bff;
+            height: 40px;
+        }
+
+        /* 默认表格行的样式 */
+        #sortable-table-body tr {
+            transition: all 0.2s ease;  /* 在拖拽完成后，恢复默认的样式 */
+        }
      </style>
  </head>
  <body>
@@ -238,6 +275,7 @@
                  <a href="{% url 'Technician' %}">Technicians</a>
                  <a href="{% url 'TestType' %}">Add new test type</a>
                  <a href="{% url 'hours calculations' %}">Program Hours Calculator</a>
+                 <a href="{% url 'excel_page' %}">Excel Live Modify</a>
              </div>
          </div>
          <div class="account">
@@ -1472,6 +1510,24 @@
             hide('checkdelete', 20)
         }
         
+        $(document).ready(function() {
+            // 启用表格行的拖拽功能
+            $("#sortable-table-body").sortable({
+                start: function(event, ui) {
+                    // 当拖拽开始时，添加样式使被拖拽的行更突出
+                    ui.item.addClass("dragging-highlight");
+                },
+                stop: function(event, ui) {
+                    // 当拖拽完成时，移除拖拽时的突出样式
+                    ui.item.removeClass("dragging-highlight");
+                },
+                update: function(event, ui) {
+                    // 获取新的排序顺序
+                    let sortedRows = $("#sortable-table-body").sortable("toArray", { attribute: "data-id" });
+                    console.log("新的排序顺序: ", sortedRows);
+                }
+            }).disableSelection();
+        });
 
      </script>
  </body>

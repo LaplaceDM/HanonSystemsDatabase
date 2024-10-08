@@ -1,4 +1,8 @@
 <!doctype html>
+{% load render_table from django_tables2 %}
+{% load bootstrap3 %}
+{% load django_tables2 %}
+{% bootstrap_css %}
 {% load static %}
 <html>
     <head>
@@ -139,6 +143,7 @@
                     <a href="{% url 'Technician' %}">Technicians</a>
                     <a href="{% url 'TestType' %}">Add new test type</a>
                     <a href="{% url 'hours calculations' %}">Program Hours Calculator</a>
+                    <a href="{% url 'excel_page' %}">Excel Live Modify</a>
                 </div>
             </div>
             <div class = "account">

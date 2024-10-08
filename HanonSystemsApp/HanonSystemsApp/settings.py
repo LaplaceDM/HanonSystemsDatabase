@@ -15,6 +15,9 @@ import os
 ################################################################################################################################################
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
 ################################################################################################################################################
 
 mimetypes.add_type("text/css", ".css", True)
@@ -82,7 +85,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'HanonSystemsApp', 'database', 'templates'),
+            os.path.join(BASE_DIR, 'HanonSystemsApp', 'database', 'templates', 'database/templates/html'),
 
         ],
         'APP_DIRS': True,
