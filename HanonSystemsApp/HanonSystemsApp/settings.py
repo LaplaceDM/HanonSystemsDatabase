@@ -15,6 +15,9 @@ import os
 ################################################################################################################################################
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
 ################################################################################################################################################
 
 mimetypes.add_type("text/css", ".css", True)
@@ -34,7 +37,7 @@ SECRET_KEY = 'django-insecure-vi+jwwoyh)@j(-yirk5+t+ab#_qvaos197_aagna@5@mj19!a0
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['10.22.137.40', '127.0.0.1']
+ALLOWED_HOSTS = ['10.22.137.40', '127.0.0.1', 'localhost', '172.20.10.13', '10.22.140.111']
 
 
 
@@ -43,7 +46,7 @@ ALLOWED_HOSTS = ['10.22.137.40', '127.0.0.1']
 INSTALLED_APPS = [
     'bootstrap3',
     'bootstrap4',
-    'bootstrap5',
+    'django_bootstrap5',
     'django_tables2_column_shifter',
     'django_filters',
     'django_tables2',
@@ -61,9 +64,9 @@ INSTALLED_APPS = [
     "crispy_bootstrap5"
 ]
 
-CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_ALLOWED_TEMPLATE_PACKS = "django-bootstrap5"
 
-CRISPY_TEMPLATE_PACK = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "django-bootstrap5"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -82,7 +85,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            os.path.join(BASE_DIR, 'HanonSystemsApp', 'database', 'templates'),
+            os.path.join(BASE_DIR, 'HanonSystemsApp', 'database', 'templates', 'database/templates/html'),
 
         ],
         'APP_DIRS': True,

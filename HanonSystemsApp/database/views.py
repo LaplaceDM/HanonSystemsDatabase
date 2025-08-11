@@ -33,6 +33,28 @@ from .filters import TestFilter
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required, user_passes_test
 
+import pandas as pd
+from django.http import HttpResponse
+from django.shortcuts import render
+from openpyxl import load_workbook
+from io import BytesIO
+import os
+
+from django.http import JsonResponse, HttpResponse, Http404
+from django.conf import settings
+from io import StringIO
+from django.views.decorators.csrf import csrf_exempt
+from urllib.parse import quote
+import openpyxl
+import matplotlib.pyplot as plt
+import base64
+import pandas as pd
+from io import StringIO, BytesIO
+from django.shortcuts import render
+from django.http import JsonResponse, HttpResponse, Http404
+from django.conf import settings
+from urllib.parse import quote
+
 
 ##################################################################################################################################################################################################################
 
@@ -1982,7 +2004,160 @@ def delete_fixtures(request, pk):
 #     table = TestTable(queryset)  # 实例化表类
 #     return render(request, 'html/test.html', {'table': table})
 
+# 定义上传文件存储路径
+EXCEL_FILES_PATH = os.path.join(settings.MEDIA_ROOT, 'excel_files')
 
+# 确保文件夹存在
+os.makedirs(EXCEL_FILES_PATH, exist_ok=True)
+
+# 显示Excel页面
+def excel_page(request):
+    # 获取已上传的Excel文件列表
+    excel_files = os.listdir(EXCEL_FILES_PATH)
+    return render(request, 'html/excel_page.html', {'excel_files': excel_files})
+
+# 上传Excel文件并保存到服务器
+def upload_excel(request):
+    if request.method == 'POST' and request.FILES['excel_file']:
+        excel_file = request.FILES['excel_file']
+        file_name = excel_file.name
+        file_path = os.path.join(EXCEL_FILES_PATH, file_name)
+
+        # 保存文件到服务器
+        with open(file_path, 'wb') as f:
+            for chunk in excel_file.chunks():
+                f.write(chunk)
+
+        return JsonResponse({'message': '文件上传成功', 'file_name': file_name})
+    return JsonResponse({'error': '上传失败'})
+
+def get_excel_content(request, file_name):
+    """获取Excel文件内容并返回HTML格式"""
+    file_path = os.path.join(EXCEL_FILES_PATH, file_name)
+    if os.path.exists(file_path):
+        try:
+            # 打开工作簿
+            wb = openpyxl.load_workbook(file_path)
+            sheet_names = wb.sheetnames  # 获取所有工作表名称
+
+            # 获取请求中的工作表名称，如果未指定则默认第一个
+            sheet_name = request.GET.get('sheet_name', sheet_names[0])
+
+            # 读取指定的工作表
+            ws = wb[sheet_name]
+            data = ws.values
+            columns = next(data)
+            df = pd.DataFrame(data, columns=columns)
+
+            # 将 DataFrame 转换为 HTML 表格
+            table_html = df.to_html(classes='table table-bordered', index=False)
+
+            # 根据数据生成图表（示例）
+            chart_base64 = generate_chart(df, sheet_name)
+
+            return JsonResponse({
+                'table_html': table_html,
+                'sheet_names': sheet_names,
+                'current_sheet': sheet_name,
+                'chart_base64': chart_base64
+            })
+        except Exception as e:
+            print(f"读取文件时发生错误: {str(e)}")
+            return JsonResponse({'error': str(e)}, status=500)
+    else:
+        return JsonResponse({'error': '文件不存在'}, status=404)
+    
+def generate_chart(df, sheet_name):
+    """根据 DataFrame 生成图表，返回 Base64 编码的图像"""
+    try:
+        # 示例：绘制柱状图
+        plt.figure()
+        df.plot(kind='bar')
+        plt.title(f'Chart from {sheet_name}')
+        buf = BytesIO()
+        plt.savefig(buf, format='png')
+        buf.seek(0)
+        image_png = buf.getvalue()
+        buf.close()
+        chart_base64 = base64.b64encode(image_png).decode('utf-8')
+        return chart_base64
+    except Exception as e:
+        print(f"生成图表时发生错误: {str(e)}")
+        return None
+
+def save_excel(request):
+    """保存修改后的Excel文件"""
+    if request.method == 'POST':
+        file_name = request.POST.get('file_name')
+        excel_data = request.POST.get('excel_data')
+        sheet_name = request.POST.get('sheet_name')
+
+        if not file_name or not excel_data or not sheet_name:
+            return JsonResponse({'error': '文件名、工作表名或数据缺失'}, status=400)
+
+        # 如果文件扩展名是 .xls，将其更改为 .xlsx
+        if file_name.endswith('.xls'):
+            file_name = file_name.replace('.xls', '.xlsx')
+
+        file_path = os.path.join(EXCEL_FILES_PATH, file_name)
+        print(f"文件将被保存为: {file_path}")
+
+        try:
+            # 将HTML表格数据转换为DataFrame
+            excel_data_io = StringIO(excel_data)
+            df = pd.read_html(excel_data_io, header=0)[0]
+            print(f"成功解析HTML表格为DataFrame，形状为: {df.shape}")
+
+            # 使用 openpyxl 加载工作簿
+            wb = openpyxl.load_workbook(file_path)
+
+            # 将 DataFrame 写入指定的工作表
+            with pd.ExcelWriter(file_path, engine='openpyxl', mode='a', if_sheet_exists='replace') as writer:
+                writer.book = wb
+                writer.sheets = {ws.title: ws for ws in wb.worksheets}
+                df.to_excel(writer, sheet_name=sheet_name, index=False)
+                writer.save()
+
+            print(f"文件已成功保存: {file_path}")
+
+            # 提供下载链接
+            download_url = f"/media/excel_files/{quote(file_name)}"
+            return JsonResponse({'message': '文件保存成功', 'download_url': download_url})
+        except Exception as e:
+            print(f"保存文件时发生错误: {str(e)}")
+            return JsonResponse({'error': str(e)}, status=500)
+    return JsonResponse({'error': '无效的请求'}, status=400)
+
+
+def delete_excel(request):
+    """删除上传的Excel文件"""
+    if request.method == 'POST':
+        file_name = request.POST.get('file_name')
+        if not file_name:
+            return JsonResponse({'error': '未提供文件名'}, status=400)
+
+        file_path = os.path.join(EXCEL_FILES_PATH, file_name)
+        if os.path.exists(file_path):
+            os.remove(file_path)
+            return JsonResponse({'message': f'文件 {file_name} 已成功删除'})
+        else:
+            return JsonResponse({'error': f'文件 {file_name} 不存在'}, status=404)
+    else:
+        return JsonResponse({'error': '无效的请求方法'}, status=400)
+
+def download_excel(request, file_name):
+    """下载指定的Excel文件"""
+    file_path = os.path.join(EXCEL_FILES_PATH, file_name)
+    if os.path.exists(file_path):
+        with open(file_path, 'rb') as fh:
+            response = HttpResponse(
+                fh.read(),
+                content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            )
+            response['Content-Disposition'] = f'attachment; filename={file_name}'
+            return response
+    else:
+        raise Http404("文件不存在")
 
 ##################################################################################################################################################################################
 

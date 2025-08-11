@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# 虚拟环境
+.venv/
+venv/
+
+# 系统/编辑器
+.DS_Store
+Thumbs.db
+*.lnk
+
+# 构建/打包产物
+*.whl
+dist/
+build/
+
+# Django/运行时
+*.log
+media/
+staticfiles/
+
+# 本项目具体建议（如不想进仓库就忽略）
+media/excel_files/

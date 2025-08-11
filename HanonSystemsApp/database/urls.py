@@ -3,6 +3,8 @@ from . import views
 from django.urls import re_path as url
 from .models import Test
 from dal import autocomplete
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
 
@@ -167,7 +169,14 @@ urlpatterns = [
     path('Fixtures/delete_Fixtures/<int:pk>', views.delete_fixtures, name="delete_Fixtures"),
     path('Fixtures/update_Fixtures/<int:pk>', views.UpdateTableViewFixtures.as_view(), name="update_Fixtures"),
     
+     path('excel/', views.excel_page, name='excel_page'),
+    path('upload_excel/', views.upload_excel, name='upload_excel'),
+    path('get_excel_content/<str:file_name>/', views.get_excel_content, name='get_excel_content'),
+    path('save_excel/', views.save_excel, name='save_excel'),
+    path('delete_excel/', views.delete_excel, name='delete_excel'),  # 更新后的 URL，无需 file_name 参数
+    path('download_excel/<str:file_name>/', views.download_excel, name='download_excel'),
+    
     ########################################################################################################################################################
-]
+]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
