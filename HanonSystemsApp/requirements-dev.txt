@@ -1,0 +1,4 @@
+# requirements-dev.txt
+ruff
+pytest
+pytest-django
