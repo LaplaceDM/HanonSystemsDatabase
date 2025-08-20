@@ -1435,7 +1435,7 @@ def calculate(request):
                     .filter(timestamp__lt=dates[0])
                     .latest("timestamp")
                 )
-            except:
+            except Exception:
                 previous_log = 0
             first_of_test = False
 
