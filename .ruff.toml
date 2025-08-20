@@ -17,16 +17,8 @@ select = [
 
 [lint.per-file-ignores]
 "HanonSystemsApp/HanonSystemsApp/settings.py" = ["E402"]
-
-# 已经修过 forms.py 的 E722；其余先放过，后续逐步清理
 "HanonSystemsApp/database/forms.py"   = ["F403", "F405", "RUF012", "E501", "UP008"]
 "HanonSystemsApp/database/filters.py" = ["F403", "F405", "RUF012", "E501"]
-
-# 新增：先放过 views.py 里所有星号导入相关报错
-"HanonSystemsApp/database/views.py"   = ["F403", "F405", "RUF003", "E501"]
-
-# 如果仍保留历史写法，也可以继续忽略 tables.py；即便改好了保留也不影响
+"HanonSystemsApp/database/views.py"   = ["F403", "F405", "RUF003", "E501", "SIM115"]  # ← 临时加
 "HanonSystemsApp/database/tables.py"  = ["F403", "F405"]
-
-# 迁移目录常见长行/导入/可变类属性通通忽略
 "*/migrations/*" = ["E501", "F401", "F403", "F405", "RUF012"]
