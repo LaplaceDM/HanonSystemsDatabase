@@ -4,13 +4,13 @@ from django_tables2_column_shifter.tables import ColumnShiftTableBootstrap3
 
 # from .models import *
 from .models import (
+    DAR,
+    DUT,
     Cage,
     Chamber,
     ChamberLog,
     ChamberLogInfo,
-    DAR,
     DARChannel,
-    DUT,
     Fixtures,
     Fluid,
     Harness,
@@ -26,11 +26,11 @@ from .models import (
     Technician,
     Technician_Skill,
     Test,
-    TestMap,
-    TestType,
     Test_Chamber,
     Test_DUT,
     Test_Harness,
+    TestMap,
+    TestType,
 )
 
 

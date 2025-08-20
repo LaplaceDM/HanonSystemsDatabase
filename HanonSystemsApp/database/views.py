@@ -17,6 +17,7 @@ from django.http import Http404, HttpResponse, HttpResponseRedirect, JsonRespons
 from django.shortcuts import render
 from django.urls import reverse
 from django.utils import timezone
+from django.views.generic import CreateView, UpdateView
 from django.views.generic.edit import CreateView, UpdateView
 from django_filters.views import FilterView
 from django_tables2.views import SingleTableMixin
@@ -24,7 +25,7 @@ from django_tables2.views import SingleTableMixin
 from .filters import *
 from .filters import TestFilter
 from .forms import *
-from .forms import TestUpdateForm
+from .forms import TestForm, TestUpdateForm
 from .models import *
 from .models import Test
 from .tables import *
@@ -919,13 +920,6 @@ def delete_item_product(request, pk):
     return HttpResponseRedirect(reverse("product"))
 
 
-from django.views.generic import CreateView, UpdateView
-from django_filters.views import FilterView
-from django_tables2.views import SingleTableMixin
-
-from .forms import TestForm
-
-
 class TestListView(SingleTableMixin, CreateView, FilterView):
     model = Test
     table_class = TestTable
@@ -1095,7 +1089,7 @@ def children1(request):
     test_type_id = request.body
     try:
         test_type_id = int(test_type_id)
-    except:
+    except (TypeError, ValueError):
         # a = open("database/templates/html/children", "w")
         # a.write("{\n")
         # a.close()
@@ -1169,7 +1163,7 @@ def chamber_schedule(request):
     chamber_id = request.body
     try:
         chamber_id = int(chamber_id)
-    except:
+    except (TypeError, ValueError):
         # a = open("database/templates/html/chamber_schedule", "w")
         # a.write("")
         # a.close()
@@ -1209,7 +1203,7 @@ def dar_schedule(request):
     dar_id = request.body
     try:
         dar_id = int(dar_id)
-    except:
+    except (TypeError, ValueError):
         # a = open("database/templates/html/dar_schedule", "w")
         # a.write("")
         # a.close()
@@ -1249,7 +1243,7 @@ def cage_schedule(request):
     cage_id = request.body
     try:
         cage_id = int(cage_id)
-    except:
+    except (TypeError, ValueError):
         # a = open("database/templates/html/cage_schedule", "w")
         # a.write("")
         # a.close()
@@ -1782,7 +1776,7 @@ def dut_hours(request):
     # a.write("")
     # a.close()
     with open("database/templates/html/dut_hours", "a") as f:
-        f.write("{\n")
+         f.write("{\n")
     a = open("database/templates/html/dut_hours", "a")
     a.write("{{")
 
@@ -2096,24 +2090,32 @@ def compileTestPageFilterList(request):
     try:
         program_id = int(program_id)
     except:
-        a = open("database/templates/html/ProductList", "w")
-        a.write("")
-        a.close()
-        a = open("database/templates/html/TestMapList", "w")
-        a.write("")
-        a.close()
+        # a = open("database/templates/html/ProductList", "w")
+        # a.write("")
+        # a.close()
+        with open("database/templates/html/ProductList", "a") as f:
+            f.write("{\n")
+        # a = open("database/templates/html/TestMapList", "w")
+        # a.write("")
+        # a.close()
+        with open("database/templates/html/TestMapList", "a") as f:
+            f.write("{\n")
         return HttpResponse("No test selected")
     else:
         product_list = Product.objects.filter(program_id=program_id)
         testmap_list = TestMap.objects.filter(program_id=program_id)
 
-        a = open("database/templates/html/ProductList", "w")
-        a.write("{\n")
-        a.close()
+        # a = open("database/templates/html/ProductList", "w")
+        # a.write("{\n")
+        # a.close()
+        with open("database/templates/html/ProductList", "a") as f:
+            f.write("{\n")
 
-        a = open("database/templates/html/TestMapList", "w")
-        a.write("{\n")
-        a.close()
+        # a = open("database/templates/html/TestMapList", "w")
+        # a.write("{\n")
+        # a.close()
+        with open("database/templates/html/TestMapList", "a") as f:
+            f.write("{\n")
 
         a = open("database/templates/html/ProductList", "a")
         for i in range(len(product_list)):
