@@ -468,7 +468,7 @@ class ChamberLogForm(ModelForm):
         try:
             if int(instance.total_hours) > int(t.total_hours):
                 t.total_hours = instance.total_hours
-        except:
+        except (TypeError, ValueError, AttributeError):
             t.total_hours = instance.total_hours
 
         t.save()
