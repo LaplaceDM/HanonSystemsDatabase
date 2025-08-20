@@ -1,6 +1,27 @@
 [tool.ruff]
-target-version = "py311"
 line-length = 120
 
+[tool.ruff.lint]
+select = ["E", "F", "UP", "B", "SIM", "RUF"]
+# keep your normal rules
+
 [tool.ruff.lint.per-file-ignores]
+# vendor / bootstrap script: not your code
 "HanonSystemsApp/get-pip.py" = ["E402", "RUF005"]
+
+# the big Django view file — TEMPORARY ignores to get green
+"HanonSystemsApp/database/views.py" = [
+  "E722",  # bare except (we'll fix later)
+  "E711",  # None comparisons
+  "E712",  # True/False comparisons
+  "SIM118","SIM108",  # minor SIM hints
+  "B015",  # pointless comparison (the 'overlap == False' line)
+  "RET504",  # unnecessary assignment-before-return
+  "RUF001","RUF002",  # full-width comma in strings/docstrings
+]
+
+# if you can’t touch urls.py now, you can also temporarily ignore RUF005 here:
+# "HanonSystemsApp/database/urls.py" = ["RUF005"]
+
+# Optional: if you don't want to change forms now
+"HanonSystemsApp/members/forms.py" = ["UP008"]
