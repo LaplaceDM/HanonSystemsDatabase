@@ -18,7 +18,6 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.utils import timezone
 from django.views.generic import CreateView, UpdateView
-from django.views.generic.edit import CreateView, UpdateView
 from django_filters.views import FilterView
 from django_tables2.views import SingleTableMixin
 
@@ -1061,7 +1060,7 @@ def children(request):
     test_type_id = request.body
     try:
         test_type_id = int(test_type_id)
-    except:
+    except (TypeError, ValueError):
         # a = open("database/templates/html/children", "w")
         # a.write("{\n")
         # a.close()
@@ -1121,7 +1120,7 @@ def darchildren(request):
     program_id = request.body
     try:
         program_id = int(program_id)
-    except:
+    except (TypeError, ValueError):
         # a = open("database/templates/html/children", "w")
         # a.write("{\n")
         # a.close()
@@ -1440,7 +1439,7 @@ def calculate(request):
                 previous_log = 0
             first_of_test = False
 
-            while stop == False:
+            while not stop:
                 for log in logs:
                     if log == logs[0]:  # in case this is the leading log, check if the previous log's present
                         if previous_log == 0:  # case 1:first log of test
@@ -1503,14 +1502,14 @@ def calculate(request):
                                     overlap = False
                                 previous_log = last_log  # make the previous log the one we searched for, indicate that there is a log before current one.
 
-                    if first_log == True:  # Case 1 and 2's:
+                    if first_log:  # Case 1 and 2's:
                         date = str(log.timestamp.day) + "/" + str(log.timestamp.month) + "/" + str(log.timestamp.year)
-                        if first_of_test == True:
+                        if first_of_test:
                             running_hours = log.total_hours
                             status_hours = 0
                             first_of_test = False
                         else:
-                            if overlap == False:
+                            if not overlap:
                                 running_hours = log.total_hours  # Step 1: calculating hours
                                 try:
                                     status_hours = math.ceil(in_between - running_hours)
@@ -1630,15 +1629,9 @@ def calculate(request):
                         except:
                             available = max_hours
 
-                        if available > beginning_period:  # adding duration of first period
-                            occupied_beginning = beginning_period
-                        else:
-                            occupied_beginning = available
+                        occupied_beginning = beginning_period if available > beginning_period else available
 
-                        if max_hours > end_period:  # adding duration of end period
-                            occupied_end = end_period
-                        else:
-                            occupied_end = max_hours
+                        occupied_end = end_period if max_hours > end_period else max_hours
 
                         status_hours = math.ceil(
                             occupied_beginning + in_between + occupied_end - running_hours
@@ -1667,7 +1660,7 @@ def calculate(request):
                             else:
                                 used_hours[date] = occupied_end
 
-                    if overlap == True:
+                    if overlap:
                         grey_period = no_overlap.days * max_hours + no_overlap.seconds / 60 / 60 - used
                         if running_hours >= grey_period:
                             running_hours = math.ceil(grey_period)
@@ -1676,7 +1669,7 @@ def calculate(request):
                             status_hours = math.ceil(grey_period - running_hours)
                         overlap == False
 
-                    if program_name not in program_hours[chamber_name].keys():  # Step 2: updating program hours
+                    if program_name not in program_hours[chamber_name]:  # Step 2: updating program hours
                         program_hours[chamber_name][program_name] = {}
                         program_hours[chamber_name][program_name]["running"] = running_hours
                         program_hours[chamber_name][program_name]["stopped"] = 0
@@ -1693,7 +1686,7 @@ def calculate(request):
                         program_hours[chamber_name][program_name]["running"] = (
                             program_hours[chamber_name][program_name]["running"] + running_hours
                         )
-                        if previous_log.status not in program_hours[chamber_name][program_name].keys():
+                        if previous_log.status not in program_hours[chamber_name][program_name]:
                             program_hours[chamber_name][program_name][previous_log.status] = status_hours
                         else:
                             if previous_log.status == "running":
@@ -1859,10 +1852,6 @@ def harness_info(request, id):
     return render(
         request, "html/harness_info.html", {"test_history": test_history, "harness_info": Harness.objects.filter(pk=id)}
     )
-
-
-def menu(request):
-    return render(request, "html/menu.html")
 
 
 class DUTListView(SingleTableMixin, CreateView, FilterView):

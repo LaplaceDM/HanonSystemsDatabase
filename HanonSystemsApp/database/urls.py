@@ -169,4 +169,5 @@ urlpatterns = [
     path("save_excel/", views.save_excel, name="save_excel"),
     path("delete_excel/", views.delete_excel, name="delete_excel"),
     path("download_excel/<str:file_name>/", views.download_excel, name="download_excel"),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    *static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT),
+]
