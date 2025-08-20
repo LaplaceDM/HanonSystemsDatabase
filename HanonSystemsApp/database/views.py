@@ -1068,15 +1068,19 @@ def children(request):
     try:
         test_type_id = int(test_type_id)
     except:
-        a = open("database/templates/html/children", "w")
-        a.write("{\n")
-        a.close()
+        # a = open("database/templates/html/children", "w")
+        # a.write("{\n")
+        # a.close()
+        with open("database/templates/html/children", "a") as f:
+            f.write("{\n")
         return HttpResponse()
     else:
         test_cham = Test_Chamber.objects.filter(test_type_id=test_type_id)  # .order_by("targeted_start");
-        a = open("database/templates/html/children", "w")
-        a.write("{\n")
-        a.close()
+        # a = open("database/templates/html/children", "w")
+        # a.write("{\n")
+        # a.close()
+        with open("database/templates/html/children", "a") as f:
+            f.write("{\n")
         a = open("database/templates/html/children", "a")
         for i in range(len(test_cham)):
             a.write(f'"id{i}": {{"chamber_id" : "{test_cham[i].chamber_id.chamber_id}"}}')
@@ -1092,15 +1096,19 @@ def children1(request):
     try:
         test_type_id = int(test_type_id)
     except:
-        a = open("database/templates/html/children", "w")
-        a.write("{\n")
-        a.close()
+        # a = open("database/templates/html/children", "w")
+        # a.write("{\n")
+        # a.close()
+        with open("database/templates/html/children", "a") as f:
+            f.write("{\n")
         return HttpResponse()
     else:
         test_cham = Test.objects.filter(test_id=test_type_id)  # .order_by("targeted_start");
-        a = open("database/templates/html/children", "w")
-        a.write("{\n")
-        a.close()
+        # a = open("database/templates/html/children", "w")
+        # a.write("{\n")
+        # a.close()
+        with open("database/templates/html/children", "a") as f:
+            f.write("{\n")
         a = open("database/templates/html/children", "a")
         for i in range(len(test_cham)):
             a.write(f'"id{i}": {{"chamber_id" : "{test_cham[i].chamber_id.chamber_id}"}}')
@@ -1120,16 +1128,20 @@ def darchildren(request):
     try:
         program_id = int(program_id)
     except:
-        a = open("database/templates/html/children", "w")
-        a.write("{\n")
-        a.close()
+        # a = open("database/templates/html/children", "w")
+        # a.write("{\n")
+        # a.close()
+        with open("database/templates/html/children", "a") as f:
+            f.write("{\n")
         return HttpResponse()
     else:
         prog_dar = Program_DAR.objects.filter(program_id=program_id)  # .order_by("targeted_start");
         prog_cage = Program_Cage.objects.filter(program_id=program_id)
-        a = open("database/templates/html/children", "w")
-        a.write("{\n")
-        a.close()
+        # a = open("database/templates/html/children", "w")
+        # a.write("{\n")
+        # a.close()
+        with open("database/templates/html/children", "a") as f:
+            f.write("{\n")
         a = open("database/templates/html/children", "a")
         b = 0
         for i in range(len(prog_dar)):
@@ -1158,9 +1170,11 @@ def chamber_schedule(request):
     try:
         chamber_id = int(chamber_id)
     except:
-        a = open("database/templates/html/chamber_schedule", "w")
-        a.write("")
-        a.close()
+        # a = open("database/templates/html/chamber_schedule", "w")
+        # a.write("")
+        # a.close()
+        with open("database/templates/html/chamber_schedule", "a") as f:
+            f.write("{\n")
         return HttpResponse("No chamber selected")
     else:
         chamber_tests = (
@@ -1168,9 +1182,11 @@ def chamber_schedule(request):
             .filter(chamber_id=chamber_id)
             .order_by("targeted_start")[:9]
         )
-        a = open("database/templates/html/chamber_schedule", "w")
-        a.write("{\n")
-        a.close()
+        # a = open("database/templates/html/chamber_schedule", "w")
+        # a.write("{\n")
+        # a.close()
+        with open("database/templates/html/chamber_schedule", "a") as f:
+            f.write("{\n")
 
         a = open("database/templates/html/chamber_schedule", "a")
         for i in range(len(chamber_tests)):
@@ -1194,9 +1210,11 @@ def dar_schedule(request):
     try:
         dar_id = int(dar_id)
     except:
-        a = open("database/templates/html/dar_schedule", "w")
-        a.write("")
-        a.close()
+        # a = open("database/templates/html/dar_schedule", "w")
+        # a.write("")
+        # a.close()
+        with open("database/templates/html/dar_schedule", "a") as f:
+            f.write("{\n")
         return HttpResponse("No DAR selected")
     else:
         dar_tests = (
@@ -1204,9 +1222,11 @@ def dar_schedule(request):
             .filter(dar_id=dar_id)
             .order_by("targeted_start")[:9]
         )
-        a = open("database/templates/html/dar_schedule", "w")
-        a.write("{\n")
-        a.close()
+        # a = open("database/templates/html/dar_schedule", "w")
+        # a.write("{\n")
+        # a.close()
+        with open("database/templates/html/dar_schedule", "a") as f:
+            f.write("{\n")
 
         a = open("database/templates/html/dar_schedule", "a")
         for i in range(len(dar_tests)):
@@ -1230,9 +1250,11 @@ def cage_schedule(request):
     try:
         cage_id = int(cage_id)
     except:
-        a = open("database/templates/html/cage_schedule", "w")
-        a.write("")
-        a.close()
+        # a = open("database/templates/html/cage_schedule", "w")
+        # a.write("")
+        # a.close()
+        with open("database/templates/html/cage_schedule", "a") as f:
+            f.write("{\n")
         return HttpResponse("No cage selected")
     else:
         cage_tests = (
@@ -1240,9 +1262,11 @@ def cage_schedule(request):
             .filter(cage_id=cage_id)
             .order_by("targeted_start")[:9]
         )
-        a = open("database/templates/html/cage_schedule", "w")
-        a.write("{\n")
-        a.close()
+        # a = open("database/templates/html/cage_schedule", "w")
+        # a.write("{\n")
+        # a.close()
+        with open("database/templates/html/cage_schedule", "a") as f:
+            f.write("{\n")
 
         a = open("database/templates/html/cage_schedule", "a")
         for i in range(len(cage_tests)):
@@ -1754,9 +1778,11 @@ def dut_hours(request):
         )
         test_hours[test.log_id.test_id.test_type_id.test_name] = total_hours
 
-    a = open("database/templates/html/dut_hours", "w")
-    a.write("")
-    a.close()
+    # a = open("database/templates/html/dut_hours", "w")
+    # a.write("")
+    # a.close()
+    with open("database/templates/html/dut_hours", "a") as f:
+            f.write("{\n")
     a = open("database/templates/html/dut_hours", "a")
     a.write("{{")
 
@@ -2032,17 +2058,21 @@ def compileDUTList(request):
     try:
         test_id = int(test_id)
     except:
-        a = open("database/templates/html/dut_list", "w")
-        a.write("")
-        a.close()
+        # a = open("database/templates/html/dut_list", "w")
+        # a.write("")
+        # a.close()
+        with open("database/templates/html/dut_list", "a") as f:
+            f.write("{\n")
         return HttpResponse("No test selected")
     else:
         program_id = Test.objects.filter(test_id=test_id)[0].program_id
         dut_list = DUT.objects.filter(product_id__program_id=program_id)
 
-        a = open("database/templates/html/dut_list", "w")
-        a.write("{\n")
-        a.close()
+        # a = open("database/templates/html/dut_list", "w")
+        # a.write("{\n")
+        # a.close()
+        with open("database/templates/html/dut_list", "a") as f:
+            f.write("{\n")
 
         a = open("database/templates/html/dut_list", "a")
         for i in range(len(dut_list)):
