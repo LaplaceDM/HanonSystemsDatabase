@@ -128,31 +128,44 @@ name: CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["**"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["**"]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: "3.11"
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-        pip install ruff
+      - name: Install deps (root and/or app)
+        run: |
+          python -m pip install --upgrade pip
+          # Install a root requirements.txt if present
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          # Install an app-level requirements.txt if present
+          if [ -f HanonSystemsApp/requirements.txt ]; then pip install -r HanonSystemsApp/requirements.txt; fi
+          # Make sure ruff is available for the lint step
+          pip install ruff
 
-    - name: Run Ruff
-      run: ruff check .
+      - name: Ruff (lint)
+        run: ruff check .
 
-    - name: Run Django checks
-      run: python manage.py check --no-input
+      - name: Ruff (format check)
+        run: ruff format --check .
+
+      - name: Django system check
+        # <<< This is the important part: run in the folder that has manage.py
+        working-directory: HanonSystemsApp
+        # If your settings module is HanonSystemsApp.settings, you can set it explicitly (optional)
+        env:
+          DJANGO_SETTINGS_MODULE: HanonSystemsApp.settings
+        run: python manage.py check --no-input
+
