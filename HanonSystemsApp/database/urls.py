@@ -157,7 +157,6 @@ urlpatterns = [
     path("TestMapList", views.getTestMapList, name="get_TestMap_List"),
     path("createlogs", views.create_logs, name="create_logs"),
     path("lower", views.lower, name="lower"),
-    ########################################################################################################################################################
     # TEST PAGE
     path("Fixtures", views.FixturesListView.as_view(), name="Fixtures"),
     path("Fixtures/delete_Fixtures/<int:pk>", views.delete_fixtures, name="delete_Fixtures"),
@@ -166,7 +165,6 @@ urlpatterns = [
     path("upload_excel/", views.upload_excel, name="upload_excel"),
     path("get_excel_content/<str:file_name>/", views.get_excel_content, name="get_excel_content"),
     path("save_excel/", views.save_excel, name="save_excel"),
-    path("delete_excel/", views.delete_excel, name="delete_excel"),  # 更新后的 URL，无需 file_name 参数
+    path("delete_excel/", views.delete_excel, name="delete_excel"),
     path("download_excel/<str:file_name>/", views.download_excel, name="download_excel"),
-    ########################################################################################################################################################
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

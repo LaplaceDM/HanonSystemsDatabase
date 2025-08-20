@@ -2,7 +2,36 @@ import django_tables2 as tables
 from django_tables2.utils import A
 from django_tables2_column_shifter.tables import ColumnShiftTableBootstrap3
 
-from .models import *
+# from .models import *
+from .models import (
+    Laptop,
+    Test_Harness,
+    Test_DUT,
+    Technician_Skill,
+    Test_Chamber,
+    Program_Cage,
+    Program_DAR,
+    Program_Fluid,
+    DARChannel,
+    Harness,
+    Skill,
+    Lab,
+    Fluid,
+    Technician,
+    TestType,
+    Program,
+    Cage,
+    DAR,
+    Chamber,
+    Product,
+    Test,
+    ChamberLogInfo,
+    ChamberLog,
+    TestMap,
+    DUT,
+    Subcomponent,
+    Fixtures,
+)
 
 
 class LaptopTable(ColumnShiftTableBootstrap3):

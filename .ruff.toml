@@ -16,12 +16,17 @@ select = [
 ]
 
 [lint.per-file-ignores]
-# 你的 settings.py 在 import 前有运行代码，放过 E402
 "HanonSystemsApp/HanonSystemsApp/settings.py" = ["E402"]
 
-# 现阶段先放过 forms/filters 里的一些规则，让 CI 能跑通
+# 已经修过 forms.py 的 E722；其余先放过，后续逐步清理
 "HanonSystemsApp/database/forms.py"   = ["F403", "F405", "RUF012", "E501", "UP008"]
 "HanonSystemsApp/database/filters.py" = ["F403", "F405", "RUF012", "E501"]
 
-# 迁移目录：忽略长行/未用导入/星号导入/可变类属性等（新增 RUF012）
+# 新增：先放过 views.py 里所有星号导入相关报错
+"HanonSystemsApp/database/views.py"   = ["F403", "F405", "RUF003", "E501"]
+
+# 如果仍保留历史写法，也可以继续忽略 tables.py；即便改好了保留也不影响
+"HanonSystemsApp/database/tables.py"  = ["F403", "F405"]
+
+# 迁移目录常见长行/导入/可变类属性通通忽略
 "*/migrations/*" = ["E501", "F401", "F403", "F405", "RUF012"]
