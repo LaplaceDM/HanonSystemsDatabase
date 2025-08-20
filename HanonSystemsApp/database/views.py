@@ -1776,7 +1776,7 @@ def dut_hours(request):
     # a.write("")
     # a.close()
     with open("database/templates/html/dut_hours", "a") as f:
-         f.write("{\n")
+        f.write("{\n")
     a = open("database/templates/html/dut_hours", "a")
     a.write("{{")
 
