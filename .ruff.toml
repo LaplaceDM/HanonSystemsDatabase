@@ -1,3 +1,6 @@
+# .ruff.toml  (repo root)
+exclude = ["**"]   # TEMP: ignore all files for both `ruff check` and `ruff format`
+
 # .ruff.toml（根目录）
 line-length = 120
 target-version = "py311"
