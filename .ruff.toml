@@ -1,9 +1,9 @@
-# .ruff.toml（根目录）
+# .ruff.toml（仅保留根目录这一份）
 line-length = 120
 target-version = "py311"
 
 [lint]
-# 你要启用的规则集合
+# 启用的规则集
 select = [
   "E",   # pycodestyle
   "F",   # pyflakes
@@ -16,15 +16,14 @@ select = [
   "RUF", # ruff 专有
 ]
 
-# 对特定文件关闭一些规则，让 CI 先能过
-per-file-ignores = {
-  # settings.py 顶部有运行代码在 import 之前，忽略 E402
-  "HanonSystemsApp/HanonSystemsApp/settings.py" = ["E402"],
+# 逐文件忽略（注意：这是“表”，不是 { ... } 内联表）
+[lint.per-file-ignores]
+"HanonSystemsApp/HanonSystemsApp/settings.py" = ["E402"]
 
-  # 你现在用的是 from .models import * 以及类属性可变等，先放过
-  "HanonSystemsApp/database/forms.py" = ["F403", "F405", "RUF012", "E501", "UP008"],
-  "HanonSystemsApp/database/filters.py" = ["F403", "F405", "RUF012", "E501"],
+# 你当前项目里大量使用 import *、类属性为可变等，先放过以保证 CI 能跑通；
+# 后续可逐步修复这些代码，再把这些忽略去掉。
+"HanonSystemsApp/database/forms.py"   = ["F403", "F405", "RUF012", "E501", "UP008"]
+"HanonSystemsApp/database/filters.py" = ["F403", "F405", "RUF012", "E501"]
 
-  # 迁移目录一律放过常见问题
-  "*/migrations/*" = ["E501", "F401", "F403", "F405"],
-}
+# 迁移目录常见长行/未用导入等全部忽略
+"*/migrations/*" = ["E501", "F401", "F403", "F405"]
