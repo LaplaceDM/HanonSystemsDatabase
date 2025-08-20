@@ -25,3 +25,10 @@ staticfiles/
 
 # 本项目具体建议（如不想进仓库就忽略）
 media/excel_files/
+
+ni ..\.gitignore -Force | Out-Null
+Add-Content ..\.gitignore "`n__pycache__/"
+Add-Content ..\.gitignore "`n*.py[cod]"
+Add-Content ..\.gitignore "`n*.pyo"
+Add-Content ..\.gitignore "`n*.pyc"
+Add-Content ..\.gitignore "`n*.pyd"
