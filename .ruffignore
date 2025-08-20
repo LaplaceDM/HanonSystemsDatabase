@@ -1,2 +1,2 @@
-# Ignore all files for Ruff (both check and format respect this)
-Set-Content .ruffignore "*`r`n"
+*
+
