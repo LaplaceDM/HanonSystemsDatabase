@@ -1,4 +1,30 @@
-Django>=4.0,<5.0
-djangorestframework
-django-tables2
-django-bootstrap3   # <-- add this
+# --- Core framework (LTS; works with Python 3.11) ---
+Django>=4.2,<5.0
+
+# --- Bootstrap integrations (INSTALLED_APPS: "bootstrap3", "bootstrap4", "django_bootstrap5") ---
+django-bootstrap3>=23.0
+django-bootstrap4>=22.3
+django-bootstrap5>=24.0   # module name is "django_bootstrap5"
+
+# --- Tables / filters (INSTALLED_APPS: "django_tables2", "django_tables2_column_shifter", "django_filters") ---
+django-tables2>=2.7
+django-tables2-column-shifter>=1.1
+django-filter>=24.0
+
+# --- Autocomplete (INSTALLED_APPS: "dal", "dal_select2") ---
+django-autocomplete-light>=3.11.0  # provides modules "dal" and "dal_select2"
+
+# --- Crispy forms (INSTALLED_APPS: "crispy_forms", "crispy_bootstrap5") ---
+django-crispy-forms>=2.1
+crispy-bootstrap5>=0.7
+
+# --- Common utilities used in typical Django projects ---
+# (Not strictly needed by Django itself, but harmless and often expected.)
+pytz>=2023.3
+sqlparse>=0.4.4
+
+# --- Your code appears to read Excel/HTML tables and draw charts in views ---
+# (prevent ImportError during 'manage.py check' if modules are imported at import-time)
+pandas>=2.1
+openpyxl>=3.1
+matplotlib>=3.8
