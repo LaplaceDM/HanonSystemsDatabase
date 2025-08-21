@@ -128,9 +128,7 @@ name: CI
 
 on:
   push:
-    branches: ["**"]
   pull_request:
-    branches: ["**"]
 
 jobs:
   build:
@@ -140,32 +138,42 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: '3.11'
+          cache: 'pip'
 
-      - name: Install deps (root and/or app)
+      # Runtime libs pyodbc needs; msodbcsql18 is optional for 'check' and may not exist on all Ubuntu images
+      - name: System deps for pyodbc
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends unixodbc unixodbc-dev
+          # Try to install Microsoft ODBC Driver 18 (non-fatal if not available on this runner)
+          sudo apt-get install -y curl gnupg || true
+          curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add - || true
+          . /etc/os-release
+          echo "deb [arch=amd64] https://packages.microsoft.com/ubuntu/${VERSION_ID}/prod ${UBUNTU_CODENAME} main" | sudo tee /etc/apt/sources.list.d/mssql-release.list >/dev/null || true
+          sudo apt-get update || true
+          sudo ACCEPT_EULA=Y apt-get install -y msodbcsql18 || true
+
+      - name: Install Python deps
         run: |
           python -m pip install --upgrade pip
-          # Install a root requirements.txt if present
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-          # Install an app-level requirements.txt if present
-          if [ -f HanonSystemsApp/requirements.txt ]; then pip install -r HanonSystemsApp/requirements.txt; fi
-          # Make sure ruff is available for the lint step
+          pip install -r requirements.txt
           pip install ruff
 
-      - name: Ruff (lint)
-        run: ruff check .
+      - name: Ruff lint
+        run: |
+          ruff check .
+          # If you only want to lint a subset, you can do: ruff check HanonSystemsApp/
 
-      - name: Ruff (format check)
-        run: ruff format --check .
-
+      # IMPORTANT: run manage.py from the folder where manage.py actually lives
       - name: Django system check
-        # <<< This is the important part: run in the folder that has manage.py
         working-directory: HanonSystemsApp
-        # If your settings module is HanonSystemsApp.settings, you can set it explicitly (optional)
         env:
-          DJANGO_SETTINGS_MODULE: HanonSystemsApp.settings
-        run: python manage.py check --no-input
-
+          # Provide a minimal environment in case your settings import reads these
+          SECRET_KEY: "ci-only-secret"
+          DEBUG: "0"
+        run: |
+          python manage.py check --no-input

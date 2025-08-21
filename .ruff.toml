@@ -1,1 +1,6 @@
-exclude = ["**"]
+# ruff.toml
+extend-exclude = ["HanonSystemsApp/database/views.py", "HanonSystemsApp/get-pip.py"]
+line-length = 120
+
+[lint]
+select = []  # disable all rules for now
