@@ -172,8 +172,8 @@ jobs:
       - name: Django system check
         working-directory: HanonSystemsApp
         env:
-          # Provide a minimal environment in case your settings import reads these
           SECRET_KEY: "ci-only-secret"
           DEBUG: "0"
         run: |
-          python manage.py check --no-input
+          python manage.py check
+
