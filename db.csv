@@ -1,0 +1,2 @@
+elapsed_ms,error,kind,ok,rows,started_at,target
+1.21,"('IM002', '[IM002] [Microsoft][ODBC Driver Manager] Data source name not found and no default driver specified (0) (SQLDriverConnect)')",db_connect,0,,2025-08-26T10:56:55,dsn

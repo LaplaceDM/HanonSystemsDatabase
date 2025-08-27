@@ -1,0 +1,78 @@
+{
+  "generated_at": "2025-08-26T13:02:48",
+  "host": "CADL3T3C2T3",
+  "python": "3.11.4",
+  "results": {
+    "http_samples": [
+      {
+        "endpoint": "http://127.0.0.1:8000/database/tests",
+        "status_code": 200,
+        "ttfb_ms": 9.31360013782978,
+        "total_ms": 9.391500148922205,
+        "content_bytes": 56984,
+        "ok": true,
+        "started_at": "2025-08-26T13:02:48"
+      },
+      {
+        "endpoint": "http://127.0.0.1:8000/database/tests",
+        "status_code": 200,
+        "ttfb_ms": 4.23259986564517,
+        "total_ms": 4.285300150513649,
+        "content_bytes": 56984,
+        "ok": true,
+        "started_at": "2025-08-26T13:02:48"
+      },
+      {
+        "endpoint": "http://127.0.0.1:8000/database/tests",
+        "status_code": 200,
+        "ttfb_ms": 8.47449991852045,
+        "total_ms": 8.546799886971712,
+        "content_bytes": 56984,
+        "ok": true,
+        "started_at": "2025-08-26T13:02:48"
+      },
+      {
+        "endpoint": "http://127.0.0.1:8000/database/tests",
+        "status_code": 200,
+        "ttfb_ms": 25.49839997664094,
+        "total_ms": 25.55930009111762,
+        "content_bytes": 56984,
+        "ok": true,
+        "started_at": "2025-08-26T13:02:48"
+      },
+      {
+        "endpoint": "http://127.0.0.1:8000/database/tests",
+        "status_code": 200,
+        "ttfb_ms": 26.72139974310994,
+        "total_ms": 26.771999895572662,
+        "content_bytes": 56984,
+        "ok": true,
+        "started_at": "2025-08-26T13:02:48"
+      }
+    ],
+    "http_summary": {
+      "kind": "http_summary",
+      "generated_at": "2025-08-26T13:02:48",
+      "endpoints": [
+        {
+          "endpoint": "http://127.0.0.1:8000/database/tests",
+          "runs": 5,
+          "ok_rate": 1.0,
+          "status_codes": [
+            200
+          ],
+          "bytes_avg": 56984,
+          "ttfb_ms_avg": 14.85,
+          "ttfb_ms_p95": 26.48,
+          "total_ms_avg": 14.91,
+          "total_ms_p95": 26.53
+        }
+      ],
+      "system": {
+        "python": "3.11.4",
+        "platform": "Windows-10-10.0.19045-SP0",
+        "machine": "AMD64"
+      }
+    }
+  }
+}

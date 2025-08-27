@@ -1,0 +1,18 @@
+{
+  "generated_at": "2025-08-26T10:56:55",
+  "host": "CADL3T3C2T3",
+  "python": "3.11.4",
+  "results": {
+    "db_samples": [
+      {
+        "action": "connect",
+        "target": "dsn",
+        "elapsed_ms": 1.207099761813879,
+        "ok": false,
+        "rows": null,
+        "started_at": "2025-08-26T10:56:55",
+        "error": "('IM002', '[IM002] [Microsoft][ODBC Driver Manager] Data source name not found and no default driver specified (0) (SQLDriverConnect)')"
+      }
+    ]
+  }
+}

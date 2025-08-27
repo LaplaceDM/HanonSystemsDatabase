@@ -1,0 +1,234 @@
+{
+  "generated_at": "2025-08-27T13:50:34",
+  "host": "CADL3T3C2T3",
+  "python": "3.11.4",
+  "results": {
+    "browser_samples": [
+      {
+        "endpoint": "http://127.0.0.1:8000/database/menu",
+        "ttfb_ms": 6.199999809265137,
+        "dom_content_loaded_ms": 73.0,
+        "load_event_ms": 73.5,
+        "started_at": "2025-08-27T13:50:36",
+        "ok": true,
+        "status_code": 200
+      },
+      {
+        "endpoint": "http://127.0.0.1:8000/database/tests",
+        "ttfb_ms": 5.099999904632568,
+        "dom_content_loaded_ms": 259.09999990463257,
+        "load_event_ms": 259.19999980926514,
+        "started_at": "2025-08-27T13:50:36",
+        "ok": true,
+        "status_code": 200
+      },
+      {
+        "endpoint": "http://127.0.0.1:8000/database/dut",
+        "ttfb_ms": 3.6000003814697266,
+        "dom_content_loaded_ms": 7.400000095367432,
+        "load_event_ms": 7.5,
+        "started_at": "2025-08-27T13:50:37",
+        "ok": true,
+        "status_code": 200
+      },
+      {
+        "endpoint": "http://127.0.0.1:8000/database/Test_DUTdatabase/Harness",
+        "ttfb_ms": 9.799999713897705,
+        "dom_content_loaded_ms": 13.400000095367432,
+        "load_event_ms": 13.900000095367432,
+        "started_at": "2025-08-27T13:50:37",
+        "ok": true,
+        "status_code": 404
+      },
+      {
+        "endpoint": "http://127.0.0.1:8000/database/Test_Harness",
+        "ttfb_ms": 3.5,
+        "dom_content_loaded_ms": 7.699999809265137,
+        "load_event_ms": 8.0,
+        "started_at": "2025-08-27T13:50:37",
+        "ok": true,
+        "status_code": 200
+      },
+      {
+        "endpoint": "http://127.0.0.1:8000/database/product",
+        "ttfb_ms": 3.6999998092651367,
+        "dom_content_loaded_ms": 7.400000095367432,
+        "load_event_ms": 7.599999904632568,
+        "started_at": "2025-08-27T13:50:37",
+        "ok": true,
+        "status_code": 200
+      },
+      {
+        "endpoint": "http://127.0.0.1:8000/database/program",
+        "ttfb_ms": 3.299999713897705,
+        "dom_content_loaded_ms": 7.5,
+        "load_event_ms": 7.5,
+        "started_at": "2025-08-27T13:50:37",
+        "ok": true,
+        "status_code": 200
+      },
+      {
+        "endpoint": "http://127.0.0.1:8000/database/TestMap",
+        "ttfb_ms": 4.300000190734863,
+        "dom_content_loaded_ms": 8.099999904632568,
+        "load_event_ms": 8.199999809265137,
+        "started_at": "2025-08-27T13:50:37",
+        "ok": true,
+        "status_code": 200
+      },
+      {
+        "endpoint": "http://127.0.0.1:8000/database/Chamber",
+        "ttfb_ms": 3.9000000953674316,
+        "dom_content_loaded_ms": 8.100000381469727,
+        "load_event_ms": 8.300000190734863,
+        "started_at": "2025-08-27T13:50:37",
+        "ok": true,
+        "status_code": 200
+      },
+      {
+        "endpoint": "http://127.0.0.1:8000/database/Test_Chamber",
+        "ttfb_ms": 3.3000001907348633,
+        "dom_content_loaded_ms": 7.099999904632568,
+        "load_event_ms": 7.300000190734863,
+        "started_at": "2025-08-27T13:50:37",
+        "ok": true,
+        "status_code": 200
+      },
+      {
+        "endpoint": "http://127.0.0.1:8000/database/Dar",
+        "ttfb_ms": 3.5999999046325684,
+        "dom_content_loaded_ms": 8.099999904632568,
+        "load_event_ms": 8.099999904632568,
+        "started_at": "2025-08-27T13:50:37",
+        "ok": true,
+        "status_code": 200
+      },
+      {
+        "endpoint": "http://127.0.0.1:8000/database/dar_channel",
+        "ttfb_ms": 4.200000286102295,
+        "dom_content_loaded_ms": 8.400000095367432,
+        "load_event_ms": 8.600000381469727,
+        "started_at": "2025-08-27T13:50:37",
+        "ok": true,
+        "status_code": 200
+      },
+      {
+        "endpoint": "http://127.0.0.1:8000/database/Program_DAR",
+        "ttfb_ms": 3.5999999046325684,
+        "dom_content_loaded_ms": 7.800000190734863,
+        "load_event_ms": 8.0,
+        "started_at": "2025-08-27T13:50:37",
+        "ok": true,
+        "status_code": 200
+      },
+      {
+        "endpoint": "http://127.0.0.1:8000/database/cage",
+        "ttfb_ms": 3.3999996185302734,
+        "dom_content_loaded_ms": 7.5,
+        "load_event_ms": 7.699999809265137,
+        "started_at": "2025-08-27T13:50:37",
+        "ok": true,
+        "status_code": 200
+      },
+      {
+        "endpoint": "http://127.0.0.1:8000/database/Program_Cage",
+        "ttfb_ms": 2.0,
+        "dom_content_loaded_ms": 5.199999809265137,
+        "load_event_ms": 5.400000095367432,
+        "started_at": "2025-08-27T13:50:37",
+        "ok": true,
+        "status_code": 200
+      },
+      {
+        "endpoint": "http://127.0.0.1:8000/database/Laptop",
+        "ttfb_ms": 4.099999904632568,
+        "dom_content_loaded_ms": 7.5,
+        "load_event_ms": 7.700000286102295,
+        "started_at": "2025-08-27T13:50:37",
+        "ok": true,
+        "status_code": 200
+      },
+      {
+        "endpoint": "http://127.0.0.1:8000/database/Fluid",
+        "ttfb_ms": 3.0999999046325684,
+        "dom_content_loaded_ms": 7.200000286102295,
+        "load_event_ms": 7.400000095367432,
+        "started_at": "2025-08-27T13:50:37",
+        "ok": true,
+        "status_code": 200
+      },
+      {
+        "endpoint": "http://127.0.0.1:8000/database/Program_Fluid",
+        "ttfb_ms": 3.1999998092651367,
+        "dom_content_loaded_ms": 6.900000095367432,
+        "load_event_ms": 7.099999904632568,
+        "started_at": "2025-08-27T13:50:37",
+        "ok": true,
+        "status_code": 200
+      },
+      {
+        "endpoint": "http://127.0.0.1:8000/database/Lab",
+        "ttfb_ms": 3.0999999046325684,
+        "dom_content_loaded_ms": 6.599999904632568,
+        "load_event_ms": 6.900000095367432,
+        "started_at": "2025-08-27T13:50:37",
+        "ok": true,
+        "status_code": 200
+      },
+      {
+        "endpoint": "http://127.0.0.1:8000/database/Technician",
+        "ttfb_ms": 3.8999996185302734,
+        "dom_content_loaded_ms": 7.699999809265137,
+        "load_event_ms": 7.899999618530273,
+        "started_at": "2025-08-27T13:50:37",
+        "ok": true,
+        "status_code": 200
+      },
+      {
+        "endpoint": "http://127.0.0.1:8000/database/Technician_Skill",
+        "ttfb_ms": 3.1999998092651367,
+        "dom_content_loaded_ms": 6.799999713897705,
+        "load_event_ms": 7.099999904632568,
+        "started_at": "2025-08-27T13:50:37",
+        "ok": true,
+        "status_code": 200
+      },
+      {
+        "endpoint": "http://127.0.0.1:8000/database/Skill",
+        "ttfb_ms": 1.5999999046325684,
+        "dom_content_loaded_ms": 5.299999713897705,
+        "load_event_ms": 5.5,
+        "started_at": "2025-08-27T13:50:37",
+        "ok": true,
+        "status_code": 200
+      },
+      {
+        "endpoint": "http://127.0.0.1:8000/database/TestType",
+        "ttfb_ms": 1.6999998092651367,
+        "dom_content_loaded_ms": 5.400000095367432,
+        "load_event_ms": 5.400000095367432,
+        "started_at": "2025-08-27T13:50:37",
+        "ok": true,
+        "status_code": 200
+      },
+      {
+        "endpoint": "http://127.0.0.1:8000/database/hourscalculations",
+        "ttfb_ms": 2.5,
+        "dom_content_loaded_ms": 6.0,
+        "load_event_ms": 6.300000190734863,
+        "started_at": "2025-08-27T13:50:37",
+        "ok": true,
+        "status_code": 200
+      },
+      {
+        "endpoint": "http://127.0.0.1:8000/database/excel/",
+        "ttfb_ms": 3.0,
+        "dom_content_loaded_ms": 215.60000038146973,
+        "load_event_ms": 215.60000038146973,
+        "started_at": "2025-08-27T13:50:37",
+        "ok": true,
+        "status_code": 200
+      }
+    ]
+  }
+}

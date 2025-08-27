@@ -1,0 +1,6 @@
+content_bytes,endpoint,kind,ok,started_at,status_code,total_ms,ttfb_ms
+56984,http://127.0.0.1:8000/database/tests,http,1,2025-08-26T13:02:48,200,9.39,9.31
+56984,http://127.0.0.1:8000/database/tests,http,1,2025-08-26T13:02:48,200,4.29,4.23
+56984,http://127.0.0.1:8000/database/tests,http,1,2025-08-26T13:02:48,200,8.55,8.47
+56984,http://127.0.0.1:8000/database/tests,http,1,2025-08-26T13:02:48,200,25.56,25.5
+56984,http://127.0.0.1:8000/database/tests,http,1,2025-08-26T13:02:48,200,26.77,26.72
